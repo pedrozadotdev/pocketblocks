@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@openblocks-ee/*": ["*"],
+      "openblocks-sdk": ["index.sdk"],
+      "*": ["*", "../../openblocks-comps/src/*", "../../openblocks-design/src/*"]
+    }
+  }
+}
+  
