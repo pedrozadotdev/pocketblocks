@@ -3,7 +3,6 @@ import path from "node:path";
 import https from "node:https";
 import shell from "shelljs";
 import chalk from "chalk";
-import axios from "axios";
 import { buildVars } from "openblocks-dev-utils/buildVars.js";
 import { currentDirName, readJson } from "openblocks-dev-utils/util.js";
 
@@ -29,30 +28,11 @@ async function downloadFile(url, dest) {
   });
 }
 
-async function downloadBuiltinPlugin(name) {
-  console.log();
-  console.log(chalk.cyan`plugin ${name} downloading...`);
-
-  const packageRes = await axios.get(`https://registry.npmjs.com/${name}/latest`);
-  const tarball = packageRes.data.dist.tarball;
-  const tarballFileName = `${name}.tgz`;
-  const targetDir = `./packages/openblocks/build/${name}/latest`;
-
-  console.log(chalk.blue`tarball: ${tarball}`);
-
-  shell.mkdir("-p", targetDir);
-
-  await downloadFile(tarball, path.join(process.cwd(), tarballFileName));
-
-  shell.exec(`tar -zxf ${tarballFileName} -C ${targetDir} --strip-components 1`, { fatal: true });
-  shell.rm(tarballFileName);
-}
-
 async function buildBuiltinPlugin(name) {
   console.log();
   console.log(chalk.cyan`plugin ${name} building...`);
 
-  const targetDir = `./packages/openblocks/build/${name}/latest`;
+  const targetDir = `../proxy/public/${name}/latest`;
   shell.mkdir("-p", targetDir);
 
   shell.exec(`yarn workspace ${name} build_only`, { fatal: true });
@@ -85,22 +65,12 @@ buildVars.forEach(({ name, defaultValue }) => {
 
 shell.exec(`BUILD_TARGET=browserCheck yarn workspace openblocks build`, { fatal: true });
 shell.exec(`yarn workspace openblocks build`, { fatal: true });
+shell.exec(`mv -f ../proxy/public/index.html ../proxy/index.html`, { fatal: true });
 
 if (process.env.REACT_APP_BUNDLE_BUILTIN_PLUGIN) {
   for (const pluginName of builtinPlugins) {
     await buildBuiltinPlugin(pluginName);
   }
-}
-
-if (process.argv.includes("--internal-deploy")) {
-  const deployDir = shell.env["DEPLOY_DIR"];
-  console.log();
-  console.log(chalk.cyan`deploying...`);
-  shell.exec("docker cp ./packages/openblocks/build openblocks-fe:/var/www/", { fatal: true });
-  shell.exec(
-    `docker exec openblocks-fe /bin/sh -c "cd /var/www/ && rm -rf ${deployDir} && mv build ${deployDir}"`,
-    { fatal: true }
-  );
 }
 
 console.log();

@@ -29,7 +29,9 @@ function getAxiosInstance() {
     apiSuccessResponseInterceptor,
     apiFailureResponseInterceptor
   );
-
+  if(window.setupProxy) {
+    window.setupProxy(axiosInstance)
+  }
   axiosIns = axiosInstance;
 
   return axiosIns;

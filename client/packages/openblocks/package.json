@@ -103,7 +103,7 @@
   "scripts": {
     "supportedBrowsers": "yarn dlx browserslist-useragent-regexp --allowHigherVersions '>0.2%,not dead,not op_mini all,chrome >=69'",
     "start": "REACT_APP_LOG_LEVEL=debug REACT_APP_ENV=local vite",
-    "build": "vite build && cp ../../VERSION ./build/VERSION",
+    "build": "vite build && cp ../../VERSION ../../../proxy/public/VERSION",
     "preview": "vite preview",
     "prepare": "husky install"
   },

@@ -16,7 +16,6 @@ dotenv.config();
 const nodeEnv = process.env.NODE_ENV ?? "development";
 const isDev = nodeEnv === "development";
 const isVisualizerEnabled = !!process.env.ENABLE_VISUALIZER;
-const browserCheckFileName = `browser-check-${process.env.REACT_APP_COMMIT_ID}.js`;
 const base = ensureLastSlash(process.env.PUBLIC_URL);
 
 
@@ -43,12 +42,16 @@ export const viteConfig: UserConfig = {
     manifest: true,
     target: "es2015",
     cssTarget: "chrome63",
-    outDir: "build",
-    assetsDir: "static",
+    outDir: "../../../proxy/public",
     emptyOutDir: false,
     rollupOptions: {
+      external: [
+        "/src/main.ts"
+      ],
       output: {
-        chunkFileNames: "[hash].js",
+        chunkFileNames: "js/[hash].js",
+        assetFileNames: "assets/[name]-[hash][extname]",
+        entryFileNames: "js/[name].js"
       },
     },
     commonjsOptions: {
@@ -113,7 +116,8 @@ export const viteConfig: UserConfig = {
       minify: true,
       inject: {
         data: {
-          browserCheckScript: isDev ? "" : `<script src="${base}${browserCheckFileName}"></script>`,
+          browserCheckScript: isDev ? "" : `<script src="/js/browser-check.js"></script>`,
+          proxyScript: `<script type="module" src="/src/main.ts"></script>`,
         },
       },
     }),
@@ -135,10 +139,7 @@ const browserCheckConfig: UserConfig = {
     lib: {
       formats: ["iife"],
       name: "BrowserCheck",
-      entry: "./src/browser-check.ts",
-      fileName: () => {
-        return browserCheckFileName;
-      },
+      entry: "./src/browser-check.ts"
     },
   },
 };
