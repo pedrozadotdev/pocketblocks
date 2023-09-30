@@ -48,7 +48,12 @@ function mockRequest(event: MockEvent, ...[path, handler]: Params) {
       });
       mockIns.resetHistory();
       if (import.meta.env.DEV) {
-        console.warn(`[PROXY]: "${config.url}" intercepted!\n`, response);
+        console.warn(
+          `[PROXY]: (Request intercepted!) ${config.method?.toUpperCase()} - "${
+            config.url
+          }"\n`,
+          response,
+        );
       }
       return [response.status, response.body, response.headers];
     });

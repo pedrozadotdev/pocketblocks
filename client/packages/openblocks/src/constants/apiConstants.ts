@@ -51,7 +51,6 @@ export const API_REQUEST_HEADERS: APIHeaders = {
   "Content-Type": "application/json",
 };
 export const SERVER_HOST = `${REACT_APP_API_HOST ?? ""}`;
-export const ASSETS_URI = (id: string) => `${SERVER_HOST}/api/v1/assets/${id}`;
 export const USER_HEAD_UPLOAD_URL = `${SERVER_HOST}/api/v1/users/photo`;
 export const ORG_ICON_UPLOAD_URL = (orgId: string) =>
   `${SERVER_HOST}/api/v1/organizations/${orgId}/logo`;

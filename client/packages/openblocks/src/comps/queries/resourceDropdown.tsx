@@ -6,11 +6,17 @@ import styled from "styled-components";
 import { CustomSelect, EllipsisTextCss } from "openblocks-design";
 import { DatasourceModal } from "pages/datasource/datasourceModal";
 import { InputStatus } from "antd/lib/_util/statusUtils";
-import { getDataSource, getDataSourceTypes } from "redux/selectors/datasourceSelectors";
+import {
+  getDataSource,
+  getDataSourceTypes,
+} from "redux/selectors/datasourceSelectors";
 import { getUser } from "redux/selectors/usersSelectors";
 import { getBottomResIcon } from "@openblocks-ee/util/bottomResUtils";
 import { trans } from "i18n";
-import { DatasourceType, ResourceType } from "@openblocks-ee/constants/queryConstants";
+import {
+  DatasourceType,
+  ResourceType,
+} from "@openblocks-ee/constants/queryConstants";
 import {
   OPENBLOCKS_API_ID,
   OPENBLOCKS_API_INFO,
@@ -118,10 +124,16 @@ export const ResourceDropdown = (props: ResourceDropdownProps) => {
   const dataSourceTypesMap = useMemo(() => {
     return datasourceTypes
       ?.filter((dataSourceType) => !!dataSourceType.id)
-      .reduce((map: Partial<Record<DatasourceType, DataSourceTypeInfo>>, dataSourceType) => {
-        map[dataSourceType.id] = dataSourceType;
-        return map;
-      }, {});
+      .reduce(
+        (
+          map: Partial<Record<DatasourceType, DataSourceTypeInfo>>,
+          dataSourceType
+        ) => {
+          map[dataSourceType.id] = dataSourceType;
+          return map;
+        },
+        {}
+      );
   }, [datasourceTypes]);
 
   const onDropdownVisibleChange = (open: boolean) => {
@@ -208,7 +220,10 @@ export const ResourceDropdown = (props: ResourceDropdownProps) => {
               <SelectOption
                 key={JSON.stringify(value)}
                 value={JSON.stringify(value)}
-                label={info.datasource.name + dataSourceTypesMap[info.datasource.type]?.name}
+                label={
+                  info.datasource.name +
+                  dataSourceTypesMap[info.datasource.type]?.name
+                }
               >
                 <SelectOptionContains>
                   {datasourceType &&
@@ -235,7 +250,11 @@ export const ResourceDropdown = (props: ResourceDropdownProps) => {
                     datasource={info.datasource}
                     mode={"edit"}
                     text={trans("query.editDataSource")}
-                    hidden={!edit || !info.edit || info.datasource.creationSource === 2}
+                    hidden={
+                      !edit ||
+                      !info.edit ||
+                      info.datasource.creationSource === 2
+                    }
                   />
                 </SelectOptionContains>
               </SelectOption>
@@ -249,7 +268,9 @@ export const ResourceDropdown = (props: ResourceDropdownProps) => {
         >
           <SelectOptionContains>
             {getBottomResIcon("restApi")}
-            <SelectOptionLabel>{trans("query.quickRestAPI")} </SelectOptionLabel>
+            <SelectOptionLabel>
+              {trans("query.quickRestAPI")}{" "}
+            </SelectOptionLabel>
           </SelectOptionContains>
         </SelectOption>
 
@@ -260,7 +281,9 @@ export const ResourceDropdown = (props: ResourceDropdownProps) => {
         >
           <SelectOptionContains>
             {getBottomResIcon("graphql")}
-            <SelectOptionLabel>{trans("query.quickGraphql")} </SelectOptionLabel>
+            <SelectOptionLabel>
+              {trans("query.quickGraphql")}{" "}
+            </SelectOptionLabel>
           </SelectOptionContains>
         </SelectOption>
 
@@ -273,7 +296,9 @@ export const ResourceDropdown = (props: ResourceDropdownProps) => {
             >
               <SelectOptionContains>
                 {OPENBLOCKS_API_INFO.icon}
-                <SelectOptionLabel>{OPENBLOCKS_API_INFO.name} </SelectOptionLabel>
+                <SelectOptionLabel>
+                  {OPENBLOCKS_API_INFO.name}{" "}
+                </SelectOptionLabel>
               </SelectOptionContains>
             </SelectOption>
 
@@ -284,7 +309,9 @@ export const ResourceDropdown = (props: ResourceDropdownProps) => {
             >
               <SelectOptionContains>
                 {getBottomResIcon("js")}
-                <SelectOptionLabel>{trans("query.executeJSCode")} </SelectOptionLabel>
+                <SelectOptionLabel>
+                  {trans("query.executeJSCode")}{" "}
+                </SelectOptionLabel>
               </SelectOptionContains>
             </SelectOption>
 
@@ -295,7 +322,9 @@ export const ResourceDropdown = (props: ResourceDropdownProps) => {
             >
               <SelectOptionContains>
                 {getBottomResIcon("libraryQuery")}
-                <SelectOptionLabel>{trans("query.importFromQueryLibrary")} </SelectOptionLabel>
+                <SelectOptionLabel>
+                  {trans("query.importFromQueryLibrary")}{" "}
+                </SelectOptionLabel>
               </SelectOptionContains>
             </SelectOption>
           </>

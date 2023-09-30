@@ -37,19 +37,19 @@ export interface PBFolder<E = FolderExpanded> extends BaseModel<E> {
   created_by: string;
 }
 
-export interface PBGroup extends BaseModel {
-  name: string;
-}
-
-type UserExpanded = {
-  groups: PBGroup[];
+type GroupExpanded = {
+  users: PBUser[];
 };
 
-export interface PBUser<E = UserExpanded> extends BaseModel<E> {
-  username: string;
+export interface PBGroup<E = GroupExpanded> extends BaseModel<E> {
+  name: string;
+  users: string[];
+}
+
+export interface PBUser extends BaseModel {
   email: string;
   name: string;
-  groups: string[];
+  avatar?: string;
 }
 
 type ConfigExpanded = {
@@ -57,6 +57,10 @@ type ConfigExpanded = {
 };
 
 export interface PBSettings<E = ConfigExpanded> extends BaseModel<E> {
+  org_name: string;
+  logo: string;
+  icon: string;
+  header_color: string;
   home_page: string | null;
   themes: string;
   theme: string; // id

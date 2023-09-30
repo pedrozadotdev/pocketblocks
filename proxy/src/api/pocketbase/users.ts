@@ -2,22 +2,14 @@ import { User } from "@/types";
 import { APIResponse, PBUser } from "./types";
 import { createDefaultErrorResponse, pb } from "./utils";
 
-export async function get(id: string): APIResponse<User> {
+export async function get(email: string): APIResponse<User> {
   try {
-    const {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      username,
-      expand,
-      ...rest
-    } = await pb.collection("users").getOne<PBUser>(id, {
-      expand: "groups",
-    });
+    const user = await pb
+      .collection("system_users")
+      .getFirstListItem<PBUser>(`email="${email}"`);
     return {
       status: 200,
-      data: {
-        ...rest,
-        groups: expand?.groups || [],
-      },
+      data: user,
     };
   } catch (e) {
     return createDefaultErrorResponse(e);
@@ -29,9 +21,13 @@ export async function update({
   ...rest
 }: Partial<User> & { id: string }): APIResponse {
   try {
-    await pb.collection("users").update(id, rest);
+    await pb.collection("system_users").update(id, rest);
     return { status: 200 };
   } catch (e) {
     return createDefaultErrorResponse(e);
   }
+}
+
+export async function getAvatarURL(user: User) {
+  return user.avatar ? `/api/files/system_users/${user.id}/${user.avatar}` : "";
 }

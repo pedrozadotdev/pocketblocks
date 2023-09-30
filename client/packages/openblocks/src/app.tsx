@@ -7,13 +7,10 @@ import {
   COMPONENT_DOC_URL,
   DATASOURCE_CREATE_URL,
   DATASOURCE_EDIT_URL,
-  DATASOURCE_URL,
   FOLDER_URL,
   FOLDERS_URL,
   IMPORT_APP_FROM_TEMPLATE_URL,
-  INVITE_LANDING_URL,
   isAuthUnRequired,
-  QUERY_LIBRARY_URL,
   SETTING,
   TRASH_URL,
   USER_AUTH_URL,
@@ -48,7 +45,6 @@ import { getBrandingConfig, getSystemConfigFetching } from "./redux/selectors/co
 import { buildMaterialPreviewURL } from "./util/materialUtils";
 
 const LazyUserAuthComp = React.lazy(() => import("pages/userAuth"));
-const LazyInviteLanding = React.lazy(() => import("pages/common/inviteLanding"));
 const LazyComponentDoc = React.lazy(() => import("pages/ComponentDoc"));
 const LazyComponentPlayground = React.lazy(() => import("pages/ComponentPlayground"));
 const LazyDebugComp = React.lazy(() => import("./debug"));
@@ -131,8 +127,6 @@ class AppIndex extends React.Component<AppIndexProps, any> {
                 ALL_APPLICATIONS_URL,
                 DATASOURCE_CREATE_URL,
                 DATASOURCE_EDIT_URL,
-                DATASOURCE_URL,
-                QUERY_LIBRARY_URL,
                 FOLDERS_URL,
                 FOLDER_URL,
                 TRASH_URL,
@@ -142,7 +136,6 @@ class AppIndex extends React.Component<AppIndexProps, any> {
               component={ApplicationHome}
             />
             <LazyRoute path={USER_AUTH_URL} component={LazyUserAuthComp} />
-            <LazyRoute path={INVITE_LANDING_URL} component={LazyInviteLanding} />
             <LazyRoute path={`${COMPONENT_DOC_URL}/:name`} component={LazyComponentDoc} />
             <LazyRoute path={`/playground/:name/:dsl`} component={LazyComponentPlayground} />
             <Redirect to={`${COMPONENT_DOC_URL}/input`} path="/components" />

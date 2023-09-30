@@ -1,11 +1,9 @@
 import {
   ALL_APPLICATIONS_URL,
-  DATASOURCE_URL,
   FOLDER_URL,
   FOLDER_URL_PREFIX,
   FOLDERS_URL,
   MODULE_APPLICATIONS_URL,
-  QUERY_LIBRARY_URL,
   SETTING,
   TRASH_URL,
 } from "constants/routesURL";
@@ -16,16 +14,11 @@ import {
   EllipsisTextCss,
   FolderIcon,
   HomeActiveIcon,
-  HomeDataSourceActiveIcon,
-  HomeDataSourceIcon,
   HomeIcon,
   HomeModuleActiveIcon,
   HomeModuleIcon,
-  HomeQueryLibraryActiveIcon,
-  HomeQueryLibraryIcon,
   HomeSettingsActiveIcon,
   HomeSettingsIcon,
-  InviteUserIcon,
   PlusIcon,
   PointIcon,
   RecyclerActiveIcon,
@@ -34,9 +27,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { fetchAllApplications, fetchHomeData } from "redux/reduxActions/applicationActions";
 import { getHomeOrg, normalAppListSelector } from "redux/selectors/applicationSelector";
-import { DatasourceHome } from "../datasource";
 import { clearStyleEval, evalStyle } from "openblocks-core";
-import { QueryLibraryEditor } from "../queryLibrary/QueryLibraryEditor";
 import { ProductLoading } from "components/ProductLoading";
 import { Layout } from "../../components/layout/Layout";
 import { HomeView } from "./HomeView";
@@ -46,7 +37,6 @@ import { FolderView } from "./FolderView";
 import { TrashView } from "./TrashView";
 import { SideBarItemType } from "../../components/layout/SideBarSection";
 import { RootFolderListView } from "./RootFolderListView";
-import InviteDialog from "../common/inviteDialog";
 import { fetchFolderElements, updateFolder } from "../../redux/reduxActions/folderActions";
 import { ModuleView } from "./ModuleView";
 import { useCreateFolder } from "./useCreateFolder";
@@ -172,26 +162,6 @@ const PopoverIcon = styled(PointIcon)`
   }
 `;
 
-const InviteUser = styled.div`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  left: 10px;
-  top: calc(100vh - 60px);
-  padding: 12px 26px;
-  font-size: 14px;
-  cursor: pointer;
-  width: 219px;
-
-  :hover {
-    color: #315efb;
-
-    svg g g {
-      stroke: #315efb;
-    }
-  }
-`;
-
 const CreateFolderIcon = styled.div`
   margin-left: auto;
   cursor: pointer;
@@ -246,7 +216,7 @@ export default function ApplicationHome() {
 
   useEffect(() => {
     dispatch(fetchHomeData({}));
-  }, [user.currentOrgId]);
+  }, [dispatch, user.currentOrgId]);
 
   useEffect(() => {
     if (!org) {
@@ -386,32 +356,6 @@ export default function ApplicationHome() {
           {
             items: [
               {
-                text: <TabLabel>{trans("home.queryLibrary")}</TabLabel>,
-                routePath: QUERY_LIBRARY_URL,
-                routeComp: QueryLibraryEditor,
-                icon: ({ selected, ...otherProps }) =>
-                  selected ? (
-                    <HomeQueryLibraryActiveIcon {...otherProps} />
-                  ) : (
-                    <HomeQueryLibraryIcon {...otherProps} />
-                  ),
-                visible: ({ user }) => user.orgDev,
-              },
-              {
-                text: <TabLabel>{trans("home.datasource")}</TabLabel>,
-                routePath: DATASOURCE_URL,
-                routePathExact: false,
-                routeComp: DatasourceHome,
-                icon: ({ selected, ...otherProps }) =>
-                  selected ? (
-                    <HomeDataSourceActiveIcon {...otherProps} />
-                  ) : (
-                    <HomeDataSourceIcon {...otherProps} />
-                  ),
-                visible: ({ user }) => user.orgDev,
-                onSelected: (_, currentPath) => currentPath.split("/")[1] === "datasource",
-              },
-              {
                 text: <TabLabel>{trans("settings.title")}</TabLabel>,
                 routePath: SETTING,
                 routePathExact: false,
@@ -429,17 +373,6 @@ export default function ApplicationHome() {
           },
         ]}
       />
-      {user.orgDev && (
-        <InviteDialog
-          trigger={
-            <InviteUser>
-              <InviteUserIcon style={{ marginRight: "8px" }} />
-              {trans("home.inviteUser")}
-            </InviteUser>
-          }
-          style={{ marginLeft: "auto" }}
-        />
-      )}
     </DivStyled>
   );
 }

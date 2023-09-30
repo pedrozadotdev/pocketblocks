@@ -1,12 +1,11 @@
-import { apps } from "@/api";
-import { ADMIN_GROUP_ID, ORG_NAME } from "@/constants";
+import { apps, settings } from "@/api";
 import { mocker } from "@/mocker";
 import {
   authRoute,
   createDefaultResponse,
   createDefaultErrorResponse,
 } from "@/utils";
-import { Application } from "@/types";
+import { Application, Settings } from "@/types";
 
 type Permission = {
   permissionId: string;
@@ -27,7 +26,7 @@ function createPermissions(app: Application): Permission[] {
       id,
       avatar: "",
       name,
-      role: id === ADMIN_GROUP_ID ? "editor" : "viewer",
+      role: "viewer",
     });
   });
   app.users.forEach((u) => {
@@ -36,25 +35,18 @@ function createPermissions(app: Application): Permission[] {
       permissionId: id,
       type: "USER",
       id,
-      avatar: "",
+      avatar: typeof u === "string" ? "" : u.avatar ?? "",
       name,
-      role:
-        typeof u === "string"
-          ? "viewer"
-          : u.groups.some(
-              (g) => (typeof g === "string" ? g : g.id) === ADMIN_GROUP_ID,
-            )
-          ? "editor"
-          : "viewer",
+      role: "viewer",
     });
   });
   return result;
 }
 
-function createDefaultDataResponse(app: Application) {
+function createDefaultDataResponse(app: Application, settings: Settings) {
   const permissions = createPermissions(app);
   return {
-    orgName: ORG_NAME,
+    orgName: settings.org_name,
     groupPermissions: permissions.filter((p) => p.type === "GROUP"),
     userPermissions: permissions.filter((p) => p.type === "USER"),
     creatorId:
@@ -69,12 +61,13 @@ export default [
     "/api/v1/applications/:id/permissions",
     authRoute(async ({ params: { id } }) => {
       const appResponse = await apps.get(id as string);
-      if (appResponse.data) {
+      const settingsResponse = await settings.get();
+      if (appResponse.data && settingsResponse.data) {
         return createDefaultResponse(
-          createDefaultDataResponse(appResponse.data),
+          createDefaultDataResponse(appResponse.data, settingsResponse.data),
         );
       }
-      return createDefaultErrorResponse([appResponse]);
+      return createDefaultErrorResponse([appResponse, settingsResponse]);
     }),
   ),
 ];

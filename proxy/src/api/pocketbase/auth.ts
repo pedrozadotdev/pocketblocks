@@ -1,16 +1,19 @@
 import { ClientResponseError } from "pocketbase";
 import { User } from "@/types";
-import { ADMIN_GROUP_ID } from "./constants";
 import { APIResponse } from "./types";
+import * as users from "./users";
 import { createDefaultErrorResponse, pb } from "./utils";
 
 export async function login(loginId: string, password: string): APIResponse {
   try {
-    await pb.collection("users").authWithPassword(loginId, password);
+    await Promise.any([
+      pb.collection("users").authWithPassword(loginId, password),
+      pb.admins.authWithPassword(loginId, password),
+    ]);
     return { status: 200 };
   } catch (e) {
-    const { status } = e as ClientResponseError;
-    if (status === 400) {
+    const { errors } = e as AggregateError;
+    if (errors.some((e: ClientResponseError) => e.status === 400)) {
       return { status: 403 };
     }
     return createDefaultErrorResponse(e);
@@ -22,31 +25,22 @@ export async function logout(): APIResponse {
   return { status: 200 };
 }
 
-export const isLoggedIn = async () => {
-  return !!pb.authStore.model;
-};
+export const isLoggedIn = async () => pb.authStore.isValid;
 
-export const isAdmin = async () => {
-  if (pb.authStore.model) {
-    return pb.authStore.model.groups.some((g: unknown) => g === ADMIN_GROUP_ID);
-  }
-  return false;
-};
+export const isAdmin = async () => pb.authStore.isAdmin;
 
 export async function getCurrentUser(): APIResponse<User> {
   const userModel = pb.authStore.model;
-  if (!userModel) {
-    return { status: 401 };
+  if (userModel) {
+    const { data } = await users.get(userModel.email);
+    if (data) {
+      return {
+        status: 200,
+        data,
+      };
+    }
   }
-  return { status: 200 };
-}
-
-export async function getCurrentUserId(): Promise<string | null> {
-  const userModel = pb.authStore.model;
-  if (!userModel) {
-    return null;
-  }
-  return userModel.id;
+  return { status: 401 };
 }
 
 export async function changePassword(
@@ -58,12 +52,22 @@ export async function changePassword(
     return { status: 401 };
   }
   try {
-    await pb.collection("users").update(userModel.id, {
-      password: newPassword,
-      passwordConfirm: newPassword,
-      oldPassword,
-    });
-    await pb.collection("users").authWithPassword(userModel.email, newPassword);
+    if (pb.authStore.isAdmin) {
+      await pb.admins.update(userModel.id, {
+        password: newPassword,
+        passwordConfirm: newPassword,
+      });
+      await pb.admins.authWithPassword(userModel.email, newPassword);
+    } else {
+      await pb.collection("users").update(userModel.id, {
+        password: newPassword,
+        passwordConfirm: newPassword,
+        oldPassword,
+      });
+      await pb
+        .collection("users")
+        .authWithPassword(userModel.email, newPassword);
+    }
     return { status: 200 };
   } catch (e) {
     const { status } = e as ClientResponseError;

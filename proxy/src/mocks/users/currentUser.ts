@@ -1,4 +1,4 @@
-import { auth } from "@/api";
+import { auth, groups, users } from "@/api";
 import { mocker } from "@/mocker";
 import { createDefaultResponse } from "@/utils";
 
@@ -16,19 +16,23 @@ export default [
   mocker.get("/api/users/currentUser", async () => {
     const { data: user } = await auth.getCurrentUser();
     if (user) {
+      const groupsResponse = await groups.list({ userId: user.id });
       return createDefaultResponse({
         ...defaultDataResponse,
+        avatarUrl: await users.getAvatarURL(user),
         id: user.id,
         name: user.name,
         email: user.email,
-        groups: user.groups.map((g) =>
-          typeof g === "string"
-            ? g
-            : {
-                groupId: g.id,
-                groupName: g.name,
-              },
-        ),
+        groups: groupsResponse.data
+          ? groupsResponse.data.map((g) =>
+              typeof g === "string"
+                ? g
+                : {
+                    groupId: g.id,
+                    groupName: g.name,
+                  },
+            )
+          : [],
       });
     }
     return createDefaultResponse(defaultDataResponse);

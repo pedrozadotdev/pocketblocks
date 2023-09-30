@@ -1,4 +1,3 @@
-import { ASSETS_URI } from "constants/apiConstants";
 import { ApplicationPermissionType, ApplicationRoleType } from "constants/applicationConstants";
 import {
   CommonErrorLabel,
@@ -100,7 +99,7 @@ function PermissionLiItem(props: {
       <ProfileImage
         side={32}
         userName={permissionItem.name}
-        source={permissionItem.avatar && ASSETS_URI(permissionItem.avatar)}
+        source={permissionItem.avatar && permissionItem.avatar}
         svg={SvgIcon && <SvgIcon color={getInitialsAndColorCode(permissionItem.name)[1]} />}
       />
       <PermissionItemName title={permissionItem.name}>

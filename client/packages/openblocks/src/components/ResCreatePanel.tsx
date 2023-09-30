@@ -1,4 +1,4 @@
-import { AddIcon, CloseIcon, CustomModalProps, ImportIconV2, ScrollBar } from "openblocks-design";
+import { CloseIcon, CustomModalProps, ImportIconV2, ScrollBar } from "openblocks-design";
 import { BottomShadow, GreyTextColor, TabActiveColor } from "constants/style";
 import { trans } from "i18n";
 import _, { noop } from "lodash";
@@ -8,7 +8,6 @@ import React, { useState } from "react";
 import { useResizeDetector } from "react-resize-detector";
 import styled, { css } from "styled-components";
 import { BottomResTypeEnum } from "types/bottomRes";
-import { LargeBottomResIconWrapper } from "util/bottomResUtils";
 import { PageType } from "../constants/pageConstants";
 import { SizeType } from "antd/lib/config-provider/SizeContext";
 import { Datasource } from "@openblocks-ee/constants/datasourceConstants";
@@ -20,8 +19,6 @@ import {
 } from "../constants/datasourceConstants";
 import { ResourceType } from "@openblocks-ee/constants/queryConstants";
 import { Upload } from "antd";
-import { useSelector } from "react-redux";
-import { getUser } from "../redux/selectors/usersSelectors";
 import DataSourceIcon from "./DataSourceIcon";
 import { genRandomKey } from "comps/utils/idGenerator";
 
@@ -219,11 +216,9 @@ interface ResCreateModalProps extends CustomModalProps {
 }
 
 export function ResCreatePanel(props: ResCreateModalProps) {
-  const { onSelect, onClose, recentlyUsed, datasource, placement = "editor" } = props;
+  const { onSelect, onClose, recentlyUsed, placement = "editor" } = props;
   const [isScrolling, setScrolling] = useState(false);
   const [visible, setVisible] = useState(false);
-
-  const user = useSelector(getUser);
 
   const { width, ref } = useResizeDetector({ handleHeight: false });
   const count = width ? Math.floor((width + 8) / (184 + 8)) : 3;
@@ -280,7 +275,6 @@ export function ResCreatePanel(props: ResCreateModalProps) {
                       onSelect={onSelect}
                     />
                     <ResButton size={buttonSize} identifier={"js"} onSelect={onSelect} />
-                    <ResButton size={buttonSize} identifier={"libraryQuery"} onSelect={onSelect} />
                     <ResButton
                       size={buttonSize}
                       identifier={BottomResTypeEnum.Folder}
@@ -313,30 +307,6 @@ export function ResCreatePanel(props: ResCreateModalProps) {
                 </div>
               </>
             )}
-
-            <div className="section-title">{trans("query.datasource")}</div>
-            <div className="section">
-              <DataSourceListWrapper placement={placement}>
-                <ResButton size={buttonSize} identifier={"restApi"} onSelect={onSelect} />
-                <ResButton size={buttonSize} identifier={"graphql"} onSelect={onSelect} />
-                {placement === "editor" && (
-                  <ResButton size={buttonSize} identifier={"openblocksApi"} onSelect={onSelect} />
-                )}
-
-                {datasource.map((i) => (
-                  <ResButton size={buttonSize} key={i.id} identifier={i} onSelect={onSelect} />
-                ))}
-
-                {user.orgDev && (
-                  <DataSourceButton size={buttonSize} onClick={() => setVisible(true)}>
-                    <LargeBottomResIconWrapper>
-                      <AddIcon />
-                    </LargeBottomResIconWrapper>
-                    {trans("query.newDatasource")}
-                  </DataSourceButton>
-                )}
-              </DataSourceListWrapper>
-            </div>
           </InnerContent>
         </ScrollBar>
       </Content>

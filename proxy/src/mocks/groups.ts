@@ -1,5 +1,5 @@
 import { auth, groups } from "@/api";
-import { ADMIN_GROUP_ID, ALL_USERS_GROUP_ID } from "@/constants";
+import { ALL_USERS_GROUP_ID } from "@/constants";
 import { mocker } from "@/mocker";
 import {
   authRoute,
@@ -39,7 +39,7 @@ export default [
             allUsersGroup: false,
             visitorRole: isAdmin ? "admin" : "viewer",
             createTime: new Date(g.created).getTime(),
-            devGroup: g.id === ADMIN_GROUP_ID,
+            devGroup: false,
           })),
         ]);
       }

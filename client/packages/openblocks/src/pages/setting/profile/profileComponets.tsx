@@ -261,6 +261,8 @@ export function HeadNameFiled() {
           action={USER_HEAD_UPLOAD_URL}
           onChange={handleUploadChange}
           beforeUpload={beforeImgUpload}
+          //@ts-ignore
+          customRequest={window.uploadAvatar}
           withCredentials
         >
           <ProfileImageWrapper>

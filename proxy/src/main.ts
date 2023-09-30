@@ -15,7 +15,12 @@ window.setupProxy = (axiosIns: AxiosInstance) => {
     mocks.forEach((registerMock) => registerMock(mockIns));
     if (import.meta.env.DEV) {
       mockIns.onAny().reply((config) => {
-        console.warn("[PROXY]: Request without handler!\n", config);
+        console.warn(
+          `[PROXY]: (Request without handler!) ${config.method?.toUpperCase()} - ${
+            (config.baseURL || "/") + config.url
+          }\n `,
+          config,
+        );
         return [404, {}];
       });
       console.warn("[PROXY]: Mock applied!");

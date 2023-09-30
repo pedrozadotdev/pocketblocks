@@ -1,12 +1,11 @@
 import { apps as appsAPI, auth, settings as settingsAPI } from "@/api";
-import { ORG_ID } from "@/constants";
 import { MockHandler, MockRequest, MockResponse } from "@/mocker";
 import { APIResponse, Application, Folder } from "@/types";
 
 export async function createAppList(apps: Application[]) {
   const admin = await auth.isAdmin();
   return apps.map((a) => ({
-    orgId: ORG_ID,
+    orgId: "STATIC",
     applicationId: a.id,
     name: a.name,
     createAt: new Date(a.created).getTime(),
@@ -49,7 +48,7 @@ export async function createFolderList(folders: Folder[]) {
     folders.map(async (f) => {
       const appsResponse = await appsAPI.list({ folderId: f.id });
       return {
-        orgId: ORG_ID,
+        orgId: "STATIC",
         folderId: f.id,
         parentFolderId: null,
         name: f.name,
@@ -68,7 +67,7 @@ export async function createFolderList(folders: Folder[]) {
       };
     }),
   );
-  return results;
+  return admin ? results : results.filter((f) => f.subApplications.length > 0);
 }
 
 export function createDefaultResponse<D>(data?: D): MockResponse {

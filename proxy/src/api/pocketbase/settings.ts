@@ -1,5 +1,4 @@
 import { Settings } from "@/types";
-import { SETTINGS_ID } from "./constants";
 import { APIResponse, PBSettings } from "./types";
 import { pb, createDefaultErrorResponse } from "./utils";
 
@@ -7,7 +6,7 @@ export async function get(): APIResponse<Settings> {
   try {
     const { expand, ...rest } = await pb
       .collection("system_settings")
-      .getOne<PBSettings>(SETTINGS_ID, {
+      .getFirstListItem<PBSettings>("", {
         expand: "home_page",
       });
     return {
@@ -32,4 +31,15 @@ export async function update({
   } catch (e) {
     return createDefaultErrorResponse(e);
   }
+}
+
+export async function getFilesURL(settings: Settings) {
+  const logo = settings.logo
+    ? `/api/files/system_settings/${settings.id}/${settings.logo}`
+    : "";
+  const icon = settings.icon
+    ? `/api/files/system_settings/${settings.id}/${settings.icon}`
+    : "";
+
+  return { logo, icon };
 }

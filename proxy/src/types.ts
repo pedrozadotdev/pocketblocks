@@ -25,15 +25,20 @@ export interface Folder extends BaseModel {
 
 export interface Group extends BaseModel {
   name: string;
+  users: User[] | string[];
 }
 
 export interface User extends BaseModel {
   email: string;
   name: string;
-  groups: Group[] | string[];
+  avatar?: string;
 }
 
 export interface Settings extends BaseModel {
+  org_name: string;
+  logo?: string;
+  icon?: string;
+  header_color?: string;
   home_page: Application | string | null;
   themes: string;
   theme: string; // id
@@ -54,16 +59,20 @@ export type APIResponse<D = undefined> = Promise<{
   data?: D;
 }>;
 
-export type GetAppsFilters = {
+export type listAppsFilters = {
   onlyRecycled?: boolean;
   folderId?: string;
+};
+
+export type listGroupsFilters = {
+  userId: string;
 };
 
 export type API = {
   apps: {
     create: (params: Partial<Application>) => APIResponse<Application>;
     get: (id: string) => APIResponse<Application>;
-    list: (filter?: GetAppsFilters) => APIResponse<Application[]>;
+    list: (filters?: listAppsFilters) => APIResponse<Application[]>;
     remove: (id: string) => APIResponse;
     update: (
       params: Partial<Application> & { id: string },
@@ -72,15 +81,10 @@ export type API = {
   auth: {
     changePassword: (newPassword: string, oldPassword: string) => APIResponse;
     getCurrentUser: () => APIResponse<User>;
-    getCurrentUserId: () => Promise<string | null>;
     isLoggedIn: () => Promise<boolean>;
     isAdmin: () => Promise<boolean>;
     login: (loginId: string, password: string) => APIResponse;
     logout: () => APIResponse;
-  };
-  constants: {
-    ADMIN_GROUP_ID: string;
-    SETTINGS_ID: string;
   };
   folders: {
     create: (params: Partial<Folder>) => APIResponse<Folder>;
@@ -89,7 +93,7 @@ export type API = {
     update: (params: Partial<Folder> & { id: string }) => APIResponse<Folder>;
   };
   groups: {
-    list: () => APIResponse<Group[]>;
+    list: (filters?: listGroupsFilters) => APIResponse<Group[]>;
   };
   sdk: {
     client: unknown;
@@ -97,11 +101,52 @@ export type API = {
   };
   settings: {
     get: () => APIResponse<Settings>;
+    getFilesURL: (
+      settings: Settings,
+    ) => Promise<{ logo: string; icon: string }>;
     update: (params: Partial<Settings> & { id: string }) => APIResponse;
   };
   snapshots: unknown;
   users: {
-    get: (id: string) => APIResponse<User>;
+    get: (email: string) => APIResponse<User>;
+    getAvatarURL: (user: User) => Promise<string>;
     update: (params: Partial<User> & { id: string }) => APIResponse;
   };
 };
+
+//Upload Avatar Types...
+declare type BeforeUploadFileType = File | Blob | boolean | string;
+
+interface UploadProgressEvent extends Partial<ProgressEvent> {
+  percent?: number;
+}
+declare type UploadRequestMethod =
+  | "POST"
+  | "PUT"
+  | "PATCH"
+  | "post"
+  | "put"
+  | "patch";
+declare type UploadRequestHeader = Record<string, string>;
+interface UploadRequestError extends Error {
+  status?: number;
+  method?: UploadRequestMethod;
+  url?: string;
+}
+
+interface RcFile extends File {
+  uid: string;
+}
+
+export interface UploadRequestOption<T = unknown> {
+  onProgress?: (event: UploadProgressEvent) => void;
+  onError?: (event: UploadRequestError | ProgressEvent, body?: T) => void;
+  onSuccess?: (body: T, xhr?: XMLHttpRequest) => void;
+  data?: Record<string, unknown>;
+  filename?: string;
+  file: Exclude<BeforeUploadFileType, File | boolean> | RcFile;
+  withCredentials?: boolean;
+  action: string;
+  headers?: UploadRequestHeader;
+  method: UploadRequestMethod;
+}

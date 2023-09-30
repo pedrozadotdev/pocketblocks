@@ -44,7 +44,7 @@ function invalidateCache<A extends unknown[], R>(
   };
 }
 
-const invalidadeFolders: Parameters<typeof invalidateCache>[0] = async () => {
+const invalidateFolders: Parameters<typeof invalidateCache>[0] = async () => {
   return ({ queryKey }) => {
     const listAppsArgs = queryKey[1] as Parameters<API["apps"]["list"]>[0];
     const firstCondition = queryKey[0] === "listFolders";
@@ -92,36 +92,20 @@ export function applyAPICache(api: API): API {
     },
     auth: {
       ...api.auth,
-      getCurrentUser: async () => {
-        const userId = await api.auth.getCurrentUserId();
-        if (userId) {
-          return await applyCache("getUser", api.users.get)(userId);
-        }
-        return { status: 401 };
-      },
-      logout: async () => {
-        queryClient.clear();
-        return api.auth.logout();
-      },
-      isLoggedIn: async () => {
-        const result = await api.auth.isLoggedIn();
-        if (!result) {
-          queryClient.clear();
-        }
-        return result;
-      },
+      getCurrentUser: applyCache("getCurrentUser", api.auth.getCurrentUser),
     },
     folders: {
       list: applyCache("listFolders", api.folders.list),
-      create: invalidateCache(invalidadeFolders, api.folders.create),
-      update: invalidateCache(invalidadeFolders, api.folders.update),
-      remove: invalidateCache(invalidadeFolders, api.folders.remove),
+      create: invalidateCache(invalidateFolders, api.folders.create),
+      update: invalidateCache(invalidateFolders, api.folders.update),
+      remove: invalidateCache(invalidateFolders, api.folders.remove),
     },
     groups: {
       list: applyCache("listGroups", api.groups.list),
     },
     settings: {
       get: applyCache("getSettings", api.settings.get),
+      getFilesURL: applyCache("getSettings", api.settings.getFilesURL),
       update: invalidateCache(async () => {
         return ({ queryKey }) => {
           return queryKey[0] === "getSettings";
@@ -130,6 +114,7 @@ export function applyAPICache(api: API): API {
     },
     users: {
       get: applyCache("getUser", api.users.get),
+      getAvatarURL: applyCache("getUser", api.users.getAvatarURL),
       update: invalidateCache(async () => {
         return ({ queryKey }) => {
           return queryKey[0] === "getUser";

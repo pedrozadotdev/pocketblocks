@@ -1,7 +1,9 @@
-import PocketBase, { ClientResponseError } from "pocketbase";
+import PocketBase, { ClientResponseError, LocalAuthStore } from "pocketbase";
 import { APIResponse } from "./types";
 
-export const pb = new PocketBase(window.location.origin);
+const store = new LocalAuthStore("pb_admin_auth");
+
+export const pb = new PocketBase(window.location.origin, store);
 
 pb.autoCancellation(false);
 
