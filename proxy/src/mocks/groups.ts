@@ -32,15 +32,18 @@ export default [
             ...allUsersGroup,
             visitorRole: isAdmin ? "admin" : "viewer",
           },
-          groupsResponse.data.map((g) => ({
-            ...allUsersGroup,
-            groupId: g.id,
-            groupName: g.name,
-            allUsersGroup: false,
-            visitorRole: isAdmin ? "admin" : "viewer",
-            createTime: new Date(g.created).getTime(),
-            devGroup: false,
-          })),
+          ...(await Promise.all(
+            groupsResponse.data.map(async (g) => ({
+              ...allUsersGroup,
+              groupId: g.id,
+              groupName: g.name,
+              avatarUrl: await groups.getAvatarURL(g),
+              allUsersGroup: false,
+              visitorRole: isAdmin ? "admin" : "viewer",
+              createTime: new Date(g.created).getTime(),
+              devGroup: false,
+            })),
+          )),
         ]);
       }
       return createDefaultErrorResponse([groupsResponse, currentUser]);

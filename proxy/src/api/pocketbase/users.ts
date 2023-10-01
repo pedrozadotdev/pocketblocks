@@ -16,6 +16,18 @@ export async function get(email: string): APIResponse<User> {
   }
 }
 
+export async function list(): APIResponse<User[]> {
+  try {
+    const users = await pb.collection("system_users").getFullList<PBUser>();
+    return {
+      status: 200,
+      data: users,
+    };
+  } catch (e) {
+    return createDefaultErrorResponse(e);
+  }
+}
+
 export async function update({
   id,
   ...rest
@@ -29,5 +41,7 @@ export async function update({
 }
 
 export async function getAvatarURL(user: User) {
-  return user.avatar ? `/api/files/system_users/${user.id}/${user.avatar}` : "";
+  return user.avatar
+    ? `/api/files/system_users/${user.id}/${user.avatar}?thumb=100x100`
+    : "";
 }

@@ -6,7 +6,7 @@ export async function createAppList(apps: Application[]) {
   const admin = await auth.isAdmin();
   return apps.map((a) => ({
     orgId: "STATIC",
-    applicationId: a.id,
+    applicationId: a.slug,
     name: a.name,
     createAt: new Date(a.created).getTime(),
     createBy:
@@ -116,4 +116,15 @@ export function adminRoute(handler: MockHandler): MockHandler {
       ? handler(req)
       : createDefaultErrorResponse([{ status: 401 }]);
   };
+}
+
+export function slugify(str: string) {
+  return str
+    .toString()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .replace(/[^a-z0-9 ]/g, "")
+    .replace(/\s+/g, "-");
 }

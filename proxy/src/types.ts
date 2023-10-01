@@ -6,10 +6,12 @@ type BaseModel = {
 
 export interface Application extends BaseModel {
   name: string;
+  slug: string;
   type: number;
   status: "NORMAL" | "RECYCLED";
   public: boolean;
   all_users: boolean;
+  published: boolean;
   created_by: User | string;
   groups: Group[] | string[];
   users: User[] | string[];
@@ -25,6 +27,7 @@ export interface Folder extends BaseModel {
 
 export interface Group extends BaseModel {
   name: string;
+  avatar?: string;
   users: User[] | string[];
 }
 
@@ -70,12 +73,21 @@ export type listGroupsFilters = {
 
 export type API = {
   apps: {
-    create: (params: Partial<Application>) => APIResponse<Application>;
-    get: (id: string) => APIResponse<Application>;
+    create: (
+      params: Partial<Application> & { slug: string },
+    ) => APIResponse<Application>;
+    get: (slug: string) => APIResponse<Application>;
     list: (filters?: listAppsFilters) => APIResponse<Application[]>;
-    remove: (id: string) => APIResponse;
+    remove: (slug: string) => APIResponse;
     update: (
-      params: Partial<Application> & { id: string },
+      params: Partial<Application> & {
+        slug: string;
+        permissions?: {
+          op: "ADD" | "REMOVE";
+          type: "USER" | "GROUP";
+          id: string;
+        }[];
+      },
     ) => APIResponse<Application>;
   };
   auth: {
@@ -94,6 +106,7 @@ export type API = {
   };
   groups: {
     list: (filters?: listGroupsFilters) => APIResponse<Group[]>;
+    getAvatarURL: (group: Group) => Promise<string>;
   };
   sdk: {
     client: unknown;
@@ -110,6 +123,7 @@ export type API = {
   users: {
     get: (email: string) => APIResponse<User>;
     getAvatarURL: (user: User) => Promise<string>;
+    list: () => APIResponse<User[]>;
     update: (params: Partial<User> & { id: string }) => APIResponse;
   };
 };
@@ -128,7 +142,7 @@ declare type UploadRequestMethod =
   | "put"
   | "patch";
 declare type UploadRequestHeader = Record<string, string>;
-interface UploadRequestError extends Error {
+export interface UploadRequestError extends Error {
   status?: number;
   method?: UploadRequestMethod;
   url?: string;

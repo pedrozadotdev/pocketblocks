@@ -15,9 +15,7 @@ import { OrgGroup, OrgUser } from "constants/orgConstants";
 import { ApplicationPermissionType, ApplicationRoleType } from "constants/applicationConstants";
 import {
   PermissionItemName,
-  RoleSelectOption,
   StyledGroupIcon,
-  StyledRoleSelect,
 } from "./commonComponents";
 import { getInitialsAndColorCode } from "util/stringUtils";
 import { CustomTagProps } from "rc-select/lib/BaseSelect";
@@ -178,14 +176,6 @@ const LabelProfileImage = styled(ProfileImage)`
   }
 `;
 
-const AddRoleSelect = styled(StyledRoleSelect)<{ $isVisible: boolean }>`
-  .ant-select {
-    height: 24px;
-  }
-
-  display: ${(props) => (props.$isVisible ? "unset" : "none")};
-`;
-
 type AddAppOptionView = {
   type: ApplicationPermissionType;
   id: string;
@@ -208,7 +198,7 @@ type PermissionAddEntity = {
  * @param filterItems filterItems
  */
 function getPermissionOptionView(
-  orgGroups: OrgGroup[],
+  orgGroups: (OrgGroup & { avatarUrl?: string })[],
   orgUsers: OrgUser[],
   currentUser: User,
   filterItems: PermissionItem[]
@@ -218,6 +208,7 @@ function getPermissionOptionView(
       type: "GROUP",
       id: group.groupId,
       name: group.groupName,
+      avatarUrl: group.avatarUrl
     };
   });
   permissionViews = permissionViews.concat(
@@ -311,13 +302,11 @@ const PermissionSelector = (props: {
 }) => {
   const orgGroups = useSelector(getOrgGroups);
   const orgUsers = useSelector(getOrgUsers);
-  const { selectedItems, setSelectRole, setSelectedItems, user } = props;
+  const { selectedItems, setSelectedItems, user } = props;
   const optionViews = getPermissionOptionView(orgGroups, orgUsers, user, props.filterItems);
-  const [roleSelectVisible, setRoleSelectVisible] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setRoleSelectVisible(selectedItems.length > 0);
     if (selectRef && selectRef.current) {
       selectRef.current.scrollTop = selectRef.current.scrollHeight;
     }
@@ -364,22 +353,6 @@ const PermissionSelector = (props: {
             );
           })}
         </AddPermissionsSelect>
-        <AddRoleSelect
-          dropdownStyle={{
-            width: "fit-content",
-          }}
-          $isVisible={roleSelectVisible}
-          bordered={false}
-          defaultValue={props.supportRoles[0]}
-          optionLabelProp="label"
-          onChange={(value) => setSelectRole(value)}
-        >
-          {props.supportRoles.map((role) => (
-            <CustomSelect.Option key={role.value} value={role.value} label={role.label}>
-              <RoleSelectOption role={role.label} />
-            </CustomSelect.Option>
-          ))}
-        </AddRoleSelect>
       </PermissionSelectWrapper>
       <AddPermissionDropDown id="add-app-user-permission-dropdown" />
     </>

@@ -137,7 +137,7 @@ function PermissionLiItem(props: {
             >
               <RoleSelectOption role={role.label} />
             </CustomSelect.Option>
-          ))}
+          ))[0]}
           <CustomSelect.Option
             key="delete"
             label={trans("remove")}

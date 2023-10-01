@@ -16,10 +16,12 @@ type ApplicationExpanded = {
 
 export interface PBApplication<E = ApplicationExpanded> extends BaseModel<E> {
   name: string;
+  slug: string;
   type: number;
   status: "NORMAL" | "RECYCLED";
   public: boolean;
   all_users: boolean;
+  published: boolean;
   created_by: string;
   groups: string[];
   users: string[];
@@ -43,6 +45,7 @@ type GroupExpanded = {
 
 export interface PBGroup<E = GroupExpanded> extends BaseModel<E> {
   name: string;
+  avatar?: string;
   users: string[];
 }
 

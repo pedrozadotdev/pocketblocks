@@ -3,7 +3,7 @@ import { APIResponse, PBGroup } from "./types";
 import { pb, createDefaultErrorResponse } from "./utils";
 
 export async function list(filters?: listGroupsFilters): APIResponse<Group[]> {
-  let filter: string | undefined = undefined;
+  let filter: string = "";
   if (filters?.userId) {
     filter = `users.id?='${filters.userId}'`;
   }
@@ -23,4 +23,10 @@ export async function list(filters?: listGroupsFilters): APIResponse<Group[]> {
   } catch (e) {
     return createDefaultErrorResponse(e);
   }
+}
+
+export async function getAvatarURL(group: Group) {
+  return group.avatar
+    ? `/api/files/system_groups/${group.id}/${group.avatar}?thumb=100x100`
+    : "";
 }

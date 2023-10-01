@@ -35,11 +35,13 @@ export async function list(
   }
 }
 
-export async function get(id: string): APIResponse<Application> {
+export async function get(slug: string): APIResponse<Application> {
   try {
     const { expand, ...rest } = await pb
       .collection("system_applications")
-      .getOne<PBApplication>(id, { expand: "created_by,groups,users,folder" });
+      .getFirstListItem<PBApplication>(`slug="${slug}"`, {
+        expand: "created_by,groups,users,folder",
+      });
     return {
       status: 200,
       data: {
@@ -56,7 +58,7 @@ export async function get(id: string): APIResponse<Application> {
 }
 
 export async function create(
-  params: Partial<Application>,
+  params: Partial<Application> & { slug: string },
 ): APIResponse<Application> {
   try {
     const { expand, ...rest } = await pb
@@ -82,15 +84,45 @@ export async function create(
   }
 }
 
-export async function update(
-  params: Partial<Application> & { id: string },
-): APIResponse<Application> {
+export async function update({
+  slug,
+  permissions,
+  ...paramsRest
+}: Partial<Application> & {
+  slug: string;
+  permissions?: {
+    op: "ADD" | "REMOVE";
+    type: "USER" | "GROUP";
+    id: string;
+  }[];
+}): APIResponse<Application> {
   try {
+    const app = await pb
+      .collection("system_applications")
+      .getFirstListItem<PBApplication>(`slug="${slug}"`);
     const { expand, ...rest } = await pb
       .collection("system_applications")
-      .update<PBApplication>(params.id, params, {
-        expand: "created_by,groups,users,folder",
-      });
+      .update<PBApplication>(
+        app.id,
+        {
+          ...paramsRest,
+          "users+": permissions
+            ?.filter((p) => p.op === "ADD" && p.type === "USER")
+            .map((p) => p.id),
+          "groups+": permissions
+            ?.filter((p) => p.op === "ADD" && p.type === "GROUP")
+            .map((p) => p.id),
+          "users-": permissions
+            ?.filter((p) => p.op === "REMOVE" && p.type === "USER")
+            .map((p) => p.id),
+          "groups-": permissions
+            ?.filter((p) => p.op === "REMOVE" && p.type === "GROUP")
+            .map((p) => p.id),
+        },
+        {
+          expand: "created_by,groups,users,folder",
+        },
+      );
     return {
       status: 200,
       data: {
@@ -106,9 +138,12 @@ export async function update(
   }
 }
 
-export async function remove(id: string): APIResponse {
+export async function remove(slug: string): APIResponse {
   try {
-    await pb.collection("system_applications").delete(id);
+    const app = await pb
+      .collection("system_applications")
+      .getFirstListItem<PBApplication>(`slug="${slug}"`);
+    await pb.collection("system_applications").delete(app.id);
     return { status: 200 };
   } catch (e) {
     return createDefaultErrorResponse(e);

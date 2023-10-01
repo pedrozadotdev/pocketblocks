@@ -24,6 +24,12 @@ function applyCache<A extends unknown[], R>(
   fn: Fn<A, R>,
 ): Fn<A, R> {
   return function (...args: A): Promise<R> {
+    // console.log(
+    //   queryClient
+    //     .getQueryCache()
+    //     .getAll()
+    //     .map((q) => q.queryKey),
+    // );
     return queryClient.fetchQuery({
       queryKey: [firstKey, ...args.filter((a) => !!a)],
       queryFn: () => {
@@ -64,19 +70,27 @@ export function applyAPICache(api: API): API {
       update: invalidateCache(async (params) => {
         return ({ queryKey }) => {
           const getArgs = queryKey[1] as Parameters<API["apps"]["get"]>[0];
-          const firstCondition = queryKey[0] === "listApps" && !!params.status;
+          const folderId =
+            typeof params.folder === "string"
+              ? params.folder
+              : params.folder?.id;
+          const firstCondition =
+            queryKey[0] === "listApps" &&
+            (!!params.status ||
+              typeof folderId === "string" ||
+              typeof params.published === "boolean");
           const secondCondition =
-            queryKey[0] === "getApp" && getArgs === params.id;
+            queryKey[0] === "getApp" && getArgs === params.slug;
           return firstCondition || secondCondition;
         };
       }, api.apps.update),
-      remove: invalidateCache(async (id) => {
+      remove: invalidateCache(async (slug) => {
         return ({ queryKey }) => {
           const listArgs = queryKey[1] as Parameters<API["apps"]["list"]>[0];
           const getArgs = queryKey[1] as Parameters<API["apps"]["get"]>[0];
           const firstCondition =
             queryKey[0] === "listApps" && !!listArgs?.onlyRecycled;
-          const secondCondition = queryKey[0] === "getApp" && getArgs === id;
+          const secondCondition = queryKey[0] === "getApp" && getArgs === slug;
 
           return firstCondition || secondCondition;
         };
@@ -102,6 +116,7 @@ export function applyAPICache(api: API): API {
     },
     groups: {
       list: applyCache("listGroups", api.groups.list),
+      getAvatarURL: applyCache("getGroupAvatar", api.groups.getAvatarURL),
     },
     settings: {
       get: applyCache("getSettings", api.settings.get),
@@ -114,10 +129,11 @@ export function applyAPICache(api: API): API {
     },
     users: {
       get: applyCache("getUser", api.users.get),
-      getAvatarURL: applyCache("getUser", api.users.getAvatarURL),
+      getAvatarURL: applyCache("getUserAvatar", api.users.getAvatarURL),
+      list: applyCache("listUsers", api.users.list),
       update: invalidateCache(async () => {
         return ({ queryKey }) => {
-          return queryKey[0] === "getUser";
+          return queryKey[0] === "getUser" || queryKey[0] === "listUsers";
         };
       }, api.users.update),
     },

@@ -15,8 +15,14 @@ export function createDefaultErrorResponse(e: unknown): Awaited<APIResponse> {
       message: "You cannot access this resource.",
     };
   }
+  if (status === 404) {
+    return {
+      status,
+      message: "Resource not found",
+    };
+  }
   if (import.meta.env.DEV) {
-    console.warn(`[POCKETBASE]: "Error: ${message}`);
+    console.warn(`[POCKETBASE]: "Error ${status}: ${message}`);
   }
   return {
     status: 502,
