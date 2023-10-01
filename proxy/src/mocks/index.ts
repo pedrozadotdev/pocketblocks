@@ -5,6 +5,7 @@ import constants from "./constants";
 import folders from "./folders";
 import groups from "./groups";
 import organizations from "./organizations";
+import snapshots from "./snapshots";
 import users from "./users";
 import VERSION from "./VERSION";
 
@@ -16,6 +17,7 @@ export default [
   ...folders,
   ...groups,
   ...organizations,
+  ...snapshots,
   ...users,
   ...VERSION,
 ];

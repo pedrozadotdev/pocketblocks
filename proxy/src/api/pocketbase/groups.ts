@@ -1,8 +1,8 @@
-import { Group, listGroupsFilters } from "@/types";
+import { Group, ListGroupsFilters } from "@/types";
 import { APIResponse, PBGroup } from "./types";
 import { pb, createDefaultErrorResponse } from "./utils";
 
-export async function list(filters?: listGroupsFilters): APIResponse<Group[]> {
+export async function list(filters?: ListGroupsFilters): APIResponse<Group[]> {
   let filter: string = "";
   if (filters?.userId) {
     filter = `users.id?='${filters.userId}'`;

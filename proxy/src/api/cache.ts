@@ -24,12 +24,6 @@ function applyCache<A extends unknown[], R>(
   fn: Fn<A, R>,
 ): Fn<A, R> {
   return function (...args: A): Promise<R> {
-    // console.log(
-    //   queryClient
-    //     .getQueryCache()
-    //     .getAll()
-    //     .map((q) => q.queryKey),
-    // );
     return queryClient.fetchQuery({
       queryKey: [firstKey, ...args.filter((a) => !!a)],
       queryFn: () => {
@@ -76,9 +70,7 @@ export function applyAPICache(api: API): API {
               : params.folder?.id;
           const firstCondition =
             queryKey[0] === "listApps" &&
-            (!!params.status ||
-              typeof folderId === "string" ||
-              typeof params.published === "boolean");
+            (!!params.status || typeof folderId === "string");
           const secondCondition =
             queryKey[0] === "getApp" && getArgs === params.slug;
           return firstCondition || secondCondition;
@@ -126,6 +118,21 @@ export function applyAPICache(api: API): API {
           return queryKey[0] === "getSettings";
         };
       }, api.settings.update),
+    },
+    snapshots: {
+      get: applyCache("getSnapshot", api.snapshots.get),
+      list: applyCache("listSnapshots", api.snapshots.list),
+      create: invalidateCache(async ({ app }) => {
+        return ({ queryKey }) => {
+          const listArgs = queryKey[1] as Parameters<
+            API["snapshots"]["list"]
+          >[0];
+          return (
+            queryKey[0] === "listSnapshots" &&
+            listArgs.app.id === (typeof app === "string" ? app : app?.id)
+          );
+        };
+      }, api.snapshots.create),
     },
     users: {
       get: applyCache("getUser", api.users.get),

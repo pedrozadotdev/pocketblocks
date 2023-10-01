@@ -66,11 +66,11 @@ export default [
     }),
   ),
   mocker.put(
-    "/api/folders/move/:id",
+    "/api/folders/move/:appSlug",
     adminRoute(async (req) => {
       const folderId = req.config.params.targetFolderId;
       const appResponse = await apps.update({
-        id: req.params.id as string,
+        slug: req.params.appSlug as string,
         folder: folderId,
       });
       if (appResponse.data) {

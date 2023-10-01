@@ -11,12 +11,11 @@ export interface Application extends BaseModel {
   status: "NORMAL" | "RECYCLED";
   public: boolean;
   all_users: boolean;
-  published: boolean;
   created_by: User | string;
   groups: Group[] | string[];
   users: User[] | string[];
   app_dsl: unknown | null;
-  module_dsl: unknown | null;
+  edit_dsl: unknown | null;
   folder: Folder | string | null;
 }
 
@@ -52,6 +51,7 @@ export interface Settings extends BaseModel {
 
 export interface Snapshot extends BaseModel {
   app: Application | string;
+  created_by: User | string;
   dsl: string;
   context: string;
 }
@@ -62,13 +62,19 @@ export type APIResponse<D = undefined> = Promise<{
   data?: D;
 }>;
 
-export type listAppsFilters = {
+export type ListAppsFilters = {
   onlyRecycled?: boolean;
   folderId?: string;
 };
 
-export type listGroupsFilters = {
+export type ListGroupsFilters = {
   userId: string;
+};
+
+export type ListSnapshotOptions = {
+  app: Application;
+  page: number;
+  size: number;
 };
 
 export type API = {
@@ -77,7 +83,7 @@ export type API = {
       params: Partial<Application> & { slug: string },
     ) => APIResponse<Application>;
     get: (slug: string) => APIResponse<Application>;
-    list: (filters?: listAppsFilters) => APIResponse<Application[]>;
+    list: (filters?: ListAppsFilters) => APIResponse<Application[]>;
     remove: (slug: string) => APIResponse;
     update: (
       params: Partial<Application> & {
@@ -105,7 +111,7 @@ export type API = {
     update: (params: Partial<Folder> & { id: string }) => APIResponse<Folder>;
   };
   groups: {
-    list: (filters?: listGroupsFilters) => APIResponse<Group[]>;
+    list: (filters?: ListGroupsFilters) => APIResponse<Group[]>;
     getAvatarURL: (group: Group) => Promise<string>;
   };
   sdk: {
@@ -119,7 +125,13 @@ export type API = {
     ) => Promise<{ logo: string; icon: string }>;
     update: (params: Partial<Settings> & { id: string }) => APIResponse;
   };
-  snapshots: unknown;
+  snapshots: {
+    create: (params: Partial<Snapshot>) => APIResponse<Snapshot>;
+    get: (id: string) => APIResponse<Snapshot>;
+    list: (
+      options: ListSnapshotOptions,
+    ) => APIResponse<{ list: Snapshot[]; total: number }>;
+  };
   users: {
     get: (email: string) => APIResponse<User>;
     getAvatarURL: (user: User) => Promise<string>;

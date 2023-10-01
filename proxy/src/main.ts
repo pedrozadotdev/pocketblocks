@@ -16,9 +16,9 @@ window.setupProxy = (axiosIns: AxiosInstance) => {
     if (import.meta.env.DEV) {
       mockIns.onAny().reply((config) => {
         console.warn(
-          `[PROXY]: (Request without handler!) ${config.method?.toUpperCase()} - ${
-            (config.baseURL || "/") + config.url
-          }\n `,
+          `[PROXY]: ${config.method?.toUpperCase()} - "${
+            config.url
+          }" (Request without handler!) \nRequest: `,
           config,
         );
         return [404, {}];

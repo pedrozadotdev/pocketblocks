@@ -21,12 +21,11 @@ export interface PBApplication<E = ApplicationExpanded> extends BaseModel<E> {
   status: "NORMAL" | "RECYCLED";
   public: boolean;
   all_users: boolean;
-  published: boolean;
   created_by: string;
   groups: string[];
   users: string[];
   app_dsl: unknown | null;
-  module_dsl: unknown | null;
+  edit_dsl: unknown | null;
   folder: string;
 }
 
@@ -74,10 +73,12 @@ export interface PBSettings<E = ConfigExpanded> extends BaseModel<E> {
 
 type SnapshotExpanded = {
   app: PBApplication;
+  created_by: PBUser;
 };
 
 export interface PBSnapshot<E = SnapshotExpanded> extends BaseModel<E> {
   app: string;
+  created_by: string;
   dsl: string;
   context: string;
 }

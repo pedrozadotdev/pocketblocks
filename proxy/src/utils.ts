@@ -22,12 +22,19 @@ export async function createAppList(apps: Application[]) {
   }));
 }
 
+function getCorrectDSL(app: Application) {
+  const editDSLPaths = [`/apps/${app.slug}/edit`, `/apps/${app.slug}/preview`];
+  return editDSLPaths.includes(window.location.pathname)
+    ? app.edit_dsl
+    : app.app_dsl;
+}
+
 export async function createFullAppResponseData(app: Application) {
   const { data: settings } = await settingsAPI.get();
   return {
     applicationInfoView: (await createAppList([app]))[0],
-    applicationDSL: app.app_dsl,
-    moduleDSL: app.module_dsl,
+    applicationDSL: getCorrectDSL(app),
+    moduleDSL: null,
     orgCommonSettings: settings
       ? {
           themeList: settings.themes,

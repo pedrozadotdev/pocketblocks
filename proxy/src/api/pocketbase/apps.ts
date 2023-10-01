@@ -1,10 +1,10 @@
 import { RecordFullListOptions } from "pocketbase";
-import { Application, listAppsFilters, User } from "@/types";
+import { Application, ListAppsFilters, User } from "@/types";
 import { APIResponse, PBApplication } from "./types";
 import { pb, createDefaultErrorResponse } from "./utils";
 
 export async function list(
-  filters?: listAppsFilters,
+  filters?: ListAppsFilters,
 ): APIResponse<Application[]> {
   const params: RecordFullListOptions = {
     sort: "-updated,-created",

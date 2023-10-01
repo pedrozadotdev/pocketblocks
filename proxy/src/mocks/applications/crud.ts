@@ -45,6 +45,7 @@ export default [
       const newApp: Partial<Application> & { slug: string } = {
         name,
         app_dsl: JSON.stringify(editingApplicationDSL),
+        edit_dsl: JSON.stringify(editingApplicationDSL),
         type: applicationType,
         created_by: userResponse.data.id,
         folder: folderId,
@@ -62,16 +63,20 @@ export default [
   mocker.post(
     "/api/v1/applications/:slug/publish",
     adminRoute(async ({ params }) => {
-      const appResponse = await apps.update({
-        slug: params.slug,
-        published: true,
-      });
-      if (appResponse.data) {
-        return createDefaultResponse(
-          await createFullAppResponseData(appResponse.data),
-        );
+      const currentAppResponse = await apps.get(params.slug);
+      if (currentAppResponse.data) {
+        const appResponse = await apps.update({
+          slug: params.slug,
+          app_dsl: currentAppResponse.data.edit_dsl,
+        });
+        if (appResponse.data) {
+          return createDefaultResponse(
+            await createFullAppResponseData(appResponse.data),
+          );
+        }
+        return createDefaultErrorResponse([appResponse]);
       }
-      return createDefaultErrorResponse([appResponse]);
+      return createDefaultErrorResponse([currentAppResponse]);
     }),
   ),
   mocker.put(
@@ -113,7 +118,7 @@ export default [
         .data as Partial<Body>;
       const updatedApp: Partial<Application> = {
         name,
-        app_dsl: JSON.stringify(editingApplicationDSL),
+        edit_dsl: JSON.stringify(editingApplicationDSL),
         type: applicationType,
       };
       const appResponse = await apps.update({
