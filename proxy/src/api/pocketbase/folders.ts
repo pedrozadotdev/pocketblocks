@@ -4,12 +4,10 @@ import { pb, createDefaultErrorResponse } from "./utils";
 
 export async function list(): APIResponse<Folder[]> {
   try {
-    const folders = await pb
-      .collection("system_folders")
-      .getFullList<PBFolder>({
-        expand: "created_by",
-        sort: "-updated,-created",
-      });
+    const folders = await pb.collection("pbl_folders").getFullList<PBFolder>({
+      expand: "created_by",
+      sort: "-updated,-created",
+    });
     return {
       status: 200,
       data: folders.map(({ expand, ...rest }) => ({
@@ -25,7 +23,7 @@ export async function list(): APIResponse<Folder[]> {
 export async function create(params: Partial<Folder>): APIResponse<Folder> {
   try {
     const { expand, ...rest } = await pb
-      .collection("system_folders")
+      .collection("pbl_folders")
       .create<PBFolder>(params, {
         expand: "created_by",
       });
@@ -47,7 +45,7 @@ export async function update({
 }: Partial<Folder> & { id: string }): APIResponse<Folder> {
   try {
     const { expand, ...rest } = await pb
-      .collection("system_folders")
+      .collection("pbl_folders")
       .update<PBFolder>(id, params, {
         expand: "created_by",
       });
@@ -65,7 +63,7 @@ export async function update({
 
 export async function remove(id: string): APIResponse {
   try {
-    await pb.collection("system_folders").delete(id);
+    await pb.collection("pbl_folders").delete(id);
     return { status: 200 };
   } catch (e) {
     return createDefaultErrorResponse(e);

@@ -8,7 +8,7 @@ export async function list(filters?: ListGroupsFilters): APIResponse<Group[]> {
     filter = `users.id?='${filters.userId}'`;
   }
   try {
-    const groups = await pb.collection("system_groups").getFullList<PBGroup>({
+    const groups = await pb.collection("pbl_groups").getFullList<PBGroup>({
       filter,
       sort: "-updated,-created",
       expand: "users",
@@ -27,6 +27,6 @@ export async function list(filters?: ListGroupsFilters): APIResponse<Group[]> {
 
 export async function getAvatarURL(group: Group) {
   return group.avatar
-    ? `/api/files/system_groups/${group.id}/${group.avatar}?thumb=100x100`
+    ? `/api/files/pbl_groups/${group.id}/${group.avatar}?thumb=100x100`
     : "";
 }

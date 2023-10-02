@@ -10,7 +10,7 @@ export async function create({
 }: Partial<Snapshot>): APIResponse<Snapshot> {
   try {
     const { expand, ...rest } = await pb
-      .collection("system_snapshots")
+      .collection("pbl_snapshots")
       .create<PBSnapshot>(
         {
           app: typeof app === "string" ? app : app?.id,
@@ -41,7 +41,7 @@ export async function list(
 ): APIResponse<{ list: Snapshot[]; total: number }> {
   try {
     const snapshots = await pb
-      .collection("system_snapshots")
+      .collection("pbl_snapshots")
       .getList<PBSnapshot>(options.page, options.size, {
         filter: `app.id="${options.app.id}"`,
         sort: "-updated,-created",
@@ -66,7 +66,7 @@ export async function list(
 export async function get(id: string): APIResponse<Snapshot> {
   try {
     const { expand, ...rest } = await pb
-      .collection("system_snapshots")
+      .collection("pbl_snapshots")
       .getOne<PBSnapshot>(id, {
         expand: "app,created_by",
       });

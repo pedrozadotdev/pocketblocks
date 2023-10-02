@@ -6,7 +6,6 @@ import {
   createDefaultErrorResponse,
   createDefaultResponse,
   createFullAppResponseData,
-  slugify,
 } from "@/utils";
 
 type Body = {
@@ -42,14 +41,13 @@ export default [
       if (!userResponse.data) {
         return createDefaultErrorResponse([userResponse]);
       }
-      const newApp: Partial<Application> & { slug: string } = {
+      const newApp: Partial<Application> = {
         name,
         app_dsl: JSON.stringify(editingApplicationDSL),
         edit_dsl: JSON.stringify(editingApplicationDSL),
         type: applicationType,
         created_by: userResponse.data.id,
         folder: folderId,
-        slug: slugify(name),
       };
       const appResponse = await apps.create(newApp);
       if (appResponse.data) {

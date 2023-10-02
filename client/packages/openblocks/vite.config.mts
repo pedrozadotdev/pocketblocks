@@ -45,9 +45,6 @@ export const viteConfig: UserConfig = {
     outDir: "../../../proxy/public",
     emptyOutDir: false,
     rollupOptions: {
-      external: [
-        "/src/main.ts"
-      ],
       output: {
         chunkFileNames: "js/[hash].js",
         assetFileNames: "assets/[name]-[hash][extname]",
@@ -113,11 +110,11 @@ export const viteConfig: UserConfig = {
     }),
     globalDepPlugin(),
     createHtmlPlugin({
-      minify: true,
+      minify: false,
       inject: {
         data: {
           browserCheckScript: isDev ? "" : `<script src="/js/browser-check.js"></script>`,
-          proxyScript: `<script type="module" src="/src/main.ts"></script>`,
+          proxyScript: `<!-- PROXYSCRIPT -->`,
         },
       },
     }),

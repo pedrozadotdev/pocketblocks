@@ -18,7 +18,7 @@ export async function list(
   }
   try {
     const apps = await pb
-      .collection("system_applications")
+      .collection("pbl_applications")
       .getFullList<PBApplication>(params);
     return {
       status: 200,
@@ -38,7 +38,7 @@ export async function list(
 export async function get(slug: string): APIResponse<Application> {
   try {
     const { expand, ...rest } = await pb
-      .collection("system_applications")
+      .collection("pbl_applications")
       .getFirstListItem<PBApplication>(`slug="${slug}"`, {
         expand: "created_by,groups,users,folder",
       });
@@ -58,11 +58,11 @@ export async function get(slug: string): APIResponse<Application> {
 }
 
 export async function create(
-  params: Partial<Application> & { slug: string },
+  params: Partial<Application>,
 ): APIResponse<Application> {
   try {
     const { expand, ...rest } = await pb
-      .collection("system_applications")
+      .collection("pbl_applications")
       .create<PBApplication>(
         { ...params, status: "NORMAL" },
         {
@@ -98,10 +98,10 @@ export async function update({
 }): APIResponse<Application> {
   try {
     const app = await pb
-      .collection("system_applications")
+      .collection("pbl_applications")
       .getFirstListItem<PBApplication>(`slug="${slug}"`);
     const { expand, ...rest } = await pb
-      .collection("system_applications")
+      .collection("pbl_applications")
       .update<PBApplication>(
         app.id,
         {
@@ -141,9 +141,9 @@ export async function update({
 export async function remove(slug: string): APIResponse {
   try {
     const app = await pb
-      .collection("system_applications")
+      .collection("pbl_applications")
       .getFirstListItem<PBApplication>(`slug="${slug}"`);
-    await pb.collection("system_applications").delete(app.id);
+    await pb.collection("pbl_applications").delete(app.id);
     return { status: 200 };
   } catch (e) {
     return createDefaultErrorResponse(e);

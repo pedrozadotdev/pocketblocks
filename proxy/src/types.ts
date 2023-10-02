@@ -79,9 +79,7 @@ export type ListSnapshotOptions = {
 
 export type API = {
   apps: {
-    create: (
-      params: Partial<Application> & { slug: string },
-    ) => APIResponse<Application>;
+    create: (params: Partial<Application>) => APIResponse<Application>;
     get: (slug: string) => APIResponse<Application>;
     list: (filters?: ListAppsFilters) => APIResponse<Application[]>;
     remove: (slug: string) => APIResponse;

@@ -15,4 +15,44 @@ export default defineConfig({
       "/api": "http://127.0.0.1:8090",
     },
   },
+  plugins: [
+    (() => ({
+      name: "transform-html",
+      transformIndexHtml: {
+        order: "pre",
+        handler(html) {
+          return html.replace(
+            "<!-- PROXYSCRIPT -->",
+            `<script type="module" src="/src/main.ts"></script>`,
+          );
+        },
+      },
+    }))(),
+    (() => ({
+      name: "transform-html",
+      transformIndexHtml: {
+        order: "post",
+        handler(html) {
+          return html
+            .replace(`src="/js/proxy.js"`, `src="/js/index.js"`)
+            .replace(`src="/js/index.js"`, `src="/js/proxy.js"`);
+        },
+      },
+      apply: "build",
+    }))(),
+  ],
+  build: {
+    manifest: false,
+    emptyOutDir: true,
+    target: "es2015",
+    cssTarget: "chrome63",
+    outDir: "../server/pb_public",
+    rollupOptions: {
+      output: {
+        chunkFileNames: "js/[hash].js",
+        assetFileNames: "assets/[name]-[hash][extname]",
+        entryFileNames: "js/proxy.js",
+      },
+    },
+  },
 });
