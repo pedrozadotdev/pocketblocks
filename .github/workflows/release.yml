@@ -1,0 +1,37 @@
+name: Release new version
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GH_USER: ${{ github.actor }}
+  PBL_VERSION: ${{ github.ref_name }}
+  POCKETBASE_VERSION: ${{ vars.POCKETBASE_VERSION }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Client
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.18.0
+      - run: cd proxy && yarn run build:ci
+      - name: Build and Publish Package
+        run: chmod +x ./docker-build.sh && ./docker-build.sh
+      - name: Create a Release
+        id: create_release
+        uses: shogo82148/actions-create-release@v1
+      - name: Upload Assets
+        uses: shogo82148/actions-upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: release.zip

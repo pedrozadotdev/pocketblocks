@@ -8,22 +8,6 @@ module.exports = {
       .trim()
       .replace(/[^a-z0-9 ]/g, "")
       .replace(/\s+/g, "-"),
-  createAdmin: () => {
-    const admin = new Admin();
-    admin.email = "admin@acme.com";
-    admin.setPassword("changeme");
-    $app.dao().saveAdmin(admin);
-
-    const usersCollection = $app.dao().findCollectionByNameOrId("pbl_users");
-    const user = new Record(usersCollection);
-    const form = new RecordUpsertForm($app, user);
-    form.loadData({
-      name: "Admin",
-      email: "admin@acme.com",
-    });
-
-    form.submit();
-  },
   createOrg: () => {
     const settingsCollection = $app
       .dao()
@@ -659,5 +643,8 @@ module.exports = {
 
     const collections = snapshot.map((item) => new Collection(item));
     $app.dao().importCollections(collections, true, null);
+  },
+  removeAutoMigrations: () => {
+    $os.removeAll($filepath.join($filepath.dir(__hooks), "pb_migrations"));
   },
 };

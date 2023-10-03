@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -f ./data/pocketbase ]; then
+  echo "$(date +"%Y/%m/%d %T") [CONTAINER]: Data directory already setup. Skipping..."
+else
+  mkdir data/pb_hooks
+  cd data && cp -s ../pocketbase .
+  cd pb_hooks && cp -s ../../pb_hooks/* .
+  cd ../..
+  echo "$(date +"%Y/%m/%d %T") [CONTAINER]: Data directory setup!"
+fi
+
+cd data && ./pocketbase serve --http=0.0.0.0:8080 --publicDir="../pb_public"

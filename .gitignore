@@ -1,0 +1,5 @@
+server/pocketbase
+server/pocketbase.exe
+server/pb_data/*
+server/pb_public/*
+server/data

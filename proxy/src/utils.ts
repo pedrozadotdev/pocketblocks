@@ -124,14 +124,3 @@ export function adminRoute(handler: MockHandler): MockHandler {
       : createDefaultErrorResponse([{ status: 401 }]);
   };
 }
-
-export function slugify(str: string) {
-  return str
-    .toString()
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .trim()
-    .replace(/[^a-z0-9 ]/g, "")
-    .replace(/\s+/g, "-");
-}
