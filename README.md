@@ -4,7 +4,7 @@
 
 **Openblocks + PocketBase = PocketBlocks.**
 
-PocketBlocks is a integration between Openblocks and Pocketbase.
+PocketBlocks is a integration between Openblocks and PocketBase.
 </br>
 </br>
 

@@ -63,8 +63,11 @@ async function createDefaultDataResponse(app: Application, settings: Settings) {
     orgName: settings.org_name,
     groupPermissions: permissions.filter((p) => p.type === "GROUP"),
     userPermissions: permissions.filter((p) => p.type === "USER"),
-    creatorId:
-      typeof app.created_by === "string" ? app.created_by : app.created_by.id,
+    creatorId: app.created_by
+      ? typeof app.created_by === "string"
+        ? app.created_by
+        : app.created_by.id
+      : "UNKNOWN",
     publicToAll: app.public,
     permissions,
   };
@@ -72,9 +75,9 @@ async function createDefaultDataResponse(app: Application, settings: Settings) {
 
 export default [
   mocker.get(
-    "/api/v1/applications/:id/permissions",
-    adminRoute(async ({ params: { id } }) => {
-      const appResponse = await apps.get(id as string);
+    "/api/v1/applications/:slug/permissions",
+    adminRoute(async ({ params: { slug } }) => {
+      const appResponse = await apps.get(slug as string);
       const settingsResponse = await settings.get();
       if (appResponse.data && settingsResponse.data) {
         return createDefaultResponse(

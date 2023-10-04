@@ -4,10 +4,13 @@ module.exports = {
     str
       .toString()
       .toLowerCase()
-      .replace(/[\u0300-\u036f]/g, "")
       .trim()
-      .replace(/[^a-z0-9 ]/g, "")
-      .replace(/\s+/g, "-"),
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/&/g, "-and-")
+      .replace(/[^\w\-]+/g, "")
+      .replace(/\-\-+/g, "-"),
   createOrg: () => {
     const settingsCollection = $app
       .dao()

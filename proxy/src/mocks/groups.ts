@@ -1,11 +1,7 @@
 import { auth, groups } from "@/api";
 import { ALL_USERS_GROUP_ID } from "@/constants";
 import { mocker } from "@/mocker";
-import {
-  authRoute,
-  createDefaultErrorResponse,
-  createDefaultResponse,
-} from "@/utils";
+import { createDefaultErrorResponse, createDefaultResponse } from "@/utils";
 
 const allUsersGroup = {
   groupId: ALL_USERS_GROUP_ID,
@@ -20,33 +16,29 @@ const allUsersGroup = {
 };
 
 export default [
-  mocker.get(
-    "/api/v1/groups/list",
-    authRoute(async () => {
-      const groupsResponse = await groups.list();
-      const currentUser = await auth.getCurrentUser();
-      const isAdmin = await auth.isAdmin();
-      if (groupsResponse.data && currentUser.data) {
-        return createDefaultResponse([
-          {
+  mocker.get("/api/v1/groups/list", async () => {
+    const groupsResponse = await groups.list();
+    const isAdmin = await auth.isAdmin();
+    if (groupsResponse.data) {
+      return createDefaultResponse([
+        {
+          ...allUsersGroup,
+          visitorRole: isAdmin ? "admin" : "viewer",
+        },
+        ...(await Promise.all(
+          groupsResponse.data.map(async (g) => ({
             ...allUsersGroup,
+            groupId: g.id,
+            groupName: g.name,
+            avatarUrl: await groups.getAvatarURL(g),
+            allUsersGroup: false,
             visitorRole: isAdmin ? "admin" : "viewer",
-          },
-          ...(await Promise.all(
-            groupsResponse.data.map(async (g) => ({
-              ...allUsersGroup,
-              groupId: g.id,
-              groupName: g.name,
-              avatarUrl: await groups.getAvatarURL(g),
-              allUsersGroup: false,
-              visitorRole: isAdmin ? "admin" : "viewer",
-              createTime: new Date(g.created).getTime(),
-              devGroup: false,
-            })),
-          )),
-        ]);
-      }
-      return createDefaultErrorResponse([groupsResponse, currentUser]);
-    }),
-  ),
+            createTime: new Date(g.created).getTime(),
+            devGroup: false,
+          })),
+        )),
+      ]);
+    }
+    return createDefaultErrorResponse([groupsResponse]);
+  }),
 ];

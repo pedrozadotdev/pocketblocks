@@ -9,8 +9,11 @@ export async function createAppList(apps: Application[]) {
     applicationId: a.slug,
     name: a.name,
     createAt: new Date(a.created).getTime(),
-    createBy:
-      typeof a.created_by === "string" ? a.created_by : a.created_by.name,
+    createBy: a.created_by
+      ? typeof a.created_by === "string"
+        ? a.created_by
+        : a.created_by.name
+      : "UNKNOWN",
     role: admin ? "owner" : "viewer",
     applicationType: a.type,
     applicationStatus: a.status,

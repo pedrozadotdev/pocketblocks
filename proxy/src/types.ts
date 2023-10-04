@@ -11,7 +11,7 @@ export interface Application extends BaseModel {
   status: "NORMAL" | "RECYCLED";
   public: boolean;
   all_users: boolean;
-  created_by: User | string;
+  created_by?: User | string;
   groups: Group[] | string[];
   users: User[] | string[];
   app_dsl: unknown | null;
