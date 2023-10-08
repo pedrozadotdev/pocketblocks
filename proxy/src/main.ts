@@ -7,12 +7,12 @@ sdk.setup();
 
 let mockIns: MockAdapter;
 
-window.setupProxy = (axiosIns: AxiosInstance) => {
+window.setupProxy = (axiosIns: AxiosInstance, messageIns: unknown) => {
   if (!mockIns) {
     mockIns = new MockAdapter(axiosIns, {
       onNoMatch: import.meta.env.PROD ? "passthrough" : "throwException",
     });
-    mocks.forEach((registerMock) => registerMock(mockIns));
+    mocks.forEach((registerMock) => registerMock(mockIns, messageIns));
     if (import.meta.env.DEV) {
       mockIns.onAny().reply((config) => {
         console.warn(

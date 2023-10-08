@@ -8,6 +8,7 @@ import {
 import { API_REQUEST_HEADERS } from "constants/apiConstants";
 import { sdkConfig } from "constants/sdkConfig";
 import _ from "lodash";
+import { message } from "antd";
 
 let axiosIns: AxiosInstance | null = null;
 
@@ -30,7 +31,7 @@ function getAxiosInstance() {
     apiFailureResponseInterceptor
   );
   if(window.setupProxy) {
-    window.setupProxy(axiosInstance)
+    window.setupProxy(axiosInstance, message)
   }
   axiosIns = axiosInstance;
 

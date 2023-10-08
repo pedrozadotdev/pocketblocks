@@ -20,37 +20,75 @@ module.exports = {
     });
     $app.dao().saveRecord(settings);
   },
+  changeUserConfigs: (type) => {
+    const userModel = $app.dao().findCollectionByNameOrId("users");
+    switch (type) {
+      case "local:username":
+        userModel.options.set("allowEmailAuth", false);
+        userModel.options.set("requireEmail", false);
+        userModel.options.set("allowUsernameAuth", true);
+        break;
+      case "local:email":
+        userModel.options.set("allowUsernameAuth", false);
+        userModel.options.set("allowEmailAuth", true);
+        userModel.options.set("requireEmail", true);
+        break;
+      case "local:both":
+        userModel.options.set("allowUsernameAuth", true);
+        userModel.options.set("allowEmailAuth", true);
+        userModel.options.set("requireEmail", true);
+        break;
+      case "local:delete":
+        userModel.options.set("allowUsernameAuth", false);
+        userModel.options.set("allowEmailAuth", false);
+        userModel.options.set("requireEmail", false);
+        break;
+      case "oauth":
+        userModel.options.set("allowOAuth2Auth", true);
+        break;
+      case "oauth:delete":
+        userModel.options.set("allowOAuth2Auth", false);
+        break;
+      default: {
+        userModel.options.set("allowUsernameAuth", false);
+        userModel.options.set("allowEmailAuth", false);
+        userModel.options.set("requireEmail", false);
+        userModel.options.set("allowOAuth2Auth", false);
+      }
+    }
+    $app.dao().saveCollection(userModel);
+  },
   migrate: () => {
     const snapshot = [
       {
         id: "_pbl_users_auth_",
         created: "2023-10-01 20:45:02.793Z",
-        updated: "2023-10-01 20:47:08.040Z",
+        updated: "2023-10-08 00:56:12.251Z",
         name: "users",
         type: "auth",
         system: false,
         schema: [],
         indexes: [],
-        listRule: "id = @request.auth.id",
-        viewRule: '@request.auth.id != ""',
-        createRule: null,
+        listRule: null,
+        viewRule: null,
+        createRule: "",
         updateRule: null,
         deleteRule: null,
         options: {
-          allowEmailAuth: true,
+          allowEmailAuth: false,
           allowOAuth2Auth: false,
-          allowUsernameAuth: false,
+          allowUsernameAuth: true,
           exceptEmailDomains: null,
           manageRule: null,
           minPasswordLength: 8,
           onlyEmailDomains: null,
-          requireEmail: true,
+          requireEmail: false,
         },
       },
       {
         id: "buotp00b3wthds4",
         created: "2023-10-01 20:47:08.041Z",
-        updated: "2023-10-01 20:47:08.041Z",
+        updated: "2023-10-08 00:14:34.349Z",
         name: "pbl_folders",
         type: "base",
         system: false,
@@ -97,7 +135,7 @@ module.exports = {
       {
         id: "5cbl3c26o7q3y4r",
         created: "2023-10-01 20:47:08.041Z",
-        updated: "2023-10-01 20:47:08.041Z",
+        updated: "2023-10-08 01:48:19.533Z",
         name: "pbl_groups",
         type: "base",
         system: false,
@@ -134,32 +172,21 @@ module.exports = {
           },
           {
             system: false,
-            id: "ukwemtl5",
+            id: "9gsdvkry",
             name: "avatar",
-            type: "file",
+            type: "url",
             required: false,
             presentable: false,
             unique: false,
             options: {
-              maxSelect: 1,
-              maxSize: 5242880,
-              mimeTypes: [
-                "image/jpeg",
-                "image/png",
-                "image/svg+xml",
-                "image/gif",
-                "image/webp",
-              ],
-              thumbs: [],
-              protected: false,
+              exceptDomains: null,
+              onlyDomains: null,
             },
           },
         ],
         indexes: [],
-        listRule:
-          '@request.auth.id != "" && users.email ?= @request.auth.email',
-        viewRule:
-          '@request.auth.id != "" && users.email ?= @request.auth.email',
+        listRule: '@request.auth.id != "" && users.user_id ?= @request.auth.id',
+        viewRule: '@request.auth.id != "" && users.user_id ?= @request.auth.id',
         createRule: null,
         updateRule: null,
         deleteRule: null,
@@ -168,7 +195,7 @@ module.exports = {
       {
         id: "irij2ydvjhpjirp",
         created: "2023-10-01 20:47:08.042Z",
-        updated: "2023-10-01 20:47:08.042Z",
+        updated: "2023-10-08 01:31:51.351Z",
         name: "pbl_settings",
         type: "base",
         system: false,
@@ -189,40 +216,28 @@ module.exports = {
           },
           {
             system: false,
-            id: "pajvgbix",
+            id: "hd84wwqt",
             name: "logo",
-            type: "file",
+            type: "url",
             required: false,
             presentable: false,
             unique: false,
             options: {
-              maxSelect: 1,
-              maxSize: 5242880,
-              mimeTypes: [
-                "image/jpeg",
-                "image/png",
-                "image/svg+xml",
-                "image/gif",
-                "image/webp",
-              ],
-              thumbs: [],
-              protected: false,
+              exceptDomains: [],
+              onlyDomains: [],
             },
           },
           {
             system: false,
-            id: "by6fgz3f",
+            id: "bcqxifjj",
             name: "icon",
-            type: "file",
+            type: "url",
             required: false,
             presentable: false,
             unique: false,
             options: {
-              maxSelect: 1,
-              maxSize: 5242880,
-              mimeTypes: ["image/jpeg", "image/png", "image/svg+xml"],
-              thumbs: [],
-              protected: false,
+              exceptDomains: null,
+              onlyDomains: null,
             },
           },
           {
@@ -329,7 +344,7 @@ module.exports = {
       {
         id: "37sihdzrz2vchvc",
         created: "2023-10-01 20:47:08.042Z",
-        updated: "2023-10-01 20:47:08.042Z",
+        updated: "2023-10-08 00:14:34.349Z",
         name: "pbl_snapshots",
         type: "base",
         system: false,
@@ -398,11 +413,25 @@ module.exports = {
       {
         id: "mcmsmx4dil87690",
         created: "2023-10-01 20:47:08.042Z",
-        updated: "2023-10-01 20:47:08.042Z",
+        updated: "2023-10-08 00:14:34.349Z",
         name: "pbl_users",
         type: "base",
         system: false,
         schema: [
+          {
+            system: false,
+            id: "vjarz45q",
+            name: "user_id",
+            type: "text",
+            required: true,
+            presentable: false,
+            unique: true,
+            options: {
+              min: 15,
+              max: 15,
+              pattern: "",
+            },
+          },
           {
             system: false,
             id: "jgdjvoe8",
@@ -441,31 +470,33 @@ module.exports = {
           },
           {
             system: false,
-            id: "glqborgi",
-            name: "email",
-            type: "email",
-            required: true,
+            id: "ferbzow6",
+            name: "avatar_url",
+            type: "url",
+            required: false,
             presentable: false,
             unique: false,
             options: {
-              exceptDomains: [],
-              onlyDomains: [],
+              exceptDomains: null,
+              onlyDomains: null,
             },
           },
         ],
-        indexes: ["CREATE UNIQUE INDEX `idx_l7tZW27` ON `pbl_users` (`email`)"],
-        listRule: '@request.auth.email != "" && @request.auth.email = email',
-        viewRule: '@request.auth.email != ""',
+        indexes: [
+          "CREATE UNIQUE INDEX `idx_PiBIa6f` ON `pbl_users` (`user_id`)",
+        ],
+        listRule: '@request.auth.id != "" && @request.auth.id = user_id',
+        viewRule: '@request.auth.id != ""',
         createRule: null,
         updateRule:
-          '@request.auth.email != "" && @request.auth.email = email && @request.data.email:isset = false',
+          '@request.auth.id != "" && @request.auth.id = user_id && @request.data.user_id:isset = false',
         deleteRule: null,
         options: {},
       },
       {
         id: "qzkeq7euavz7ccm",
         created: "2023-10-01 20:47:08.043Z",
-        updated: "2023-10-01 20:47:08.043Z",
+        updated: "2023-10-08 00:14:34.349Z",
         name: "pbl_applications",
         type: "base",
         system: false,
@@ -637,6 +668,175 @@ module.exports = {
           'public = true || (@request.auth.email != "" && (all_users = true || users.email ?= @request.auth.email || groups.users.email ?= @request.auth.email))',
         viewRule:
           'public = true || (@request.auth.email != "" && (all_users = true || users.email ?= @request.auth.email || groups.users.email ?= @request.auth.email))',
+        createRule: null,
+        updateRule: null,
+        deleteRule: null,
+        options: {},
+      },
+      {
+        id: "qyddcgq509sns52",
+        created: "2023-10-06 20:38:52.228Z",
+        updated: "2023-10-08 00:14:34.349Z",
+        name: "pbl_auth",
+        type: "base",
+        system: false,
+        schema: [
+          {
+            system: false,
+            id: "5mopwlkp",
+            name: "type",
+            type: "select",
+            required: true,
+            presentable: false,
+            unique: false,
+            options: {
+              maxSelect: 1,
+              values: [
+                "local",
+                "google",
+                "facebook",
+                "github",
+                "gitlab",
+                "discord",
+                "twitter",
+                "microsoft",
+                "spotify",
+                "kakao",
+                "twitch",
+                "strava",
+                "gitee",
+                "livechat",
+                "gitea",
+                "oidc",
+                "oidc2",
+                "oidc3",
+                "apple",
+                "instagram",
+                "vk",
+                "yandex",
+              ],
+            },
+          },
+          {
+            system: false,
+            id: "cbcxosyo",
+            name: "local_id_label",
+            type: "text",
+            required: false,
+            presentable: false,
+            unique: false,
+            options: {
+              min: null,
+              max: null,
+              pattern: "",
+            },
+          },
+          {
+            system: false,
+            id: "wllrsxmb",
+            name: "local_id_input_mask",
+            type: "text",
+            required: false,
+            presentable: false,
+            unique: false,
+            options: {
+              min: null,
+              max: null,
+              pattern: "",
+            },
+          },
+          {
+            system: false,
+            id: "q8uzb9bc",
+            name: "local_id_type",
+            type: "select",
+            required: false,
+            presentable: false,
+            unique: false,
+            options: {
+              maxSelect: 1,
+              values: ["username", "email", "both"],
+            },
+          },
+          {
+            system: false,
+            id: "5ujwz8j4",
+            name: "local_email_auto_verified",
+            type: "bool",
+            required: false,
+            presentable: false,
+            unique: false,
+            options: {},
+          },
+          {
+            system: false,
+            id: "xvuid2n8",
+            name: "oauth_btn_background_color",
+            type: "text",
+            required: false,
+            presentable: false,
+            unique: false,
+            options: {
+              min: null,
+              max: null,
+              pattern: "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+            },
+          },
+          {
+            system: false,
+            id: "zowfohpi",
+            name: "oauth_btn_text_color",
+            type: "text",
+            required: false,
+            presentable: false,
+            unique: false,
+            options: {
+              min: null,
+              max: null,
+              pattern: "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+            },
+          },
+          {
+            system: false,
+            id: "beuyhl9a",
+            name: "oauth_custom_name",
+            type: "text",
+            required: false,
+            presentable: false,
+            unique: false,
+            options: {
+              min: null,
+              max: null,
+              pattern: "",
+            },
+          },
+          {
+            system: false,
+            id: "sgedslhb",
+            name: "oauth_icon_url",
+            type: "url",
+            required: false,
+            presentable: false,
+            unique: false,
+            options: {
+              exceptDomains: null,
+              onlyDomains: null,
+            },
+          },
+          {
+            system: false,
+            id: "hdnegskp",
+            name: "allow_signup",
+            type: "bool",
+            required: false,
+            presentable: false,
+            unique: false,
+            options: {},
+          },
+        ],
+        indexes: ["CREATE UNIQUE INDEX `idx_YJrGSfP` ON `pbl_auth` (`type`)"],
+        listRule: "",
+        viewRule: "",
         createRule: null,
         updateRule: null,
         deleteRule: null,

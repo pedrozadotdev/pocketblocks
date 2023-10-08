@@ -22,7 +22,7 @@ export function createDefaultErrorResponse(e: unknown): Awaited<APIResponse> {
     };
   }
   if (import.meta.env.DEV) {
-    console.warn(`[POCKETBASE]: "Error ${status}: ${message}`);
+    console.warn(`[POCKETBASE]: Error ${status}: ${message}`);
   }
   return {
     status: 502,

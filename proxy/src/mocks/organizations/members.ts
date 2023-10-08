@@ -16,12 +16,12 @@ export default [
           usersResponse.data.map(async (u) => ({
             userId: u.id,
             name: u.name,
-            avatarUrl: await users.getAvatarURL(u),
+            avatarUrl: u.avatar,
             role: "member",
             joinTime: new Date(u.created).getTime(),
             rawUserInfos: {
               EMAIL: {
-                email: u.email,
+                email: "PRIVATE",
               },
             },
           })),

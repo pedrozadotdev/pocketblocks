@@ -4,7 +4,9 @@ if [ -f ./data/pocketbase ]; then
   echo "$(date +"%Y/%m/%d %T") [CONTAINER]: Data directory already setup. Skipping..."
 else
   mkdir data/pb_hooks
-  cd data && cp -s ../pocketbase .
+  mkdir data/pbl_public
+  cd pb_public && cp -s ../data/pbl_public ./pbl
+  cd ../data && cp -s ../pocketbase .
   cd pb_hooks && cp -s ../../pb_hooks/* .
   cd ../..
   echo "$(date +"%Y/%m/%d %T") [CONTAINER]: Data directory setup!"

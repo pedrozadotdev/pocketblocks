@@ -5,7 +5,7 @@ import { APIResponse, Application, Folder } from "@/types";
 export async function createAppList(apps: Application[]) {
   const admin = await auth.isAdmin();
   return apps.map((a) => ({
-    orgId: "STATIC",
+    orgId: "ORG_ID",
     applicationId: a.slug,
     name: a.name,
     createAt: new Date(a.created).getTime(),
@@ -58,7 +58,7 @@ export async function createFolderList(folders: Folder[]) {
     folders.map(async (f) => {
       const appsResponse = await appsAPI.list({ folderId: f.id });
       return {
-        orgId: "STATIC",
+        orgId: "ORG_ID",
         folderId: f.id,
         parentFolderId: null,
         name: f.name,

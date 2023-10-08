@@ -108,11 +108,9 @@ export function applyAPICache(api: API): API {
     },
     groups: {
       list: applyCache("listGroups", api.groups.list),
-      getAvatarURL: applyCache("getGroupAvatar", api.groups.getAvatarURL),
     },
     settings: {
       get: applyCache("getSettings", api.settings.get),
-      getFilesURL: applyCache("getSettings", api.settings.getFilesURL),
       update: invalidateCache(async () => {
         return ({ queryKey }) => {
           return queryKey[0] === "getSettings";
@@ -136,7 +134,6 @@ export function applyAPICache(api: API): API {
     },
     users: {
       get: applyCache("getUser", api.users.get),
-      getAvatarURL: applyCache("getUserAvatar", api.users.getAvatarURL),
       list: applyCache("listUsers", api.users.list),
       update: invalidateCache(async () => {
         return ({ queryKey }) => {

@@ -31,9 +31,14 @@ export interface Group extends BaseModel {
 }
 
 export interface User extends BaseModel {
-  email: string;
+  user_id: string;
   name: string;
   avatar?: string;
+}
+
+export interface FullUser extends User {
+  username?: string;
+  email?: string;
 }
 
 export interface Settings extends BaseModel {
@@ -96,11 +101,12 @@ export type API = {
   };
   auth: {
     changePassword: (newPassword: string, oldPassword: string) => APIResponse;
-    getCurrentUser: () => APIResponse<User>;
+    getCurrentUser: () => APIResponse<FullUser>;
     isLoggedIn: () => Promise<boolean>;
     isAdmin: () => Promise<boolean>;
     login: (loginId: string, password: string) => APIResponse;
     logout: () => APIResponse;
+    signup: (loginId: string, password: string) => APIResponse;
   };
   folders: {
     create: (params: Partial<Folder>) => APIResponse<Folder>;
@@ -110,7 +116,6 @@ export type API = {
   };
   groups: {
     list: (filters?: ListGroupsFilters) => APIResponse<Group[]>;
-    getAvatarURL: (group: Group) => Promise<string>;
   };
   sdk: {
     client: unknown;
@@ -118,9 +123,6 @@ export type API = {
   };
   settings: {
     get: () => APIResponse<Settings>;
-    getFilesURL: (
-      settings: Settings,
-    ) => Promise<{ logo: string; icon: string }>;
     update: (params: Partial<Settings> & { id: string }) => APIResponse;
   };
   snapshots: {
@@ -131,8 +133,7 @@ export type API = {
     ) => APIResponse<{ list: Snapshot[]; total: number }>;
   };
   users: {
-    get: (email: string) => APIResponse<User>;
-    getAvatarURL: (user: User) => Promise<string>;
+    get: (user_id: string) => APIResponse<User>;
     list: () => APIResponse<User[]>;
     update: (params: Partial<User> & { id: string }) => APIResponse;
   };

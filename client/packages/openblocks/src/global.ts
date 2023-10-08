@@ -6,6 +6,6 @@ declare global {
   interface Window {
     printPerf: () => void;
     __OPENBLOCKS_DEV__?: {};
-    setupProxy?: (axiosIns: AxiosInstance) => void;
+    setupProxy?: (axiosIns: AxiosInstance, message: unknown) => void;
   }
 }

@@ -30,7 +30,7 @@ export default [
             ...allUsersGroup,
             groupId: g.id,
             groupName: g.name,
-            avatarUrl: await groups.getAvatarURL(g),
+            avatarUrl: g.avatar,
             allUsersGroup: false,
             visitorRole: isAdmin ? "admin" : "viewer",
             createTime: new Date(g.created).getTime(),

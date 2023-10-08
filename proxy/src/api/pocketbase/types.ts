@@ -49,9 +49,10 @@ export interface PBGroup<E = GroupExpanded> extends BaseModel<E> {
 }
 
 export interface PBUser extends BaseModel {
-  email: string;
+  user_id: string;
   name: string;
   avatar?: string;
+  avatar_url?: string;
 }
 
 type ConfigExpanded = {

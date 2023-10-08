@@ -1,4 +1,4 @@
-import { apps, auth, snapshots, users } from "@/api";
+import { apps, auth, snapshots } from "@/api";
 import { mocker } from "@/mocker";
 import {
   adminRoute,
@@ -51,7 +51,7 @@ export default [
                       : {
                           userId: created_by.id,
                           userName: created_by.name,
-                          userAvatar: await users.getAvatarURL(created_by),
+                          userAvatar: created_by.avatar,
                         };
                   return {
                     snapshotId: id,

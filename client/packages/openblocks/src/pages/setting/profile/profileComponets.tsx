@@ -11,7 +11,6 @@ import { TacoButton } from "openblocks-design";
 import { PackUpIcon } from "openblocks-design";
 import ProfileImage from "pages/common/profileImage";
 import { User } from "constants/userConstants";
-import { replaceMiddleWithStar } from "util/stringUtils";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "redux/selectors/usersSelectors";
 import { UploadChangeParam } from "antd/lib/upload";
@@ -233,7 +232,7 @@ export type ProfileModalCardProps = {
 
 export function getConnectedName(user: User, source: string) {
   const connectionIfo = user.connections?.find((u) => u.source === source);
-  return connectionIfo?.name ? replaceMiddleWithStar(connectionIfo.name) : "";
+  return connectionIfo?.name ?? "";
 }
 
 export function HeadNameFiled() {

@@ -32,14 +32,3 @@ export async function update({
     return createDefaultErrorResponse(e);
   }
 }
-
-export async function getFilesURL(settings: Settings) {
-  const logo = settings.logo
-    ? `/api/files/pbl_settings/${settings.id}/${settings.logo}`
-    : "";
-  const icon = settings.icon
-    ? `/api/files/pbl_settings/${settings.id}/${settings.icon}`
-    : "";
-
-  return { logo, icon };
-}

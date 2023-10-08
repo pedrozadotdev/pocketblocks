@@ -1,4 +1,4 @@
-import { auth, groups, users } from "@/api";
+import { auth, groups } from "@/api";
 import { mocker } from "@/mocker";
 import { createDefaultResponse } from "@/utils";
 
@@ -19,9 +19,9 @@ export default [
       const groupsResponse = await groups.list({ userId: user.id });
       return createDefaultResponse({
         ...defaultDataResponse,
-        avatarUrl: await users.getAvatarURL(user),
+        avatarUrl: user.avatar,
         id: user.id,
-        name: user.name,
+        name: user.name !== "NONAME" ? user.name : "Change Me",
         email: user.email,
         groups: groupsResponse.data
           ? groupsResponse.data.map((g) =>

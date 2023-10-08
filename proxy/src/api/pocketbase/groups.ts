@@ -24,9 +24,3 @@ export async function list(filters?: ListGroupsFilters): APIResponse<Group[]> {
     return createDefaultErrorResponse(e);
   }
 }
-
-export async function getAvatarURL(group: Group) {
-  return group.avatar
-    ? `/api/files/pbl_groups/${group.id}/${group.avatar}?thumb=100x100`
-    : "";
-}

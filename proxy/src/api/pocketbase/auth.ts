@@ -1,5 +1,5 @@
 import { ClientResponseError } from "pocketbase";
-import { User } from "@/types";
+import { FullUser } from "@/types";
 import { APIResponse } from "./types";
 import * as users from "./users";
 import { createDefaultErrorResponse, pb } from "./utils";
@@ -20,6 +20,26 @@ export async function login(loginId: string, password: string): APIResponse {
   }
 }
 
+export async function signup(loginId: string, password: string): APIResponse {
+  try {
+    await pb.collection("users").create({
+      email: loginId,
+      password,
+      passwordConfirm: password,
+    });
+    return { status: 200 };
+  } catch (e) {
+    const { status } = e as ClientResponseError;
+    if (status === 403) {
+      return {
+        status: 401,
+        message: "Sign up is disabled in this organization!",
+      };
+    }
+    return createDefaultErrorResponse(e);
+  }
+}
+
 export async function logout(): APIResponse {
   pb.authStore.clear();
   return { status: 200 };
@@ -29,14 +49,18 @@ export const isLoggedIn = async () => pb.authStore.isValid;
 
 export const isAdmin = async () => pb.authStore.isAdmin;
 
-export async function getCurrentUser(): APIResponse<User> {
+export async function getCurrentUser(): APIResponse<FullUser> {
   const userModel = pb.authStore.model;
   if (userModel) {
-    const { data } = await users.get(userModel.email);
+    const { data } = await users.get(userModel.id);
     if (data) {
       return {
         status: 200,
-        data,
+        data: {
+          ...data,
+          email: userModel.email,
+          username: userModel.username,
+        },
       };
     }
   }
@@ -66,7 +90,7 @@ export async function changePassword(
       });
       await pb
         .collection("users")
-        .authWithPassword(userModel.email, newPassword);
+        .authWithPassword(userModel.email || userModel.username, newPassword);
     }
     return { status: 200 };
   } catch (e) {

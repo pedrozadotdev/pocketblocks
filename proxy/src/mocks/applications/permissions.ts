@@ -1,4 +1,4 @@
-import { apps, groups, settings, users } from "@/api";
+import { apps, settings } from "@/api";
 import { mocker } from "@/mocker";
 import {
   createDefaultResponse,
@@ -35,7 +35,7 @@ async function createPermissions(app: Application): Promise<Permission[]> {
         permissionId: `${id}|GROUP`,
         type: "GROUP",
         id,
-        avatar: typeof g === "string" ? "" : await groups.getAvatarURL(g),
+        avatar: typeof g === "string" ? "" : (await g.avatar) ?? "",
         name,
         role: "viewer",
       });
@@ -48,7 +48,7 @@ async function createPermissions(app: Application): Promise<Permission[]> {
         permissionId: `${id}|USER`,
         type: "USER",
         id,
-        avatar: typeof u === "string" ? "" : await users.getAvatarURL(u),
+        avatar: typeof u === "string" ? "" : u.avatar || "",
         name,
         role: "viewer",
       });

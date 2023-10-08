@@ -26,10 +26,11 @@ export interface MockResponse {
 export interface MockRequest {
   config: AxiosRequestConfig;
   params: any;
+  messageIns: any;
 }
 
 function mockRequest(event: MockEvent, ...[path, handler]: Params) {
-  return function (mockIns: MockAdapter) {
+  return function (mockIns: MockAdapter, messageIns: unknown) {
     mockIns[event](pathToRegexp(path)).reply(async (config) => {
       let data: any;
       try {
@@ -45,6 +46,7 @@ function mockRequest(event: MockEvent, ...[path, handler]: Params) {
           data,
         },
         params: matchParams ? matchParams.params : {},
+        messageIns,
       });
       mockIns.resetHistory();
       if (import.meta.env.DEV) {

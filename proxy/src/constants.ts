@@ -4,7 +4,7 @@ export const AUTH_CONFIGS = [
     authType: "FORM",
     id: "EMAIL",
     enable: true,
-    enableRegister: false,
+    enableRegister: true,
     source: "EMAIL",
     sourceName: "EMAIL",
   },
