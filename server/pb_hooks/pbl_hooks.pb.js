@@ -84,6 +84,7 @@ onRecordBeforeCreateRequest(() => {
 //Sync user model with pbl_auth
 onRecordBeforeCreateRequest((e) => {
   const pblUtils = require(`${__hooks}/pbl_utils.js`);
+  pblUtils.validateAuthFields(e.record);
   if (e.record?.get("type") === "local") {
     pblUtils.changeUserConfigs(
       `${e.record?.get("type")}:${e.record?.get("local_id_type")}`
@@ -95,12 +96,28 @@ onRecordBeforeCreateRequest((e) => {
 
 onRecordBeforeUpdateRequest((e) => {
   const pblUtils = require(`${__hooks}/pbl_utils.js`);
+  pblUtils.validateAuthFields(e.record);
+  let del;
+  const currentAuth = $app.dao().findRecordById("pbl_auth", e.record.id);
   if (e.record?.get("type") === "local") {
-    pblUtils.changeUserConfigs(
-      `${e.record?.get("type")}:${e.record?.get("local_id_type")}`
-    );
+    if (currentAuth.get("type") !== "local") {
+      try {
+        $app
+          .dao()
+          .findFirstRecordByFilter(
+            "pbl_auth",
+            `id != "${e.record.id}" && type !== "local"`
+          );
+      } catch (e) {
+        del = "oauth";
+      }
+    }
+    pblUtils.changeUserConfigs(`local:${e.record?.get("local_id_type")}`, del);
   } else {
-    pblUtils.changeUserConfigs("oauth");
+    if (currentAuth.get("type") === "local") {
+      del = "local";
+    }
+    pblUtils.changeUserConfigs("oauth", del);
   }
 }, "pbl_auth");
 
@@ -110,7 +127,7 @@ onRecordAfterDeleteRequest((e) => {
     pblUtils.changeUserConfigs("local:delete");
   } else {
     try {
-      $app.dao().findFirstRecordByFilter("pbl_auth", 'type!="local"');
+      $app.dao().findFirstRecordByFilter("pbl_auth", 'type != "local"');
     } catch (e) {
       pblUtils.changeUserConfigs("oauth:delete");
     }

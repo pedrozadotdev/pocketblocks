@@ -1,5 +1,4 @@
 import { apps, auth, folders, settings } from "@/api";
-import { AUTH_CONFIGS } from "@/constants";
 import { mocker } from "@/mocker";
 import { Application, Folder, Settings, FullUser } from "@/types";
 import {
@@ -8,6 +7,7 @@ import {
   createDefaultErrorResponse,
   createDefaultResponse,
   createFolderList,
+  getAuthConfigs,
 } from "@/utils";
 
 const createResponseData = async (
@@ -62,7 +62,7 @@ const createResponseData = async (
       },
       logoUrl: systemSettings.logo,
       createTime: 0,
-      authConfigs: AUTH_CONFIGS,
+      authConfigs: await getAuthConfigs(),
     },
     folderInfoViews: await createFolderList(folders),
     homeApplicationViews: await createAppList(apps),

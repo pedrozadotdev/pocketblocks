@@ -1,11 +1,11 @@
 import { auth, settings, users } from "@/api";
-import { AUTH_CONFIGS } from "@/constants";
 import { mocker } from "@/mocker";
 import { Settings, FullUser } from "@/types";
 import {
   authRoute,
   createDefaultErrorResponse,
   createDefaultResponse,
+  getAuthConfigs,
 } from "@/utils";
 
 const defaultDataResponse = {
@@ -57,7 +57,7 @@ const createResponseData = async (user: FullUser, systemSettings: Settings) => {
           },
           logoUrl: systemSettings.logo,
           createTime: 0,
-          authConfigs: AUTH_CONFIGS,
+          authConfigs: await getAuthConfigs(),
         },
         role: isAdmin ? "admin" : "member",
       },

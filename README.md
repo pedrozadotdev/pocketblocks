@@ -1,4 +1,4 @@
-![Static Badge](https://img.shields.io/badge/Project_State:-Active_Development-green)
+![Static Badge](https://img.shields.io/badge/Project_State:-Under_Active_Development-green)
 
 <img src="client/packages/openblocks/src/assets/images/logo-with-name.svg" width="280" alt="Logo">
 

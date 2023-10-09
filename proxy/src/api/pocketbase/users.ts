@@ -3,9 +3,9 @@ import { APIResponse, PBUser } from "./types";
 import { createDefaultErrorResponse, pb } from "./utils";
 
 function getAvatarURL(user: PBUser) {
-  return user.avatar_url ?? user.avatar
+  return user.avatar
     ? `/api/files/pbl_users/${user.id}/${user.avatar}?thumb=100x100`
-    : "";
+    : user.avatar_url ?? "";
 }
 
 export async function get(user_id: string): APIResponse<User> {

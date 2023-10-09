@@ -1,4 +1,5 @@
 import { apps, settings } from "@/api";
+import { ALL_USERS_GROUP_ID } from "@/constants";
 import { mocker } from "@/mocker";
 import {
   createDefaultResponse,
@@ -20,9 +21,9 @@ async function createPermissions(app: Application): Promise<Permission[]> {
   const result: Permission[] = [];
   if (app.all_users) {
     result.push({
-      permissionId: "all_users|GROUP",
+      permissionId: `${ALL_USERS_GROUP_ID}|GROUP`,
       type: "GROUP",
-      id: "all_users",
+      id: ALL_USERS_GROUP_ID,
       avatar: "",
       name: "All Users",
       role: "viewer",
@@ -102,11 +103,11 @@ export default [
         permissions: [
           ...userIds.map((id) => ({ op: "ADD", type: "USER", id }) as const),
           ...groupIds
-            .filter((id) => id !== "all_users")
+            .filter((id) => id !== ALL_USERS_GROUP_ID)
             .map((id) => ({ op: "ADD", type: "GROUP", id }) as const),
         ],
       };
-      if (groupIds.includes("all_users")) {
+      if (groupIds.includes(ALL_USERS_GROUP_ID)) {
         updatedApp.all_users = true;
       }
       const appResponse = await apps.update(updatedApp);
@@ -120,7 +121,7 @@ export default [
     "/api/v1/applications/:slug/permissions/:id",
     adminRoute(async (req) => {
       const { slug, id } = req.params as { slug: string; id: string };
-      const IsAllUsers = id === "all_users|GROUP";
+      const IsAllUsers = id === `${ALL_USERS_GROUP_ID}|GROUP`;
       const [memberId, type] = id.split("|");
       const updatedApp: Parameters<typeof apps.update>[0] = {
         slug,

@@ -1,9 +1,11 @@
-import { FormInput, PasswordInput } from "openblocks-design";
+import { CommonGrayLabel, FormInput, PasswordInput } from "openblocks-design";
 import {
   AuthBottomView,
   ConfirmButton,
   FormWrapperMobile,
   LoginCardTitle,
+  LoginLogoStyle,
+  StyledLoginButton,
   StyledRouteLink,
 } from "pages/userAuth/authComponents";
 import React, { useContext, useState } from "react";
@@ -34,13 +36,13 @@ export default function FormLogin() {
   const location = useLocation();
 
   const { onSubmit, loading } = useAuthSubmit(
-    () =>
+    source =>
       UserApi.formLogin({
         register: false,
         loginId: account,
         password: password,
         invitationId: invitationId,
-        source: UserConnectionSource.email,
+        source: source ?? UserConnectionSource.email,
         authId,
       }),
     false,
@@ -50,27 +52,32 @@ export default function FormLogin() {
   return (
     <>
       <LoginCardTitle>{trans("userAuth.login")}</LoginCardTitle>
-      <AccountLoginWrapper>
-        <FormInput
-          className="form-input"
-          label={trans("userAuth.email")}
-          onChange={(value, valid) => setAccount(valid ? value : "")}
-          placeholder={trans("userAuth.inputEmail")}
-          checkRule={{
-            check: (value) => checkPhoneValid(value) || checkEmailValid(value),
-            errorMsg: trans("userAuth.inputValidEmail"),
-          }}
-        />
-        <PasswordInput
-          className="form-input"
-          onChange={(value) => setPassword(value)}
-          valueCheck={() => [true, ""]}
-        />
-        <ConfirmButton loading={loading} disabled={!account || !password} onClick={onSubmit}>
-          {trans("userAuth.login")}
-        </ConfirmButton>
-      </AccountLoginWrapper>
+      {systemConfig.form.enableLogin ? (
+        <AccountLoginWrapper>
+          <FormInput
+            className="form-input"
+            label={trans("userAuth.email")}
+            onChange={(value, valid) => setAccount(valid ? value : "")}
+            placeholder={trans("userAuth.inputEmail")}
+            checkRule={{
+              check: (value) => checkPhoneValid(value) || checkEmailValid(value),
+              errorMsg: trans("userAuth.inputValidEmail"),
+            }}
+          />
+          <PasswordInput
+            className="form-input"
+            onChange={(value) => setPassword(value)}
+            valueCheck={() => [true, ""]}
+          />
+          <ConfirmButton loading={loading} disabled={!account || !password} onClick={onSubmit}>
+            {trans("userAuth.login")}
+          </ConfirmButton>
+        </AccountLoginWrapper>
+      ) : null}
       <AuthBottomView>
+      { systemConfig.form.rawConfig.oauth.map((o: OauthProps) => (
+        <OauthButton {...o} key={o.type} onClick={onSubmit}/>
+      )) }
         <ThirdPartyAuth invitationId={invitationId} authGoal="login" />
         {systemConfig.form.enableRegister && (
           <StyledRouteLink to={{ pathname: AUTH_REGISTER_URL, state: location.state }}>
@@ -79,5 +86,22 @@ export default function FormLogin() {
         )}
       </AuthBottomView>
     </>
+  );
+}
+
+type OauthProps = {
+  type: string
+  oauth_custom_name?: string
+  oauth_icon_url?: string
+}
+
+const oauthLoginLabel = (name: string) => trans("userAuth.signInLabel", { name: name });
+
+function OauthButton({ onClick, type, oauth_custom_name, oauth_icon_url }: OauthProps & { onClick: (provider: string) => void }) {
+  return (
+    <StyledLoginButton onClick={() => onClick(type)}>
+      <LoginLogoStyle alt={oauth_custom_name} src={oauth_icon_url} title={oauth_custom_name} />
+      <CommonGrayLabel className="auth-label">{oauthLoginLabel(oauth_custom_name ?? "")}</CommonGrayLabel>
+    </StyledLoginButton>
   );
 }

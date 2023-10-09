@@ -99,6 +99,7 @@ export function applyAPICache(api: API): API {
     auth: {
       ...api.auth,
       getCurrentUser: applyCache("getCurrentUser", api.auth.getCurrentUser),
+      getAuthMethods: applyCache("getAuthMethods", api.auth.getAuthMethods),
     },
     folders: {
       list: applyCache("listFolders", api.folders.list),

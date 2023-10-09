@@ -65,6 +65,7 @@ export type SystemConfig = {
     enableLogin: boolean;
     id?: string;
     type: "EMAIL" | "PHONE";
+    rawConfig: any
   };
   authConfigs: ThirdPartyConfigType[];
 } & ConfigBaseInfo;
@@ -104,6 +105,7 @@ export const transToSystemConfig = (responseData: ConfigResponseData): SystemCon
       enableLogin: !!emailConfig?.enable,
       id: emailConfig?.id,
       type: "EMAIL",
+      rawConfig: emailConfig
     },
     authConfigs: thirdPartyAuthConfigs,
   };

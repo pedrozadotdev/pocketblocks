@@ -1,6 +1,6 @@
 import { apps as appsAPI, auth, settings as settingsAPI } from "@/api";
 import { MockHandler, MockRequest, MockResponse } from "@/mocker";
-import { APIResponse, Application, Folder } from "@/types";
+import { APIResponse, Application, Auth, Folder } from "@/types";
 
 export async function createAppList(apps: Application[]) {
   const admin = await auth.isAdmin();
@@ -126,4 +126,37 @@ export function adminRoute(handler: MockHandler): MockHandler {
       ? handler(req)
       : createDefaultErrorResponse([{ status: 401 }]);
   };
+}
+
+const defaultAuthConfig = {
+  authType: "FORM",
+  id: "EMAIL",
+  enable: false,
+  enableRegister: false,
+  source: "EMAIL",
+  sourceName: "EMAIL",
+  customProps: {
+    label: "",
+    mask: "",
+  },
+  oauth: [] as Auth[],
+};
+
+export async function getAuthConfigs() {
+  const authMethodsResponse = await auth.getAuthMethods();
+  const result = defaultAuthConfig;
+  if (authMethodsResponse.status === 200 && authMethodsResponse.data) {
+    const authMethods = authMethodsResponse.data;
+    const localAuth = authMethods?.find((am) => am.type === "local");
+    if (localAuth) {
+      result.enable = true;
+      result.enableRegister = localAuth.allow_signup;
+      result.customProps = {
+        label: localAuth.local_id_label ?? "",
+        mask: localAuth.local_id_input_mask ?? "",
+      };
+    }
+    result.oauth = authMethods?.filter((am) => am.type !== "local");
+  }
+  return [result];
 }

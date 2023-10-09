@@ -116,7 +116,7 @@ function Login() {
   if (loginType) {
     loginCardView = thirdPartyLoginView;
     // Specify the login type with query param
-  } else if (systemConfig.form.enableLogin) {
+  } else if (systemConfig.form.enableLogin || !!systemConfig.form.rawConfig.oauth.length) {
     loginCardView = <FormLogin />;
   } else {
     loginCardView = thirdPartyLoginView;

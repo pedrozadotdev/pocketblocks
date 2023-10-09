@@ -1,15 +1,23 @@
 import { ClientResponseError } from "pocketbase";
-import { FullUser } from "@/types";
-import { APIResponse } from "./types";
+import { Auth, FullUser } from "@/types";
+import { APIResponse, PBAuth } from "./types";
 import * as users from "./users";
 import { createDefaultErrorResponse, pb } from "./utils";
 
-export async function login(loginId: string, password: string): APIResponse {
+export async function login(
+  loginId: string,
+  password: string,
+  provider: string,
+): APIResponse {
   try {
-    await Promise.any([
-      pb.collection("users").authWithPassword(loginId, password),
-      pb.admins.authWithPassword(loginId, password),
-    ]);
+    if (provider === "local") {
+      await Promise.any([
+        pb.collection("users").authWithPassword(loginId, password),
+        pb.admins.authWithPassword(loginId, password),
+      ]);
+    } else {
+      await pb.collection("users").authWithOAuth2({ provider });
+    }
     return { status: 200 };
   } catch (e) {
     const { errors } = e as AggregateError;
@@ -100,4 +108,23 @@ export async function changePassword(
     }
     return createDefaultErrorResponse(e);
   }
+}
+
+export async function getAuthMethods(): APIResponse<Auth[]> {
+  const rawAuthMethods = await pb.collection("pbl_auth").getFullList<PBAuth>();
+  const authMethods = rawAuthMethods.map((m) => ({
+    ...m,
+    oauth_icon_url:
+      m.oauth_icon_url ||
+      (m.type !== "local" ? `/_/images/oauth2/${m.type}.svg` : undefined),
+    oauth_custom_name:
+      m.oauth_custom_name ||
+      (m.type !== "local"
+        ? m.type[0].toUpperCase() + m.type.slice(1)
+        : undefined),
+  }));
+  return {
+    status: 200,
+    data: authMethods,
+  };
 }

@@ -138,6 +138,8 @@ export const CommonGrayLabel = styled.p`
   color: #8b8fa3;
   line-height: 13px;
   margin: 0;
+  text-align: left;
+  flex: 1;
 `;
 
 export const CommonErrorLabel = styled.p<{ fontSize?: number }>`

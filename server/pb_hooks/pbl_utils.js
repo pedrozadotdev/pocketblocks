@@ -20,7 +20,7 @@ module.exports = {
     });
     $app.dao().saveRecord(settings);
   },
-  changeUserConfigs: (type) => {
+  changeUserConfigs: (type, del) => {
     const userModel = $app.dao().findCollectionByNameOrId("users");
     switch (type) {
       case "local:username":
@@ -56,14 +56,53 @@ module.exports = {
         userModel.options.set("allowOAuth2Auth", false);
       }
     }
+    if (del === "oauth") {
+      userModel.options.set("allowOAuth2Auth", false);
+    } else if (del === "local") {
+      userModel.options.set("allowUsernameAuth", false);
+      userModel.options.set("allowEmailAuth", false);
+      userModel.options.set("requireEmail", false);
+    }
     $app.dao().saveCollection(userModel);
+  },
+  validateAuthFields: (auth) => {
+    const local_type = auth.get("local_id_type");
+    const autoVerified = auth.get("local_email_auto_verified");
+    if (auth.get("type") === "local") {
+      if (!local_type) {
+        throw new BadRequestError(
+          "local_id_type is required in local type mode!"
+        );
+      }
+      if (local_type === "username" && autoVerified) {
+        throw new BadRequestError(
+          "local_email_auto_verified cannot be true if local_id_type is username!"
+        );
+      }
+      if (auth.get("oauth_custom_name") || auth.get("oauth_icon_url")) {
+        throw new BadRequestError(
+          "oauth_* fields should be set only in oauth types mode!"
+        );
+      }
+    } else {
+      if (
+        auth.get("local_id_label") ||
+        auth.get("local_id_input_mask") ||
+        local_type ||
+        autoVerified
+      ) {
+        throw new BadRequestError(
+          "local_* fields should be set only in local type mode!"
+        );
+      }
+    }
   },
   migrate: () => {
     const snapshot = [
       {
         id: "_pbl_users_auth_",
         created: "2023-10-01 20:45:02.793Z",
-        updated: "2023-10-08 00:56:12.251Z",
+        updated: "2023-10-08 14:38:39.669Z",
         name: "users",
         type: "auth",
         system: false,
@@ -75,14 +114,14 @@ module.exports = {
         updateRule: null,
         deleteRule: null,
         options: {
-          allowEmailAuth: false,
-          allowOAuth2Auth: false,
-          allowUsernameAuth: true,
+          allowEmailAuth: true,
+          allowOAuth2Auth: true,
+          allowUsernameAuth: false,
           exceptEmailDomains: null,
           manageRule: null,
           minPasswordLength: 8,
           onlyEmailDomains: null,
-          requireEmail: false,
+          requireEmail: true,
         },
       },
       {
@@ -676,7 +715,7 @@ module.exports = {
       {
         id: "qyddcgq509sns52",
         created: "2023-10-06 20:38:52.228Z",
-        updated: "2023-10-08 00:14:34.349Z",
+        updated: "2023-10-08 15:03:23.841Z",
         name: "pbl_auth",
         type: "base",
         system: false,
@@ -767,34 +806,6 @@ module.exports = {
             presentable: false,
             unique: false,
             options: {},
-          },
-          {
-            system: false,
-            id: "xvuid2n8",
-            name: "oauth_btn_background_color",
-            type: "text",
-            required: false,
-            presentable: false,
-            unique: false,
-            options: {
-              min: null,
-              max: null,
-              pattern: "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
-            },
-          },
-          {
-            system: false,
-            id: "zowfohpi",
-            name: "oauth_btn_text_color",
-            type: "text",
-            required: false,
-            presentable: false,
-            unique: false,
-            options: {
-              min: null,
-              max: null,
-              pattern: "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
-            },
           },
           {
             system: false,

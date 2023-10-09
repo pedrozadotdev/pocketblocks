@@ -54,6 +54,41 @@ export interface Settings extends BaseModel {
   css?: string;
 }
 
+export type AuthType =
+  | "local"
+  | "google"
+  | "facebook"
+  | "github"
+  | "gitlab"
+  | "discord"
+  | "twitter"
+  | "microsoft"
+  | "spotify"
+  | "kakao"
+  | "twitch"
+  | "strava"
+  | "gitee"
+  | "livechat"
+  | "gitea"
+  | "oidc"
+  | "oidc2"
+  | "oidc3"
+  | "apple"
+  | "instagram"
+  | "vk"
+  | "yandex";
+
+export interface Auth extends BaseModel {
+  type: AuthType;
+  local_id_label?: string;
+  local_id_input_mask?: string;
+  local_id_type?: "username" | "email" | "both";
+  local_email_auto_verified?: boolean;
+  oauth_custom_name?: string;
+  oauth_icon_url?: string;
+  allow_signup: boolean;
+}
+
 export interface Snapshot extends BaseModel {
   app: Application | string;
   created_by: User | string;
@@ -102,9 +137,10 @@ export type API = {
   auth: {
     changePassword: (newPassword: string, oldPassword: string) => APIResponse;
     getCurrentUser: () => APIResponse<FullUser>;
+    getAuthMethods: () => APIResponse<Auth[]>;
     isLoggedIn: () => Promise<boolean>;
     isAdmin: () => Promise<boolean>;
-    login: (loginId: string, password: string) => APIResponse;
+    login: (loginId: string, password: string, provider: string) => APIResponse;
     logout: () => APIResponse;
     signup: (loginId: string, password: string) => APIResponse;
   };

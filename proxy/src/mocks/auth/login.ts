@@ -4,10 +4,11 @@ import { createDefaultResponse, createDefaultErrorResponse } from "@/utils";
 
 export default [
   mocker.post("/api/auth/form/login", async (req) => {
-    const { loginId, password, register } = req.config.data;
+    const { loginId, password, register, source } = req.config.data;
     const authResponse = await auth[register ? "signup" : "login"](
       loginId,
       password,
+      source === "email" ? "local" : (source as string),
     );
     if (authResponse.status === 200) {
       return createDefaultResponse();

@@ -57,6 +57,7 @@ const AuthBottom = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  justify-content: space-evenly;
 
   > button {
     margin-right: 24px;
@@ -80,7 +81,9 @@ const AuthBottom = styled.div`
     > button:nth-child(7n + 1):nth-last-child(-n + 7) {
       &,
       ~ button {
-        margin-bottom: 0;
+        margin-right: 0;
+        min-width: 40%;
+        max-width: 40%;
       }
     }
   }

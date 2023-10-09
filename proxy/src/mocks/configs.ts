@@ -1,7 +1,10 @@
 import { settings } from "@/api";
-import { AUTH_CONFIGS } from "@/constants";
 import { mocker } from "@/mocker";
-import { createDefaultErrorResponse, createDefaultResponse } from "@/utils";
+import {
+  createDefaultErrorResponse,
+  createDefaultResponse,
+  getAuthConfigs,
+} from "@/utils";
 
 export default [
   mocker.get("/api/v1/configs", async () => {
@@ -9,7 +12,7 @@ export default [
     if (settingsResponse.data) {
       const { org_name, header_color, logo, icon } = settingsResponse.data;
       return createDefaultResponse({
-        authConfigs: AUTH_CONFIGS,
+        authConfigs: await getAuthConfigs(),
         workspaceMode: "ENTERPRISE",
         selfDomain: false,
         cookieName: "TOKEN",

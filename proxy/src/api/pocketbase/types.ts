@@ -1,3 +1,5 @@
+import { AuthType } from "@/types";
+
 export type { APIResponse } from "@/types";
 
 type BaseModel<E = undefined> = {
@@ -70,6 +72,17 @@ export interface PBSettings<E = ConfigExpanded> extends BaseModel<E> {
   script?: string;
   libs?: string;
   css?: string;
+}
+
+export interface PBAuth extends BaseModel {
+  type: AuthType;
+  local_id_label?: string;
+  local_id_input_mask?: string;
+  local_id_type?: "username" | "email" | "both";
+  local_email_auto_verified?: boolean;
+  oauth_custom_name?: string;
+  oauth_icon_url?: string;
+  allow_signup: boolean;
 }
 
 type SnapshotExpanded = {
