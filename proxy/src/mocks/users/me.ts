@@ -63,7 +63,7 @@ const createResponseData = async (user: FullUser, systemSettings: Settings) => {
       },
     ],
     currentOrgId: "ORG_ID",
-    username: user.username ?? user.name,
+    username: user.name || user.username || "NONAME",
     connections: [
       {
         authId: "EMAIL",

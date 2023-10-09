@@ -102,7 +102,7 @@ module.exports = {
       {
         id: "_pbl_users_auth_",
         created: "2023-10-01 20:45:02.793Z",
-        updated: "2023-10-08 14:38:39.669Z",
+        updated: "2023-10-09 13:41:14.134Z",
         name: "users",
         type: "auth",
         system: false,
@@ -114,20 +114,20 @@ module.exports = {
         updateRule: null,
         deleteRule: null,
         options: {
-          allowEmailAuth: true,
-          allowOAuth2Auth: true,
+          allowEmailAuth: false,
+          allowOAuth2Auth: false,
           allowUsernameAuth: false,
           exceptEmailDomains: null,
           manageRule: null,
           minPasswordLength: 8,
           onlyEmailDomains: null,
-          requireEmail: true,
+          requireEmail: false,
         },
       },
       {
         id: "buotp00b3wthds4",
         created: "2023-10-01 20:47:08.041Z",
-        updated: "2023-10-08 00:14:34.349Z",
+        updated: "2023-10-09 13:40:01.376Z",
         name: "pbl_folders",
         type: "base",
         system: false,
@@ -174,7 +174,7 @@ module.exports = {
       {
         id: "5cbl3c26o7q3y4r",
         created: "2023-10-01 20:47:08.041Z",
-        updated: "2023-10-08 01:48:19.533Z",
+        updated: "2023-10-09 13:40:01.376Z",
         name: "pbl_groups",
         type: "base",
         system: false,
@@ -234,7 +234,7 @@ module.exports = {
       {
         id: "irij2ydvjhpjirp",
         created: "2023-10-01 20:47:08.042Z",
-        updated: "2023-10-08 01:31:51.351Z",
+        updated: "2023-10-09 13:40:01.376Z",
         name: "pbl_settings",
         type: "base",
         system: false,
@@ -383,7 +383,7 @@ module.exports = {
       {
         id: "37sihdzrz2vchvc",
         created: "2023-10-01 20:47:08.042Z",
-        updated: "2023-10-08 00:14:34.349Z",
+        updated: "2023-10-09 13:40:01.376Z",
         name: "pbl_snapshots",
         type: "base",
         system: false,
@@ -452,7 +452,7 @@ module.exports = {
       {
         id: "mcmsmx4dil87690",
         created: "2023-10-01 20:47:08.042Z",
-        updated: "2023-10-08 00:14:34.349Z",
+        updated: "2023-10-09 13:40:01.377Z",
         name: "pbl_users",
         type: "base",
         system: false,
@@ -535,7 +535,7 @@ module.exports = {
       {
         id: "qzkeq7euavz7ccm",
         created: "2023-10-01 20:47:08.043Z",
-        updated: "2023-10-08 00:14:34.349Z",
+        updated: "2023-10-09 13:40:01.377Z",
         name: "pbl_applications",
         type: "base",
         system: false,
@@ -704,9 +704,9 @@ module.exports = {
           "CREATE UNIQUE INDEX `idx_6puZ5rc` ON `pbl_applications` (`slug`)",
         ],
         listRule:
-          'public = true || (@request.auth.email != "" && (all_users = true || users.email ?= @request.auth.email || groups.users.email ?= @request.auth.email))',
+          'public = true || (@request.auth.id != "" && (all_users = true || users.user_id ?= @request.auth.id || groups.users.user_id ?= @request.auth.id))',
         viewRule:
-          'public = true || (@request.auth.email != "" && (all_users = true || users.email ?= @request.auth.email || groups.users.email ?= @request.auth.email))',
+          'public = true || (@request.auth.id != "" && (all_users = true || users.user_id ?= @request.auth.id || groups.users.user_id ?= @request.auth.id))',
         createRule: null,
         updateRule: null,
         deleteRule: null,
@@ -715,7 +715,7 @@ module.exports = {
       {
         id: "qyddcgq509sns52",
         created: "2023-10-06 20:38:52.228Z",
-        updated: "2023-10-08 15:03:23.841Z",
+        updated: "2023-10-09 13:40:01.377Z",
         name: "pbl_auth",
         type: "base",
         system: false,

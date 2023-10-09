@@ -138,6 +138,7 @@ const defaultAuthConfig = {
   customProps: {
     label: "",
     mask: "",
+    type: "",
   },
   oauth: [] as Auth[],
 };
@@ -154,6 +155,7 @@ export async function getAuthConfigs() {
       result.customProps = {
         label: localAuth.local_id_label ?? "",
         mask: localAuth.local_id_input_mask ?? "",
+        type: localAuth.local_id_type ?? "",
       };
     }
     result.oauth = authMethods?.filter((am) => am.type !== "local");

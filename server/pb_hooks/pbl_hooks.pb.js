@@ -31,7 +31,6 @@ onRecordAfterCreateRequest((e) => {
     name: n && n[0].toUpperCase() + n.slice(1),
     user_id: e.record.get("id"),
   });
-
   form.submit();
 }, "users");
 
@@ -44,16 +43,17 @@ onRecordAfterDeleteRequest((e) => {
 
 onRecordAfterAuthWithOAuth2Request((e) => {
   if (e.isNewRecord) {
-    const user = $app
-      .dao()
-      .findFirstRecordByData("pbl_users", "user_id", e.record.get("id"));
-    if (e.oAuth2User.name) {
-      user.set("name", e.oAuth2User.name);
-    }
-    if (e.oAuth2User.avatarUrl) {
-      user.set("avatar_url", e.oAuth2User.avatarUrl);
-    }
-    $app.dao().saveRecord(user);
+    const usersCollection = $app.dao().findCollectionByNameOrId("pbl_users");
+    const user = new Record(usersCollection);
+    const form = new RecordUpsertForm($app, user);
+    const email = e.record.get("email");
+    const n = email ? email.split("@")[0] : "NONAME";
+    form.loadData({
+      name: e.oAuth2User.name || (n && n[0].toUpperCase() + n.slice(1)),
+      user_id: e.record.get("id"),
+      avatar_url: e.oAuth2User.avatarUrl,
+    });
+    form.submit();
   }
 });
 
@@ -121,16 +121,23 @@ onRecordBeforeUpdateRequest((e) => {
   }
 }, "pbl_auth");
 
-onRecordAfterDeleteRequest((e) => {
+onRecordBeforeDeleteRequest((e) => {
   const pblUtils = require(`${__hooks}/pbl_utils.js`);
-  if (e.record?.get("type") === "local") {
-    pblUtils.changeUserConfigs("local:delete");
-  } else {
-    try {
-      $app.dao().findFirstRecordByFilter("pbl_auth", 'type != "local"');
-    } catch (e) {
-      pblUtils.changeUserConfigs("oauth:delete");
+  try {
+    if (e.record?.get("type") === "local") {
+      pblUtils.changeUserConfigs("local:delete");
+    } else {
+      const auths = $app
+        .dao()
+        .findRecordsByFilter("pbl_auth", 'type != "local"');
+      if (auths.length === 1) {
+        pblUtils.changeUserConfigs("oauth:delete");
+      }
     }
+  } catch (e) {
+    throw new BadRequestError(
+      "You cannot remove more than one auth method at the same time. Try again!"
+    );
   }
 }, "pbl_auth");
 
@@ -139,10 +146,9 @@ onRecordBeforeCreateRequest((e) => {
   const info = $apis.requestInfo(e.httpContext);
   const isAdmin = !!info.admin;
   const isPasswordSignup = !!info.data.password;
+  let localAuth;
   try {
-    const localAuth = $app
-      .dao()
-      .findFirstRecordByData("pbl_auth", "type", "local");
+    localAuth = $app.dao().findFirstRecordByData("pbl_auth", "type", "local");
     if (!isAdmin && isPasswordSignup && !localAuth.get("allow_signup")) {
       throw new Error();
     }
@@ -153,8 +159,15 @@ onRecordBeforeCreateRequest((e) => {
         : "You cannot signup with this provider!"
     );
   }
-  if (localAuth.get("local_id_type") === "username" && !info.data.username) {
-    throw new BadRequestError("Username is required!");
+  if (localAuth.get("local_id_type") === "username") {
+    if (!info.data.username) {
+      throw new BadRequestError("Username is required!");
+    }
+    if (!!info.data.email) {
+      throw new BadRequestError(
+        "Don't use email when local_id_type is username!"
+      );
+    }
   }
 }, "users");
 
