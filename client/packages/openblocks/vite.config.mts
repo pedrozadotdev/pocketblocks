@@ -74,10 +74,15 @@ export const viteConfig: UserConfig = {
     },
   },
   server: {
-    open: true,
-    cors: true,
-    port: 8000,
-    host: "0.0.0.0"
+    proxy: {
+      "/js/proxy.js": "http://127.0.0.1:8090",
+      "/_": "http://127.0.0.1:8090",
+      "/api/realtime": {
+        target: "ws://127.0.0.1:8090",
+        ws: true,
+      },
+      "/api": "http://127.0.0.1:8090",
+    },
   },
   plugins: [
     checker({
@@ -114,7 +119,7 @@ export const viteConfig: UserConfig = {
       inject: {
         data: {
           browserCheckScript: isDev ? "" : `<script src="/js/browser-check.js"></script>`,
-          proxyScript: `<!-- PROXYSCRIPT -->`,
+          proxyScript: isDev ? `<script type="module" crossorigin src="/js/proxy.js"></script>` : `<!-- PROXYSCRIPT -->`,
         },
       },
     }),

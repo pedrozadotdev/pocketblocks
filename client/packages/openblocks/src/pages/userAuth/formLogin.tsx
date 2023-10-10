@@ -56,12 +56,12 @@ export default function FormLogin() {
         <AccountLoginWrapper>
           <FormInput
             className="form-input"
-            label={trans("userAuth.email")}
+            label={((systemConfig.form.rawConfig.customProps.label as string).split("").map((l, i) => !i ? l.toUpperCase() : l).join("") || "Email") + ":"}
             onChange={(value, valid) => setAccount(valid ? value : "")}
-            placeholder={trans("userAuth.inputEmail")}
+            placeholder={trans("userAuth.inputEmail", { label: systemConfig.form.rawConfig.customProps.label || "email" })}
             checkRule={{
               check: (value) => checkPhoneValid(value) || checkEmailValid(value),
-              errorMsg: trans("userAuth.inputValidEmail"),
+              errorMsg: trans("userAuth.inputValidEmail", { label: systemConfig.form.rawConfig.customProps.label || "email" }),
             }}
           />
           <PasswordInput
@@ -75,16 +75,16 @@ export default function FormLogin() {
         </AccountLoginWrapper>
       ) : null}
       <AuthBottomView>
-      { systemConfig.form.rawConfig.oauth.map((o: OauthProps) => (
+      {systemConfig.form.rawConfig.oauth.map((o: OauthProps) => (
         <OauthButton {...o} key={o.type} onClick={onSubmit}/>
       )) }
         <ThirdPartyAuth invitationId={invitationId} authGoal="login" />
-        {systemConfig.form.enableRegister && (
-          <StyledRouteLink to={{ pathname: AUTH_REGISTER_URL, state: location.state }}>
-            {trans("userAuth.register")}
-          </StyledRouteLink>
-        )}
       </AuthBottomView>
+      {systemConfig.form.enableRegister && (
+        <StyledRouteLink to={{ pathname: AUTH_REGISTER_URL, state: location.state }}>
+          {trans("userAuth.register")}
+        </StyledRouteLink>
+      )}
     </>
   );
 }

@@ -14461,6 +14461,7 @@ __metadata:
     react-draggable: ^4.4.4
     react-grid-layout: ^1.3.0
     react-helmet: ^6.1.0
+    react-hook-mask: ^1.1.18
     react-joyride: ^2.4.0
     react-json-view: ^1.21.3
     react-markdown: ^8.0.0
@@ -16103,6 +16104,16 @@ __metadata:
   peerDependencies:
     react: ">=16.3.0"
   checksum: a4998479dab7fc1c2799eddefb1870a9d881b5f71cfdf97979a9882e42f4bb50402d55335f308f461e735e01a06f46b16cc7b4e6bcb22c7a4a6f85a753c5c106
+  languageName: node
+  linkType: hard
+
+"react-hook-mask@npm:^1.1.18":
+  version: 1.1.18
+  resolution: "react-hook-mask@npm:1.1.18"
+  peerDependencies:
+    react: ">= 17.0.0"
+    react-dom: ">= 17.0.0"
+  checksum: 8e40e28adfa4fa8c145a5f06e81fb7773e9668a91482e2bdf9e929fcd7566bfe52d08bb32b153760ce2706a2c22220d4ab8fe19ae055b92463130e1ff1d12475
   languageName: node
   linkType: hard
 

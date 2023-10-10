@@ -1887,8 +1887,8 @@ export const en = {
   userAuth: {
     registerByEmail: "Sign up",
     email: "Email:",
-    inputEmail: "Please enter your email",
-    inputValidEmail: "Please enter a valid email",
+    inputEmail: "Please enter your {label}",
+    inputValidEmail: "Please enter a valid {label}",
     register: "Sign up",
     userLogin: "Sign in",
     login: "Sign in",

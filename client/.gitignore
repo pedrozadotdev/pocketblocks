@@ -42,7 +42,6 @@ build-storybook.log
 TODO
 
 .yarn/*
-!.yarn/cache
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases

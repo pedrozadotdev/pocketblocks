@@ -92,7 +92,7 @@ const AuthBottom = styled.div`
     > button:nth-child(5n + 1):nth-last-child(-n + 5) {
       &,
       ~ button {
-        margin-bottom: 0;
+        margin-bottom: 16px;
       }
     }
 
