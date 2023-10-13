@@ -9,7 +9,7 @@ import { AxiosPromise, AxiosResponse } from "axios";
 import { ApiResponse } from "api/apiResponses";
 import { doValidResponse } from "api/apiUtils";
 import { SERVER_ERROR_CODES } from "constants/apiConstants";
-import { message } from "antd";
+import { InputRef, message } from "antd";
 import { trans } from "i18n";
 import { createContext, useState } from "react";
 import { SystemConfig } from "constants/configConstants";
@@ -20,6 +20,8 @@ import {
   ThirdPartyAuthType,
   ThirdPartyConfigType,
 } from "constants/authConstants";
+import React from "react";
+import { withMask } from "use-mask-input";
 
 export const AuthContext = createContext<{
   systemConfig: SystemConfig;
@@ -170,4 +172,34 @@ export const getRedirectUrl = (authType: ThirdPartyAuthType) => {
   return encodeURIComponent(
     `${window.location.origin}${authType === "CAS" ? CAS_AUTH_REDIRECT : OAUTH_REDIRECT}`
   );
+};
+
+export const useInputMask = (mask: string) => {
+  const [placeholder, setPlaceholder] = React.useState("")
+  const ref = React.useRef<InputRef | null>(null);
+  const applyMask = React.useCallback(() => withMask(mask, {
+    onKeyDown(_, __, ___, opts) {
+      if(!placeholder) {
+        setPlaceholder(opts.placeholder || "")
+      }
+    }
+  }), [mask, placeholder])();
+  React.useEffect(() => {
+    if (ref.current?.input) {
+      applyMask(ref.current?.input);
+    }
+  }, [ref, applyMask]);
+
+  const check = React.useCallback((str: string) => {
+    return !!str && !str.includes("_")
+  }, [])
+
+  const unmask = React.useCallback((str: string) => {
+    if(placeholder) {
+      return str.split("").map((c, i) => placeholder[i] === "_" ? (c !== "_" ? c : "") : "").join("")
+    }
+    return str
+  }, [placeholder])
+
+  return { ref, check, unmask };
 };

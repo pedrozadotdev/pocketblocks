@@ -8,6 +8,7 @@ onBeforeBootstrap(() => {
     } catch (_) {
       pblUtils.migrate();
       pblUtils.createOrg();
+      pblUtils.setupSettings();
       pblUtils.removeAutoMigrations();
       console.log("[POCKETBLOCKS]: Initial setup finished!");
     }

@@ -39,6 +39,7 @@ export interface User extends BaseModel {
 export interface FullUser extends User {
   username?: string;
   email?: string;
+  verified?: boolean;
 }
 
 export interface Settings extends BaseModel {
@@ -143,6 +144,8 @@ export type API = {
     login: (loginId: string, password: string, provider: string) => APIResponse;
     logout: () => APIResponse;
     signup: (loginId: string, password: string) => APIResponse;
+    verifyEmailToken: (token: string) => APIResponse;
+    sendVerifyEmail: () => APIResponse;
   };
   folders: {
     create: (params: Partial<Folder>) => APIResponse<Folder>;

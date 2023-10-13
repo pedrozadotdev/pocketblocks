@@ -35,6 +35,7 @@ export async function signup(loginId: string, password: string): APIResponse {
       password,
       passwordConfirm: password,
     });
+    await pb.collection("users").authWithPassword(loginId, password);
     return { status: 200 };
   } catch (e) {
     const { status } = e as ClientResponseError;
@@ -68,6 +69,7 @@ export async function getCurrentUser(): APIResponse<FullUser> {
           ...data,
           email: userModel.email,
           username: userModel.username,
+          verified: userModel.verified,
         },
       };
     }
@@ -111,20 +113,53 @@ export async function changePassword(
 }
 
 export async function getAuthMethods(): APIResponse<Auth[]> {
-  const rawAuthMethods = await pb.collection("pbl_auth").getFullList<PBAuth>();
-  const authMethods = rawAuthMethods.map((m) => ({
-    ...m,
-    oauth_icon_url:
-      m.oauth_icon_url ||
-      (m.type !== "local" ? `/_/images/oauth2/${m.type}.svg` : undefined),
-    oauth_custom_name:
-      m.oauth_custom_name ||
-      (m.type !== "local"
-        ? m.type[0].toUpperCase() + m.type.slice(1)
-        : undefined),
-  }));
-  return {
-    status: 200,
-    data: authMethods,
-  };
+  try {
+    const rawAuthMethods = await pb
+      .collection("pbl_auth")
+      .getFullList<PBAuth>();
+    const authMethods = rawAuthMethods.map((m) => ({
+      ...m,
+      oauth_icon_url:
+        m.oauth_icon_url ||
+        (m.type !== "local" ? `/_/images/oauth2/${m.type}.svg` : undefined),
+      oauth_custom_name:
+        m.oauth_custom_name ||
+        (m.type !== "local"
+          ? m.type[0].toUpperCase() + m.type.slice(1)
+          : undefined),
+    }));
+    return {
+      status: 200,
+      data: authMethods,
+    };
+  } catch (e) {
+    return createDefaultErrorResponse(e);
+  }
+}
+
+export async function sendVerifyEmail(): APIResponse {
+  try {
+    const userModel = pb.authStore.model;
+    if (userModel) {
+      if (pb.authStore.isAuthRecord) {
+        await pb.collection("users").requestVerification(userModel.email);
+      }
+      return { status: 200 };
+    }
+    return { status: 401 };
+  } catch (e) {
+    return createDefaultErrorResponse(e);
+  }
+}
+
+export async function verifyEmailToken(token: string): APIResponse {
+  try {
+    await pb.collection("users").confirmVerification(token);
+    if (pb.authStore.isAuthRecord) {
+      await pb.collection("users").authRefresh();
+    }
+    return { status: 200 };
+  } catch (e) {
+    return createDefaultErrorResponse(e);
+  }
 }

@@ -12,10 +12,10 @@ import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import UserApi from "api/userApi";
 import { useRedirectUrl } from "util/hooks";
-import { checkEmailValid, checkPhoneValid } from "util/stringUtils";
+import { checkEmailValid } from "util/stringUtils";
 import { UserConnectionSource } from "@openblocks-ee/constants/userConstants";
 import { trans } from "i18n";
-import { AuthContext, useAuthSubmit } from "pages/userAuth/authUtils";
+import { AuthContext, useAuthSubmit, useInputMask } from "pages/userAuth/authUtils";
 import { ThirdPartyAuth } from "pages/userAuth/thirdParty/thirdPartyAuth";
 import { AUTH_REGISTER_URL } from "constants/routesURL";
 import { useLocation } from "react-router-dom";
@@ -49,19 +49,24 @@ export default function FormLogin() {
     redirectUrl
   );
 
+  const { customProps } = systemConfig.form.rawConfig
+
+  const { ref, check, unmask } = useInputMask(customProps.mask || "email")
+
   return (
     <>
       <LoginCardTitle>{trans("userAuth.login")}</LoginCardTitle>
       {systemConfig.form.enableLogin ? (
         <AccountLoginWrapper>
           <FormInput
+            inputRef={customProps.mask ? ref : undefined}
             className="form-input"
-            label={((systemConfig.form.rawConfig.customProps.label as string).split("").map((l, i) => !i ? l.toUpperCase() : l).join("") || "Email") + ":"}
-            onChange={(value, valid) => setAccount(valid ? value : "")}
-            placeholder={trans("userAuth.inputEmail", { label: systemConfig.form.rawConfig.customProps.label || "email" })}
+            label={((customProps.label as string).split("").map((l, i) => !i ? l.toUpperCase() : l).join("") || "Email") + ":"}
+            onChange={(value, valid) => setAccount(valid ? (customProps.mask ? unmask(value) : value) : "")}
+            placeholder={trans("userAuth.inputEmail", { label: customProps.label || "email" })}
             checkRule={{
-              check: (value) => checkPhoneValid(value) || checkEmailValid(value),
-              errorMsg: trans("userAuth.inputValidEmail", { label: systemConfig.form.rawConfig.customProps.label || "email" }),
+              check: (value) => customProps.mask ? check(value) : customProps.type !== "email" || checkEmailValid(value),
+              errorMsg: trans("userAuth.inputValidEmail", { label: customProps.label || "email" }),
             }}
           />
           <PasswordInput
@@ -69,7 +74,7 @@ export default function FormLogin() {
             onChange={(value) => setPassword(value)}
             valueCheck={() => [true, ""]}
           />
-          <ConfirmButton loading={loading} disabled={!account || !password} onClick={onSubmit}>
+          <ConfirmButton loading={loading} disabled={!account || !password} onClick={() => onSubmit()}>
             {trans("userAuth.login")}
           </ConfirmButton>
         </AccountLoginWrapper>

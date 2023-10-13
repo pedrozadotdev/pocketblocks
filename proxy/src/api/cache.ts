@@ -100,6 +100,11 @@ export function applyAPICache(api: API): API {
       ...api.auth,
       getCurrentUser: applyCache("getCurrentUser", api.auth.getCurrentUser),
       getAuthMethods: applyCache("getAuthMethods", api.auth.getAuthMethods),
+      verifyEmailToken: invalidateCache(async () => {
+        return ({ queryKey }) => {
+          return queryKey[0] === "getCurrentUser";
+        };
+      }, api.auth.verifyEmailToken),
     },
     folders: {
       list: applyCache("listFolders", api.folders.list),

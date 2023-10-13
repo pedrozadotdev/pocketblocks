@@ -8,7 +8,7 @@ export default [
     const authResponse = await auth[register ? "signup" : "login"](
       loginId,
       password,
-      source === "email" ? "local" : (source as string),
+      source === "EMAIL" ? "local" : (source as string),
     );
     if (authResponse.status === 200) {
       return createDefaultResponse();

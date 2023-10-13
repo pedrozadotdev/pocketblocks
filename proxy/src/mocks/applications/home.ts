@@ -69,10 +69,46 @@ const createResponseData = async (
   };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function showVerifiedMessage(user: FullUser, messageIns: any) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const verifyToken = urlParams.get("verifyEmailToken");
+  const authConfig = (await getAuthConfigs())[0];
+  if (verifyToken) {
+    const { status } = await auth.verifyEmailToken(verifyToken);
+    messageIns.destroy();
+    if (status === 200) {
+      messageIns.info("Email verified!");
+    } else {
+      messageIns.error("Something went wrong!");
+    }
+  } else if (authConfig.customProps.type !== "username" && !user.verified) {
+    messageIns.destroy();
+    messageIns.info({
+      content:
+        "Access your email to verify your account. If you didn't receive an email, click here!",
+      duration: 5,
+      style: { cursor: "pointer" },
+      onClick: () => {
+        auth.sendVerifyEmail().then((response) => {
+          messageIns.destroy();
+          if (response.status === 200) {
+            messageIns.info(
+              "Email sent! Please visit your Mailbox and verify your account.",
+            );
+          } else {
+            messageIns.error("Something went wrong!");
+          }
+        });
+      },
+    });
+  }
+}
+
 export default [
   mocker.get(
     "/api/v1/applications/home",
-    authRoute(async () => {
+    authRoute(async ({ messageIns }) => {
       const userResponse = await auth.getCurrentUser();
       const appsResponse = await apps.list();
       const foldersResponse = await folders.list();
@@ -83,6 +119,7 @@ export default [
         foldersResponse.data &&
         settingsResponse.data
       ) {
+        await showVerifiedMessage(userResponse.data, messageIns);
         return createDefaultResponse(
           await createResponseData(
             userResponse.data,

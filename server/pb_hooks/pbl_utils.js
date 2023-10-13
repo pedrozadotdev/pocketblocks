@@ -20,6 +20,18 @@ module.exports = {
     });
     $app.dao().saveRecord(settings);
   },
+  setupSettings: () => {
+    const settingsForm = new SettingsUpsertForm($app);
+    const clone = settingsForm.clone();
+    clone.meta.verificationTemplate.actionUrl =
+      "{APP_URL}/apps?verifyEmailToken={TOKEN}";
+    clone.meta.confirmEmailChangeTemplate.actionUrl =
+      "{APP_URL}/apps?emailChangeToken={TOKEN}";
+    clone.meta.resetPasswordTemplate.actionUrl =
+      "{APP_URL}/user/auth/reset-password?resetToken={TOKEN}";
+    settingsForm.merge(clone);
+    settingsForm.submit();
+  },
   changeUserConfigs: (type, del) => {
     const userModel = $app.dao().findCollectionByNameOrId("users");
     switch (type) {
@@ -77,6 +89,11 @@ module.exports = {
       if (local_type === "username" && autoVerified) {
         throw new BadRequestError(
           "local_email_auto_verified cannot be true if local_id_type is username!"
+        );
+      }
+      if (local_type === "email" && auth.get("local_id_input_mask")) {
+        throw new BadRequestError(
+          "local_id_input_mask should not be set if local_id_type is email!"
         );
       }
       if (auth.get("oauth_custom_name") || auth.get("oauth_icon_url")) {
