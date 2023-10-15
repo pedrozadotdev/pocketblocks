@@ -17,7 +17,7 @@ import { UserConnectionSource } from "@openblocks-ee/constants/userConstants";
 import { trans } from "i18n";
 import { AuthContext, useAuthSubmit, useInputMask } from "pages/userAuth/authUtils";
 import { ThirdPartyAuth } from "pages/userAuth/thirdParty/thirdPartyAuth";
-import { AUTH_REGISTER_URL } from "constants/routesURL";
+import { AUTH_REGISTER_URL, AUTH_PASSWORD_RECOVERY_URL } from "constants/routesURL";
 import { useLocation } from "react-router-dom";
 
 const AccountLoginWrapper = styled(FormWrapperMobile)`
@@ -84,6 +84,11 @@ export default function FormLogin() {
             onChange={(value) => setPassword(value)}
             valueCheck={() => [true, ""]}
           />
+          {customProps.allowUpdate.includes("password") ? (
+            <StyledRouteLink style={{ marginBottom: 16, marginTop: -20 }} to={{ pathname: AUTH_PASSWORD_RECOVERY_URL, state: location.state }}>
+              {trans("userAuth.recoveryPassword")}
+            </StyledRouteLink>
+          ) : null}
           <ConfirmButton loading={loading} disabled={!account || !password} onClick={() => onSubmit()}>
             {trans("userAuth.login")}
           </ConfirmButton>

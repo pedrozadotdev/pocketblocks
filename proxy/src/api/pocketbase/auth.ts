@@ -216,3 +216,35 @@ export async function verifyEmailChangeToken(
     return createDefaultErrorResponse(e);
   }
 }
+
+export async function sendPasswordReset(email: string): APIResponse {
+  try {
+    await pb.collection("users").requestPasswordReset(email);
+    return { status: 200 };
+  } catch (e) {
+    return createDefaultErrorResponse(e);
+  }
+}
+
+export async function confirmPasswordReset(
+  token: string,
+  password: string,
+): APIResponse {
+  try {
+    const { email } = await pb.send(
+      "/api/collections/users/confirm-password-reset",
+      {
+        method: "POST",
+        body: {
+          token,
+          password,
+          passwordConfirm: password,
+        },
+      },
+    );
+    await pb.collection("users").authWithPassword(email, password);
+    return { status: 200 };
+  } catch (e) {
+    return createDefaultErrorResponse(e);
+  }
+}

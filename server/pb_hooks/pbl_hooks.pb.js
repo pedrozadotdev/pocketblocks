@@ -222,14 +222,30 @@ onRecordBeforeUpdateRequest((e) => {
     const allowUpdate = localAuth.get("local_allow_update");
     if (!isAdmin) {
       if (isUsernameSetted && !allowUpdate.includes("username")) {
-        throw new BadRequestError("You cannot update the username");
+        throw new BadRequestError("You cannot update the username!");
       }
       if (isPasswordSetted && !allowUpdate.includes("password")) {
-        throw new BadRequestError("You cannot update the password");
+        throw new BadRequestError("You cannot update the password!");
       }
     }
   }
 }, "users");
+
+onRecordBeforeRequestPasswordResetRequest((e) => {
+  let localAuth;
+  try {
+    localAuth = $app.dao().findFirstRecordByData("pbl_auth", "type", "local");
+  } catch (e) {
+    //Ignore
+  }
+  if (localAuth) {
+    if (!localAuth.get("local_allow_update").includes("password")) {
+      throw new BadRequestError(
+        "You cannot change the password. Contact an Administrator!"
+      );
+    }
+  }
+});
 
 onRecordBeforeRequestEmailChangeRequest((e) => {
   let localAuth;
@@ -245,6 +261,13 @@ onRecordBeforeRequestEmailChangeRequest((e) => {
 
 //Send back the current email to autologin
 onRecordAfterConfirmEmailChangeRequest((e) => {
+  const user = $app.dao().findRecordById("users", e.record.get("id"));
+  const email = user.get("email");
+  e.httpContext.json(200, { email });
+  return hook.StopPropagation;
+});
+
+onRecordAfterConfirmPasswordResetRequest((e) => {
   const user = $app.dao().findRecordById("users", e.record.get("id"));
   const email = user.get("email");
   e.httpContext.json(200, { email });

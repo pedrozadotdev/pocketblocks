@@ -25,9 +25,10 @@ interface ThirdPartyAuthRequest {
 
 interface FormLoginRequest extends CommonLoginParam {
   loginId: string;
-  password: string;
+  password?: string;
   register: boolean;
   authId?: string;
+  resetToken?: string;
 }
 
 export interface GetUserResponse extends ApiResponse {

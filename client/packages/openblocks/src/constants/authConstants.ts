@@ -1,11 +1,13 @@
 import {
   AUTH_BIND_URL,
   AUTH_LOGIN_URL,
+  AUTH_PASSWORD_RECOVERY_URL,
   AUTH_REGISTER_URL,
   OAUTH_REDIRECT,
 } from "constants/routesURL";
 import { InviteInfo } from "api/inviteApi";
 import Login, { ThirdPartyBindCard } from "pages/userAuth/login";
+import PasswordRecovery from "pages/userAuth/passwordRecovery";
 import UserRegister from "pages/userAuth/register";
 import { AuthRedirect } from "pages/userAuth/thirdParty/authRedirect";
 import React from "react";
@@ -69,6 +71,7 @@ export type ThirdPartyAuthGoal = "login" | "bind" | "innerBind";
 
 export const AuthRoutes: Array<{ path: string; component: React.ComponentType<any> }> = [
   { path: AUTH_LOGIN_URL, component: Login },
+  { path: AUTH_PASSWORD_RECOVERY_URL, component: PasswordRecovery },
   { path: AUTH_BIND_URL, component: ThirdPartyBindCard },
   { path: AUTH_REGISTER_URL, component: UserRegister },
   { path: OAUTH_REDIRECT, component: AuthRedirect },

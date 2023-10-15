@@ -34,6 +34,7 @@ export const APP_EDITOR_URL = `${ALL_APPLICATIONS_URL}/:applicationId/:viewMode/
 
 export const AUTH_BIND_URL = `${USER_AUTH_URL}/bind`;
 export const AUTH_LOGIN_URL = `${USER_AUTH_URL}/login`;
+export const AUTH_PASSWORD_RECOVERY_URL = `${USER_AUTH_URL}/reset-password`;
 export const AUTH_REGISTER_URL = `${USER_AUTH_URL}/register`;
 export const QR_CODE_OAUTH_URL = `${USER_AUTH_URL}/oauth/qrcode`;
 export const OAUTH_REDIRECT = `${USER_AUTH_URL}/oauth/redirect`;

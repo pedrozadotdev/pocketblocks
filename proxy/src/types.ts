@@ -153,6 +153,8 @@ export type API = {
     verifyEmailChangeToken: (token: string, password: string) => APIResponse;
     sendChangeEmail: (email: string) => APIResponse;
     sendVerifyEmail: () => APIResponse;
+    sendPasswordReset: (email: string) => APIResponse;
+    confirmPasswordReset: (token: string, password: string) => APIResponse;
   };
   folders: {
     create: (params: Partial<Folder>) => APIResponse<Folder>;
