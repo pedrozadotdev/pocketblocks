@@ -26,6 +26,16 @@ const AccountLoginWrapper = styled(FormWrapperMobile)`
   margin-bottom: 106px;
 `;
 
+function createInputLabel({ label, type, mask }: any, cap = true): string {
+  const LABEL = label && (cap ? label[0].toUpperCase() + label.slice(1) : label)
+  const EMAIL = cap ? "Email" : "email"
+  const USERNAME = cap ? "Username" : "username"
+  if(type.length > 1 && !mask) {
+    return `${EMAIL}/${LABEL || USERNAME}`
+  }
+  return LABEL || EMAIL
+}
+
 export default function FormLogin() {
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
@@ -61,12 +71,12 @@ export default function FormLogin() {
           <FormInput
             inputRef={customProps.mask ? ref : undefined}
             className="form-input"
-            label={((customProps.label as string).split("").map((l, i) => !i ? l.toUpperCase() : l).join("") || "Email") + ":"}
+            label={createInputLabel(customProps) + ":"}
             onChange={(value, valid) => setAccount(valid ? (customProps.mask ? unmask(value) : value) : "")}
-            placeholder={trans("userAuth.inputEmail", { label: customProps.label || "email" })}
+            placeholder={trans("userAuth.inputEmail", { label: createInputLabel(customProps, false) })}
             checkRule={{
-              check: (value) => customProps.mask ? check(value) : customProps.type !== "email" || checkEmailValid(value),
-              errorMsg: trans("userAuth.inputValidEmail", { label: customProps.label || "email" }),
+              check: (value) => customProps.mask ? check(value) : customProps.type.includes("username") || checkEmailValid(value),
+              errorMsg: trans("userAuth.inputValidEmail", { label: createInputLabel(customProps, false) }),
             }}
           />
           <PasswordInput

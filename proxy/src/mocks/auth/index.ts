@@ -1,4 +1,5 @@
+import bind from "./bind";
 import login from "./login";
 import logout from "./logout";
 
-export default [...login, ...logout];
+export default [...bind, ...login, ...logout];

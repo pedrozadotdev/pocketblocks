@@ -79,11 +79,16 @@ export type AuthType =
   | "vk"
   | "yandex";
 
+type LocalIdType = "username" | "email";
+
+type LocalAllowUpdate = LocalIdType | "password";
+
 export interface Auth extends BaseModel {
   type: AuthType;
   local_id_label?: string;
   local_id_input_mask?: string;
-  local_id_type?: "username" | "email" | "both";
+  local_id_type?: LocalIdType[];
+  local_allow_update?: LocalAllowUpdate[];
   local_email_auto_verified?: boolean;
   oauth_custom_name?: string;
   oauth_icon_url?: string;
@@ -145,6 +150,8 @@ export type API = {
     logout: () => APIResponse;
     signup: (loginId: string, password: string) => APIResponse;
     verifyEmailToken: (token: string) => APIResponse;
+    verifyEmailChangeToken: (token: string, password: string) => APIResponse;
+    sendChangeEmail: (email: string) => APIResponse;
     sendVerifyEmail: () => APIResponse;
   };
   folders: {
@@ -174,7 +181,9 @@ export type API = {
   users: {
     get: (user_id: string) => APIResponse<User>;
     list: () => APIResponse<User[]>;
-    update: (params: Partial<User> & { id: string }) => APIResponse;
+    update: (
+      params: Partial<User> & { id: string; username?: string },
+    ) => APIResponse;
   };
 };
 

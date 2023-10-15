@@ -72,8 +72,8 @@ class UserApi extends Api {
     return Api.post(UserApi.formLoginURL, reqBody, queryParam);
   }
 
-  static bindEmail(request: { email: string; authId?: string }): AxiosPromise<ApiResponse> {
-    return Api.post(UserApi.emailBindURL, undefined, request);
+  static bindEmail(request: { email?: string; authId?: string, token?: string, password?: string }): AxiosPromise<ApiResponse> {
+    return Api.post(UserApi.emailBindURL, request);
   }
 
   static setPassword(request: { password: string }): AxiosPromise<ApiResponse> {

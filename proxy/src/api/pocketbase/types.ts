@@ -74,11 +74,16 @@ export interface PBSettings<E = ConfigExpanded> extends BaseModel<E> {
   css?: string;
 }
 
+type LocalIdType = "username" | "email";
+
+type LocalAllowUpdate = LocalIdType | "password";
+
 export interface PBAuth extends BaseModel {
   type: AuthType;
   local_id_label?: string;
   local_id_input_mask?: string;
-  local_id_type?: "username" | "email" | "both";
+  local_id_type?: LocalIdType[];
+  local_allow_update?: LocalAllowUpdate[];
   local_email_auto_verified?: boolean;
   oauth_custom_name?: string;
   oauth_icon_url?: string;

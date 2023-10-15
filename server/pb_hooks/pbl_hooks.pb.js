@@ -86,8 +86,9 @@ onRecordBeforeCreateRequest((e) => {
   const pblUtils = require(`${__hooks}/pbl_utils.js`);
   pblUtils.validateAuthFields(e.record);
   if (e.record?.get("type") === "local") {
+    const types = e.record?.get("local_id_type");
     pblUtils.changeUserConfigs(
-      `${e.record?.get("type")}:${e.record?.get("local_id_type")}`
+      `${e.record?.get("type")}:${types.length > 1 ? "both" : types[0]}`
     );
   } else {
     pblUtils.changeUserConfigs("oauth");
@@ -112,7 +113,11 @@ onRecordBeforeUpdateRequest((e) => {
         del = "oauth";
       }
     }
-    pblUtils.changeUserConfigs(`local:${e.record?.get("local_id_type")}`, del);
+    const types = e.record?.get("local_id_type");
+    pblUtils.changeUserConfigs(
+      `local:${types.length > 1 ? "both" : types[0]}`,
+      del
+    );
   } else {
     if (currentAuth.get("type") === "local") {
       del = "local";
@@ -199,3 +204,49 @@ onRecordAfterCreateRequest((e) => {
     //Ignore
   }
 }, "users");
+
+// Prevent update username/email/password if not enabled
+onRecordBeforeUpdateRequest((e) => {
+  let localAuth;
+  try {
+    localAuth = $app.dao().findFirstRecordByData("pbl_auth", "type", "local");
+  } catch (e) {
+    //Ignore
+  }
+  if (localAuth) {
+    const info = $apis.requestInfo(e.httpContext);
+    const isAdmin = !!info.admin;
+    const isUsernameSetted = !!info.data.username;
+    const isPasswordSetted =
+      !!info.data.password || !!info.data.passwordConfirm;
+    const allowUpdate = localAuth.get("local_allow_update");
+    if (!isAdmin) {
+      if (isUsernameSetted && !allowUpdate.includes("username")) {
+        throw new BadRequestError("You cannot update the username");
+      }
+      if (isPasswordSetted && !allowUpdate.includes("password")) {
+        throw new BadRequestError("You cannot update the password");
+      }
+    }
+  }
+}, "users");
+
+onRecordBeforeRequestEmailChangeRequest((e) => {
+  let localAuth;
+  try {
+    localAuth = $app.dao().findFirstRecordByData("pbl_auth", "type", "local");
+  } catch (e) {
+    //Ignore
+  }
+  if (localAuth && !localAuth.get("local_allow_update").includes("email")) {
+    throw new BadRequestError("You cannot update the email");
+  }
+}, "users");
+
+//Send back the current email to autologin
+onRecordAfterConfirmEmailChangeRequest((e) => {
+  const user = $app.dao().findRecordById("users", e.record.get("id"));
+  const email = user.get("email");
+  e.httpContext.json(200, { email });
+  return hook.StopPropagation;
+});

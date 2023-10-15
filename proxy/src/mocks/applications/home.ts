@@ -34,6 +34,7 @@ const createResponseData = async (
           avatar: null,
           rawUserInfo: {
             email: user.email,
+            username: (await auth.isAdmin()) ? "ADMIN" : user.username,
           },
           tokens: [],
         },
@@ -74,6 +75,7 @@ async function showVerifiedMessage(user: FullUser, messageIns: any) {
   const urlParams = new URLSearchParams(window.location.search);
   const verifyToken = urlParams.get("verifyEmailToken");
   const authConfig = (await getAuthConfigs())[0];
+  const isAdmin = await auth.isAdmin();
   if (verifyToken) {
     const { status } = await auth.verifyEmailToken(verifyToken);
     messageIns.destroy();
@@ -82,7 +84,11 @@ async function showVerifiedMessage(user: FullUser, messageIns: any) {
     } else {
       messageIns.error("Something went wrong!");
     }
-  } else if (authConfig.customProps.type !== "username" && !user.verified) {
+  } else if (
+    !isAdmin &&
+    authConfig.customProps.type.includes("email") &&
+    !user.verified
+  ) {
     messageIns.destroy();
     messageIns.info({
       content:

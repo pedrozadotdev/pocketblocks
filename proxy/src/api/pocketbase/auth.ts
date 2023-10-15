@@ -15,8 +15,10 @@ export async function login(
         pb.collection("users").authWithPassword(loginId, password),
         pb.admins.authWithPassword(loginId, password),
       ]);
+      localStorage.removeItem("pbl_provider");
     } else {
       await pb.collection("users").authWithOAuth2({ provider });
+      localStorage.setItem("pbl_provider", provider);
     }
     return { status: 200 };
   } catch (e) {
@@ -29,20 +31,31 @@ export async function login(
 }
 
 export async function signup(loginId: string, password: string): APIResponse {
+  const [email, username] = loginId.split("\n");
+  console.log;
   try {
     await pb.collection("users").create({
-      email: loginId,
+      email,
+      username,
       password,
       passwordConfirm: password,
     });
-    await pb.collection("users").authWithPassword(loginId, password);
+    await pb.collection("users").authWithPassword(email || username, password);
     return { status: 200 };
   } catch (e) {
-    const { status } = e as ClientResponseError;
-    if (status === 403) {
+    const { status, response, message: rawMessage } = e as ClientResponseError;
+    if (status === 400) {
+      let message = rawMessage;
+      if (response.data?.email?.code === "validation_invalid_email") {
+        message = "The email is invalid or already in use!";
+      } else if (
+        response.data?.username?.code === "validation_invalid_username"
+      ) {
+        message = "The username is invalid or already in use!";
+      }
       return {
         status: 401,
-        message: "Sign up is disabled in this organization!",
+        message,
       };
     }
     return createDefaultErrorResponse(e);
@@ -51,6 +64,7 @@ export async function signup(loginId: string, password: string): APIResponse {
 
 export async function logout(): APIResponse {
   pb.authStore.clear();
+  localStorage.removeItem("pbl_provider");
   return { status: 200 };
 }
 
@@ -152,11 +166,50 @@ export async function sendVerifyEmail(): APIResponse {
   }
 }
 
+export async function sendChangeEmail(email: string): APIResponse {
+  try {
+    const userModel = pb.authStore.model;
+    if (userModel) {
+      if (pb.authStore.isAuthRecord) {
+        await pb.collection("users").requestEmailChange(email);
+      }
+      return { status: 200 };
+    }
+    return { status: 401 };
+  } catch (e) {
+    return createDefaultErrorResponse(e);
+  }
+}
+
 export async function verifyEmailToken(token: string): APIResponse {
   try {
     await pb.collection("users").confirmVerification(token);
     if (pb.authStore.isAuthRecord) {
       await pb.collection("users").authRefresh();
+    }
+    return { status: 200 };
+  } catch (e) {
+    return createDefaultErrorResponse(e);
+  }
+}
+
+export async function verifyEmailChangeToken(
+  token: string,
+  password: string,
+): APIResponse {
+  try {
+    if (pb.authStore.isAuthRecord) {
+      const { email } = await pb.send(
+        "/api/collections/users/confirm-email-change",
+        {
+          method: "POST",
+          body: {
+            token,
+            password,
+          },
+        },
+      );
+      await pb.collection("users").authWithPassword(email, password);
     }
     return { status: 200 };
   } catch (e) {

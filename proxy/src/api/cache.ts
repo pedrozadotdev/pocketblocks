@@ -35,11 +35,16 @@ function applyCache<A extends unknown[], R>(
 function invalidateCache<A extends unknown[], R>(
   createPredicateFn: (...args: A) => Promise<(query: Query) => boolean>,
   fn: Fn<A, R>,
+  invalidateAll = false,
 ): Fn<A, R> {
   return async function (...args: A): Promise<R> {
     const predicate = await createPredicateFn(...args);
     const result = await fn(...args);
-    await queryClient.invalidateQueries({ predicate });
+    if (invalidateAll) {
+      await queryClient.clear();
+    } else {
+      await queryClient.invalidateQueries({ predicate });
+    }
     return result;
   };
 }
@@ -105,6 +110,18 @@ export function applyAPICache(api: API): API {
           return queryKey[0] === "getCurrentUser";
         };
       }, api.auth.verifyEmailToken),
+      verifyEmailChangeToken: invalidateCache(async () => {
+        return ({ queryKey }) => {
+          return queryKey[0] === "getCurrentUser";
+        };
+      }, api.auth.verifyEmailChangeToken),
+      logout: invalidateCache(
+        async () => {
+          return () => true;
+        },
+        api.auth.logout,
+        true,
+      ),
     },
     folders: {
       list: applyCache("listFolders", api.folders.list),
@@ -141,9 +158,12 @@ export function applyAPICache(api: API): API {
     users: {
       get: applyCache("getUser", api.users.get),
       list: applyCache("listUsers", api.users.list),
-      update: invalidateCache(async () => {
+      update: invalidateCache(async ({ username }) => {
         return ({ queryKey }) => {
-          return queryKey[0] === "getUser" || queryKey[0] === "listUsers";
+          const firstCondition = queryKey[0] === "getCurrentUser" && !!username;
+          const secondCondition =
+            queryKey[0] === "getUser" || queryKey[0] === "listUsers";
+          return firstCondition || secondCondition;
         };
       }, api.users.update),
     },

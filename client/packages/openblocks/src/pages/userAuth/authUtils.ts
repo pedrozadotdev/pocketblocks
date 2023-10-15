@@ -176,6 +176,7 @@ export const getRedirectUrl = (authType: ThirdPartyAuthType) => {
 
 export const useInputMask = (mask: string) => {
   const [placeholder, setPlaceholder] = React.useState("")
+  const [initialValue, setInitialValue] = React.useState("")
   const ref = React.useRef<InputRef | null>(null);
   const applyMask = React.useCallback(() => withMask(mask, {
     onKeyDown(_, __, ___, opts) {
@@ -194,6 +195,13 @@ export const useInputMask = (mask: string) => {
     return !!str && !str.includes("_")
   }, [])
 
+  React.useEffect(() => {
+    const input = ref.current?.input
+    if(input?.value) {
+      setInitialValue(input.value)
+    }
+  }, [ref, setInitialValue])
+
   const unmask = React.useCallback((str: string) => {
     if(placeholder) {
       return str.split("").map((c, i) => placeholder[i] === "_" ? (c !== "_" ? c : "") : "").join("")
@@ -201,5 +209,5 @@ export const useInputMask = (mask: string) => {
     return str
   }, [placeholder])
 
-  return { ref, check, unmask };
+  return { ref, check, unmask, initialValue };
 };

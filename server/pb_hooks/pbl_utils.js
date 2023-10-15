@@ -79,33 +79,37 @@ module.exports = {
   },
   validateAuthFields: (auth) => {
     const local_type = auth.get("local_id_type");
+    const local_allow_update = auth.get("local_allow_update");
     const autoVerified = auth.get("local_email_auto_verified");
     if (auth.get("type") === "local") {
-      if (!local_type) {
+      if (!local_type.length) {
+        throw new BadRequestError("Select at least one local_id_type!");
+      }
+      if (!local_type.includes("email") && autoVerified) {
         throw new BadRequestError(
-          "local_id_type is required in local type mode!"
+          "local_email_auto_verified cannot be true if local_id_type not includes email!"
         );
       }
-      if (local_type === "username" && autoVerified) {
+      if (!local_type.includes("username") && auth.get("local_id_input_mask")) {
         throw new BadRequestError(
-          "local_email_auto_verified cannot be true if local_id_type is username!"
+          "local_id_input_mask should not be set if local_id_type not includes username!"
         );
       }
-      if (local_type === "email" && auth.get("local_id_input_mask")) {
+      if (
+        (local_allow_update.includes("username") &&
+          !local_type.includes("username")) ||
+        (local_allow_update.includes("email") && !local_type.includes("email"))
+      ) {
         throw new BadRequestError(
-          "local_id_input_mask should not be set if local_id_type is email!"
-        );
-      }
-      if (auth.get("oauth_custom_name") || auth.get("oauth_icon_url")) {
-        throw new BadRequestError(
-          "oauth_* fields should be set only in oauth types mode!"
+          "local_id_allow_update can only be set with selected local_id_type!"
         );
       }
     } else {
       if (
         auth.get("local_id_label") ||
         auth.get("local_id_input_mask") ||
-        local_type ||
+        local_allow_update.length ||
+        local_type.length ||
         autoVerified
       ) {
         throw new BadRequestError(
@@ -119,16 +123,16 @@ module.exports = {
       {
         id: "_pbl_users_auth_",
         created: "2023-10-01 20:45:02.793Z",
-        updated: "2023-10-09 13:41:14.134Z",
+        updated: "2023-10-14 10:36:09.783Z",
         name: "users",
         type: "auth",
         system: false,
         schema: [],
         indexes: [],
         listRule: null,
-        viewRule: null,
+        viewRule: "@request.auth.id = id",
         createRule: "",
-        updateRule: null,
+        updateRule: "@request.auth.id = id",
         deleteRule: null,
         options: {
           allowEmailAuth: false,
@@ -144,7 +148,7 @@ module.exports = {
       {
         id: "buotp00b3wthds4",
         created: "2023-10-01 20:47:08.041Z",
-        updated: "2023-10-09 13:40:01.376Z",
+        updated: "2023-10-14 02:42:25.274Z",
         name: "pbl_folders",
         type: "base",
         system: false,
@@ -191,7 +195,7 @@ module.exports = {
       {
         id: "5cbl3c26o7q3y4r",
         created: "2023-10-01 20:47:08.041Z",
-        updated: "2023-10-09 13:40:01.376Z",
+        updated: "2023-10-14 02:42:25.274Z",
         name: "pbl_groups",
         type: "base",
         system: false,
@@ -251,7 +255,7 @@ module.exports = {
       {
         id: "irij2ydvjhpjirp",
         created: "2023-10-01 20:47:08.042Z",
-        updated: "2023-10-09 13:40:01.376Z",
+        updated: "2023-10-14 02:42:25.274Z",
         name: "pbl_settings",
         type: "base",
         system: false,
@@ -400,7 +404,7 @@ module.exports = {
       {
         id: "37sihdzrz2vchvc",
         created: "2023-10-01 20:47:08.042Z",
-        updated: "2023-10-09 13:40:01.376Z",
+        updated: "2023-10-14 02:42:25.274Z",
         name: "pbl_snapshots",
         type: "base",
         system: false,
@@ -469,7 +473,7 @@ module.exports = {
       {
         id: "mcmsmx4dil87690",
         created: "2023-10-01 20:47:08.042Z",
-        updated: "2023-10-09 13:40:01.377Z",
+        updated: "2023-10-14 02:42:25.274Z",
         name: "pbl_users",
         type: "base",
         system: false,
@@ -552,7 +556,7 @@ module.exports = {
       {
         id: "qzkeq7euavz7ccm",
         created: "2023-10-01 20:47:08.043Z",
-        updated: "2023-10-09 13:40:01.377Z",
+        updated: "2023-10-14 02:42:25.274Z",
         name: "pbl_applications",
         type: "base",
         system: false,
@@ -732,7 +736,7 @@ module.exports = {
       {
         id: "qyddcgq509sns52",
         created: "2023-10-06 20:38:52.228Z",
-        updated: "2023-10-09 13:40:01.377Z",
+        updated: "2023-10-14 02:42:25.274Z",
         name: "pbl_auth",
         type: "base",
         system: false,
@@ -810,8 +814,21 @@ module.exports = {
             presentable: false,
             unique: false,
             options: {
-              maxSelect: 1,
-              values: ["username", "email", "both"],
+              maxSelect: 2,
+              values: ["username", "email"],
+            },
+          },
+          {
+            system: false,
+            id: "htrfg3qa",
+            name: "local_allow_update",
+            type: "select",
+            required: false,
+            presentable: false,
+            unique: false,
+            options: {
+              maxSelect: 3,
+              values: ["username", "email", "password"],
             },
           },
           {

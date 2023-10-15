@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAction, profileSettingModalVisible } from "redux/reduxActions/userActions";
 import { ProfileInfoCard } from "@openblocks-ee/pages/setting/profile/profileInfoCard";
+import EmailChangeCard from "pages/setting/profile/emailChangeCard";
 import { message } from "antd";
 import { WindowMessageTypes } from "constants/messages";
 import { isProfileSettingModalVisible } from "redux/selectors/usersSelectors";
@@ -39,6 +40,16 @@ export default function ProfileSettingModal() {
     window.addEventListener("message", messageHandler);
     return () => window.removeEventListener("message", messageHandler);
   }, []);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailChangeToken = urlParams.get("emailChangeToken");
+    if(emailChangeToken) {
+      setModalContent(<EmailChangeCard />);
+      setTitle(trans("profile.confirmNewEmail"));
+      setShowBackLink(true);
+    }
+  }, [])
 
   return (
     <CustomModal

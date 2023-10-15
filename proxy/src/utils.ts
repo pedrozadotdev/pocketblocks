@@ -138,24 +138,30 @@ const defaultAuthConfig = {
   customProps: {
     label: "",
     mask: "",
-    type: "",
+    type: ["email"],
+    allowUpdate: [] as string[],
   },
   oauth: [] as Auth[],
 };
 
 export async function getAuthConfigs() {
   const authMethodsResponse = await auth.getAuthMethods();
+  const isAdmin = await auth.isAdmin();
   const result = defaultAuthConfig;
   if (authMethodsResponse.status === 200 && authMethodsResponse.data) {
     const authMethods = authMethodsResponse.data;
     const localAuth = authMethods?.find((am) => am.type === "local");
+    if (isAdmin) {
+      localAuth?.local_allow_update?.push("password");
+    }
     if (localAuth) {
       result.enable = true;
       result.enableRegister = localAuth.allow_signup;
       result.customProps = {
         label: localAuth.local_id_label ?? "",
         mask: localAuth.local_id_input_mask ?? "",
-        type: localAuth.local_id_type ?? "",
+        type: localAuth.local_id_type ?? [],
+        allowUpdate: localAuth.local_allow_update ?? [],
       };
     }
     result.oauth = authMethods?.filter((am) => am.type !== "local");

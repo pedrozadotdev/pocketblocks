@@ -84,7 +84,7 @@ function UserRegister() {
     <AuthContainer title={trans("userAuth.register")} type="large">
       <RegisterContent>
         <LoginCardTitle>{trans("userAuth.registerByEmail")}</LoginCardTitle>
-        {customProps.type !== "email" ? (
+        {customProps.type.includes("username") ? (
           <StyledFormInput
             inputRef={customProps.mask ? ref : undefined}
             className="form-input"
@@ -97,7 +97,7 @@ function UserRegister() {
             }}
           />
         ) : null}
-        {customProps.type !== "username" ? (
+        {customProps.type.includes("email") ? (
           <StyledFormInput
             className="form-input"
             label="Email:"

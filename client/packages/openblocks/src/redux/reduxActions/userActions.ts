@@ -16,6 +16,7 @@ export const profileSettingModalVisible = (visible: boolean) => ({
 });
 
 export type UpdateUserPayload = {
+  username?: string;
   name?: string;
   avatarUrl?: string;
 };

@@ -14,7 +14,7 @@ import {
   PackUpIcon,
 } from "openblocks-design";
 import ProfileSettingModal from "pages/setting/profile";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createOrgAction, switchOrg } from "redux/reduxActions/orgActions";
 import styled from "styled-components";
@@ -158,6 +158,14 @@ export default function ProfileDropdown(props: DropDownProps) {
       }
     }
   };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const emailChangeToken = urlParams.get("emailChangeToken");
+    if(emailChangeToken) {
+      dispatch(profileSettingModalVisible(true))
+    }
+  }, [])
 
   const menu = (
     <DropdownMenu

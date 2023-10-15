@@ -72,6 +72,7 @@ const createResponseData = async (user: FullUser, systemSettings: Settings) => {
         avatar: user.avatar ?? null,
         rawUserInfo: {
           email: user.email,
+          username: isAdmin ? "ADMIN" : user.username,
         },
         tokens: [],
       },
@@ -111,7 +112,7 @@ export default [
   mocker.put(
     "/api/v1/users",
     authRoute(async (req) => {
-      const { name } = req.config.data;
+      const { name, username } = req.config.data;
       const authResponse = await auth.getCurrentUser();
       if (!authResponse.data) {
         return createDefaultErrorResponse([{ status: 401 }]);
@@ -119,6 +120,7 @@ export default [
       const updateUserResponse = await users.update({
         id: authResponse.data.id,
         name,
+        username,
       });
       if (updateUserResponse.status === 200) {
         const userResponse = await auth.getCurrentUser();
