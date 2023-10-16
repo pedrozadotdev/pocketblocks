@@ -23,6 +23,15 @@ PocketBlocks is a integration between Openblocks and PocketBase.
 - Run `docker compose up -d`;
 - Access the [PocketBase Admin Panel](http://localhost:8080/_) and create the admin user.
 
+### Fly.io
+
+- Get the fly.toml file from this repo;
+- Edit the `app-name` field;
+- Run `flyctl launch`;
+- Run `flyctl vol create data`;
+- Run `flyctl deploy`;
+- Access `https://<your-app-name>.fly.dev/_` and create the admin user.
+
 ## License
 
 AGPL3
