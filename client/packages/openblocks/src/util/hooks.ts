@@ -16,6 +16,7 @@ import { checkIsMobile } from "util/commonUtils";
 import { EditorContext } from "comps/editorState";
 import { getDataSourceStructures } from "redux/selectors/datasourceSelectors";
 import { DatasourceStructure } from "api/datasourceApi";
+import { selectSystemConfig } from "redux/selectors/configSelectors";
 
 export const ForceViewModeContext = React.createContext<boolean>(false);
 
@@ -24,7 +25,7 @@ export function isUserViewMode(params?: AppPathParams) {
     return false;
   }
   const { viewMode } = params;
-  return viewMode === "preview" || viewMode === "view";
+  return viewMode === "preview" || viewMode === "view" || !viewMode;
 }
 
 /**
@@ -46,12 +47,18 @@ export function useMaxWidth() {
 }
 
 export function useTemplateViewMode() {
+  const systemConfig = useSelector(selectSystemConfig);
   const search = useLocation().search;
+
+  if(systemConfig?.branding?.enableTemplateViewMode) {
+    return true
+  }
   if (!useUserViewMode) {
     return false;
   }
   const searchParams = new URLSearchParams(search);
   return !!searchParams.get("template");
+
 }
 
 export function useApplicationId() {

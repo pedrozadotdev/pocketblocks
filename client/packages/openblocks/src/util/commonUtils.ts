@@ -6,6 +6,7 @@ import _ from "lodash";
 // https://github.com/vitejs/vite/discussions/7492#discussioncomment-2449310
 import "moment/dist/locale/en-gb";
 import "moment/dist/locale/zh-cn";
+import "moment/dist/locale/pt-br";
 
 export function initApp() {
   moment.locale(getMomentLocale());

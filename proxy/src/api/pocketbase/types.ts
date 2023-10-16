@@ -66,6 +66,7 @@ export interface PBSettings<E = ConfigExpanded> extends BaseModel<E> {
   logo: string;
   icon: string;
   header_color: string;
+  template_view?: boolean;
   home_page: string | null;
   themes: string;
   theme: string; // id

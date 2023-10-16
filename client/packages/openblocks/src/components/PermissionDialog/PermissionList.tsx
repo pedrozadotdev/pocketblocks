@@ -108,8 +108,8 @@ function PermissionLiItem(props: {
       </PermissionItemName>
       {isCreator && <CreatorTag>{trans("home.creator")}</CreatorTag>}
       {isCreator || permissionItem.type === "ORG_ADMIN" ? (
-        <CommonGrayLabel style={{ color: "color: #B8B9BF", margin: "0 24px 0 auto" }}>
-          {props.ownerLabel}
+        <CommonGrayLabel style={{ color: "color: #B8B9BF", margin: "0 24px 0 4px" }}>
+          ({props.ownerLabel})
         </CommonGrayLabel>
       ) : (
         <StyledRoleSelect

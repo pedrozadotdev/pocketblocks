@@ -3,6 +3,7 @@ import en_US from "antd/lib/locale/en_US";
 import zh_CN from "antd/es/locale/zh_CN";
 import zh_HK from "antd/es/locale/zh_HK";
 import zh_TW from "antd/es/locale/zh_TW";
+import pt_BR from "antd/es/locale/pt_BR";
 import { getValueByLocale } from "openblocks-core";
 
 export function getAntdLocale(language?: string) {
@@ -28,5 +29,7 @@ function selectAntdLocale(language: string, region?: string) {
           return zh_TW;
       }
       return zh_CN;
+    case "pt":
+      return pt_BR;
   }
 }

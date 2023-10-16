@@ -43,8 +43,10 @@ export default [
               ? "Password reset successfully!"
               : "Email sent! Please visit your Mailbox and reset your password.",
           );
+          setTimeout(() => res(createDefaultResponse()), 2000);
+        } else {
+          res(createDefaultResponse());
         }
-        setTimeout(() => res(createDefaultResponse()), 2000);
       });
     }
     return createDefaultErrorResponse([authResponse]);

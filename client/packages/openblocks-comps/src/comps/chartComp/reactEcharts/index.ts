@@ -1,6 +1,14 @@
 import * as echarts from "echarts";
 import { EChartsReactProps, EChartsOption, EChartsInstance } from "./types";
 import EChartsReactCore from "./core";
+import * as locales from "../../../i18n/comps/locales/echarts";
+
+Object.keys(locales).forEach((l) => {
+  echarts.registerLocale(
+    l.toUpperCase(),
+    locales[l as keyof typeof locales] as any
+  );
+});
 
 /**
  * reference: https://github.com/hustcc/echarts-for-react

@@ -19,6 +19,7 @@ export interface BrandingConfig {
   favicon?: string;
   brandName?: string;
   headerColor?: string;
+  enableTemplateViewMode?: boolean;
 }
 
 export type ConfigBaseInfo = {

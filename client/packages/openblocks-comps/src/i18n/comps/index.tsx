@@ -15,6 +15,8 @@ export function getEchartsLocale() {
         return "EN";
       case "zh":
         return "ZH";
+      case "pt":
+        return "PT";
     }
   });
 }
@@ -23,6 +25,8 @@ export function getCalendarLocale() {
   switch (language) {
     case "zh":
       return "zh-cn";
+    case "pt":
+      return "pt-br"
     default:
       return "en-gb";
   }
