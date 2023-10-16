@@ -33,7 +33,7 @@ export default function AppEditor() {
   const isUserViewMode = useUserViewMode();
   const params = useParams<AppPathParams>();
   const applicationId = params.applicationId;
-  const viewMode = (params.viewMode === "view" || !params.viewMode) ? "published" : "editing";
+  const viewMode = params.viewMode === "view" ? "published" : "editing";
   const currentUser = useSelector(getUser);
   const dispatch = useDispatch();
   const fetchOrgGroupsFinished = useSelector(getFetchOrgGroupsFinished);
@@ -42,7 +42,7 @@ export default function AppEditor() {
   const firstRendered = useRef(false);
   const [isDataSourcePluginRegistered, setIsDataSourcePluginRegistered] = useState(false);
 
-  setGlobalSettings({ applicationId, isViewMode: (params.viewMode === "view") || !params.viewMode });
+  setGlobalSettings({ applicationId, isViewMode: params.viewMode === "view" });
 
   if (!firstRendered.current) {
     perfClear();

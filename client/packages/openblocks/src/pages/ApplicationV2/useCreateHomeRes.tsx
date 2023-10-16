@@ -20,15 +20,16 @@ import { useCreateFolder } from "./useCreateFolder";
 import { trans } from "i18n";
 import { HomeResInfo } from "util/homeResUtils";
 import { toLower } from "lodash";
+import { v4 } from "uuid"
 
 export const newAppPrefix = (userName: string, appType: AppTypeEnum = AppTypeEnum.Application) => {
   if (appType === AppTypeEnum.NavLayout) {
     return trans("home.newNavLayout", {
-      userName: userName,
+      userName: v4().split("-")[0],
       name: toLower(HomeResInfo[appType].name),
     });
   }
-  return trans("home.newApp", { userName: userName, name: toLower(HomeResInfo[appType].name) });
+  return trans("home.newApp", { userName: v4().split("-")[0], name: toLower(HomeResInfo[appType].name) });
 };
 
 export function useCreateHomeRes() {

@@ -30,7 +30,7 @@ export const FOLDER_URL = `${FOLDER_URL_PREFIX}/:folderId`;
 export const FOLDERS_URL = `/folders`;
 export const TRASH_URL = `/trash`;
 export const IMPORT_APP_FROM_TEMPLATE_URL = `${ALL_APPLICATIONS_URL}/template-import/:templateId`;
-export const APP_EDITOR_URL = `${ALL_APPLICATIONS_URL}/:applicationId/:viewMode?/:appPageId?`;
+export const APP_EDITOR_URL = `${ALL_APPLICATIONS_URL}/:applicationId/:viewMode/:appPageId?`;
 
 export const AUTH_BIND_URL = `${USER_AUTH_URL}/bind`;
 export const AUTH_LOGIN_URL = `${USER_AUTH_URL}/login`;
@@ -43,8 +43,8 @@ export const LDAP_AUTH_LOGIN_URL = `${USER_AUTH_URL}/ldap/login`;
 export const USER_INFO_COMPLETION = `${USER_AUTH_URL}/completion`;
 export const INVITE_LANDING_URL = "/invite/:invitationId";
 
-export const APPLICATION_VIEW_URL = (appId: string, viewMode: AppViewMode) =>
-  `${ALL_APPLICATIONS_URL}/${appId}${viewMode === "view" ? "" : "/" + viewMode}`;
+export const APPLICATION_VIEW_URL = (appId: string, viewMode: AppViewMode) => 
+  `${ALL_APPLICATIONS_URL}/${appId}/${viewMode}`;
 
 export const isAuthUnRequired = (pathname: string): boolean => {
   return (
