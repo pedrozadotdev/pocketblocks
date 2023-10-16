@@ -2,21 +2,20 @@ import { auth } from "@/api";
 import { mocker } from "@/mocker";
 import { APIResponse } from "@/types";
 import { createDefaultResponse, createDefaultErrorResponse } from "@/utils";
+import { t } from "@/i18n";
 
 export default [
   mocker.post("/auth/email/bind", async ({ config, messageIns }) => {
     const { email, token, password } = config.data;
     let response: Awaited<APIResponse> = {
       status: 502,
-      message: "Something went wrong.",
+      message: t("serverError"),
     };
     if (email) {
       response = await auth.sendChangeEmail(email);
       messageIns.destroy();
       if (response.status === 200) {
-        messageIns.info(
-          "Email sent! Please visit your Mailbox and confirm your new email.",
-        );
+        messageIns.info(t("emailChangedSent"));
         return createDefaultResponse();
       }
     }
@@ -24,12 +23,12 @@ export default [
       response = await auth.verifyEmailChangeToken(token, password);
       messageIns.destroy();
       if (response.status === 200) {
-        messageIns.info("Email changed successfully!");
+        messageIns.info(t("emailChanged"));
         window.history.pushState({}, document.title, window.location.pathname);
         return createDefaultResponse();
       }
     }
-    messageIns.error("Something went wrong!");
+    messageIns.error(t("serverError"));
     return createDefaultErrorResponse([response]);
   }),
 ];

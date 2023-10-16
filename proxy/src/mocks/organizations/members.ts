@@ -5,6 +5,7 @@ import {
   createDefaultErrorResponse,
   createDefaultResponse,
 } from "@/utils";
+import { t } from "@/i18n";
 
 export default [
   mocker.get(
@@ -21,7 +22,7 @@ export default [
             joinTime: new Date(u.created).getTime(),
             rawUserInfos: {
               EMAIL: {
-                email: "PRIVATE",
+                email: t("private"),
               },
             },
           })),

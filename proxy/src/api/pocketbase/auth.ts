@@ -3,6 +3,7 @@ import { Auth, FullUser } from "@/types";
 import { APIResponse, PBAuth } from "./types";
 import * as users from "./users";
 import { createDefaultErrorResponse, pb } from "./utils";
+import { t } from "@/i18n";
 
 export async function login(
   loginId: string,
@@ -47,11 +48,11 @@ export async function signup(loginId: string, password: string): APIResponse {
     if (status === 400) {
       let message = rawMessage;
       if (response.data?.email?.code === "validation_invalid_email") {
-        message = "The email is invalid or already in use!";
+        message = t("authInvalidEmail");
       } else if (
         response.data?.username?.code === "validation_invalid_username"
       ) {
-        message = "The username is invalid or already in use!";
+        message = t("authInvalidUsername");
       }
       return {
         status: 401,
@@ -120,7 +121,7 @@ export async function changePassword(
   } catch (e) {
     const { status } = e as ClientResponseError;
     if (status === 400) {
-      return { status: 403, message: "Invalid password." };
+      return { status: 403, message: t("authInvalidPassword") };
     }
     return createDefaultErrorResponse(e);
   }

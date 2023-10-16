@@ -12,6 +12,7 @@ permissions:
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   GH_USER: ${{ github.actor }}
+  GH_TAG: ${{ github.ref_name }}
   PBL_VERSION: ${{ github.ref_name }}
   POCKETBASE_VERSION: ${{ vars.POCKETBASE_VERSION }}
 
@@ -20,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Change Version
+        run: echo "${GH_TAG}" | cut -c 2- > ./client/VERSION
       - name: Build Client
         uses: actions/setup-node@v3
         with:

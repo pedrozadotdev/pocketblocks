@@ -1,5 +1,6 @@
 import PocketBase, { ClientResponseError, LocalAuthStore } from "pocketbase";
 import { APIResponse } from "./types";
+import { t } from "@/i18n";
 
 const store = new LocalAuthStore("pb_admin_auth");
 
@@ -12,13 +13,13 @@ export function createDefaultErrorResponse(e: unknown): Awaited<APIResponse> {
   if (status === 401) {
     return {
       status,
-      message: "You cannot access this resource.",
+      message: t("unauthorized"),
     };
   }
   if (status === 404) {
     return {
       status,
-      message: "Resource not found",
+      message: t("notFound"),
     };
   }
   if (import.meta.env.DEV) {
@@ -26,6 +27,6 @@ export function createDefaultErrorResponse(e: unknown): Awaited<APIResponse> {
   }
   return {
     status: 502,
-    message: "Something went wrong.",
+    message: t("serverError"),
   };
 }

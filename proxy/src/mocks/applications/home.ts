@@ -9,6 +9,7 @@ import {
   createFolderList,
   getAuthConfigs,
 } from "@/utils";
+import { t } from "@/i18n";
 
 const createResponseData = async (
   user: FullUser,
@@ -20,7 +21,7 @@ const createResponseData = async (
     user: {
       id: user.id,
       createdBy: "anonymousId",
-      name: user.name !== "NONAME" ? user.name : "Change Me",
+      name: user.name !== "NONAME" ? user.name || t("changeMe") : t("changeMe"),
       avatar: null,
       tpAvatarLink: null,
       state: "ACTIVATED",
@@ -30,7 +31,8 @@ const createResponseData = async (
         {
           authId: "EMAIL",
           source: "EMAIL",
-          name: user.name !== "NONAME" ? user.name : "Change Me",
+          name:
+            user.name !== "NONAME" ? user.name || t("changeMe") : t("changeMe"),
           avatar: null,
           rawUserInfo: {
             email: user.email,
@@ -80,9 +82,9 @@ async function showVerifiedMessage(user: FullUser, messageIns: any) {
     const { status } = await auth.verifyEmailToken(verifyToken);
     messageIns.destroy();
     if (status === 200) {
-      messageIns.info("Email verified!");
+      messageIns.info(t("emailVerified"));
     } else {
-      messageIns.error("Something went wrong!");
+      messageIns.error(t("serverError"));
     }
   } else if (
     !isAdmin &&
@@ -91,19 +93,16 @@ async function showVerifiedMessage(user: FullUser, messageIns: any) {
   ) {
     messageIns.destroy();
     messageIns.info({
-      content:
-        "Access your email to verify your account. If you didn't receive an email, click here!",
-      duration: 5,
+      content: t("emailVerifiedSentWithLink"),
+      duration: 0,
       style: { cursor: "pointer" },
       onClick: () => {
         auth.sendVerifyEmail().then((response) => {
           messageIns.destroy();
           if (response.status === 200) {
-            messageIns.info(
-              "Email sent! Please visit your Mailbox and verify your account.",
-            );
+            messageIns.info(t("emailVerifiedSent"));
           } else {
-            messageIns.error("Something went wrong!");
+            messageIns.error(t("serverError"));
           }
         });
       },

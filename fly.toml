@@ -1,0 +1,27 @@
+app = "app-name"
+primary_region = "gru"
+
+[build]
+  image = "ghcr.io/internoapp/pocketblocks:latest"
+
+[mounts]
+  source = "data"
+  destination = "/pocketblocks/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  [http_service.concurrency]
+    type = "requests"
+    hard_limit = 250
+    soft_limit = 200
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/api/health"

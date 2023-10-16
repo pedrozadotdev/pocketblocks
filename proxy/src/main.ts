@@ -2,13 +2,13 @@ import { AxiosInstance } from "axios";
 import MockAdapter from "axios-mock-adapter";
 import { sdk } from "@/api";
 import mocks from "@/mocks";
-import { initI18n, t } from "@/i18n";
+import { initI18n } from "@/i18n";
 
 sdk.setup();
 
 initI18n().then(() => {
   if (import.meta.env.DEV) {
-    console.warn(t("init"));
+    console.warn("[I18N]: Init successfully!");
   }
 });
 

@@ -2,6 +2,7 @@ import { auth } from "@/api";
 import { mocker } from "@/mocker";
 import { APIResponse } from "@/types";
 import { createDefaultResponse, createDefaultErrorResponse } from "@/utils";
+import { t } from "@/i18n";
 
 export default [
   mocker.post("/api/auth/form/login", async ({ config, messageIns }) => {
@@ -9,7 +10,7 @@ export default [
       config.data;
     let authResponse: Awaited<APIResponse> = {
       status: 502,
-      message: "Something went wrong!",
+      message: t("serverError"),
     };
     if (authId === "RESET_PASSWORD") {
       if (resetToken) {
@@ -28,7 +29,7 @@ export default [
           status: 403,
           body: {
             code: 5608,
-            message: "Invalid email/username or password.",
+            message: t("authInvalid"),
             success: false,
           },
         };
@@ -39,9 +40,7 @@ export default [
         if (authId === "RESET_PASSWORD") {
           messageIns.destroy();
           messageIns.success(
-            resetToken
-              ? "Password reset successfully!"
-              : "Email sent! Please visit your Mailbox and reset your password.",
+            resetToken ? t("passwordReset") : t("passwordResetSent"),
           );
           setTimeout(() => res(createDefaultResponse()), 2000);
         } else {

@@ -7,6 +7,7 @@ import {
   adminRoute,
 } from "@/utils";
 import { Application, Settings } from "@/types";
+import { t } from "@/i18n";
 
 type Permission = {
   permissionId: string;
@@ -25,7 +26,7 @@ async function createPermissions(app: Application): Promise<Permission[]> {
       type: "GROUP",
       id: ALL_USERS_GROUP_ID,
       avatar: "",
-      name: "All Users",
+      name: t("allUsers"),
       role: "viewer",
     });
   }

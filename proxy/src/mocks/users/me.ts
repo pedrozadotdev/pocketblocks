@@ -7,12 +7,13 @@ import {
   createDefaultResponse,
   getAuthConfigs,
 } from "@/utils";
+import { t } from "@/i18n";
 
 const defaultDataResponse = {
   id: null,
   orgAndRoles: null,
   currentOrgId: null,
-  username: "anonymous",
+  username: t("anonymous"),
   connections: null,
   avatar: null,
   avatarUrl: null,
@@ -63,7 +64,10 @@ const createResponseData = async (user: FullUser, systemSettings: Settings) => {
       },
     ],
     currentOrgId: "ORG_ID",
-    username: user.name || user.username || "NONAME",
+    username:
+      user.name !== "NONAME"
+        ? user.name || user.username || t("changeMe")
+        : t("changeMe"),
     connections: [
       {
         authId: "EMAIL",

@@ -1,6 +1,7 @@
 import { apps as appsAPI, auth, settings as settingsAPI } from "@/api";
 import { MockHandler, MockRequest, MockResponse } from "@/mocker";
 import { APIResponse, Application, Auth, Folder } from "@/types";
+import { t } from "@/i18n";
 
 export async function createAppList(apps: Application[]) {
   const admin = await auth.isAdmin();
@@ -13,7 +14,7 @@ export async function createAppList(apps: Application[]) {
       ? typeof a.created_by === "string"
         ? a.created_by
         : a.created_by.name
-      : "UNKNOWN",
+      : t("unknown"),
     role: admin ? "owner" : "viewer",
     applicationType: a.type,
     applicationStatus: a.status,
