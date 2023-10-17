@@ -1,6 +1,7 @@
 import { ConfigProvider } from "antd";
 import {
   ALL_APPLICATIONS_URL,
+  ALL_MODULES_URL,
   APP_EDITOR_URL,
   APPLICATION_VIEW_URL,
   BASE_URL,
@@ -121,6 +122,7 @@ class AppIndex extends React.Component<AppIndexProps, any> {
               />
             )}
             <Route exact path={IMPORT_APP_FROM_TEMPLATE_URL} component={AppFromTemplate} />
+            <Route path={ALL_MODULES_URL} component={ApplicationHome} />
             <Route path={APP_EDITOR_URL} component={AppEditor} />
             <Route
               path={[
