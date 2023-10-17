@@ -196,7 +196,11 @@ NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
               ALL_APPLICATIONS_URL,
               pathParam.applicationId,
             ].join("/") +
-            (pathParam.viewMode || "") +
+            (
+              pathParam.viewMode
+                ? "/" + pathParam.viewMode
+                : ""
+            ) +
             (itemComp.getItemKey()
               ? `?${AppPagePathParam}=${itemComp.getItemKey()}`
               : ""
