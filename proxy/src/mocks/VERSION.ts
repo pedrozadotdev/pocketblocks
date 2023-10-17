@@ -9,7 +9,7 @@ export default [
         queryKey: ["version"],
         queryFn: async () => {
           const result = await axios("/VERSION", { responseType: "text" });
-          return result as unknown as string;
+          return result.data as unknown as string;
         },
       });
       return {
