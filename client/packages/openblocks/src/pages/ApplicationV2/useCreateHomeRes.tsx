@@ -23,7 +23,7 @@ import { toLower } from "lodash";
 import { v4 } from "uuid"
 
 export const newAppPrefix = (userName: string, appType: AppTypeEnum = AppTypeEnum.Application) => {
-  if (appType === AppTypeEnum.NavLayout) {
+  if ([AppTypeEnum.NavLayout, AppTypeEnum.MobileTabLayout].includes(appType)) {
     return trans("home.newNavLayout", {
       userName: v4().split("-")[0],
       name: toLower(HomeResInfo[appType].name),

@@ -8,12 +8,13 @@ import { withDispatchHook } from "comps/generators/withDispatchHook";
 import { NameAndExposingInfo } from "comps/utils/exposingTypes";
 import { ALL_APPLICATIONS_URL } from "constants/routesURL";
 import { TopHeaderHeight } from "constants/style";
+import { AppPagePathParam } from "constants/applicationConstants";
 import { Section } from "openblocks-design";
 import { trans } from "i18n";
 import { EditorContainer, EmptyContent } from "pages/common/styledComponent";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { isUserViewMode, useAppPathParam } from "util/hooks";
+import { isUserViewMode, useAppPathParam, useAppPageId } from "util/hooks";
 
 const StyledSide = styled(Layout.Sider)`
   max-height: calc(100vh - ${TopHeaderHeight});
@@ -62,6 +63,7 @@ let NavTmpLayout = (function () {
 
 NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
   const pathParam = useAppPathParam();
+  const appPageId = useAppPageId();
   const isViewMode = isUserViewMode(pathParam);
   const [selectedKey, setSelectedKey] = useState("");
   const items = useMemo(() => comp.children.items.getView(), [comp.children.items]);
@@ -151,8 +153,8 @@ NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
 
   const defaultOpenKeys = useMemo(() => {
     let itemPath: string[];
-    if (pathParam.appPageId) {
-      itemPath = findItemPathByKey(items, pathParam.appPageId);
+    if (appPageId) {
+      itemPath = findItemPathByKey(items, appPageId);
     } else {
       itemPath = findFirstItemPath(items);
     }
@@ -160,7 +162,7 @@ NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
   }, []);
 
   useEffect(() => {
-    let selectedKey = pathParam.appPageId;
+    let selectedKey = appPageId;
     if (!selectedKey) {
       const firstItem = findFirstItemPath(items)?.slice(-1);
       if (firstItem.length > 0) {
@@ -168,7 +170,7 @@ NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
       }
     }
     setSelectedKey(selectedKey);
-  }, [pathParam.appPageId]);
+  }, [appPageId]);
 
   let pageView = <EmptyContent text="" style={{ height: "100%" }} />;
   const selectedItem = itemKeyRecord[selectedKey];
@@ -193,9 +195,12 @@ NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
             const url = [
               ALL_APPLICATIONS_URL,
               pathParam.applicationId,
-              pathParam.viewMode,
-              itemComp.getItemKey(),
-            ].join("/");
+            ].join("/") +
+            (pathParam.viewMode || "") +
+            (itemComp.getItemKey()
+              ? `?${AppPagePathParam}=${itemComp.getItemKey()}`
+              : ""
+            );
             itemComp.children.action.act(url);
           }}
         />

@@ -2087,7 +2087,7 @@ export const pt = {
     creating: "Criando...",
     chooseDataSourceType: "Escolha o tipo de fonte de dados",
     folderAlreadyExists: "A pasta já existe",
-    newNavLayout: "Novo {name} - {userName}",
+    newNavLayout: "Nova {name} - {userName}",
     newApp: "Novo {name} - {userName}",
     importError: "Erro de importação, {message}",
     exportError: "Erro de exportação, {message}",

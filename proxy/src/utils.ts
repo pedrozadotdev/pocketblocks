@@ -38,7 +38,7 @@ export async function createFullAppResponseData(app: Application) {
   return {
     applicationInfoView: (await createAppList([app]))[0],
     applicationDSL: getCorrectDSL(app),
-    moduleDSL: null,
+    moduleDSL: {},
     orgCommonSettings: settings
       ? {
           themeList: settings.themes,

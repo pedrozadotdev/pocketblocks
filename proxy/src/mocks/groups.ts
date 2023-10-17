@@ -2,21 +2,21 @@ import { auth, groups } from "@/api";
 import { ALL_USERS_GROUP_ID } from "@/constants";
 import { mocker } from "@/mocker";
 import { createDefaultErrorResponse, createDefaultResponse } from "@/utils";
-
-const allUsersGroup = {
-  groupId: ALL_USERS_GROUP_ID,
-  groupName: "All Users",
-  allUsersGroup: true,
-  visitorRole: "viewer",
-  createTime: 0,
-  dynamicRule: null,
-  syncGroup: false,
-  devGroup: false,
-  syncDelete: false,
-};
+import { t } from "@/i18n";
 
 export default [
   mocker.get("/api/v1/groups/list", async () => {
+    const allUsersGroup = {
+      groupId: ALL_USERS_GROUP_ID,
+      groupName: t("allUsers"),
+      allUsersGroup: true,
+      visitorRole: "viewer",
+      createTime: 0,
+      dynamicRule: null,
+      syncGroup: false,
+      devGroup: false,
+      syncDelete: false,
+    };
     const groupsResponse = await groups.list();
     const isAdmin = await auth.isAdmin();
     if (groupsResponse.data) {

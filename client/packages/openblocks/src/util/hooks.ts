@@ -1,4 +1,4 @@
-import { AppPathParams } from "constants/applicationConstants";
+import { AppPathParams, AppPagePathParam } from "constants/applicationConstants";
 import React, {
   Dispatch,
   SetStateAction,
@@ -25,7 +25,7 @@ export function isUserViewMode(params?: AppPathParams) {
     return false;
   }
   const { viewMode } = params;
-  return viewMode === "preview" || viewMode === "view";
+  return viewMode === "preview" || viewMode === "view" || !viewMode;
 }
 
 /**
@@ -69,6 +69,12 @@ export function useRedirectUrl() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   return queryParams.get(AuthSearchParams.redirectUrl);
+}
+
+export function useAppPageId() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  return queryParams.get(AppPagePathParam) || "";
 }
 
 export function useFixedDelay(callback: () => Promise<unknown>, delay: number | null) {

@@ -21,6 +21,8 @@ export const AuthSearchParams = {
   redirectUrl: "redirectUrl",
 };
 
+export const AppPageIdSearchParam = "appPage"
+
 export type OauthRequestParam = {
   appId: string;
   redirectUri: string;

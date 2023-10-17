@@ -87,8 +87,9 @@ export type AppViewMode = "edit" | "preview" | "view";
 export type AppPathParams = {
   viewMode: AppViewMode;
   applicationId: string;
-  appPageId: string;
 };
+
+export const AppPagePathParam = "appPage";
 
 export type AppSnapshotContext = {
   operations: {
