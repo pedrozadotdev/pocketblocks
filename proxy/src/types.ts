@@ -47,7 +47,7 @@ export interface Settings extends BaseModel {
   logo?: string;
   icon?: string;
   header_color?: string;
-  template_view?: boolean;
+  anon_template_view?: boolean;
   home_page: Application | string | null;
   themes: string;
   theme: string; // id

@@ -17,6 +17,7 @@ import { EditorContext } from "comps/editorState";
 import { getDataSourceStructures } from "redux/selectors/datasourceSelectors";
 import { DatasourceStructure } from "api/datasourceApi";
 import { selectSystemConfig } from "redux/selectors/configSelectors";
+import { getUser } from "redux/selectors/usersSelectors";
 
 export const ForceViewModeContext = React.createContext<boolean>(false);
 
@@ -48,9 +49,13 @@ export function useMaxWidth() {
 
 export function useTemplateViewMode() {
   const systemConfig = useSelector(selectSystemConfig);
+  const user = useSelector(getUser);
   const search = useLocation().search;
 
-  if(systemConfig?.branding?.enableTemplateViewMode) {
+  if(
+    systemConfig?.branding?.enableTemplateViewMode
+    && user && user.isAnonymous
+  ) {
     return true
   }
   if (!useUserViewMode) {

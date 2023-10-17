@@ -317,7 +317,7 @@ module.exports = {
           {
             system: false,
             id: "bjehlimo",
-            name: "template_view",
+            name: "anon_template_view",
             type: "bool",
             required: false,
             presentable: false,
