@@ -84,7 +84,7 @@ export default function FormLogin() {
             onChange={(value) => setPassword(value)}
             valueCheck={() => [true, ""]}
           />
-          {customProps.allowUpdate.includes("password") ? (
+          {customProps.allowUpdate.includes("password") && customProps.type.includes("email") ? (
             <StyledRouteLink style={{ marginBottom: 16, marginTop: -20 }} to={{ pathname: AUTH_PASSWORD_RECOVERY_URL, state: location.state }}>
               {trans("userAuth.recoveryPassword")}
             </StyledRouteLink>

@@ -1,6 +1,6 @@
 FROM alpine:3 as downloader
 
-ARG POCKETBASE_VERSION=0.18.9
+ARG POCKETBASE_VERSION=0.19.0
 
 #Install dependencies
 RUN apk add --no-cache \

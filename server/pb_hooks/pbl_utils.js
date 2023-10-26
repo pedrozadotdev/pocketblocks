@@ -784,6 +784,8 @@ module.exports = {
                 "instagram",
                 "vk",
                 "yandex",
+                "patreon",
+                "mailcow",
               ],
             },
           },

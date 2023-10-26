@@ -350,8 +350,8 @@ export function HomeLayout(props: HomeLayoutProps) {
             options={[
               getFilterMenuItem(HomeResTypeEnum.All),
               getFilterMenuItem(HomeResTypeEnum.Application),
-              getFilterMenuItem(HomeResTypeEnum.Module),
-              getFilterMenuItem(HomeResTypeEnum.Navigation),
+              ...(user.orgDev ? [getFilterMenuItem(HomeResTypeEnum.Module)] : []),
+              ...(user.orgDev ? [getFilterMenuItem(HomeResTypeEnum.Navigation)] : []),
               ...(mode !== "trash" ? [getFilterMenuItem(HomeResTypeEnum.Folder)] : []),
             ]}
             getPopupContainer={(node) => node}
