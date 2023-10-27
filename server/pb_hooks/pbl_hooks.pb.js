@@ -5,9 +5,8 @@ onAdminAfterCreateRequest((e) => {
   const usersCollection = $app.dao().findCollectionByNameOrId("pbl_users");
   const user = new Record(usersCollection);
   const form = new RecordUpsertForm($app, user);
-  const n = e.admin.email.split("@")[0];
   form.loadData({
-    name: n && n[0].toUpperCase() + n.slice(1),
+    name: "NONAME",
     user_id: e.admin.id,
   });
 
@@ -25,10 +24,8 @@ onRecordAfterCreateRequest((e) => {
   const usersCollection = $app.dao().findCollectionByNameOrId("pbl_users");
   const user = new Record(usersCollection);
   const form = new RecordUpsertForm($app, user);
-  const email = e.record.get("email");
-  const n = email ? email.split("@")[0] : "NONAME";
   form.loadData({
-    name: n && n[0].toUpperCase() + n.slice(1),
+    name: "NONAME",
     user_id: e.record.get("id"),
   });
   form.submit();

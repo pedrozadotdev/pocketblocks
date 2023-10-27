@@ -26,7 +26,8 @@ export default [
           settingsResponse.data;
         return createDefaultResponse({
           themeList: themes,
-          defaultHomePage: home_page,
+          defaultHomePage:
+            typeof home_page === "string" ? home_page : home_page?.slug,
           defaultTheme: theme,
           preloadCSS: css,
           preloadJavaScript: script,
@@ -46,14 +47,18 @@ export default [
       const bodyParams: { [key: string]: string } = {};
       bodyParams[renamedParams[key]] =
         typeof value === "string" ? value : !value ? "" : JSON.stringify(value);
-      const settingsResponse = await settings.update({
-        id: req.params.id as string,
-        ...bodyParams,
-      });
-      if (settingsResponse.status === 200) {
-        return createDefaultResponse(true);
+      const currentSettingsResponse = await settings.get();
+      if (currentSettingsResponse.data) {
+        const settingsResponse = await settings.update({
+          id: currentSettingsResponse.data.id,
+          ...bodyParams,
+        });
+        if (settingsResponse.status === 200) {
+          return createDefaultResponse(true);
+        }
+        return createDefaultErrorResponse([settingsResponse]);
       }
-      return createDefaultErrorResponse([settingsResponse]);
+      return createDefaultErrorResponse([currentSettingsResponse]);
     }),
   ),
 ];

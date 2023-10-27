@@ -1,5 +1,5 @@
 import { OLD_OPENBLOCKS_DATASOURCE } from "@openblocks-ee/constants/datasourceConstants";
-import { manualTriggerResource, ResourceType } from "@openblocks-ee/constants/queryConstants";
+import { ResourceType } from "@openblocks-ee/constants/queryConstants";
 import { PreparedStatementConfig } from "api/datasourceApi";
 import { isCompWithPropertyView } from "comps/utils/propertyUtils";
 import {
@@ -9,10 +9,8 @@ import {
 } from "constants/datasourceConstants";
 import { PageType } from "constants/pageConstants";
 import { trans } from "i18n";
-import { includes, mapValues } from "lodash";
-import { deferAction, executeQueryAction, wrapActionExtraInfo } from "openblocks-core";
+import { executeQueryAction } from "openblocks-core";
 import {
-  CustomModal,
   Dropdown,
   QueryConfigItemWrapper,
   QueryConfigLabel,
@@ -28,8 +26,6 @@ import { getDataSource, getDataSourceTypes } from "redux/selectors/datasourceSel
 import { BottomResTypeEnum } from "types/bottomRes";
 import { EditorContext } from "../../editorState";
 import { QueryComp } from "../queryComp";
-import { ResourceDropdown } from "../resourceDropdown";
-import { NOT_SUPPORT_GUI_SQL_QUERY, SQLQuery } from "../sqlQuery/SQLQuery";
 
 export function QueryPropertyView(props: { comp: InstanceType<typeof QueryComp> }) {
   const { comp } = props;
@@ -151,17 +147,13 @@ export const QueryGeneralPropertyView = (props: {
   placement?: PageType;
 }) => {
   const { comp, placement = "editor" } = props;
-  const editorState = useContext(EditorContext);
   const datasource = useSelector(getDataSource);
 
   const children = comp.children;
   const dispatch = comp.dispatch;
   let datasourceId = children.datasourceId.getView();
-  let datasourceType = children.compType.getView();
   const datasourceConfig = datasource.find((d) => d.datasource.id === datasourceId)?.datasource
     .datasourceConfig;
-
-  const datasourceStatus = useDatasourceStatus(datasourceId, datasourceType);
 
   // transfer old quick REST API datasource to new
   const oldQuickRestId = useMemo(
@@ -186,7 +178,6 @@ export const QueryGeneralPropertyView = (props: {
   );
   if (datasourceId === oldOpenblocksId) {
     datasourceId = OPENBLOCKS_API_ID;
-    datasourceType = "openblocksApi";
     dispatch(
       comp.changeValueAction({
         ...comp.toJsonValue(),
@@ -199,105 +190,6 @@ export const QueryGeneralPropertyView = (props: {
   return (
     <QueryPropertyViewWrapper>
       <QuerySectionWrapper>
-        <QueryConfigWrapper style={{ alignItems: "center" }}>
-          <QueryConfigLabel>{trans("query.chooseDataSource")}</QueryConfigLabel>
-          <QueryConfigItemWrapper direction={"row"}>
-            <ResourceDropdown
-              selectedResource={{ id: datasourceId, type: datasourceType }}
-              changeResource={(newDatasourceId: string, newDatasourceType: string) => {
-                // brute-force modify json
-                dispatch(
-                  wrapActionExtraInfo(
-                    comp.changeValueAction({
-                      ...comp.toJsonValue(),
-                      triggerType:
-                        newDatasourceType === children.compType.getView()
-                          ? children.triggerType.getView() // Switching data sources of the same type retains the original trigger type
-                          : includes(manualTriggerResource, newDatasourceType)
-                          ? "manual"
-                          : "automatic",
-                      lastQueryStartTime: children.lastQueryStartTime.getView(),
-                      datasourceId: newDatasourceId,
-                      compType: newDatasourceType,
-                      comp:
-                        newDatasourceType === children.compType.getView()
-                          ? children.comp.toJsonValue() // The data source type remains unchanged, and the query information is retained
-                          : {},
-                    } as any),
-                    {
-                      compInfos: [
-                        {
-                          type: "modify",
-                          compName: children.name.getView(),
-                          compType: newDatasourceType,
-                        },
-                      ],
-                    }
-                  )
-                );
-
-                if (datasourceStatus === "error") {
-                  const queries = editorState
-                    .getQueriesComp()
-                    .getView()
-                    .filter(
-                      (q) =>
-                        q.children.datasourceId.getView() === datasourceId &&
-                        q.children.id.getView() !== children.id.getView()
-                    );
-                  queries.length > 0 &&
-                    CustomModal.confirm({
-                      title: trans("query.updateExceptionDataSourceTitle"),
-                      content: (
-                        <>
-                          {trans("query.updateExceptionDataSourceContent")}
-                          {queries.map((q) => (
-                            <div style={{ fontWeight: "600" }}>{q.children.name.getView()}</div>
-                          ))}
-                        </>
-                      ),
-                      bodyStyle: { marginTop: "20px" },
-                      onConfirm: () => {
-                        queries.forEach((q) => {
-                          q.dispatch(
-                            deferAction(
-                              wrapActionExtraInfo(
-                                q.changeValueAction({
-                                  ...mapValues(q.children, (c) => c.toJsonValue()),
-                                  datasourceId: newDatasourceId,
-                                  compType: newDatasourceType,
-                                } as any),
-                                {
-                                  compInfos: [
-                                    {
-                                      type: "modify",
-                                      compName: q.children.name.getView(),
-                                      compType: newDatasourceType,
-                                    },
-                                  ],
-                                }
-                              )
-                            )
-                          );
-                        });
-                      },
-                      confirmBtnType: "primary",
-                      okText: trans("query.update"),
-                    });
-                }
-              }}
-              status={datasourceStatus}
-            />
-            {children.comp instanceof SQLQuery &&
-              !NOT_SUPPORT_GUI_SQL_QUERY.includes(children.compType.getView()) && (
-                <div style={{ width: "104px", marginLeft: "8px", flexShrink: 0 }}>
-                  {/* query comp should not aware of specific queryType  */}
-                  {(children.comp.children as any).mode.propertyView({})}
-                </div>
-              )}
-          </QueryConfigItemWrapper>
-        </QueryConfigWrapper>
-
         {placement === "editor" && (
           <TriggerTypeStyled>
             <Dropdown

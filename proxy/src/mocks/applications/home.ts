@@ -57,7 +57,10 @@ const createResponseData = async (
       state: "ACTIVE",
       commonSettings: {
         themeList: systemSettings.themes,
-        defaultHomePage: systemSettings.home_page,
+        defaultHomePage:
+          typeof systemSettings.home_page === "string"
+            ? systemSettings.home_page
+            : systemSettings.home_page?.slug,
         defaultTheme: systemSettings.theme,
         preloadCSS: systemSettings.css,
         preloadJavaScript: systemSettings.script,

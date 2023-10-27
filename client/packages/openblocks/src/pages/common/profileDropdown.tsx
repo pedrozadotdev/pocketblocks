@@ -140,9 +140,6 @@ export default function ProfileDropdown(props: DropDownProps) {
   const handleClick = (e: any) => {
     if (e.key === "profile") {
       // click the profile, while not close the dropdown
-      if (checkIsMobile(window.innerWidth)) {
-        return;
-      }
       dispatch(profileSettingModalVisible(true));
     } else if (e.key === "logout") {
       // logout

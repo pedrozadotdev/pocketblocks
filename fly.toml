@@ -1,5 +1,4 @@
 app = "app-name"
-primary_region = "gru"
 
 [build]
   image = "ghcr.io/internoapp/pocketblocks:latest"

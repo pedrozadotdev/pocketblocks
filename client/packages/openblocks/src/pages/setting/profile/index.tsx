@@ -9,6 +9,7 @@ import { message } from "antd";
 import { WindowMessageTypes } from "constants/messages";
 import { isProfileSettingModalVisible } from "redux/selectors/usersSelectors";
 import { trans } from "i18n";
+import { checkIsMobile } from "util/commonUtils";
 
 export default function ProfileSettingModal() {
   const visible = useSelector(isProfileSettingModalVisible);
@@ -53,6 +54,7 @@ export default function ProfileSettingModal() {
 
   return (
     <CustomModal
+      width={checkIsMobile(window.innerWidth) ? `${window.innerWidth - 20}px` : "368px"}
       title={title}
       visible={visible}
       onCancel={() => dispatch(profileSettingModalVisible(false))}

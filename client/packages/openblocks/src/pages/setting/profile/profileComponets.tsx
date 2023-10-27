@@ -19,6 +19,7 @@ import { updateUserAction, updateUserSuccess } from "redux/reduxActions/userActi
 import { message, Upload } from "antd";
 import { USER_HEAD_UPLOAD_URL } from "constants/apiConstants";
 import { trans } from "i18n";
+import { checkIsMobile } from "util/commonUtils";
 
 const FormInputStyle = css`
   input {
@@ -276,7 +277,7 @@ export function HeadNameFiled() {
           message: trans("profile.nameCheck"),
         }}
         inputStyle={{
-          width: "248px",
+          width: checkIsMobile(window.innerWidth) ? `${window.innerWidth - 140}px` : "248px",
           height: " 32px",
         }}
         label={trans("profile.name")}

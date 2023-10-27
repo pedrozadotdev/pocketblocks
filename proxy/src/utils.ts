@@ -42,7 +42,10 @@ export async function createFullAppResponseData(app: Application) {
     orgCommonSettings: settings
       ? {
           themeList: settings.themes,
-          defaultHomePage: settings.home_page,
+          defaultHomePage:
+            typeof settings.home_page === "string"
+              ? settings.home_page
+              : settings.home_page?.slug,
           defaultTheme: settings.theme,
           preloadCSS: settings.css,
           preloadJavaScript: settings.script,
