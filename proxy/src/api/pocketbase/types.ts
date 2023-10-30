@@ -73,6 +73,7 @@ export interface PBSettings<E = ConfigExpanded> extends BaseModel<E> {
   script?: string;
   libs?: string;
   css?: string;
+  plugins?: string;
 }
 
 type LocalIdType = "username" | "email";

@@ -1,12 +1,13 @@
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import LoginBackground from "assets/images/loginBackground.png";
-import React, { CSSProperties, useEffect, useRef, useState } from "react";
+import React, { CSSProperties, useContext, useEffect, useRef, useState } from "react";
 import { CheckBox, PackUpIcon, TacoButton } from "openblocks-design";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ReactHotkeys from "util/hotkeys";
 import { StyledLink } from "pages/common/styledComponent";
 import { trans } from "i18n";
+import { AuthContext } from "./authUtils";
 
 const AuthCardContainer = styled.div`
   display: flex;
@@ -142,6 +143,7 @@ export const ConfirmButton = (props: {
   style?: CSSProperties;
   loading?: boolean;
 }) => {
+  const { systemConfig: { branding } } = useContext(AuthContext);
   const ref = useRef<HTMLElement>(null);
   return (
     <>
@@ -155,7 +157,15 @@ export const ConfirmButton = (props: {
         }}
         global
       />
-      <StyledConfirmButton ref={ref} buttonType="primary" {...props} />
+      <StyledConfirmButton
+        ref={ref}
+        buttonType={branding?.headerColor ? "normal" : "primary"}
+        style={branding?.headerColor ? {
+          backgroundColor: branding.headerColor,
+          color: "#fff",
+        } : undefined}
+        {...props}
+      />
     </>
   );
 };
@@ -229,7 +239,21 @@ export const StyledLoginButton = styled.button`
   }
 `;
 
-export const StyledRouteLink = styled(Link)`
+export function StyledRouteLink(props: React.ComponentProps<typeof RawStyledRouteLink>) {
+  const { systemConfig: { branding } } = useContext(AuthContext);
+  return (
+    <RawStyledRouteLink
+    {...props}
+    style={
+      branding?.headerColor ?
+        { color: branding.headerColor, ...props.style } :
+        props.style
+      }
+    />
+  )
+}
+
+const RawStyledRouteLink = styled(Link)`
   display: flex;
   align-items: center;
 

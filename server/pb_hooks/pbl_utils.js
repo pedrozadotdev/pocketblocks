@@ -390,6 +390,16 @@ module.exports = {
           },
           {
             system: false,
+            id: "1o3p3vux",
+            name: "plugins",
+            type: "json",
+            required: false,
+            presentable: false,
+            unique: false,
+            options: {},
+          },
+          {
+            system: false,
             id: "6ub1q6bc",
             name: "theme",
             type: "text",

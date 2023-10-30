@@ -14,6 +14,7 @@ const renamedParams = {
   preloadCSS: "css",
   preloadJavaScript: "script",
   preloadLibs: "libs",
+  npmPlugins: "plugins",
 };
 
 export default [
@@ -22,7 +23,7 @@ export default [
     authRoute(async () => {
       const settingsResponse = await settings.get();
       if (settingsResponse.data) {
-        const { themes, home_page, theme, css, script, libs } =
+        const { themes, home_page, theme, css, script, libs, plugins } =
           settingsResponse.data;
         return createDefaultResponse({
           themeList: themes,
@@ -32,6 +33,7 @@ export default [
           preloadCSS: css,
           preloadJavaScript: script,
           preloadLibs: libs,
+          npmPlugins: plugins || [],
         });
       }
       return createDefaultErrorResponse([settingsResponse]);

@@ -54,6 +54,7 @@ export interface Settings extends BaseModel {
   script?: string;
   libs?: string;
   css?: string;
+  plugins?: string;
 }
 
 export type AuthType =

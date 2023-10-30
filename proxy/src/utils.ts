@@ -50,6 +50,7 @@ export async function createFullAppResponseData(app: Application) {
           preloadCSS: settings.css,
           preloadJavaScript: settings.script,
           preloadLibs: settings.libs,
+          npmPlugins: settings.plugins || [],
         }
       : null,
     templateId: null,

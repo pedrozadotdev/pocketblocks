@@ -65,6 +65,7 @@ const createResponseData = async (
         preloadCSS: systemSettings.css,
         preloadJavaScript: systemSettings.script,
         preloadLibs: systemSettings.libs,
+        npmPlugins: systemSettings.plugins || [],
       },
       logoUrl: systemSettings.logo,
       createTime: 0,
