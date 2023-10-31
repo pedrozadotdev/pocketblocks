@@ -57,14 +57,20 @@ onRecordAfterAuthWithOAuth2Request((e) => {
 //Create/Update app slug
 onRecordBeforeCreateRequest((e) => {
   const pblUtils = require(`${__hooks}/pbl_utils.js`);
-  e.record.set("slug", pblUtils.slugify(e.record.get("name")));
+  const info = $apis.requestInfo(e.httpContext);
+  const hasSlug = !!info.data.slug;
+  if (!hasSlug) {
+    e.record.set("slug", pblUtils.slugify(e.record.get("name")));
+  }
 }, "pbl_applications");
 
 onRecordBeforeUpdateRequest((e) => {
   const currentApp = $app
     .dao()
     .findRecordById("pbl_applications", e.record.get("id"));
-  if (currentApp.get("name") !== e.record.get("name")) {
+  const info = $apis.requestInfo(e.httpContext);
+  const hasSlug = !!info.data.slug;
+  if (!hasSlug && currentApp.get("name") !== e.record.get("name")) {
     const pblUtils = require(`${__hooks}/pbl_utils.js`);
     e.record.set("slug", pblUtils.slugify(e.record.get("name")));
   }
@@ -143,20 +149,20 @@ onRecordBeforeDeleteRequest((e) => {
   }
 }, "pbl_auth");
 
-//Prevent signup with disabled auth type
+//Prevent anonymous signup with disabled auth type
 onRecordBeforeCreateRequest((e) => {
   const info = $apis.requestInfo(e.httpContext);
-  const isAdmin = !!info.admin;
+  const isAnon = !info.admin && !info.authRecord;
   const isPasswordSignup = !!info.data.password;
   let localAuth;
   try {
     localAuth = $app.dao().findFirstRecordByData("pbl_auth", "type", "local");
-    if (!isAdmin && isPasswordSignup && !localAuth.get("allow_signup")) {
+    if (isAnon && isPasswordSignup && !localAuth.get("allow_signup")) {
       throw new Error();
     }
   } catch (e) {
     throw new BadRequestError(
-      isAdmin
+      info.admin
         ? "Please create a pbl_auth local record!"
         : "You cannot signup with this provider!"
     );
