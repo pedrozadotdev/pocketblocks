@@ -68,7 +68,14 @@ const WrapperContainer = styled.div<{ headerColor?: string }>`
   color: ${(props) => props.headerColor || "#3377ff"};
 }
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: #f2f2f2;
+  background-color: ${(props) => props.headerColor || "#3377ff"}10;
+}
+.ant-menu-item:active, .ant-menu-submenu-title:active {
+  background: ${(props) => props.headerColor || "#3377ff"}10;
+}
+.ant-input:focus, .ant-input-focused {
+  border: 1px solid ${(props) => props.headerColor || "#3377ff"};
+  box-shadow: 0 0 0 2px ${(props) => props.headerColor || "#3377ff"}10;
 }
 `;
 
