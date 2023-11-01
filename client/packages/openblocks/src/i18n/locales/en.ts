@@ -1,7 +1,7 @@
 import table from "./componentDocExtra/table.md?url";
 
 export const en = {
-  productName: "Openblocks",
+  productName: "PocketBlocks",
   productDesc: "Build internal tools fast, with no limitations",
   notSupportedBrowser:
     "Your current browser may have compatibility issues. For a better user experience, it is recommended to use the latest version of the Chrome browser.",
@@ -2034,8 +2034,8 @@ export const en = {
     creating: "Creating...",
     chooseDataSourceType: "Choose data source type",
     folderAlreadyExists: "The folder already exists",
-    newNavLayout: "{userName}'s {name} ",
-    newApp: "{userName}'s new {name} ",
+    newNavLayout: "New {name} - {userName}",
+    newApp: "New {name} - {userName}",
     importError: "Import error, {message}",
     exportError: "Export error, {message}",
     importSuccess: "Import success",
