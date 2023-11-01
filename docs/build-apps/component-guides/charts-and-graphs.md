@@ -2,9 +2,9 @@
 
 Charts and graphs are visual representations of data that are used to simplify complex information and make it easier to understand. They can help highlight key insights and provide a quick summary of data that would otherwise be difficult to interpret. Charts and graphs come in different forms, such as bar graphs, line graphs, pie charts, scatter plots, and more, each suited for different types of data and analytical purposes.&#x20;
 
-Openblocks allows you to insert multiple forms of charts and graphs into your apps to satisfy your needs in different use cases.
+PocketBlocks allows you to insert multiple forms of charts and graphs into your apps to satisfy your needs in different use cases.
 
-<figure><img src="../../.gitbook/assets/charts-and-graphs-1.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/component-guides/charts-and-graphs/01.gif" alt=""><figcaption></figcaption></figure>
 
 ## UI mode
 
@@ -43,41 +43,41 @@ For example, the query result of `query1` is as follows.
 You can transform it using transformer `transformer1` with the following JS code.
 
 ```javascript
-let dates = query1.data.date
-let fruits = query1.data.fruit
-let counts = query1.data.count
-let result = []
+let dates = query1.data.date;
+let fruits = query1.data.fruit;
+let counts = query1.data.count;
+let result = [];
 for (let i = 0; i < dates.length; i++) {
-  result.push( {'date': dates[i], 'fruit': fruits[i], 'count': counts[i]} )
+  result.push({ date: dates[i], fruit: fruits[i], count: counts[i] });
 }
 return result;
 ```
 
 Then reference the value of the transformer `{{transformer1.value}}` as the data for the chart.
 
-<figure><img src="../../.gitbook/assets/charts-and-graphs-2.PNG" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/component-guides/charts-and-graphs/02.png" alt=""><figcaption></figcaption></figure>
 
 ### Chart type
 
-Openblocks supports four types of charts: bar chart, line chart, scatter chart, and pie chart. You can select the chart type in **Properties** > **Data** > **Chart type**. You can also customize the layout and style of your chart in **Properties** tab.
+PocketBlocks supports four types of charts: bar chart, line chart, scatter chart, and pie chart. You can select the chart type in **Properties** > **Data** > **Chart type**. You can also customize the layout and style of your chart in **Properties** tab.
 
-<figure><img src="../../.gitbook/assets/charts-and-graphs-3.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/component-guides/charts-and-graphs/03.png" alt=""><figcaption></figcaption></figure>
 
 ### X-axis
 
 Bar charts, line charts, and pie charts map values to categorical variables. Thus, in such charts, the X-axis usually shows non-numeric data—for example, date or department.
 
-<figure><img src="../../.gitbook/assets/charts-and-graphs-4.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/component-guides/charts-and-graphs/04.png" alt=""><figcaption></figcaption></figure>
 
-By default, Openblocks automatically detects the X-axis data and its type. You can also manually select one among "Category axis", "Value axis", "Time axis", or "Log axis". For detailed information, see [X axis type](https://echarts.apache.org/en/option.html#xAxis.type).
+By default, PocketBlocks automatically detects the X-axis data and its type. You can also manually select one among "Category axis", "Value axis", "Time axis", or "Log axis". For detailed information, see [X axis type](https://echarts.apache.org/en/option.html#xAxis.type).
 
-<figure><img src="../../.gitbook/assets/charts-and-graphs-5.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/component-guides/charts-and-graphs/05.png" alt=""><figcaption></figcaption></figure>
 
 ### Chart series
 
-In most types of charts, the **Chart series** (Y-axis) presents numeric values for the categories on X-axis. By default, Openblocks populates all numeric fields to Y-axis. You can hide unnecessary fields in **Properties** > **Chart series**.
+In most types of charts, the **Chart series** (Y-axis) presents numeric values for the categories on X-axis. By default, PocketBlocks populates all numeric fields to Y-axis. You can hide unnecessary fields in **Properties** > **Chart series**.
 
-<figure><img src="../../.gitbook/assets/charts-and-graphs-6.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/component-guides/charts-and-graphs/06.png" alt=""><figcaption></figcaption></figure>
 
 ## Echarts JSON
 
@@ -85,6 +85,6 @@ Apart from the built-in charts and graphs, you can also plot your data with [Apa
 
 For an instance of using Echarts, see [Stacked Area Chart](https://cloud.openblocks.dev/apps/63779dd6c54c5224c70ea537/view).
 
-<figure><img src="../../.gitbook/assets/charts-and-graphs-7.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/component-guides/charts-and-graphs/07.png" alt=""><figcaption></figcaption></figure>
 
-If you need more configuration options for charts, contact our customer service on the homepage.
+If you need more configuration options for charts, create a issue on [Github](https://github.com/internoapp/pocketblocks/issues).
