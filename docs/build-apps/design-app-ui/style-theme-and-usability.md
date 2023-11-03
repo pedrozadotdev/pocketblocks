@@ -6,47 +6,47 @@ Good user interface (UI) improves user experience (UX) and increases user involv
 
 You can modify the style of all components in the **Properties** tab.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/01.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/01.png" alt=""><figcaption></figcaption></figure>
 
 Click the color picker to select a color or write CSS color code in the text box.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/02.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/02.png" alt=""><figcaption></figcaption></figure>
 
 You can also write JavaScript in the text box to conditionally control the style setting of the component.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/03.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/03.gif" alt=""><figcaption></figcaption></figure>
 
 ## Themes
 
 The [theme feature](https://cloud.openblocks.dev/setting/theme) helps you quickly set the styles of all your apps within a workspace, such as the primary color of the apps and the default background color of containers.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/04.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/04.gif" alt=""><figcaption></figcaption></figure>
 
 ### Create a theme
 
 Workspace admins have access to theme settings. On PocketBlocks homepage, go to **Settings** > **Themes**, and click **+ Create theme**. Enter the theme name, and select one of the preset default themes as the starting point.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/05.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/05.png" alt=""><figcaption></figcaption></figure>
 
 Preview the real-time theme effect on the right.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/06.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/06.png" alt=""><figcaption></figcaption></figure>
 
 ### Apply a theme
 
 In the app editor, switch the theme by clicking ⚙️ on the left side-bar. Select a theme from **Theme setting**.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/07.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/07.png" alt=""><figcaption></figcaption></figure>
 
 You can also set the default theme for all your apps within a workspace in **Settings** > **Themes** on PocketBlocks homepage.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/08.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/08.png" alt=""><figcaption></figcaption></figure>
 
 ### Switching themes dynamically
 
 You can access the global variable `theme` and call the method `theme.switchTo()` to allow the end users to switch the theme of the apps on their side using JavaScript.The global variable `theme` has three fields. You can view them in the data browser.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/09.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/09.png" alt=""><figcaption></figcaption></figure>
 
 - `id` and `name` are strings, indicating the ID and name of the current theme. When their values are empty, then the default theme is applied.
 - `allThemes` is an array, including all information of available themes in the current workspace.
@@ -57,7 +57,7 @@ You can access the global variable `theme` and call the method `theme.switchTo()
 
 Combining Option lists and Events, end users can switch the theme within the app.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/10.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/10.gif" alt=""><figcaption></figcaption></figure>
 
 Follow the steps below to include this function in your app.
 
@@ -68,11 +68,11 @@ Follow the steps below to include this function in your app.
 
 2. Set the labels and values as `{{item.name}}` and `{{item.id}}` respectively. Then, you can view the default theme and all other available themes in the current workspace.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/11.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/11.png" alt=""><figcaption></figcaption></figure>
 
 3. Insert a **Button** component onto your canvas to switch theme. Add an event to the button, select "Run JavaScript" as the action, and run `theme.switchTo()` method which takes the value of the **Select** component.&#x20;
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/12.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/12.png" alt=""><figcaption></figcaption></figure>
 
 ## Custom CSS
 
@@ -82,11 +82,11 @@ PocketBlocks provides a custom CSS feature for more flexible and customized UI s
 
 In the app editor, click ⚙️ on the left side-bar, select **Scripts and style** > **CSS**, and then write CSS code for the current app.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/13.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/13.png" alt=""><figcaption></figcaption></figure>
 
 For example, insert text component `text1`. Then use `.text1` as the element name and modify its CSS style.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/14.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/14.png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 It is recommended to modify the component styles in **Properties** > **Style** because the DOM of an adjusted CSS style may change as the system iterates.
@@ -96,7 +96,7 @@ It is recommended to modify the component styles in **Properties** > **Style** b
 
 In PocketBlocks, workspace admins can also set pre-loaded CSS styles for all apps within the workspace. Open the **Settings**, and click **Advanced** > **Preload CSS**.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/15.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/15.png" alt=""><figcaption></figcaption></figure>
 
 It is highly recommended to use CSS selectors as follows:
 
@@ -191,7 +191,7 @@ To allow line break in table header, insert the following code in **Script and s
 }
 ```
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/16.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/16.png" alt=""><figcaption></figcaption></figure>
 
 ### Demo 2: Custom font family
 
@@ -212,7 +212,7 @@ To use custom font family, you need to define it first and then apply it. Insert
 }
 ```
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/17.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/17.png" alt=""><figcaption></figcaption></figure>
 
 ## User-friendly interaction
 
@@ -220,7 +220,7 @@ PocketBlocks always lives up to efficiency, security, and easy-to-use design.
 
 ### Hide UI components
 
-Set the hidden properties of components when necessary to avoid information overload. For example, when creating a suggestion collection form, you can set the input box as visible or hidden depending on the user's selection. <img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/18.gif" alt="" data-size="original">
+Set the hidden properties of components when necessary to avoid information overload. For example, when creating a suggestion collection form, you can set the input box as visible or hidden depending on the user's selection. <img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/18.gif" alt="" data-size="original">
 
 To achieve this effect, set the hidden property of the component `textArea1` with the code:
 
@@ -230,7 +230,7 @@ To achieve this effect, set the hidden property of the component `textArea1` wit
 
 When the value of the component `radio1` is "1", the value of the hidden property is "false"; otherwise, the value is "true". The component layout is automatically adjusted.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/19.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/19.png" alt=""><figcaption></figcaption></figure>
 
 ### Icon configuration
 
@@ -238,7 +238,7 @@ Icons are intuitive, and can be alternatives to text in some cases. The proper u
 
 Prefix and suffix icons are available for some components, such as **Button**. Add icons in **Properties** > **Layout**.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/20.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/20.png" alt=""><figcaption></figcaption></figure>
 
 You can select from preset icons or write JS code to insert icons, for example, `{{ "/icon:solid/Users" }}`.
 
@@ -249,7 +249,7 @@ Tips improve app usability–for example, showing the tips for the input helps u
 - Placeholder: It displays in the empty input field to prompt the user what to type.
 - Tooltip: It adds an underline to the label. Users can see the tooltip via a mouse hover.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/21.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/21.png" alt=""><figcaption></figcaption></figure>
 
 ### Notifications
 
@@ -271,13 +271,13 @@ When a query takes time to run, you can set the loading effect to inform your us
 
 For example, the loading effect of the Submit button is `{{form1SubmitToHrmsEn1.isFetching}}`. Clicking the button triggers query `form1SubmitToHrmsEn1` to run, and during this process, the button is displayed with the loading effect.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/22.gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/22.gif" alt=""><figcaption></figcaption></figure>
 
 #### Confirmation modal
 
 You can set a confirmation modal for a double check for your users when they perform operations such as adding, modifying or deleting data. In the **Advanced** tab of the query, toggle **Show a confirmation modal before running**, and enter a confirmation message.
 
-<figure><img src="../../.gitbook/assets/build-apps/styles-theme-and-usability/23.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/23.png" alt=""><figcaption></figcaption></figure>
 
 #### Form design
 

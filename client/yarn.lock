@@ -7449,6 +7449,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"create-pocketblocks-plugin@workspace:packages/create-openblocks-plugin":
+  version: 0.0.0-use.local
+  resolution: "create-pocketblocks-plugin@workspace:packages/create-openblocks-plugin"
+  dependencies:
+    chalk: 4
+    commander: ^9.4.1
+    cross-spawn: ^7.0.3
+    fs-extra: ^10.1.0
+    openblocks-dev-utils: "workspace:^"
+  bin:
+    create-pocketblocks-plugin: ./index.js
+  languageName: unknown
+  linkType: soft
+
 "crelt@npm:^1.0.5":
   version: 1.0.5
   resolution: "crelt@npm:1.0.5"
@@ -14308,6 +14322,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"openblocks-core@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "openblocks-core@npm:0.0.1"
+  dependencies:
+    "@rollup/plugin-commonjs": ^23.0.0
+    "@rollup/plugin-node-resolve": ^15.0.0
+    intl-messageformat: ^10.2.1
+    lodash: ^4.17.21
+    lru-cache: ^7.14.1
+  checksum: 78dc76b0a647bb4ada4225b5b5c524566b9fd8857e97ca6d8ec5cb5c16ddc2338a2707f1bffd53e2d0550e7f51b85d81ec8521a6a4f15055f0fb038226b94610
+  languageName: node
+  linkType: hard
+
 "openblocks-core@workspace:^, openblocks-core@workspace:packages/openblocks-core":
   version: 0.0.0-use.local
   resolution: "openblocks-core@workspace:packages/openblocks-core"
@@ -14325,7 +14352,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"openblocks-design@workspace:^, openblocks-design@workspace:packages/openblocks-design":
+"openblocks-design@^0.0.1, openblocks-design@workspace:^, openblocks-design@workspace:packages/openblocks-design":
   version: 0.0.0-use.local
   resolution: "openblocks-design@workspace:packages/openblocks-design"
   dependencies:
@@ -14353,6 +14380,23 @@ __metadata:
 "openblocks-dev-utils@workspace:^, openblocks-dev-utils@workspace:packages/openblocks-dev-utils":
   version: 0.0.0-use.local
   resolution: "openblocks-dev-utils@workspace:packages/openblocks-dev-utils"
+  languageName: unknown
+  linkType: soft
+
+"openblocks-plugin-demo@workspace:packages/openblocks-plugin-demo":
+  version: 0.0.0-use.local
+  resolution: "openblocks-plugin-demo@workspace:packages/openblocks-plugin-demo"
+  dependencies:
+    "@types/react": 17
+    "@types/react-dom": 17
+    openblocks-cli: "workspace:^"
+    openblocks-core: ^0.0.1
+    openblocks-design: ^0.0.1
+    openblocks-sdk: "workspace:^"
+    react: 17
+    react-dom: 17
+    typescript: 4.8.4
+    vite: ^3.2.4
   languageName: unknown
   linkType: soft
 

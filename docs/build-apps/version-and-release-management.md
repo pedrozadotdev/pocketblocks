@@ -6,15 +6,15 @@ By default, end users interact with the latest version of your app. After drafti
 
 ## History versions
 
-Openblocks automatically stores all your history changes during the construction of an app, such as the addition or deletion of the components, adjustment of the property of the components, rearrangement of the layout, and update of a custom function. You can use it to refer to your earlier ideas or revert to a previous version.
+PocketBlocks automatically stores all your history changes during the construction of an app, such as the addition or deletion of the components, adjustment of the property of the components, rearrangement of the layout, and update of a custom function. You can use it to refer to your earlier ideas or revert to a previous version.
 
-App history versions are only accessible to editors and admins.
+App history versions are only accessible to admins.
 
 ### View a history version
 
 You can view any version of your previous drafts. Click **Preview** **>** **History**.
 
-![](<../.gitbook/assets/image (11) (1).png>)
+![](../.gitbook/assets/build-apps/version-and-release-management/01.png)
 
 ### Restore a history version
 
@@ -23,7 +23,7 @@ You can restore your current draft to a history version.
 1. Select the target version from the history version list
 2. Click **Restore this version** on the topbar
 
-<figure><img src="../.gitbook/assets/image (30).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/build-apps/version-and-release-management/02.png" alt=""><figcaption></figcaption></figure>
 
 ## Release management
 
@@ -31,6 +31,6 @@ Apps are usually upgraded on a regular basis to include new features, improve bu
 
 By default, end users interact with the latest version of your app. Once you finalize the sketch for a newer version of your app, you can proceed to publish it. Click **Preview > Publish**.
 
-![](<../.gitbook/assets/image (13) (1).png>)
+![](../.gitbook/assets/build-apps/version-and-release-management/03.png)
 
 Now the newly released version becomes live for all end users, and all your future updates will not affect the live version until you publish again.

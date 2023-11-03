@@ -1,6 +1,6 @@
 # Develop UI component plugins
 
-With Openblocks plugins, you can develop customized components that are consistent with native components for your specific scenarios.
+With PocketBLocks plugins, you can develop customized components that are consistent with native components for your specific scenarios.
 
 ## Initialization
 
@@ -8,7 +8,7 @@ Execute the following `yarn start` file:
 
 ```bash
 # Project initiation
-yarn create openblocks-plugin my-plugin
+yarn create pocketblocks-plugin my-plugin
 
 # Go to the project root
 cd my-plugin
@@ -80,7 +80,7 @@ If you do not specify the parameter `--publish`, the `tar` file will be saved in
 
 ## Import plugins
 
-In the Openblocks app, click **Insert** > **Extensions** > **Add npm plugin** in the right pane. <img src=".gitbook/assets/build-plugins/02.png" alt="" data-size="original">
+In the PocketBLocks app, click **Insert** > **Extensions** > **Add npm plugin** in the right pane. <img src=".gitbook/assets/build-plugins/02.png" alt="" data-size="original">
 
 Input your npm package's URL or name, and then you can use your customized components.
 
