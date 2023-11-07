@@ -646,31 +646,21 @@ const CreateFormBody = (props: { onCreate: CreateHandler }) => {
 export const CreateForm = (props: { onCreate: CreateHandler }) => {
   const [visible, setVisible] = useState(false);
   return (
-    <>
-      <OpenDialogButton
-        onMouseDown={(e) => {
-          setVisible(true);
-          e.stopPropagation();
-        }}
-      >
-        {trans("formComp.openDialogButton")}
-      </OpenDialogButton>
-      <div
-        onKeyDown={(e) => e.stopPropagation()}
-        onMouseDown={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <CustomModal
-          visible={visible}
-          destroyOnClose={true}
-          title={trans("formComp.generateForm")}
-          footer={null}
-          onCancel={() => setVisible(false)}
-          width="600px"
-          children={<CreateFormBody {...props} />}
-          bodyStyle={{ padding: 0 }}
-        />
-      </div>
-    </>
+    <div
+      onKeyDown={(e) => e.stopPropagation()}
+      onMouseDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <CustomModal
+        visible={visible}
+        destroyOnClose={true}
+        title={trans("formComp.generateForm")}
+        footer={null}
+        onCancel={() => setVisible(false)}
+        width="600px"
+        children={<CreateFormBody {...props} />}
+        bodyStyle={{ padding: 0 }}
+      />
+    </div>
   );
 };

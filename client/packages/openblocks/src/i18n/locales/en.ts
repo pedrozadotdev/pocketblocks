@@ -1422,7 +1422,7 @@ export const en = {
     iconPosition: "Icon position",
   },
   formComp: {
-    containerPlaceholder: "Drag components from the right pane or",
+    containerPlaceholder: "Drag components from the right pane.",
     openDialogButton: "generate form from data",
     resetAfterSubmit: "Reset after successful submit",
     initialData: "Initial data",
@@ -1647,7 +1647,7 @@ export const en = {
     title: "Advanced",
     defaultHomeTitle: "Default homepage",
     defaultHomeHelp:
-      "The homepage is the app all non-developers will see by default when they log in. Note: Make sure the selected app is accessible to non-developers.",
+      "The homepage is the app all non-admins will see by default when they log in. Note: Make sure the selected app is accessible to all users.",
     defaultHomePlaceholder: "Select the default homepage",
     saveBtn: "Save",
     preloadJSTitle: "Preload JavaScript",
@@ -1858,7 +1858,7 @@ export const en = {
     // eslint-disable-next-line only-ascii/only-ascii
     permissionDenyTitle: "💡 Unable to create a new application or data source?",
     permissionDenyContent:
-      "You don't have permission to create the application and data source. Please contact the administrator to join the developer group.",
+      "You don't have permission to create the application. Please contact the administrator.",
     appName: "Tutorial application",
     chat: "Chat with us",
     docs: "View documentation",
@@ -1939,7 +1939,7 @@ export const en = {
     jsLibraryInstallSuccess: "JavaScript library installed successfully",
     jsLibraryInstallFailed: "JavaScript library installation failed",
     jsLibraryInstallFailedCloud:
-      "Perhaps the library is not available in the sandbox, [Documentation](https://docs.openblocks.dev/build-apps/write-javascript/use-third-party-libraries#manually-import-libraries)\n{message}",
+      "Perhaps the library is not available in the sandbox, [Documentation](https://pocketblocks.interno.app/build-apps/write-javascript/use-third-party-libraries#manually-import-third-party-libraries)\n{message}",
     jsLibraryInstallFailedHost: "{message}",
     add: "Add New",
     jsHelpText: "Add a global method or variable to the current application.",
@@ -1956,7 +1956,7 @@ export const en = {
     canvasContent:
       "What you see on the canvas is what you get, and you can adjust component layout and size by dragging and dropping, and delete/copy/paste components with keyboard shortcuts.",
     queryData: "Query data",
-    queryDataContent: `Create a new query here and connect to your MySQL, MongoDB, Redis, Airtable, and other data sources. After configuring the query, click "Run" to obtain the data.`,
+    queryDataContent: `Create a new query here. After configuring the query, click "Run" to obtain the data.`,
     compProperties: "Component properties",
   },
   homeTutorials: {
@@ -2090,8 +2090,8 @@ export const en = {
     showBorder: "Show border",
   },
   docUrls: {
-    docHome: "https://docs.openblocks.dev/",
-    components: "https://cloud.openblocks.dev/components?n={compType}",
+    docHome: "https://pocketblocks.interno.app/",
+    components: "",
     module: "",
     optionList: "",
     terms: "",
@@ -2099,12 +2099,12 @@ export const en = {
     aboutUs: "",
     changeLog: "",
     introVideo: "",
-    devNpmPlugin: "https://docs.openblocks.dev/build-plugins/develop-your-first-plugin",
+    devNpmPlugin: "https://pocketblocks.interno.app/build-plugins/build-plugins",
     devNpmPluginText: "How to develop npm plugin",
-    useHost: "https://docs.openblocks.dev/self-hosting/access-local-database-or-api",
+    useHost: "",
     eventHandlerSlowdown:
-      "https://docs.openblocks.dev/build-apps/event-handlers#debounce-and-throttle",
-    thirdLib: "https://docs.openblocks.dev/build-apps/write-javascript/use-third-party-libraries",
+      "https://pocketblocks.interno.app/build-apps/event-handlers#debounce-and-throttle",
+    thirdLib: "https://pocketblocks.interno.app/build-apps/write-javascript/use-third-party-libraries",
     thirdLibUrlText: "Use third-party libraries",
   },
   datasourceTutorial: {
@@ -2118,18 +2118,18 @@ export const en = {
   },
   queryTutorial: {
     js: "",
-    transformer: "https://docs.openblocks.dev/build-apps/write-javascript/transformers",
-    tempState: "https://docs.openblocks.dev/build-apps/write-javascript/temporary-state",
+    transformer: "https://pocketblocks.interno.app/build-apps/write-javascript/transformers",
+    tempState: "https://pocketblocks.interno.app/build-apps/write-javascript/temporary-state",
   },
   customComponent: {
-    entryUrl: "https://custom-component.openblocks.dev/index.html",
+    entryUrl: "",
   },
   template: {
     cloneUrl: "/apps/template-import/",
   },
   openBlocksUrl: {
-    createIssue: "https://github.com/openblocks-dev/openblocks/issues",
-    discord: "https://discord.com/invite/z5W2YHXdtt",
+    createIssue: "https://github.com/internoapp/pocketblocks/issues",
+    discord: "",
   },
   componentDoc: {
     markdownDemoText:
