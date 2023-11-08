@@ -1,5 +1,5 @@
 import { ApplicationResp } from "api/applicationApi";
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import { RootComp } from "comps/comps/rootComp";
 import { setGlobalSettings } from "comps/utils/globalSettings";
 import { sdkConfig } from "constants/sdkConfig";
@@ -11,6 +11,7 @@ import { AppView } from "./AppView";
 import { API_STATUS_CODES } from "constants/apiConstants";
 import { AUTH_LOGIN_URL } from "constants/routesURL";
 import { AuthSearchParams } from "constants/authConstants";
+import { message } from "antd";
 
 export type OutputChangeHandler<O> = (output: O) => void;
 export type EventTriggerHandler = (eventName: string) => void;
@@ -29,17 +30,26 @@ export interface AppViewInstanceOptions<I = any> {
   moduleInputs?: I;
 }
 
+let axiosIns: AxiosInstance;
+
 export class AppViewInstance<I = any, O = any> {
   private comp: RootComp | null = null;
   private prevOutputs: any = null;
-  private events = new Map<keyof EventHandlerMap, EventHandlerMap<O>[keyof EventHandlerMap]>();
+  private events = new Map<
+    keyof EventHandlerMap,
+    EventHandlerMap<O>[keyof EventHandlerMap]
+  >();
   private dataPromise: Promise<{ appDsl: any; moduleDslMap: any }>;
   private options: AppViewInstanceOptions = {
     baseUrl: "https://api.openblocks.dev",
     webUrl: "https://cloud.openblocks.dev",
   };
 
-  constructor(private appId: string, private node: Element, options: AppViewInstanceOptions = {}) {
+  constructor(
+    private appId: string,
+    private node: Element,
+    options: AppViewInstanceOptions = {}
+  ) {
     Object.assign(this.options, options);
     if (this.options.baseUrl) {
       sdkConfig.baseURL = this.options.baseUrl;
@@ -65,8 +75,11 @@ export class AppViewInstance<I = any, O = any> {
     });
 
     if (!appDsl) {
-      const http = axios.create({ baseURL: baseUrl, withCredentials: true });
-      const data: ApplicationResp = await http
+      if (!axiosIns && window.setupProxy) {
+        axiosIns = axios.create({ baseURL: baseUrl, withCredentials: true });
+        window.setupProxy(axiosIns, message);
+      }
+      const data: ApplicationResp = await axiosIns
         .get(`/api/v1/applications/${this.appId}/view`)
         .then((i) => i.data)
         .catch((e) => {
@@ -87,19 +100,21 @@ export class AppViewInstance<I = any, O = any> {
 
     if (this.options.moduleInputs && this.isModuleDSL(finalAppDsl)) {
       const inputsPath = "ui.comp.io.inputs";
-      const nextInputs = _.get(finalAppDsl, inputsPath, []).map((i: ModuleDSLIoInput) => {
-        const inputValue = this.options.moduleInputs[i.name];
-        if (inputValue) {
-          return {
-            ...i,
-            defaultValue: {
-              ...i.defaultValue,
-              comp: inputValue,
-            },
-          };
+      const nextInputs = _.get(finalAppDsl, inputsPath, []).map(
+        (i: ModuleDSLIoInput) => {
+          const inputValue = this.options.moduleInputs[i.name];
+          if (inputValue) {
+            return {
+              ...i,
+              defaultValue: {
+                ...i.defaultValue,
+                comp: inputValue,
+              },
+            };
+          }
+          return i;
         }
-        return i;
-      });
+      );
       _.set(finalAppDsl, inputsPath, nextInputs);
     }
 
@@ -142,7 +157,9 @@ export class AppViewInstance<I = any, O = any> {
           moduleDsl={data.moduleDslMap}
           moduleInputs={this.options.moduleInputs}
           onCompChange={(comp) => this.handleCompChange(comp)}
-          onModuleEventTriggered={(eventName) => this.emit("moduleEventTriggered", [eventName])}
+          onModuleEventTriggered={(eventName) =>
+            this.emit("moduleEventTriggered", [eventName])
+          }
         />
       </StyleSheetManager>,
       this.node
@@ -156,7 +173,10 @@ export class AppViewInstance<I = any, O = any> {
     }
   }
 
-  on<K extends keyof EventHandlerMap<O>>(event: K, handler?: EventHandlerMap<O>[K]): Off {
+  on<K extends keyof EventHandlerMap<O>>(
+    event: K,
+    handler?: EventHandlerMap<O>[K]
+  ): Off {
     if (!handler) {
       return () => {};
     }

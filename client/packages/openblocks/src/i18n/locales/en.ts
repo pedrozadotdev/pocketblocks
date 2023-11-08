@@ -2122,7 +2122,7 @@ export const en = {
     tempState: "https://pocketblocks.interno.app/build-apps/write-javascript/temporary-state",
   },
   customComponent: {
-    entryUrl: "",
+    entryUrl: "{host}/cc",
   },
   template: {
     cloneUrl: "/apps/template-import/",

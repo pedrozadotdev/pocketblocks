@@ -38,7 +38,9 @@ function mockRequest(event: MockEvent, ...[path, handler]: Params) {
       } catch (_) {
         data = config.data;
       }
-      const url = (config.baseURL || "/").slice(0, -1) + config.url;
+      const url = config.url?.includes("/api")
+        ? config.url
+        : "/api" + config.url;
       const matchParams = match(path, { decode: decodeURIComponent })(url);
       const response = await handler({
         config: {

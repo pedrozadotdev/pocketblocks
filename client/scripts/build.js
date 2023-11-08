@@ -45,6 +45,20 @@ async function buildBuiltinPlugin(name) {
   shell.rm(tarballFileName);
 }
 
+async function buildSDK() {
+  console.log();
+  console.log(chalk.cyan`SDK building...`);
+
+  const targetDir = `../proxy/public/sdk`;
+  shell.mkdir("-p", targetDir);
+
+  shell.exec(`yarn workspace openblocks-sdk build`, { fatal: true });
+
+  const distFolder = "./packages/openblocks-sdk/dist";
+
+  shell.exec(`cp ${distFolder}/* ${targetDir}`, { fatal: true });
+}
+
 shell.set("-e");
 
 const start = Date.now();
@@ -72,6 +86,8 @@ if (process.env.REACT_APP_BUNDLE_BUILTIN_PLUGIN) {
     await buildBuiltinPlugin(pluginName);
   }
 }
+
+await buildSDK()
 
 console.log();
 console.log(chalk.green`Done! time: ${((Date.now() - start) / 1000).toFixed(2)}s`);

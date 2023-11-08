@@ -34,10 +34,10 @@ export const viteConfig: UserConfig = {
       formats: ["es"],
       entry: "./src/index.ts",
       name: "Openblocks",
-      fileName: "openblocks-sdk",
+      fileName: "main",
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: ["react", "react-dom", "/js/proxy.js"],
       output: {
         chunkFileNames: "[hash].js",
       },
@@ -53,10 +53,12 @@ export const viteConfig: UserConfig = {
   },
   server: {
     proxy: {
-      "/api": {
-        target: "http://localhost:3000",
-        changeOrigin: false,
+      "/js/proxy.js": "http://127.0.0.1:8090",
+      "/api/realtime": {
+        target: "ws://127.0.0.1:8090",
+        ws: true,
       },
+      "/api": "http://127.0.0.1:8090",
     },
   },
   css: {

@@ -194,7 +194,7 @@ function InnerCustomComponent(props: IProps) {
 
   return (
     <Wrapper>
-      <iframe ref={iframeRef} title="custom-comp" src={trans("customComponent.entryUrl")} />
+      <iframe ref={iframeRef} title="custom-comp" src={trans("customComponent.entryUrl", { host: window.location.origin })} />
     </Wrapper>
   );
 }

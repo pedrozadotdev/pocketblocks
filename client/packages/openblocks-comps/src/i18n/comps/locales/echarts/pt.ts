@@ -47,7 +47,7 @@ export const pt = {
       "Jul",
       "Ago",
       "Set",
-      "out",
+      "Out",
       "Nov",
       "Dez",
     ],

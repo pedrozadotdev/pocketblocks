@@ -54,7 +54,7 @@ export const pt = {
   codeEditor: {
     notSupportAutoFormat:
       "Editor de código atual não suporta formatação automática",
-    fold: "Minimizar",
+    fold: "Min.",
   },
   exportMethod: {
     setDesc: "Configurar propriedade: {property}",
@@ -2183,7 +2183,7 @@ export const pt = {
       "https://pocketblocks.interno.app/build-apps/write-javascript/temporary-state",
   },
   customComponent: {
-    entryUrl: "",
+    entryUrl: "{host}/cc",
   },
   template: { cloneUrl: "/apps/template-import/" },
   openBlocksUrl: {
