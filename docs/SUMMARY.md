@@ -42,3 +42,8 @@
 - [Members and groups](workspace-management/members-and-groups.md)
 - [Permissions for resources](workspace-management/permissions-for-resources.md)
 - [Custom branding](workspace-management/customize-branding.md)
+
+## Miscellaneous
+
+- [Where are the Data Sources/Query Library?](misc/data-sources.md)
+- [Embedding Apps](misc/embedded.md)
