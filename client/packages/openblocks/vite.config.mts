@@ -45,6 +45,11 @@ export const viteConfig: UserConfig = {
     outDir: "../../../proxy/public",
     emptyOutDir: false,
     rollupOptions: {
+      external: ["/js/proxy.js"],
+      input: {
+        main: path.resolve(__dirname, "index.html"),
+        embedded: path.resolve(__dirname, "embedded.html"),
+      },
       output: {
         chunkFileNames: "js/[hash].js",
         assetFileNames: "assets/[name]-[hash][extname]",
@@ -118,12 +123,18 @@ export const viteConfig: UserConfig = {
     globalDepPlugin(),
     createHtmlPlugin({
       minify: false,
-      inject: {
-        data: {
-          browserCheckScript: isDev ? "" : `<script src="/js/browser-check.js"></script>`,
-          proxyScript: isDev ? `<script type="module" crossorigin src="/js/proxy.js"></script>` : `<!-- PROXYSCRIPT -->`,
+      pages: [
+        {
+          filename: "index.html",
+          template: '/index.html',
+          injectOptions: {
+            data: {
+              browserCheckScript: isDev ? "" : `<script src="/js/browser-check.js"></script>`,
+              proxyScript: isDev ? `<script type="module" crossorigin src="/js/proxy.js"></script>` : `<!-- PROXYSCRIPT -->`,
+            },
+          }
         },
-      },
+      ]
     }),
     isVisualizerEnabled && visualizer(),
   ].filter(Boolean),
@@ -131,12 +142,16 @@ export const viteConfig: UserConfig = {
 
 const browserCheckConfig: UserConfig = {
   ...viteConfig,
+  plugins: [...(viteConfig.plugins?.slice(0,5) || []), isVisualizerEnabled && visualizer()].filter(Boolean),
   define: {
     ...viteConfig.define,
     "process.env.NODE_ENV": JSON.stringify("production"),
   },
   build: {
     ...viteConfig.build,
+    rollupOptions: {
+      output: viteConfig.build?.rollupOptions?.output
+    },
     manifest: false,
     copyPublicDir: false,
     emptyOutDir: true,
