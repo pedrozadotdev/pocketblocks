@@ -81,7 +81,7 @@ To do it, all installations of PocketBlocks bring an **embedded.html** file in *
 </html>
 ```
 
-You can test it accessing your local installation at `https://<host>/embedded.html?appId=<appSlug>`
+You can test it accessing your local installation at `http://<host>/embedded.html?appId=<appSlug>`
 
 {% hint style="info" %}
 Do not copy the code above. Always access your **embedded.html** to get the correct code as `<HASH>` changes with updates.

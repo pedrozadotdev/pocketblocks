@@ -15,6 +15,9 @@ import { EditorContainer, EmptyContent } from "pages/common/styledComponent";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { isUserViewMode, useAppPathParam, useAppPageId } from "util/hooks";
+import RootWrapper from "components/RootWrapper"
+import { useSelector } from "react-redux";
+import { getBrandingConfig } from "redux/selectors/configSelectors";
 
 const StyledSide = styled(Layout.Sider)`
   max-height: calc(100vh - ${TopHeaderHeight});
@@ -172,6 +175,8 @@ NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
     setSelectedKey(selectedKey);
   }, [appPageId]);
 
+  const brandingConfig = useSelector(getBrandingConfig);
+
   let pageView = <EmptyContent text="" style={{ height: "100%" }} />;
   const selectedItem = itemKeyRecord[selectedKey];
   if (selectedItem && !selectedItem.children.hidden.getView()) {
@@ -182,35 +187,37 @@ NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
   }
 
   let content = (
-    <Layout>
-      <StyledSide theme="light" width={240}>
-        <AntdMenu
-          items={menuItems}
-          mode="inline"
-          style={{ height: "100%" }}
-          defaultOpenKeys={defaultOpenKeys}
-          selectedKeys={[selectedKey]}
-          onClick={(e) => {
-            const itemComp = itemKeyRecord[e.key];
-            const url = [
-              ALL_APPLICATIONS_URL,
-              pathParam.applicationId,
-            ].join("/") +
-            (
-              pathParam.viewMode
-                ? "/" + pathParam.viewMode
+    <RootWrapper headerColor={brandingConfig?.headerColor}>
+      <Layout>
+        <StyledSide theme="light" width={240}>
+          <AntdMenu
+            items={menuItems}
+            mode="inline"
+            style={{ height: "100%" }}
+            defaultOpenKeys={defaultOpenKeys}
+            selectedKeys={[selectedKey]}
+            onClick={(e) => {
+              const itemComp = itemKeyRecord[e.key];
+              const url = [
+                ALL_APPLICATIONS_URL,
+                pathParam.applicationId,
+              ].join("/") +
+              (
+                pathParam.viewMode
+                  ? "/" + pathParam.viewMode
+                  : ""
+              ) +
+              (itemComp.getItemKey()
+                ? `?${AppPagePathParam}=${itemComp.getItemKey()}`
                 : ""
-            ) +
-            (itemComp.getItemKey()
-              ? `?${AppPagePathParam}=${itemComp.getItemKey()}`
-              : ""
-            );
-            itemComp.children.action.act(url);
-          }}
-        />
-      </StyledSide>
-      <MainContent>{pageView}</MainContent>
-    </Layout>
+              );
+              itemComp.children.action.act(url);
+            }}
+          />
+        </StyledSide>
+        <MainContent>{pageView}</MainContent>
+      </Layout>
+    </RootWrapper>
   );
   return isViewMode ? (
     content

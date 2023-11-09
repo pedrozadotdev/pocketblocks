@@ -17,6 +17,9 @@ import { Layers } from "constants/Layers";
 import { ExternalEditorContext } from "util/context/ExternalEditorContext";
 import { Skeleton } from "antd";
 import { hiddenPropertyView } from "comps/utils/propertyUtils";
+import RootWrapper from "components/RootWrapper"
+import { useSelector } from "react-redux";
+import { getBrandingConfig } from "redux/selectors/configSelectors";
 
 const TabBar = React.lazy(() => import("antd-mobile/es/components/tab-bar"));
 const TabBarItem = React.lazy(() =>
@@ -73,24 +76,27 @@ type TabBarProps = {
 };
 
 function TabBarView(props: TabBarProps) {
+  const brandingConfig = useSelector(getBrandingConfig);
   return (
-    <Suspense fallback={<Skeleton />}>
-      <TabBarWrapper readOnly={props.readOnly}>
-        <TabBar
-          onChange={(key: string) => {
-            if (key) {
-              props.onChange(key);
-            }
-          }}
-          style={{ width: "100%" }}
-          activeKey={props.selectedKey}
-        >
-          {props.tabs.map((tab) => {
-            return <TabBarItem key={tab.key} icon={tab.icon} title={tab.title} />;
-          })}
-        </TabBar>
-      </TabBarWrapper>
-    </Suspense>
+    <RootWrapper headerColor={brandingConfig?.headerColor}>
+      <Suspense fallback={<Skeleton />}>
+        <TabBarWrapper readOnly={props.readOnly}>
+          <TabBar
+            onChange={(key: string) => {
+              if (key) {
+                props.onChange(key);
+              }
+            }}
+            style={{ width: "100%" }}
+            activeKey={props.selectedKey}
+          >
+            {props.tabs.map((tab) => {
+              return <TabBarItem key={tab.key} icon={tab.icon} title={tab.title} />;
+            })}
+          </TabBar>
+        </TabBarWrapper>
+      </Suspense>
+    </RootWrapper>
   );
 }
 

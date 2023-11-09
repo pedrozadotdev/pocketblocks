@@ -44,7 +44,6 @@ import { isFetchUserFinished } from "redux/selectors/usersSelectors";
 import { SystemWarning } from "./components/SystemWarning";
 import { getBrandingConfig, getSystemConfigFetching } from "./redux/selectors/configSelectors";
 import { buildMaterialPreviewURL } from "./util/materialUtils";
-import styled from "styled-components";
 
 const LazyUserAuthComp = React.lazy(() => import("pages/userAuth"));
 const LazyComponentDoc = React.lazy(() => import("pages/ComponentDoc"));
@@ -52,39 +51,8 @@ const LazyComponentPlayground = React.lazy(() => import("pages/ComponentPlaygrou
 const LazyDebugComp = React.lazy(() => import("./debug"));
 const LazyDebugNewComp = React.lazy(() => import("./debugNew"));
 
-const WrapperContainer = styled.div<{ headerColor?: string }>`
---antd-wave-shadow-color: ${(props) => props.headerColor || "#3377ff"};
---adm-color-primary: ${(props) => props.headerColor || "#1677ff"};
-.ant-spin-dot-item {
-  background-color: ${(props) => props.headerColor || "#3377ff"};
-}
-.ant-menu-vertical .ant-menu-item::after, .ant-menu-vertical-left .ant-menu-item::after, .ant-menu-vertical-right .ant-menu-item::after, .ant-menu-inline .ant-menu-item::after {
-  border-right: 3px solid ${(props) => props.headerColor || "#3377ff"};
-}
-.ant-menu-item-selected {
-  color: ${(props) => props.headerColor || "#3377ff"};
-}
-.ant-menu-light .ant-menu-item:hover, .ant-menu-light .ant-menu-item-active, .ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-light .ant-menu-submenu-active, .ant-menu-light .ant-menu-submenu-title:hover {
-  color: ${(props) => props.headerColor || "#3377ff"};
-}
-.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: ${(props) => props.headerColor || "#3377ff"}10;
-}
-.ant-menu-item:active, .ant-menu-submenu-title:active {
-  background: ${(props) => props.headerColor || "#3377ff"}10;
-}
-.ant-input:focus, .ant-input-focused {
-  border: 1px solid ${(props) => props.headerColor || "#3377ff"};
-  box-shadow: 0 0 0 2px ${(props) => props.headerColor || "#3377ff"}10;
-}
-`;
-
-const Wrapper = (props: { children: React.ReactNode, headerColor?: string }) => {
-  return (
-    <WrapperContainer headerColor={props.headerColor}>
-      <ConfigProvider locale={getAntdLocale(language)}>{props.children}</ConfigProvider>;
-    </WrapperContainer>
-  )
+const Wrapper = (props: { children: React.ReactNode }) => {
+  return <ConfigProvider locale={getAntdLocale(language)}>{props.children}</ConfigProvider>;
 };
 
 type AppIndexProps = {
@@ -98,7 +66,6 @@ type AppIndexProps = {
   fetchHome: () => void;
   favicon: string;
   brandName: string;
-  headerColor?: string;
 };
 
 class AppIndex extends React.Component<AppIndexProps, any> {
@@ -129,7 +96,7 @@ class AppIndex extends React.Component<AppIndexProps, any> {
       return <ProductLoading hideHeader={hideLoadingHeader} />;
     }
     return (
-      <Wrapper headerColor={this.props.headerColor}>
+      <Wrapper>
         <Helmet>
           {<title>{this.props.brandName}</title>}
           {<link rel="icon" href={this.props.favicon} />}
@@ -200,8 +167,7 @@ const mapStateToProps = (state: AppState) => ({
   favicon: getBrandingConfig(state)?.favicon
     ? buildMaterialPreviewURL(getBrandingConfig(state)?.favicon!)
     : favicon,
-  brandName: getBrandingConfig(state)?.brandName ?? trans("productName"),
-  headerColor: getBrandingConfig(state)?.headerColor,
+  brandName: getBrandingConfig(state)?.brandName ?? trans("productName")
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
