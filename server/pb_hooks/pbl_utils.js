@@ -316,16 +316,6 @@ module.exports = {
           },
           {
             system: false,
-            id: "bjehlimo",
-            name: "anon_template_view",
-            type: "bool",
-            required: false,
-            presentable: false,
-            unique: false,
-            options: {},
-          },
-          {
-            system: false,
             id: "jzvxz6oh",
             name: "home_page",
             type: "relation",
