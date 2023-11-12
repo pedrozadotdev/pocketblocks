@@ -34,7 +34,6 @@
     "@types/react-signature-canvas": "^1.0.2",
     "@types/react-test-renderer": "^18.0.0",
     "@types/react-virtualized": "^9.21.21",
-    "ali-oss": "^6.17.1",
     "antd": "4.22.8",
     "antd-img-crop": "^4.0.2",
     "axios": "^1.6.0",
