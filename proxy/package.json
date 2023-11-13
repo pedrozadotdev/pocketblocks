@@ -16,7 +16,7 @@
     "@types/node": "^20.6.5",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
-    "axios": "^0.21.1",
+    "axios": "^1.6.0",
     "eslint": "^8.48.0",
     "eslint-config-prettier": "9.0.0",
     "prettier": "3.0.3",
