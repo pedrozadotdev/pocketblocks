@@ -23,3 +23,7 @@ In this article, you will be guided through hosting PocketBlocks on your own ser
 - Run `flyctl vol create data`;
 - Run `flyctl deploy`;
 - Access `https://<your-app-name>.fly.dev/_` and create the admin user.
+
+{% hint style="info" %}
+Remember to enable at least one of the [authentication methods](workspace-management/auth.md).
+{% endhint %}

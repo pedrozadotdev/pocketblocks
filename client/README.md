@@ -6,7 +6,7 @@
 
 #### Use prebuilt release files
 
-Install and run a **manual version** of PocketBlocks as shown in [Installation](../docs/Installation.md).
+Install and run a **manual version** of PocketBlocks as shown in [Installation](../docs/install.md).
 
 ### Start develop
 
