@@ -24,7 +24,7 @@ beforeAll(() => {
 });
 
 test("apiRequestInterceptor", () => {
-  expect(apiRequestInterceptor({})).toHaveProperty("timer");
+  expect(apiRequestInterceptor({} as any)).toHaveProperty("timer");
 });
 
 test("apiSuccessResponseInterceptor", () => {
@@ -132,8 +132,8 @@ test("validateResponse", () => {
       status: 500,
       data: { success: false, code: 1, message: "fail", data: "" },
       statusText: "",
-      headers: [],
-      config: {},
+      headers: [] as any,
+      config: {} as any,
     })
   ).toThrowError(Error("fail"));
   expect(
@@ -141,8 +141,8 @@ test("validateResponse", () => {
       status: 500,
       data: { success: true, code: 1, message: "", data: "" },
       statusText: "",
-      headers: [],
-      config: {},
+      headers: [] as any,
+      config: {} as any,
     })
   ).toEqual(true);
 });
@@ -171,8 +171,8 @@ test("doValidResponse", () => {
       status: 500,
       data: { success: false, code: 1, message: "fail", data: "" },
       statusText: "",
-      headers: [],
-      config: {},
+      headers: [] as any,
+      config: {} as any,
     })
   ).toEqual(false);
   expect(
@@ -180,8 +180,8 @@ test("doValidResponse", () => {
       status: 500,
       data: { success: true, code: 1, message: "", data: "" },
       statusText: "",
-      headers: [],
-      config: {},
+      headers: [] as any,
+      config: {} as any,
     })
   ).toEqual(true);
 });

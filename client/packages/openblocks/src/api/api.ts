@@ -20,7 +20,7 @@ function getAxiosInstance() {
   const apiRequestConfig: AxiosRequestConfig = {
     baseURL: `${_.trimEnd(sdkConfig.baseURL || SERVER_HOST, "/")}/api/`,
     timeout: REQUEST_TIMEOUT_MS,
-    headers: API_REQUEST_HEADERS,
+    headers: API_REQUEST_HEADERS as any,
     withCredentials: true,
   };
 
