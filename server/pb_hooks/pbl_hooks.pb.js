@@ -8,6 +8,7 @@ onAdminAfterCreateRequest((e) => {
   form.loadData({
     name: "NONAME",
     user_id: e.admin.id,
+    show_tutorial: true,
   });
 
   form.submit();
@@ -27,6 +28,7 @@ onRecordAfterCreateRequest((e) => {
   form.loadData({
     name: "NONAME",
     user_id: e.record.get("id"),
+    show_tutorial: false,
   });
   form.submit();
 }, "users");

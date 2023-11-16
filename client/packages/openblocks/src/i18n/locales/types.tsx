@@ -12,7 +12,7 @@ export type I18nObjects = {
   };
   editorTutorials: {
     sampleDatasourceName?: string;
-    mockDataUrl?: string;
+    mockScript?: string;
     data: (
       code: (text: string) => React.ReactNode,
       link: (text: string, url: string) => React.ReactNode

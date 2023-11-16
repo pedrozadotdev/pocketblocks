@@ -55,6 +55,7 @@ export interface PBUser extends BaseModel {
   name: string;
   avatar?: string;
   avatar_url?: string;
+  show_tutorial?: boolean;
 }
 
 type ConfigExpanded = {

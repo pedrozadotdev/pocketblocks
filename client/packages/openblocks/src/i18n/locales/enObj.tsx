@@ -112,7 +112,7 @@ export const enObj: I18nObjects = {
     ],
   },
   editorTutorials: {
-    mockDataUrl: "https://63621db87521369cd06514c2.mockapi.io/api/openblocks/users",
+    mockScript: "return new Promise(r => {\n  setTimeout(() => r([\n    { name: \"Ron Cormier\", avatar: \"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1199.jpg\", city: \"Port Isadore\", email: \"Letitia.Luettgen39@yahoo.com\", createAt: \"2022-11-01T10:29:17.119Z\", id: 1 },\n    { name: \"Glen Quitzon\", avatar: \"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/729.jpg\", city: \"Sporerside\", email: \"Candice_Schimmel@yahoo.com\", createAt: \"2022-11-01T16:42:37.766Z\", id: 2 },\n    { name: \"Tamara Kreiger III\", avatar: \"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/992.jpg\", city: \"West Maryam\", email: \"Margie_Lynch@gmail.com\", createAt: \"2022-11-01T19:58:12.285Z\", id: 3 },\n    { name: \"Edgar Stokes\", avatar: \"https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/25.jpg\", city: \"North Richland Hills\", email: \"Jan77@gmail.com\", createAt: \"2022-11-01T23:39:32.720Z\", id: 4 },\n  ]), 500)\n})",
     data: (code) => (
       <>
         The component and query data are listed here, which can be referenced through

@@ -26,6 +26,8 @@ import { QuestionIcon, UpgradeIcon } from "openblocks-design";
 import { trans } from "i18n";
 import { localEnv } from "util/envUtils";
 
+import { v4 } from "uuid";
+
 const StyledMenu = styled(DropdownMenu)<{ $edit: boolean | string }>`
   ${(props) =>
     props.$edit &&
@@ -238,7 +240,7 @@ export function HelpDropdown(props: HelpDropdownProps) {
         case "editorTutorial":
           dispatch(
             createApplication({
-              applicationName: trans("help.appName"),
+              applicationName: trans("help.appName") + " - " + v4().split("-")[0],
               applicationType: AppTypeEnum.Application,
               orgId: user.currentOrgId,
               onSuccess: (app) => {

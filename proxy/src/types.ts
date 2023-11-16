@@ -34,6 +34,7 @@ export interface User extends BaseModel {
   user_id: string;
   name: string;
   avatar?: string;
+  show_tutorial?: boolean;
 }
 
 export interface FullUser extends User {

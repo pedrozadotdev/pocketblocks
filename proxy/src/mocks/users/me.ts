@@ -91,7 +91,7 @@ const createResponseData = async (user: FullUser, systemSettings: Settings) => {
     hasSetNickname: true,
     hasShownNewUserGuidance: false,
     userStatus: {
-      newUserGuidance: true,
+      newUserGuidance: !user.show_tutorial,
     },
     createdTimeMs: new Date(user.created).getTime(),
     ip: "",
