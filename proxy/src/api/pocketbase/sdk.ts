@@ -4,8 +4,14 @@ import { pb } from "./utils";
 
 export const client = pb;
 
+const sdk = new Proxy(pb, {
+  set() {
+    throw new Error("SDK is immutable");
+  },
+});
+
 export const setup = () => {
-  window.sdk = pb;
+  window.sdk = sdk;
   window.uploadAvatar = async (config: UploadRequestOption) => {
     const { data: user } = await auth.getCurrentUser();
     if (user) {
