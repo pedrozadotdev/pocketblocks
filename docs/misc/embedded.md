@@ -83,6 +83,10 @@ To do it, all installations of PocketBlocks bring an **embedded.html** file in *
 
 You can test it accessing your local installation at `http://<host>/embedded.html?appId=<appSlug>`
 
+{% hint style="warning" %}
+Only **apps** can be embedded in pages. Do not use **navigations** or **modules**.
+{% endhint %}
+
 {% hint style="info" %}
 Do not copy the code above. Always access your **embedded.html** to get the correct code as `<HASH>` changes with updates.
 {% endhint %}
