@@ -6,9 +6,7 @@ import { registerLayoutMap } from "comps/comps/uiComp";
 import { MultiCompBuilder, withDefault, withViewFn } from "comps/generators";
 import { withDispatchHook } from "comps/generators/withDispatchHook";
 import { NameAndExposingInfo } from "comps/utils/exposingTypes";
-import { ALL_APPLICATIONS_URL } from "constants/routesURL";
 import { TopHeaderHeight } from "constants/style";
-import { AppPagePathParam } from "constants/applicationConstants";
 import { Section } from "openblocks-design";
 import { trans } from "i18n";
 import { EditorContainer, EmptyContent } from "pages/common/styledComponent";
@@ -66,7 +64,7 @@ let NavTmpLayout = (function () {
 
 NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
   const pathParam = useAppPathParam();
-  const appPageId = useAppPageId();
+  const [appPageId, updateHash] = useAppPageId();
   const isViewMode = isUserViewMode(pathParam);
   const [selectedKey, setSelectedKey] = useState("");
   const items = useMemo(() => comp.children.items.getView(), [comp.children.items]);
@@ -198,19 +196,13 @@ NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
             selectedKeys={[selectedKey]}
             onClick={(e) => {
               const itemComp = itemKeyRecord[e.key];
-              const url = [
-                ALL_APPLICATIONS_URL,
-                pathParam.applicationId,
-              ].join("/") +
-              (
-                pathParam.viewMode
-                  ? "/" + pathParam.viewMode
-                  : ""
-              ) +
-              (itemComp.getItemKey()
-                ? `?${AppPagePathParam}=${itemComp.getItemKey()}`
-                : ""
-              );
+              const url = window.location.pathname +
+                window.location.search +
+                (
+                  itemComp.getItemKey() ?
+                  updateHash(itemComp.getItemKey()) :
+                  ""
+                )
               itemComp.children.action.act(url);
             }}
           />

@@ -66,10 +66,33 @@ export function useRedirectUrl() {
   return queryParams.get(AuthSearchParams.redirectUrl);
 }
 
+function getHashObject(hash: string) {
+  return hash.substring(1).split('&').reduce(function (res, item) {
+    if(!item) return res
+    var parts = item.split('=');
+    //@ts-ignore
+    res[parts[0]] = parts[1];
+    return res;
+  }, {});
+}
+
+function updateAppPageId(hash:string, id: string) {
+  const hashObject = getHashObject(hash)
+  //@ts-ignore
+  hashObject[AppPagePathParam] = id
+  const result = Object.keys(hashObject).reduce(function (res, key, index) {
+    //@ts-ignore
+    return res + (index ? "&" : "") + key + "=" + hashObject[key]
+  }, "")
+  return result ? "#" + result : ""
+}
+
 export function useAppPageId() {
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  return queryParams.get(AppPagePathParam) || "";
+  const hashObject = getHashObject(location.hash)
+  const appPageId = hashObject[AppPagePathParam as keyof typeof hashObject] as string || ""
+  const updateHash = (id: string) => updateAppPageId(location.hash, id)
+  return [appPageId, updateHash] as const
 }
 
 export function useFixedDelay(callback: () => Promise<unknown>, delay: number | null) {
