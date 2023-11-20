@@ -1019,6 +1019,8 @@ export const en = {
     placeholder: "Select Time",
     startTime: "Start time",
     endTime: "End time",
+    mobileCancelButtonText: "Cancel",
+    mobileConfirmButtonText: "Confirm",
   },
   button: {
     prefixIcon: "Prefix icon",

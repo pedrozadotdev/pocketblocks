@@ -90,6 +90,8 @@ const handleClick = (
       params.onChange(time);
     },
     onClose: params.onBlur,
+    confirmText: trans("time.mobileConfirmButtonText"),
+    cancelText: trans("time.mobileCancelButtonText")
   });
 
   params.onFocus();

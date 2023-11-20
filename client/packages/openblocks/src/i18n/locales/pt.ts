@@ -1053,6 +1053,8 @@ export const pt = {
     placeholder: "Selecione o tempo",
     startTime: "Tempo de início",
     endTime: "Tempo final",
+    mobileCancelButtonText: "Cancelar",
+    mobileConfirmButtonText: "Confirmar",
   },
   button: {
     prefixIcon: "Ícone do prefixo",
