@@ -61,7 +61,6 @@
     "**/*.{mjs,ts,tsx,json,md,html}": "prettier --write --ignore-unknown",
     "**/*.svg": "svgo"
   },
-  "packageManager": "yarn@3.2.4",
   "resolutions": {
     "@types/react": "^17",
     "moment": "2.29.2",
