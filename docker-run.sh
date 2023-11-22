@@ -5,7 +5,7 @@ if [ -f ./data/pocketbase ]; then
 else
   mkdir data/pb_hooks
   mkdir data/pbl_public
-  cd ../data && cp -s ../pocketbase .
+  cd data && cp -s ../pocketbase .
   cd pb_hooks && cp -s ../../pb_hooks/* .
   cd ../..
   echo "$(date +"%Y/%m/%d %T") [CONTAINER]: Data directory setup!"
