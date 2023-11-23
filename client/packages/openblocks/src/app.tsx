@@ -100,7 +100,7 @@ class AppIndex extends React.Component<AppIndexProps, any> {
         <Helmet>
           {<title>{this.props.brandName}</title>}
           {<link rel="icon" href={this.props.favicon} />}
-          <meta name="description" content={trans("productDesc")} />
+          <meta name="description" content={this.props.brandName} />
         </Helmet>
         <SystemWarning />
         <Router history={history}>
