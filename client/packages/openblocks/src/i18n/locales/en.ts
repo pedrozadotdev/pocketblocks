@@ -1250,7 +1250,7 @@ export const en = {
   },
   audio: {
     src: "Audio URL",
-    defaultSrcUrl: "https://cdn-files.openblocks.dev/canon-excerpt.mp3",
+    defaultSrcUrl: "",
     autoPlay: "Autoplay",
     loop: "Loop",
     srcDesc: "Current audio URL",
@@ -1608,7 +1608,7 @@ export const en = {
     phoneColumn: "Phone",
     subTitle: "Title",
     linkLabel: "Link",
-    linkUrl: "cloud.openblocks.dev",
+    linkUrl: "pocketblocks.interno.app",
     progressLabel: "Progress",
     sliderLabel: "Slider",
     radioLabel: "Radio",
@@ -2135,9 +2135,9 @@ export const en = {
   },
   componentDoc: {
     markdownDemoText:
-      "**Openblocks** is a _developer-friendly_ open-source low code platform to build internal apps within minutes.",
+      "**PocketBlocks** is a _developer-friendly_ open-source low code platform to build internal apps within minutes.",
     demoText:
-      "Openblocks is a developer-friendly open-source low code platform to build internal apps within minutes.",
+      "PocketBlocks is a developer-friendly open-source low code platform to build internal apps within minutes.",
     submit: "Submit",
     style: "style",
     danger: "Danger",
