@@ -1,6 +1,9 @@
 server/pocketbase
 server/pocketbase.exe
 server/pb_data/*
+server/pb_hooks/*
 server/pb_public/*
+server/pbl_public/*
 server/pb_migrations/*
+server/ui/dist/*
 server/data

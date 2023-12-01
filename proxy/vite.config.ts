@@ -47,7 +47,7 @@ export default defineConfig({
     emptyOutDir: true,
     target: "es2015",
     cssTarget: "chrome63",
-    outDir: "../server/pb_public",
+    outDir: "../server/ui/dist",
     rollupOptions: {
       output: {
         chunkFileNames: "js/[hash].js",
