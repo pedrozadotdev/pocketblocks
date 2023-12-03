@@ -7,6 +7,6 @@ declare global {
   interface Window {
     sdk: unknown;
     uploadAvatar: (config: UploadRequestOption) => void;
-    setupProxy: (axiosIns: AxiosInstance, messageIns: unknown) => void;
+    setupProxy: (axiosIns: AxiosInstance, messageIns: unknown) => AxiosInstance;
   }
 }

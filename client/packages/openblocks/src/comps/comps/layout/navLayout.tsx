@@ -10,12 +10,13 @@ import { TopHeaderHeight } from "constants/style";
 import { Section } from "openblocks-design";
 import { trans } from "i18n";
 import { EditorContainer, EmptyContent } from "pages/common/styledComponent";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { isUserViewMode, useAppPathParam, useAppPageId } from "util/hooks";
 import RootWrapper from "components/RootWrapper"
 import { useSelector } from "react-redux";
 import { getBrandingConfig } from "redux/selectors/configSelectors";
+import { AppViewInstance, OpenblocksAppView } from "index.sdk";
 
 const StyledSide = styled(Layout.Sider)`
   max-height: calc(100vh - ${TopHeaderHeight});
@@ -61,6 +62,20 @@ let NavTmpLayout = (function () {
     })
     .build();
 })();
+
+function View(appId: string) {
+  const ref = useRef<AppViewInstance | null>(null);
+  if (!appId) {
+    return null;
+  }
+  return (
+    <OpenblocksAppView
+      ref={ref}
+      appId={appId}
+      baseUrl={window.location.origin}
+    />
+  )
+}
 
 NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
   const pathParam = useAppPathParam();
@@ -170,6 +185,7 @@ NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
         selectedKey = firstItem[0];
       }
     }
+    console.log(selectedKey)
     setSelectedKey(selectedKey);
   }, [appPageId]);
 
@@ -178,7 +194,8 @@ NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
   let pageView = <EmptyContent text="" style={{ height: "100%" }} />;
   const selectedItem = itemKeyRecord[selectedKey];
   if (selectedItem && !selectedItem.children.hidden.getView()) {
-    const compView = selectedItem.children.action.getView();
+    //@ts-ignore
+    const compView = View(selectedItem.toJsonValue().action.comp.app.appId);
     if (compView) {
       pageView = compView;
     }

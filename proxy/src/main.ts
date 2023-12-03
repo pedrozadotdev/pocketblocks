@@ -13,6 +13,7 @@ initI18n().then(() => {
 });
 
 let mockIns: MockAdapter;
+let axiosInstance: AxiosInstance;
 
 window.setupProxy = (axiosIns: AxiosInstance, messageIns: unknown) => {
   if (!mockIns) {
@@ -32,5 +33,7 @@ window.setupProxy = (axiosIns: AxiosInstance, messageIns: unknown) => {
       });
       console.warn("[PROXY]: Mock applied!");
     }
+    axiosInstance = axiosIns;
   }
+  return axiosInstance;
 };

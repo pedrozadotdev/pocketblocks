@@ -5,7 +5,7 @@ import { manualOptionsControl } from "comps/controls/optionsControl";
 import { BoolCodeControl, StringControl } from "comps/controls/codeControl";
 import { IconControl } from "comps/controls/iconControl";
 import styled from "styled-components";
-import React, { Suspense, useContext, useState } from "react";
+import React, { Suspense, useContext, useRef, useState } from "react";
 import { registerLayoutMap } from "comps/comps/uiComp";
 import { AppSelectComp } from "comps/comps/layout/appSelectComp";
 import { NameAndExposingInfo } from "comps/utils/exposingTypes";
@@ -20,6 +20,8 @@ import { hiddenPropertyView } from "comps/utils/propertyUtils";
 import RootWrapper from "components/RootWrapper"
 import { useSelector } from "react-redux";
 import { getBrandingConfig } from "redux/selectors/configSelectors";
+
+import { AppViewInstance, OpenblocksAppView } from "index.sdk"
 
 const TabBar = React.lazy(() => import("antd-mobile/es/components/tab-bar"));
 const TabBarItem = React.lazy(() =>
@@ -151,6 +153,20 @@ let MobileTabLayoutTmp = (function () {
     .build();
 })();
 
+function View(appId: string) {
+  const ref = useRef<AppViewInstance | null>(null);
+  if (!appId) {
+    return null;
+  }
+  return (
+    <OpenblocksAppView
+      ref={ref}
+      appId={appId}
+      baseUrl={window.location.origin}
+    />
+  )
+}
+
 MobileTabLayoutTmp = withViewFn(MobileTabLayoutTmp, (comp) => {
   const [tabIndex, setTabIndex] = useState(0);
   const { readOnly } = useContext(ExternalEditorContext);
@@ -160,34 +176,35 @@ MobileTabLayoutTmp = withViewFn(MobileTabLayoutTmp, (comp) => {
     >
   ).filter((tab) => !tab.children.hidden.getView());
   const currentTab = tabViews[tabIndex];
-  // const appView = (currentTab &&
-  //   currentTab.children.app.getAppId() &&
-  //   currentTab.children.app.getView()) || (
-  //   <EmptyContent
-  //     text={readOnly ? "" : trans("aggregation.emptyTabTooltip")}
-  //     style={{ height: "100%", backgroundColor: "white" }}
-  //   />
-  // );
-  // Workaround until fix ListView bug
-  const appView = currentTab && currentTab.children.app.getAppId() ? (
-    <iframe
-      title={currentTab.children.app.getAppId()}
-      src={`${window.location.origin}/apps/${currentTab.children.app.getAppId()}?template=true`}
-      style={{
-        height: "100%",
-        width: "100%",
-        overflow: "hidden",
-        border: "none",
-        display: "block"
-      }}
-    >
-    </iframe>
-  ) : (
+  const appView = (currentTab &&
+    currentTab.children.app.getAppId() &&
+    View(currentTab.children.app.getAppId())) || (
     <EmptyContent
       text={readOnly ? "" : trans("aggregation.emptyTabTooltip")}
       style={{ height: "100%", backgroundColor: "white" }}
     />
-  )
+  );
+  
+  // Workaround until fix ListView bug
+  // const appView = currentTab && currentTab.children.app.getAppId() ? (
+  //   <iframe
+  //     title={currentTab.children.app.getAppId()}
+  //     src={`${window.location.origin}/apps/${currentTab.children.app.getAppId()}?template=true`}
+  //     style={{
+  //       height: "100%",
+  //       width: "100%",
+  //       overflow: "hidden",
+  //       border: "none",
+  //       display: "block"
+  //     }}
+  //   >
+  //   </iframe>
+  // ) : (
+  //   <EmptyContent
+  //     text={readOnly ? "" : trans("aggregation.emptyTabTooltip")}
+  //     style={{ height: "100%", backgroundColor: "white" }}
+  //   />
+  // )
 
   const tabBarView = (
     <TabBarView
