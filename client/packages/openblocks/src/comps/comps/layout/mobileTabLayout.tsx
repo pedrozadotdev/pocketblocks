@@ -160,14 +160,34 @@ MobileTabLayoutTmp = withViewFn(MobileTabLayoutTmp, (comp) => {
     >
   ).filter((tab) => !tab.children.hidden.getView());
   const currentTab = tabViews[tabIndex];
-  const appView = (currentTab &&
-    currentTab.children.app.getAppId() &&
-    currentTab.children.app.getView()) || (
+  // const appView = (currentTab &&
+  //   currentTab.children.app.getAppId() &&
+  //   currentTab.children.app.getView()) || (
+  //   <EmptyContent
+  //     text={readOnly ? "" : trans("aggregation.emptyTabTooltip")}
+  //     style={{ height: "100%", backgroundColor: "white" }}
+  //   />
+  // );
+  // Workaround until fix ListView bug
+  const appView = currentTab && currentTab.children.app.getAppId() ? (
+    <iframe
+      title={currentTab.children.app.getAppId()}
+      src={`${window.location.origin}/apps/${currentTab.children.app.getAppId()}?template=true`}
+      style={{
+        height: "100%",
+        width: "100%",
+        overflow: "hidden",
+        border: "none",
+        display: "block"
+      }}
+    >
+    </iframe>
+  ) : (
     <EmptyContent
       text={readOnly ? "" : trans("aggregation.emptyTabTooltip")}
       style={{ height: "100%", backgroundColor: "white" }}
     />
-  );
+  )
 
   const tabBarView = (
     <TabBarView
