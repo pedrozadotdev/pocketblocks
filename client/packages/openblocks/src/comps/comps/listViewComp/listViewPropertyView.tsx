@@ -2,6 +2,7 @@ import { trans, transToNode } from "i18n";
 import { Section, sectionNames } from "openblocks-design";
 import { ListViewImplComp } from "./listViewComp";
 import { ListCompType } from "./listViewUtils";
+import { hiddenPropertyView } from "comps/utils/propertyUtils";
 
 type Props = {
   comp: InstanceType<typeof ListViewImplComp>;
@@ -46,7 +47,10 @@ export function listPropertyView(compType: ListCompType) {
         <Section name={trans("prop.pagination")}>
           {comp.children.pagination.getPropertyView()}
         </Section>
-        <Section name={sectionNames.layout}>{children.autoHeight.getPropertyView()}</Section>
+        <Section name={sectionNames.layout}>
+          {children.autoHeight.getPropertyView()}
+          {hiddenPropertyView(children)}
+        </Section>
         {/* <Section name={sectionNames.style}>{children.showBorder.propertyView({ label: "" })}</Section> */}
         <Section name={sectionNames.style}>{children.style.getPropertyView()}</Section>
       </>
