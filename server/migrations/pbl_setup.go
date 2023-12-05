@@ -12,8 +12,8 @@ import (
 
 func init() {
 	m.Register(func(db dbx.Builder) error {
-		Dao := daos.New(db)
-		if _, err := Dao.FindCollectionByNameOrId("pbl_settings"); err == nil {
+		dao := daos.New(db)
+		if _, err := dao.FindCollectionByNameOrId("pbl_settings"); err == nil {
 			return nil
 		}
 		jsonData := `[
@@ -837,12 +837,12 @@ func init() {
 		}
 
 		//Migrate Pbl Collections
-		if err := Dao.ImportCollections(collections, true, nil); err != nil {
+		if err := dao.ImportCollections(collections, true, nil); err != nil {
 			return err
 		}
 
 		//Create Org
-		settingsCollection, err := Dao.FindCollectionByNameOrId("pbl_settings")
+		settingsCollection, err := dao.FindCollectionByNameOrId("pbl_settings")
 		if err != nil {
 			return err
 		}
@@ -850,12 +850,19 @@ func init() {
 		orgRecord := models.NewRecord(settingsCollection)
 		orgRecord.Set("org_name", "Acme Organization")
 
-		if err := Dao.SaveRecord(orgRecord); err != nil {
+		if err := dao.SaveRecord(orgRecord); err != nil {
 			return err
 		}
 
 		//Setup Settings
-		//TODO
+		settings, _ := dao.FindSettings()
+		settings.Meta.VerificationTemplate.ActionUrl = "{APP_URL}/apps?verifyEmailToken={TOKEN}"
+		settings.Meta.ConfirmEmailChangeTemplate.ActionUrl = "{APP_URL}/apps?emailChangeToken={TOKEN}"
+		settings.Meta.ResetPasswordTemplate.ActionUrl = "{APP_URL}/user/auth/reset-password?resetToken={TOKEN}"
+
+		if err := dao.SaveSettings(settings); err != nil {
+			return err
+		}
 
 		log.Printf("[POCKETBLOCKS]: Initial setup finished!")
 		return nil
