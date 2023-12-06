@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/gosimple/slug"
@@ -11,6 +12,7 @@ import (
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/models"
+	"github.com/pocketbase/pocketbase/tools/hook"
 )
 
 func registerHooks(app *pocketbase.PocketBase) {
@@ -218,5 +220,121 @@ func registerHooks(app *pocketbase.PocketBase) {
 	})
 
 	//Prevent anonymous signup with disabled auth type
-	//TODO
+	app.OnRecordBeforeCreateRequest("users").Add(func(e *core.RecordCreateEvent) error {
+		info := apis.RequestInfo(e.HttpContext)
+		isAnon := info.Admin == nil && info.AuthRecord == nil
+		_, isPasswordSignup := info.Data["password"]
+		localAuth, err := app.Dao().FindFirstRecordByData("pbl_auth", "type", "local")
+		if err != nil {
+			if info.Admin != nil {
+				return apis.NewBadRequestError("Please create a pbl_auth local record!", nil)
+			}
+			return apis.NewBadRequestError("You cannot signup with this provider!", nil)
+		}
+		if allowSignup := localAuth.GetBool("allow_signup"); isAnon && isPasswordSignup && !allowSignup {
+			return apis.NewUnauthorizedError("You cannot signup with this provider!", nil)
+		}
+		if localIdType := localAuth.GetString("local_id_type"); localIdType == "username" {
+			if _, isUsernameSet := info.Data["username"]; !isUsernameSet {
+				return apis.NewBadRequestError("Username is required!", nil)
+			}
+			if _, isEmailSet := info.Data["email"]; isEmailSet {
+				return apis.NewBadRequestError("Don't use email when local_id_type is username!", nil)
+			}
+		}
+		return nil
+	})
+
+	app.OnRecordBeforeAuthWithOAuth2Request().Add(func(e *core.RecordAuthWithOAuth2Event) error {
+		auth, err := app.Dao().FindFirstRecordByData("pbl_auth", "type", e.ProviderName)
+		if allowSignup := auth.GetBool("allow_signup"); err != nil || !allowSignup {
+			return apis.NewBadRequestError("You cannot signup with this provider!", nil)
+		}
+		return nil
+	})
+
+	// Auto Verified Email Feature
+	app.OnRecordAfterCreateRequest("users").Add(func(e *core.RecordCreateEvent) error {
+		localAuth, err := app.Dao().FindFirstRecordByData("pbl_auth", "type", "local")
+		if err != nil {
+			return err
+		}
+		if localEmailAutoVerified := localAuth.GetBool("local_email_auto_verified"); localEmailAutoVerified {
+			user, err := app.Dao().FindRecordById("users", e.Record.Id)
+			if err != nil {
+				return err
+			}
+			user.Set("verified", true)
+			app.Dao().SaveRecord(user)
+		}
+		return nil
+	})
+
+	// Prevent update username/email/password if not enabled
+	app.OnRecordBeforeUpdateRequest("users").Add(func(e *core.RecordUpdateEvent) error {
+		localAuth, err := app.Dao().FindFirstRecordByData("pbl_auth", "type", "local")
+		if err != nil {
+			//Ignore
+			return nil
+		}
+		info := apis.RequestInfo(e.HttpContext)
+		isAdmin := info.Admin != nil
+		_, isUsernameSet := info.Data["username"]
+		_, isPasswordSet := info.Data["password"]
+		allowUpdate := localAuth.GetStringSlice("local_allow_update")
+		if !isAdmin {
+			if isUsernameSet && slices.Contains(allowUpdate, "username") {
+				return apis.NewBadRequestError("You cannot update the username!", nil)
+			}
+			if isPasswordSet && !slices.Contains(allowUpdate, "password") {
+				return apis.NewBadRequestError("You cannot update the password!", nil)
+			}
+		}
+		return nil
+	})
+
+	app.OnRecordBeforeRequestPasswordResetRequest().Add(func(e *core.RecordRequestPasswordResetEvent) error {
+		localAuth, err := app.Dao().FindFirstRecordByData("pbl_auth", "type", "local")
+		if err != nil {
+			//Ignore
+			return nil
+		}
+		if localAllowUpdate := localAuth.GetStringSlice("local_allow_update"); !slices.Contains(localAllowUpdate, "password") {
+			return apis.NewBadRequestError("You cannot change the password. Contact an Administrator!", nil)
+		}
+		return nil
+	})
+
+	app.OnRecordBeforeRequestEmailChangeRequest().Add(func(e *core.RecordRequestEmailChangeEvent) error {
+		localAuth, err := app.Dao().FindFirstRecordByData("pbl_auth", "type", "local")
+		if err != nil {
+			//Ignore
+			return nil
+		}
+		if localAllowUpdate := localAuth.GetStringSlice("local_allow_update"); !slices.Contains(localAllowUpdate, "email") {
+			return apis.NewBadRequestError("You cannot update the email!", nil)
+		}
+		return nil
+	})
+
+	//Send back the current email to autologin
+	app.OnRecordAfterConfirmEmailChangeRequest().Add(func(e *core.RecordConfirmEmailChangeEvent) error {
+		user, err := app.Dao().FindRecordById("users", e.Record.Id)
+		if err != nil {
+			return err
+		}
+		email := user.GetString("email")
+		e.HttpContext.JSON(200, map[string]any{"email": email})
+		return hook.StopPropagation
+	})
+
+	app.OnRecordAfterConfirmPasswordResetRequest().Add(func(e *core.RecordConfirmPasswordResetEvent) error {
+		user, err := app.Dao().FindRecordById("users", e.Record.Id)
+		if err != nil {
+			return err
+		}
+		email := user.GetString("email")
+		e.HttpContext.JSON(200, map[string]any{"email": email})
+		return hook.StopPropagation
+	})
 }
