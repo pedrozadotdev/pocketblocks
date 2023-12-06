@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/internoapp/pocketblocks/server/core"
 	_ "github.com/internoapp/pocketblocks/server/migrations"
 	"github.com/pocketbase/pocketbase"
 )
@@ -10,11 +11,8 @@ import (
 func main() {
 	app := pocketbase.New()
 
-	//Register Hooks
-	registerHooks(app)
-
 	//Register Commands
-	registerCommands(app)
+	core.RegisterCommands(app)
 
 	if err := app.Start(); err != nil {
 		log.Fatal(err)

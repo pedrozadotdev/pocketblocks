@@ -3,7 +3,9 @@ package migrations
 import (
 	"encoding/json"
 	"log"
+	"strings"
 
+	"github.com/fatih/color"
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/daos"
 	m "github.com/pocketbase/pocketbase/migrations"
@@ -863,8 +865,10 @@ func init() {
 		if err := dao.SaveSettings(settings); err != nil {
 			return err
 		}
-
-		log.Printf("[POCKETBLOCKS]: Initial setup finished!")
+		date := new(strings.Builder)
+		log.New(date, "", log.LstdFlags).Print()
+		bold := color.New(color.Bold).Add(color.FgGreen)
+		bold.Printf("%s PocketBlocks initial setup finished!\n", strings.TrimSpace(date.String()))
 		return nil
 
 	}, func(db dbx.Builder) error {

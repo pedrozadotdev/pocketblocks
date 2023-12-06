@@ -1,9 +1,10 @@
-package main
+package core
 
 import (
 	"os"
 	"slices"
 	"strings"
+	"time"
 
 	"github.com/gosimple/slug"
 	"github.com/internoapp/pocketblocks/server/ui"
@@ -15,10 +16,15 @@ import (
 	"github.com/pocketbase/pocketbase/tools/hook"
 )
 
-func registerHooks(app *pocketbase.PocketBase) {
+func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout int) {
+	app.OnAfterBootstrap().Add(func(e *core.BootstrapEvent) error {
+		app.Dao().ModelQueryTimeout = time.Duration(queryTimeout) * time.Second
+		return nil
+	})
+
 	// serves static files from the provided public dir (if exists)
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
-		e.Router.GET("/pbl/*", apis.StaticDirectoryHandler(os.DirFS("./pbl_public"), false))
+		e.Router.GET("/pbl/*", apis.StaticDirectoryHandler(os.DirFS(publicDir), false))
 		e.Router.GET(
 			"/*",
 			apis.StaticDirectoryHandler(ui.DistDirFS, true),
