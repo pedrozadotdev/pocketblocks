@@ -43,9 +43,6 @@ builds:
       - goos: darwin
         goarch: arm
 
-release:
-  draft: true
-
 archives:
   - id: archive_noncgo
     builds: [build_noncgo]

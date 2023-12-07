@@ -9,7 +9,7 @@
     "client:prepare": "cd ../client && yarn && cd ../proxy",
     "client:dev": "yarn --cwd ../client start",
     "client:build": "yarn --cwd ../client build",
-    "build:ci": "yarn && yarn run client:prepare && yarn run client:build && yarn build && cd ../server && zip -r ../release.zip ./* && cd ..",
+    "build:ci": "yarn && yarn run client:prepare && yarn run client:build && yarn build",
     "preview": "vite preview"
   },
   "devDependencies": {
