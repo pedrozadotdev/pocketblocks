@@ -14,7 +14,6 @@ env:
   GH_USER: ${{ github.actor }}
   GH_TAG: ${{ github.ref_name }}
   PBL_VERSION: ${{ github.ref_name }}
-  POCKETBASE_VERSION: ${{ vars.POCKETBASE_VERSION }}
 
 jobs:
   build:
@@ -28,13 +27,13 @@ jobs:
         with:
           node-version: 18.18.0
       - run: cd proxy && yarn run build:ci
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v3
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and Publish Package
         run: chmod +x ./docker-build.sh && ./docker-build.sh
-      - name: Create a Release
-        id: create_release
-        uses: shogo82148/actions-create-release@v1
-      - name: Upload Assets
-        uses: shogo82148/actions-upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: release.zip

@@ -4,10 +4,13 @@ In this article, you will be guided through hosting PocketBlocks on your own ser
 
 ### Manual
 
-- Download and extract the [release.zip](https://github.com/internoapp/pocketblocks/releases) file;
-- Download and extract the PocketBase executable and put it in the release folder;
-- Run `./pocketbase serve`;
+- Download the binary of your OS and arch from [Release Page](https://github.com/internoapp/pocketblocks/releases);
+- Run `./pocketblocks serve`;
 - Access the [PocketBase Admin Panel](http://localhost:8090/_) and create the admin user.
+
+{% hint style="info" %}
+PocketBlocks uses Openblocks as frontend. The `pb_public` dir is already setup but you can use `pbl_public` dir and all files from that directory will be served at http://localhost:8090/pbl/ path.
+{% endhint %}
 
 ### Docker
 
