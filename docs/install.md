@@ -8,10 +8,6 @@ In this article, you will be guided through hosting PocketBlocks on your own ser
 - Run `./pocketblocks serve`;
 - Access the [PocketBase Admin Panel](http://localhost:8090/_) and create the admin user.
 
-{% hint style="info" %}
-PocketBlocks uses Openblocks as frontend. The `pb_public` dir is already setup but you can use `pbl_public` dir and all files from that directory will be served at http://localhost:8090/pbl/ path.
-{% endhint %}
-
 ### Docker
 
 - Get the [docker-compose.yml](https://raw.githubusercontent.com/internoapp/pocketblocks/main/docker-compose.yml) file;
@@ -29,4 +25,8 @@ PocketBlocks uses Openblocks as frontend. The `pb_public` dir is already setup b
 
 {% hint style="info" %}
 Remember to enable at least one of the [authentication methods](workspace-management/auth.md).
+{% endhint %}
+
+{% hint style="info" %}
+Also, remember that PocketBlocks uses Openblocks as the frontend. The `pb_public` dir is already set up but you can use the `pbl_public` dir and all files from that directory will be served at `<serverAddress>/pbl/` path.
 {% endhint %}
