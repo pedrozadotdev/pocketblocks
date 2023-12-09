@@ -17,11 +17,11 @@ import { Layers } from "constants/Layers";
 import { ExternalEditorContext } from "util/context/ExternalEditorContext";
 import { Skeleton } from "antd";
 import { hiddenPropertyView } from "comps/utils/propertyUtils";
-import RootWrapper from "components/RootWrapper"
+import RootWrapper from "components/RootWrapper";
 import { useSelector } from "react-redux";
 import { getBrandingConfig } from "redux/selectors/configSelectors";
 
-import { AppViewInstance, OpenblocksAppView } from "index.sdk"
+import { AppViewInstance, OpenblocksAppView } from "index.sdk";
 
 const TabBar = React.lazy(() => import("antd-mobile/es/components/tab-bar"));
 const TabBarItem = React.lazy(() =>
@@ -93,7 +93,9 @@ function TabBarView(props: TabBarProps) {
             activeKey={props.selectedKey}
           >
             {props.tabs.map((tab) => {
-              return <TabBarItem key={tab.key} icon={tab.icon} title={tab.title} />;
+              return (
+                <TabBarItem key={tab.key} icon={tab.icon} title={tab.title} />
+              );
             })}
           </TabBar>
         </TabBarWrapper>
@@ -134,9 +136,18 @@ let MobileTabLayoutTmp = (function () {
   const childrenMap = {
     tabs: manualOptionsControl(TabOptionComp, {
       initOptions: [
-        { label: trans("optionsControl.optionI", { i: 1 }), icon: "/icon:solid/1" },
-        { label: trans("optionsControl.optionI", { i: 2 }), icon: "/icon:solid/2" },
-        { label: trans("optionsControl.optionI", { i: 3 }), icon: "/icon:solid/3" },
+        {
+          label: trans("optionsControl.optionI", { i: 1 }),
+          icon: "/icon:solid/1",
+        },
+        {
+          label: trans("optionsControl.optionI", { i: 2 }),
+          icon: "/icon:solid/2",
+        },
+        {
+          label: trans("optionsControl.optionI", { i: 3 }),
+          icon: "/icon:solid/3",
+        },
       ],
     }),
   };
@@ -146,25 +157,29 @@ let MobileTabLayoutTmp = (function () {
     .setPropertyViewFn((children) => {
       return (
         <>
-          <Section name={trans("aggregation.tabBar")}>{children.tabs.propertyView({})}</Section>
+          <Section name={trans("aggregation.tabBar")}>
+            {children.tabs.propertyView({})}
+          </Section>
         </>
       );
     })
     .build();
 })();
 
-function View(appId: string) {
+function View({ currentTab, readOnly }: { currentTab: any; readOnly?: boolean }) {
   const ref = useRef<AppViewInstance | null>(null);
-  if (!appId) {
-    return null;
-  }
-  return (
+  return currentTab && currentTab.children.app.getAppId() ? (
     <OpenblocksAppView
       ref={ref}
-      appId={appId}
+      appId={currentTab.children.app.getAppId()}
       baseUrl={window.location.origin}
     />
-  )
+  ) : (
+    <EmptyContent
+      text={readOnly ? "" : trans("aggregation.emptyTabTooltip")}
+      style={{ height: "100%", backgroundColor: "white" }}
+    />
+  );
 }
 
 MobileTabLayoutTmp = withViewFn(MobileTabLayoutTmp, (comp) => {
@@ -176,15 +191,10 @@ MobileTabLayoutTmp = withViewFn(MobileTabLayoutTmp, (comp) => {
     >
   ).filter((tab) => !tab.children.hidden.getView());
   const currentTab = tabViews[tabIndex];
-  const appView = (currentTab &&
-    currentTab.children.app.getAppId() &&
-    View(currentTab.children.app.getAppId())) || (
-    <EmptyContent
-      text={readOnly ? "" : trans("aggregation.emptyTabTooltip")}
-      style={{ height: "100%", backgroundColor: "white" }}
-    />
+  const appView = (
+    <View currentTab={currentTab} readOnly={readOnly} />
   );
-  
+
   // Workaround until fix ListView bug
   // const appView = currentTab && currentTab.children.app.getAppId() ? (
   //   <iframe
@@ -211,7 +221,9 @@ MobileTabLayoutTmp = withViewFn(MobileTabLayoutTmp, (comp) => {
       tabs={tabViews.map((tab, index) => ({
         key: index,
         title: tab.children.label.getView(),
-        icon: tab.children.icon.toJsonValue() ? tab.children.icon.getView() : undefined,
+        icon: tab.children.icon.toJsonValue()
+          ? tab.children.icon.getView()
+          : undefined,
       }))}
       selectedKey={tabIndex + ""}
       onChange={(key) => setTabIndex(Number(key))}
