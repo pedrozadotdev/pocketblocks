@@ -22,20 +22,15 @@ persistQueryClientSubscribe({
   }),
 });
 
-const sdk = new Proxy(pb, {
-  get(pb, prop) {
-    if (prop === "qc") {
-      return queryClient;
-    }
-    return pb[prop as keyof typeof pb];
-  },
+const pbProxy = new Proxy(pb, {
   set() {
     throw new Error("SDK is immutable");
   },
 });
 
 export const setup = () => {
-  window.sdk = sdk;
+  window.qc = queryClient;
+  window.pb = pbProxy;
   window.uploadAvatar = async (config: UploadRequestOption) => {
     const { data: user } = await auth.getCurrentUser();
     if (user) {
