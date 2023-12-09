@@ -98,7 +98,7 @@ const FolderNameWrapper = styled.div<{ selected: boolean }>`
   }
 `;
 
-const FolderName = (props: { id: string; name: string }) => {
+const FolderName = (props: { id: string; name: string, orgDev?: boolean }) => {
   const dispatch = useDispatch();
   const [folderNameEditing, setFolderNameEditing] = useState(false);
 
@@ -116,9 +116,11 @@ const FolderName = (props: { id: string; name: string }) => {
           setFolderNameEditing(false);
         }}
       />
-      <EditPopover items={[{ text: trans("rename"), onClick: () => setFolderNameEditing(true) }]}>
-        <PopoverIcon tabIndex={-1} />
-      </EditPopover>
+      {props.orgDev ? (
+        <EditPopover items={[{ text: trans("rename"), onClick: () => setFolderNameEditing(true) }]}>
+          <PopoverIcon tabIndex={-1} />
+        </EditPopover>
+      ): null}
     </>
   );
 };
@@ -263,7 +265,7 @@ export default function ApplicationHome() {
         onSelected: (_, currentPath) => currentPath === path,
         text: (props: { selected: boolean }) => (
           <FolderNameWrapper selected={props.selected}>
-            <FolderName name={folder.name} id={folder.folderId} />
+            <FolderName name={folder.name} id={folder.folderId} orgDev={user.orgDev} />
           </FolderNameWrapper>
         ),
         routePath: FOLDER_URL,

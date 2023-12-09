@@ -281,6 +281,10 @@ export function HomeLayout(props: HomeLayoutProps) {
         return HomeResTypeEnum[filterBy].valueOf() === e.applicationType;
       }
     })
+    .filter((e) => {
+      if (user.orgDev) { return true}
+      return e.folder || e.applicationType === 1
+    })
     .map((e) =>
       e.folder
         ? {
