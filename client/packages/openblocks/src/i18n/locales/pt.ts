@@ -890,7 +890,7 @@ export const pt = {
     triggerQuery: "Executar Consulta",
     updateData: "Dados de atualização",
     updateText: "Também estou de bom humor!",
-    sdkGlobalVarName: "PocketBlocks",
+    sdkGlobalVarName: "pbl",
   },
   tree: {
     selectType: "Selecione o tipo",
@@ -1801,7 +1801,7 @@ export const pt = {
     queryParam: "Parâmentros de URL(Query)",
     hashParam: "Parâmentros de URL(Hash)",
     tabBar: "Barra da guia",
-    emptyTabTooltip: "Configurar esta página no painel direito",
+    emptyTabTooltip: "Configure esta página no painel direito",
   },
   appSetting: {
     "450": "(Telefone)",

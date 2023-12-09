@@ -37,7 +37,7 @@ By default, PocketBlocks defines the object `model`, and two functions `runQuery
 All code of your **Custom component**, including HTML, CSS, and JavaScript, stores in the **Code** box in the **Properties** pane. When your app runs, the custom component will be embedded into an [iframe](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) element.To facilitate the interaction between the **Custom component** and other components in your app, PocketBlocks offers an API for you through global objects. The type definition and description of the objects are as follows.
 
 ```javascript
-interface PocketBlocks {
+interface PBL {
   // Subscribe to data change
   // When data changes, handler will be triggered
   // The returned value is the unsubscribe function
@@ -68,7 +68,7 @@ The following example is the least code that a custom component requires to work
     const MyCustomComponent = ({ runQuery, model, updateModel }) => (
         <p>Hello, world!</p>
     );
-    const ConnectedComponent = PocketBlocks.connect(MyCustomComponent);
+    const ConnectedComponent = pbl.connect(MyCustomComponent);
     ReactDOM.render(<ConnectedComponent />,
 document.getElementById("react"));
 </script>
@@ -110,7 +110,7 @@ Below is the code for this example.
     </Card>
   );
 
-  const ConnectedComponent = PocketBlocks.connect(MyCustomComponent);
+  const ConnectedComponent = pbl.connect(MyCustomComponent);
 
   const root = ReactDOM.createRoot(document.getElementById("root"));
   root.render(<ConnectedComponent />);
@@ -182,7 +182,7 @@ Then, you import the "antd" library and use the components **Button**, **Input**
     </Card>
   );
 
-  const ConnectedComponent = PocketBlocks.connect(MyCustomComponent);
+  const ConnectedComponent = pbl.connect(MyCustomComponent);
 
   const root = ReactDOM.createRoot(document.getElementById("root"));
   root.render(<ConnectedComponent />);

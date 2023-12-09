@@ -1215,7 +1215,7 @@
       }),
         (window.React = a),
         (window.ReactDOM = U(U({}, l), o)),
-        (window.PocketBlocks = {
+        (window.pbl = {
           subscribe: M,
           connect: function (e) {
             return function () {

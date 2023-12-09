@@ -860,7 +860,7 @@ export const en = {
     triggerQuery: "Trigger query",
     updateData: "Update data",
     updateText: "I'm also in a good mood!",
-    sdkGlobalVarName: "PocketBlocks",
+    sdkGlobalVarName: "pbl",
   },
   tree: {
     selectType: "Select type",
