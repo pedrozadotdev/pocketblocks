@@ -106,7 +106,7 @@ export const pt = {
   leftPanel: {
     queries: "Consultas",
     globals: "Globais",
-    propTipsArr: "{num} produtos",
+    propTipsArr: "{num} itens",
     propTips: "chaves",
     propTipArr: "{num} item",
     propTip: "chave",
