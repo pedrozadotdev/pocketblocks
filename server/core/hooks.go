@@ -34,6 +34,19 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 		return nil
 	})
 
+	// Prevent use to change email action URLs
+	app.OnSettingsBeforeUpdateRequest().Add(func(e *core.SettingsUpdateEvent) error {
+		oldS, newS := e.OldSettings, e.NewSettings
+		verificationUrlChanged := oldS.Meta.VerificationTemplate.ActionUrl != newS.Meta.VerificationTemplate.ActionUrl
+		passordResetUrlChanged := oldS.Meta.ResetPasswordTemplate.ActionUrl != newS.Meta.ResetPasswordTemplate.ActionUrl
+		confirmPasswordUrlChanged := oldS.Meta.ConfirmEmailChangeTemplate.ActionUrl != newS.Meta.ConfirmEmailChangeTemplate.ActionUrl
+
+		if verificationUrlChanged || passordResetUrlChanged || confirmPasswordUrlChanged {
+			return apis.NewBadRequestError("You cannot change the Action URLs!", nil)
+		}
+		return nil
+	})
+
 	//Sync pbl_user with user/admin
 	app.OnAdminAfterCreateRequest().Add(func(e *core.AdminCreateEvent) error {
 		pblUsersCollection, err := app.Dao().FindCollectionByNameOrId("pbl_users")

@@ -128,7 +128,8 @@ type DropDownProps = {
   fontSize?: number;
 };
 export default function ProfileDropdown(props: DropDownProps) {
-  const { avatarUrl, username, orgs, currentOrgId } = props.user;
+  const { avatarUrl, username, orgs, currentOrgId, orgDev, connections } = props.user;
+  const userEmail = connections ? connections[0]?.name || "" : ""
   const currentOrgRoleId = props.user.orgRoleMap.get(currentOrgId);
   const currentOrg = useMemo(
     () => props.user.orgs.find((o) => o.id === currentOrgId),
@@ -170,11 +171,11 @@ export default function ProfileDropdown(props: DropDownProps) {
       onClick={handleClick}
       expandIcon={<StyledPackUpIcon />}
     >
-      <Menu.Item key="profile">
+      <Menu.Item key="profile" disabled={orgDev}>
         <ProfileWrapper>
-          <ProfileImage source={avatarUrl} userName={username} side={48} />
+          <ProfileImage source={avatarUrl} userName={orgDev ? userEmail : username} side={48} />
           <StyledNameLabel>
-            <CommonTextLabel2 title={username}>{username}</CommonTextLabel2>
+            <CommonTextLabel2 title={username}>{orgDev ? userEmail : username}</CommonTextLabel2>
             {!checkIsMobile(window.innerWidth) && <EditIcon />}
           </StyledNameLabel>
           {currentOrg && (
@@ -230,7 +231,7 @@ export default function ProfileDropdown(props: DropDownProps) {
           <ProfileImage
             style={{ cursor: "pointer", userSelect: "none" }}
             source={avatarUrl}
-            userName={username}
+            userName={orgDev ? userEmail : username}
             side={props.profileSide}
             fontSize={props.fontSize}
           />

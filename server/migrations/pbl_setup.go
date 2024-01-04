@@ -862,7 +862,8 @@ func init() {
 		settings.Meta.ConfirmEmailChangeTemplate.ActionUrl = "{APP_URL}/apps?emailChangeToken={TOKEN}"
 		settings.Meta.ResetPasswordTemplate.ActionUrl = "{APP_URL}/user/auth/reset-password?resetToken={TOKEN}"
 
-		if err := dao.SaveSettings(settings); err != nil {
+		daoWH := dao.WithoutHooks() //Prevent to trigger hooks and get error from "Prevent use to change email action URLs"
+		if err := daoWH.SaveSettings(settings); err != nil {
 			return err
 		}
 		date := new(strings.Builder)
