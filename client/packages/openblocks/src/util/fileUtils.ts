@@ -18,9 +18,9 @@ export function beforeImgUpload(file: RcFile) {
     message.error(trans("imgUpload.notSupportError", { types: "JPG/PNG" }));
     return false;
   }
-  const sizeExceed = file.size / 1024 > 300;
+  const sizeExceed = file.size > 5242880;
   if (sizeExceed) {
-    message.error(trans("imgUpload.exceedSizeError", { size: "300kb" }));
+    message.error(trans("imgUpload.exceedSizeError", { size: "5mb" }));
   }
   return !sizeExceed;
 }
