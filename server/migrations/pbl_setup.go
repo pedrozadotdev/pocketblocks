@@ -5,13 +5,15 @@ import (
 	"github.com/internoapp/pocketblocks/server/models"
 	"github.com/pocketbase/dbx"
 	m "github.com/pocketbase/pocketbase/migrations"
+	pm "github.com/pocketbase/pocketbase/models"
 	"github.com/pocketbase/pocketbase/models/schema"
+	"github.com/pocketbase/pocketbase/tools/types"
 )
 
 func init() {
 	m.Register(func(db dbx.Builder) error {
 		dao := daos.New(db)
-		//Prevent delete users collection or avatar/name fields
+		//Set users collection and avatar/name fields to System
 		usersCollection, err := dao.FindCollectionByNameOrId("_pb_users_auth_")
 		if err != nil {
 			return err
@@ -45,24 +47,45 @@ func init() {
 			return err
 		}
 
+		//Create groups collection
+		groupsCollection := &pm.Collection{}
+		groupsCollection.MarkAsNew()
+		groupsCollection.Id = "_pb_groups_col_"
+		groupsCollection.Name = "groups"
+		groupsCollection.Type = pm.CollectionTypeBase
+		groupsCollection.System = true
+		groupsCollection.ListRule = types.Pointer("users.id ?= @request.auth.id")
+		groupsCollection.ViewRule = types.Pointer("users.id ?= @request.auth.id")
+		groupsCollection.Schema = schema.NewSchema(
+			&schema.SchemaField{
+				System:  true,
+				Id:      "groups_name",
+				Type:    schema.FieldTypeText,
+				Name:    "name",
+				Options: &schema.TextOptions{},
+			},
+			&schema.SchemaField{
+				System: true,
+				Id:     "groups_users",
+				Type:   schema.FieldTypeRelation,
+				Name:   "users",
+				Options: &schema.RelationOptions{
+					CollectionId: "_pb_users_auth_",
+				},
+			},
+		)
+
+		if err := dao.SaveCollection(groupsCollection); err != nil {
+			return err
+		}
+
 		//Create PocketBlocks tables
-		_, tablesErr := db.NewQuery(`
+		if _, tablesErr := db.NewQuery(`
 		CREATE TABLE {{_pbl_folders}} (
 			[[id]]        TEXT PRIMARY KEY NOT NULL,
 			[[name]]      TEXT NOT NULL,
-			[[createdBy]] TEXT NOT NULL,
 			[[created]]   TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
-			[[updated]]   TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
-			---
-			FOREIGN KEY ([[createdBy]]) REFERENCES {{_users}} ([[id]]) ON UPDATE CASCADE ON DELETE CASCADE
-		);
-
-		CREATE TABLE {{_pbl_groups}} (
-			[[id]]         TEXT PRIMARY KEY NOT NULL,
-			[[name]]       TEXT NOT NULL,
-			[[users]]      JSON DEFAULT "[]" NOT NULL,
-			[[created]]    TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
-			[[updated]]    TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL
+			[[updated]]   TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL
 		);
 
 		CREATE TABLE {{_pbl_apps}} (
@@ -73,7 +96,6 @@ func init() {
 			[[status]]     TEXT NOT NULL,
 			[[public]]     BOOLEAN DEFAULT FALSE NOT NULL,
 			[[allUsers]]   BOOLEAN DEFAULT FALSE NOT NULL,
-			[[createdBy]]  TEXT NOT NULL,
 			[[groups]]     JSON DEFAULT "[]" NOT NULL,
 			[[users]]      JSON DEFAULT "[]" NOT NULL,
 			[[appDSL]]     JSON DEFAULT "{}" NOT NULL,
@@ -82,7 +104,6 @@ func init() {
 			[[created]]    TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
 			[[updated]]    TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
 			---
-			FOREIGN KEY ([[createdBy]]) REFERENCES {{_users}} ([[id]]) ON UPDATE CASCADE ON DELETE CASCADE,
 			FOREIGN KEY ([[folderId]]) REFERENCES {{_pbl_folders}} ([[id]]) ON UPDATE CASCADE ON DELETE CASCADE
 		);
 
@@ -91,7 +112,6 @@ func init() {
 			[[appId]]     TEXT NOT NULL,
 			[[dsl]]       JSON DEFAULT "{}" NOT NULL,
 			[[context]]   JSON DEFAULT "{}" NOT NULL,
-			[[createdBy]] TEXT NOT NULL,
 			[[created]]   TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
 			[[updated]]   TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
 			---
@@ -101,8 +121,7 @@ func init() {
 		CREATE INDEX _pbl_app_snapshots_app_idx ON {{_pbl_app_snapshots}} ([[appId]]);
 		CREATE UNIQUE INDEX _pbl_apps_unique_slug_idx ON {{_pbl_apps}} ([[slug]]);
 
-		`).Execute()
-		if tablesErr != nil {
+		`).Execute(); tablesErr != nil {
 			return tablesErr
 		}
 

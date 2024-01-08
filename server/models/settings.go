@@ -2,7 +2,6 @@ package models
 
 import (
 	"encoding/json"
-	"slices"
 	"sync"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
@@ -25,15 +24,15 @@ type Settings struct {
 	Script        string   `form:"script" json:"script"`
 	Css           string   `form:"css" json:"css"`
 	AdminTutorial []string `form:"adminTutorial" json:"adminTutorial"`
-	Libs          []string `form:"libs" json:"libs"`
-	Plugins       []string `form:"plugins" json:"plugins"`
-	Themes        []string `form:"themes" json:"themes"`
+	Libs          string   `form:"libs" json:"libs"`
+	Plugins       string   `form:"plugins" json:"plugins"`
+	Themes        string   `form:"themes" json:"themes"`
 	ThemeId       string   `form:"theme" json:"theme"`
 	Auths         Auths    `form:"auths" json:"auths"`
 }
 
-// Validate makes Settings validatable by implementing [validation.Validatable] interface.
-func (s *Settings) Validate() error {
+// Validate is used by SettingsForm to validate fields
+func (s *Settings) Validate(validateHomePageAppId ...validation.Rule) error {
 	s.mux.Lock()
 	defer s.mux.Unlock()
 
@@ -42,10 +41,10 @@ func (s *Settings) Validate() error {
 		validation.Field(&s.LogoUrl, is.URL),
 		validation.Field(&s.IconUrl, is.URL),
 		validation.Field(&s.HeaderColor, is.HexColor),
-		validation.Field(&s.HomePageAppId, validation.Length(15, 15)),
-		validation.Field(&s.Themes, validation.Each(is.JSON)),
-		validation.Field(&s.Libs, validation.Each(validation.Required)),
-		validation.Field(&s.Plugins, validation.Each(validation.Required)),
+		validation.Field(&s.HomePageAppId, validateHomePageAppId...),
+		validation.Field(&s.Themes, is.JSON),
+		validation.Field(&s.Libs, is.JSON),
+		validation.Field(&s.Plugins, is.JSON),
 		validation.Field(&s.ThemeId, validation.Length(24, 24)),
 		validation.Field(&s.Auths),
 		validation.Field(&s.AdminTutorial, validation.Each(validation.Length(15, 15))),
@@ -133,24 +132,7 @@ func (s *Settings) GetOauthByAuthName(name string) OauthAuth {
 func NewSettings() *Settings {
 	return &Settings{
 		Name:          "Acme Organization",
-		Themes:        []string{},
-		Libs:          []string{},
-		Plugins:       []string{},
 		AdminTutorial: []string{},
-		Auths: Auths{
-			Local: LocalAuth{
-				AllowSignup: true,
-				IdType: []string{
-					"username",
-					"email",
-				},
-				AllowUpdate: []string{
-					"username",
-					"email",
-					"password",
-				},
-			},
-		},
 	}
 }
 
@@ -181,47 +163,50 @@ type Auths struct {
 	Mailcow   OauthAuth `form:"mailcow" json:"mailcow"`
 }
 
-// LocalAuth is email/username based authentication
-type LocalAuth struct {
-	AllowSignup       bool     `form:"allowSignup" json:"allowSignup"`
-	Label             string   `form:"label" json:"label"`
-	IdInputMask       string   `form:"inputMask" json:"inputMask"`
-	IdType            []string `form:"type" json:"type"`
-	AllowUpdate       []string `form:"allowUpdate" json:"allowUpdate"`
-	EmailAutoverified bool     `form:"emailAutoverified" json:"emailAutoverified"`
+// Validate makes Auths validatable by implementing [validation.Validatable] interface.
+func (a *Auths) Validate() error {
+	return validation.ValidateStruct(&a,
+		validation.Field(&a.Google),
+		validation.Field(&a.Facebook),
+		validation.Field(&a.Github),
+		validation.Field(&a.Discord),
+		validation.Field(&a.Twitter),
+		validation.Field(&a.Microsoft),
+		validation.Field(&a.Spotify),
+		validation.Field(&a.Kakao),
+		validation.Field(&a.Twitch),
+		validation.Field(&a.Strava),
+		validation.Field(&a.Gitte),
+		validation.Field(&a.Livechat),
+		validation.Field(&a.Gitea),
+		validation.Field(&a.Oidc),
+		validation.Field(&a.Oidc2),
+		validation.Field(&a.Oidc3),
+		validation.Field(&a.Apple),
+		validation.Field(&a.Instagram),
+		validation.Field(&a.Vk),
+		validation.Field(&a.Yandex),
+		validation.Field(&a.Patreon),
+		validation.Field(&a.Patreon),
+		validation.Field(&a.Mailcow),
+	)
 }
 
-// Validate makes LocalAuth validatable by implementing [validation.Validatable] interface.
-func (a *LocalAuth) Validate() error {
-	return validation.ValidateStruct(&a,
-		validation.Field(&a.IdType, validation.Required, validation.Each(validation.In("username", "email"))),
-		validation.Field(&a.AllowUpdate,
-			validation.When(
-				slices.Contains(a.IdType, "username") && !slices.Contains(a.IdType, "email"),
-				validation.Each(validation.In("username", "password"))),
-			validation.When(
-				slices.Contains(a.IdType, "email") && !slices.Contains(a.IdType, "username"),
-				validation.Each(validation.In("email", "password"))),
-			validation.When(
-				slices.Contains(a.IdType, "email") && slices.Contains(a.IdType, "username"),
-				validation.Each(validation.In("email", "username", "password"))),
-		),
-		validation.Field(&a.EmailAutoverified,
-			validation.When(!slices.Contains(a.IdType, "email"), validation.Empty),
-		),
-	)
+// LocalAuth is email/username based authentication
+type LocalAuth struct {
+	Label       string `form:"label" json:"label"`
+	IdInputMask string `form:"inputMask" json:"inputMask"`
 }
 
 // OauthAuth is Oauth based authentication
 type OauthAuth struct {
-	AllowSignup bool   `form:"allowSignup" json:"allowSignup"`
-	CustomName  string `form:"customName" json:"customName"`
-	IconUrl     string `form:"iconUrl" json:"iconUrl"`
+	CustomName    string `form:"customName" json:"customName"`
+	CustomIconUrl string `form:"customIconUrl" json:"customIconUrl"`
 }
 
-// Validate makes LocalAuth validatable by implementing [validation.Validatable] interface.
+// Validate makes OauthAuth validatable by implementing [validation.Validatable] interface.
 func (a *OauthAuth) Validate() error {
 	return validation.ValidateStruct(&a,
-		validation.Field(&a.IconUrl, is.URL),
+		validation.Field(&a.CustomIconUrl, is.URL),
 	)
 }
