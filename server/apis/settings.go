@@ -32,7 +32,7 @@ func (api *settingsApi) view(c echo.Context) error {
 
 	info := apis.RequestInfo(c)
 	if info.Admin == nil {
-		settings.AdminTutorial = []string{}
+		settings.ShowTutorial = []string{}
 	}
 
 	return c.JSON(http.StatusOK, settings)
@@ -51,7 +51,12 @@ func (api *settingsApi) update(c echo.Context) error {
 		return apis.NewBadRequestError("Failed to load the submitted data. Try again later.", err)
 	}
 
-	return c.JSON(http.StatusOK, api.dao.GetCurrentPblSettings())
+	result, err := api.dao.GetCurrentPblSettings().Clone()
+	if err != nil {
+		return apis.NewApiError(500, "Something went wrong", err)
+	}
+
+	return c.JSON(http.StatusOK, result)
 }
 
 func (api *settingsApi) removeAdminTutorial(c echo.Context) error {
@@ -63,7 +68,7 @@ func (api *settingsApi) removeAdminTutorial(c echo.Context) error {
 	if err != nil {
 		return apis.NewApiError(500, "Something went wrong", err)
 	}
-	if !slices.Contains(settings.AdminTutorial, id) {
+	if !slices.Contains(settings.ShowTutorial, id) {
 		return apis.NewNotFoundError("", nil)
 	}
 

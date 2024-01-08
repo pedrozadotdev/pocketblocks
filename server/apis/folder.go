@@ -28,7 +28,7 @@ type folderApi struct {
 
 func (api *folderApi) list(c echo.Context) error {
 	fieldResolver := search.NewSimpleFieldResolver(
-		"id", "name", "createdBy", "created", "updated",
+		"id", "name", "created", "updated",
 	)
 
 	folders := []*models.Folder{}

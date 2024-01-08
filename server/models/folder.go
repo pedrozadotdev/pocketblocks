@@ -11,8 +11,7 @@ var (
 type Folder struct {
 	m.BaseModel
 
-	Name      string `db:"name" json:"name"`
-	CreatedBy string `db:"createBy" json:"createBy"`
+	Name string `db:"name" json:"name"`
 }
 
 func (m *Folder) TableName() string {

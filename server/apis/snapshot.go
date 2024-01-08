@@ -42,7 +42,7 @@ func (api *snapshotApi) view(c echo.Context) error {
 
 func (api *snapshotApi) list(c echo.Context) error {
 	fieldResolver := search.NewSimpleFieldResolver(
-		"id", "appId", "dsl", "context", "createdBy", "created", "updated",
+		"id", "appId", "dsl", "context", "created", "updated",
 	)
 
 	snapshots := []*models.Snapshot{}

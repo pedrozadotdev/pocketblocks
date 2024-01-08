@@ -11,10 +11,9 @@ var (
 type Snapshot struct {
 	m.BaseModel
 
-	AppId     string `db:"appId" json:"appId"`
-	Dsl       string `db:"dsl" json:"dsl"`
-	Context   string `db:"context" json:"context"`
-	CreatedBy string `db:"createBy" json:"createBy"`
+	AppId   string `db:"appId" json:"appId"`
+	Dsl     string `db:"dsl" json:"dsl"`
+	Context string `db:"context" json:"context"`
 }
 
 func (m *Snapshot) TableName() string {

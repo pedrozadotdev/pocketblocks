@@ -72,16 +72,16 @@ func (dao *Dao) RemoveAdminFromPblSettingsTutorial(id string) error {
 		return err
 	}
 
-	if slices.Contains(clone.AdminTutorial, id) {
-		newAdminTutorial := []string{}
+	if slices.Contains(clone.ShowTutorial, id) {
+		newShowTutorial := []string{}
 
-		for _, currentId := range clone.AdminTutorial {
+		for _, currentId := range clone.ShowTutorial {
 			if currentId != id {
-				newAdminTutorial = append(newAdminTutorial, id)
+				newShowTutorial = append(newShowTutorial, id)
 			}
 		}
 
-		clone.AdminTutorial = newAdminTutorial
+		clone.ShowTutorial = newShowTutorial
 		if err := settings.Merge(clone); err != nil {
 			return err
 		}

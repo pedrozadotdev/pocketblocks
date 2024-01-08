@@ -65,7 +65,7 @@ func (form *SnapshotUpsert) Validate() error {
 				form.snapshot.IsNew(),
 				validation.Length(utils.DefaultIdLength, utils.DefaultIdLength),
 				validation.Match(utils.IdRegex),
-				validation.By(validators.ValidId(&form.dao.Dao, "_pbl_apps")),
+				validation.By(validators.ValidField(&form.dao.Dao, "_pbl_apps", "id")),
 			).Else(validation.In(form.snapshot.AppId)),
 		),
 		validation.Field(

@@ -41,7 +41,7 @@ func (form *SettingsUpsert) Validate() error {
 	return form.Settings.Validate(
 		validation.Length(utils.DefaultIdLength, utils.DefaultIdLength),
 		validation.Match(utils.IdRegex),
-		validation.By(validators.ValidId(&form.dao.Dao, "_pbl_apps")),
+		validation.By(validators.ValidField(&form.dao.Dao, "_pbl_apps", "slug")),
 	)
 }
 

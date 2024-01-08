@@ -48,13 +48,6 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 		return nil
 	})
 
-	//Init Playground(For quick tests)
-	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
-		playgroundInit(app)
-
-		return nil
-	})
-
 	// Prevent use to change email action URLs
 	app.OnSettingsBeforeUpdateRequest().Add(func(e *core.SettingsUpdateEvent) error {
 		oldS, newS := e.OldSettings, e.NewSettings
@@ -78,7 +71,7 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 			return apis.NewApiError(500, "Something went wrong", err)
 		}
 
-		clone.AdminTutorial = append(clone.AdminTutorial, e.Admin.Id)
+		clone.ShowTutorial = append(clone.ShowTutorial, e.Admin.Id)
 		if err := settings.Merge(clone); err != nil {
 			return apis.NewApiError(500, "Something went wrong", err)
 		}

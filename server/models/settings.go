@@ -23,7 +23,7 @@ type Settings struct {
 	HomePageAppId string   `form:"homePage" json:"homePage"`
 	Script        string   `form:"script" json:"script"`
 	Css           string   `form:"css" json:"css"`
-	AdminTutorial []string `form:"adminTutorial" json:"adminTutorial"`
+	ShowTutorial  []string `form:"showTutorial" json:"showTutorial"`
 	Libs          string   `form:"libs" json:"libs"`
 	Plugins       string   `form:"plugins" json:"plugins"`
 	Themes        string   `form:"themes" json:"themes"`
@@ -47,7 +47,7 @@ func (s *Settings) Validate(validateHomePageAppId ...validation.Rule) error {
 		validation.Field(&s.Plugins, is.JSON),
 		validation.Field(&s.ThemeId, validation.Length(24, 24)),
 		validation.Field(&s.Auths),
-		validation.Field(&s.AdminTutorial, validation.Each(validation.Length(15, 15))),
+		validation.Field(&s.ShowTutorial, validation.Each(validation.Length(15, 15))),
 	)
 }
 
@@ -131,8 +131,8 @@ func (s *Settings) GetOauthByAuthName(name string) OauthAuth {
 // New creates and returns a new default Settings instance.
 func NewSettings() *Settings {
 	return &Settings{
-		Name:          "Acme Organization",
-		AdminTutorial: []string{},
+		Name:         "Acme Organization",
+		ShowTutorial: []string{},
 	}
 }
 
