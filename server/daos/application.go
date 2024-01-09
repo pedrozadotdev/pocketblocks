@@ -9,13 +9,16 @@ func (dao *Dao) PblAppQuery() *dbx.SelectQuery {
 	return dao.ModelQuery(&m.Application{})
 }
 
-func (dao *Dao) FindPblAppBySlug(slug string) (*m.Application, error) {
+func (dao *Dao) FindPblAppBySlug(slug string, filterExpr dbx.Expression) (*m.Application, error) {
 	model := &m.Application{}
 
-	err := dao.PblAppQuery().
-		AndWhere(dbx.HashExp{"slug": slug}).
-		Limit(1).
-		One(model)
+	query := dao.PblAppQuery().AndWhere(dbx.HashExp{"slug": slug})
+
+	if filterExpr != nil {
+		query = query.AndWhere(filterExpr)
+	}
+
+	err := query.Limit(1).One(model)
 
 	if err != nil {
 		return nil, err

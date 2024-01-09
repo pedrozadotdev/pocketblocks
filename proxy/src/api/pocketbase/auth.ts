@@ -1,5 +1,5 @@
 import { ClientResponseError } from "pocketbase";
-import { Auth, FullUser } from "@/types";
+import { Auth, User } from "@/types";
 import { APIResponse, PBAuth } from "./types";
 import * as users from "./users";
 import { createDefaultErrorResponse, pb } from "./utils";
@@ -73,7 +73,7 @@ export const isLoggedIn = async () => pb.authStore.isValid;
 
 export const isAdmin = async () => pb.authStore.isAdmin;
 
-export async function getCurrentUser(): APIResponse<FullUser> {
+export async function getCurrentUser(): APIResponse<User> {
   const userModel = pb.authStore.model;
   if (userModel) {
     const { data } = await users.get(userModel.id);

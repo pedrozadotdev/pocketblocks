@@ -1,7 +1,6 @@
 import { apps as appsAPI, auth, settings as settingsAPI } from "@/api";
 import { MockHandler, MockRequest, MockResponse } from "@/mocker";
 import { APIResponse, Application, Auth, Folder } from "@/types";
-import { t } from "@/i18n";
 
 export async function createAppList(apps: Application[]) {
   const admin = await auth.isAdmin();
@@ -10,11 +9,6 @@ export async function createAppList(apps: Application[]) {
     applicationId: a.slug,
     name: a.name,
     createAt: new Date(a.created).getTime(),
-    createBy: a.created_by
-      ? typeof a.created_by === "string"
-        ? a.created_by
-        : a.created_by.name
-      : t("unknown"),
     role: admin ? "owner" : "viewer",
     applicationType: a.type,
     applicationStatus: a.status,
@@ -68,8 +62,6 @@ export async function createFolderList(folders: Folder[]) {
         parentFolderId: null,
         name: f.name,
         createAt: new Date(f.created).getTime(),
-        createBy:
-          typeof f.created_by === "string" ? f.created_by : f.created_by.name,
         subFolders: null,
         subApplications: appsResponse.data
           ? await createAppList(appsResponse.data)

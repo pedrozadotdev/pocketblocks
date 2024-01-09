@@ -225,7 +225,6 @@ export interface HomeRes {
   id: string;
   name: string;
   type: HomeResTypeEnum;
-  creator: string;
   lastModifyTime: number;
   isEditable?: boolean;
   isManageable: boolean;
@@ -264,8 +263,7 @@ export function HomeLayout(props: HomeLayoutProps) {
   const resList: HomeRes[] = elements
     .filter((e) =>
       searchValue
-        ? e.name.toLocaleLowerCase().includes(searchValue) ||
-          e.createBy.toLocaleLowerCase().includes(searchValue)
+        ? e.name.toLocaleLowerCase().includes(searchValue)
         : true
     )
     .filter((e) => {
@@ -292,7 +290,6 @@ export function HomeLayout(props: HomeLayoutProps) {
             id: e.folderId,
             name: e.name,
             type: HomeResTypeEnum.Folder,
-            creator: e.createBy,
             lastModifyTime: e.createAt,
             isManageable: e.manageable,
             isDeletable: e.manageable && !e.subApplications?.length && !e.subFolders?.length,
@@ -302,7 +299,6 @@ export function HomeLayout(props: HomeLayoutProps) {
             id: e.applicationId,
             name: e.name,
             type: HomeResTypeEnum[HomeResTypeEnum[e.applicationType] as HomeResKey],
-            creator: e.createBy,
             lastModifyTime: e.lastModifyTime,
             isEditable: canEditApp(user, e),
             isManageable: canManageApp(user, e),

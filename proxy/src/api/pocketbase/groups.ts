@@ -8,7 +8,7 @@ export async function list(filters?: ListGroupsFilters): APIResponse<Group[]> {
     filter = `users.id?='${filters.userId}'`;
   }
   try {
-    const groups = await pb.collection("pbl_groups").getFullList<PBGroup>({
+    const groups = await pb.collection("groups").getFullList<PBGroup>({
       filter,
       sort: "-updated,-created",
       expand: "users",

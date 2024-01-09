@@ -7,6 +7,7 @@ import (
 	"github.com/internoapp/pocketblocks/server/forms"
 	"github.com/internoapp/pocketblocks/server/models"
 	"github.com/labstack/echo/v5"
+	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/tools/search"
 )
@@ -17,7 +18,7 @@ func BindApplicationApi(dao *daos.Dao, g *echo.Group, logMiddleware echo.Middlew
 	subGroup := g.Group("/applications")
 	subGroup.GET("", api.list, apis.RequireAdminOrRecordAuth("users"))
 	subGroup.POST("", api.create, apis.RequireAdminAuth(), logMiddleware)
-	subGroup.GET("/:slug", api.view, apis.RequireAdminOrRecordAuth("users"))
+	subGroup.GET("/:slug", api.view)
 	subGroup.PATCH("/:slug", api.update, apis.RequireAdminAuth(), logMiddleware)
 	subGroup.DELETE("/:slug", api.delete, apis.RequireAdminAuth(), logMiddleware)
 
@@ -34,8 +35,43 @@ func (api *applicationApi) list(c echo.Context) error {
 
 	applications := []*models.Application{}
 
+	query := api.dao.PblAppQuery()
+
+	info := apis.RequestInfo(c)
+
+	if info.Admin == nil {
+		groups, err := api.dao.FindRecordsByFilter(
+			"_pb_groups_col_",
+			"users ?= \""+info.Admin.Id+"\"",
+			"-created",
+			500,
+			0,
+		)
+		if err != nil {
+			return apis.NewApiError(500, "Something went wrong", err)
+		}
+
+		groupIds := []string{}
+
+		for _, g := range groups {
+			groupIds = append(groupIds, g.Id)
+		}
+
+		var filterExpr dbx.Expression
+
+		if len(groupIds) > 0 {
+			filterExpr = dbx.Or(
+				dbx.Like("users", info.Admin.Id),
+				dbx.OrLike("groups", groupIds...),
+			)
+		} else {
+			filterExpr = dbx.Like("users", info.Admin.Id)
+		}
+		query = query.AndWhere(filterExpr)
+	}
+
 	result, err := search.NewProvider(fieldResolver).
-		Query(api.dao.PblAppQuery()).
+		Query(query).
 		ParseAndExec(c.QueryParams().Encode(), &applications)
 
 	if err != nil {
@@ -52,7 +88,48 @@ func (api *applicationApi) view(c echo.Context) error {
 		return apis.NewNotFoundError("", nil)
 	}
 
-	app, err := api.dao.FindPblAppBySlug(slug)
+	info := apis.RequestInfo(c)
+	var filterExpr dbx.Expression = dbx.HashExp{"public": 1}
+
+	if info.Admin == nil {
+		if info.AuthRecord != nil {
+			groups, err := api.dao.FindRecordsByFilter(
+				"_pb_groups_col_",
+				"users ?= \""+info.Admin.Id+"\"",
+				"-created",
+				500,
+				0,
+			)
+			if err != nil {
+				return apis.NewApiError(500, "Something went wrong", err)
+			}
+
+			groupIds := []string{}
+
+			for _, g := range groups {
+				groupIds = append(groupIds, g.Id)
+			}
+			if len(groupIds) > 0 {
+				filterExpr = dbx.Or(
+					filterExpr,
+					dbx.HashExp{"allUsers": 1},
+					dbx.Like("users", info.Admin.Id),
+					dbx.OrLike("groups", groupIds...),
+				)
+			} else {
+				filterExpr = dbx.Or(
+					filterExpr,
+					dbx.HashExp{"allUsers": 1},
+					dbx.Like("users", info.Admin.Id),
+				)
+			}
+		}
+
+	} else {
+		filterExpr = nil
+	}
+
+	app, err := api.dao.FindPblAppBySlug(slug, filterExpr)
 	if err != nil || app == nil {
 		return apis.NewNotFoundError("", nil)
 	}
@@ -82,7 +159,7 @@ func (api *applicationApi) update(c echo.Context) error {
 		return apis.NewNotFoundError("", nil)
 	}
 
-	application, err := api.dao.FindPblAppBySlug(slug)
+	application, err := api.dao.FindPblAppBySlug(slug, nil)
 	if err != nil || application == nil {
 		return apis.NewNotFoundError("", err)
 	}
@@ -108,7 +185,7 @@ func (api *applicationApi) delete(c echo.Context) error {
 		return apis.NewNotFoundError("", nil)
 	}
 
-	application, err := api.dao.FindPblAppBySlug(slug)
+	application, err := api.dao.FindPblAppBySlug(slug, nil)
 	if err != nil || application == nil {
 		return apis.NewNotFoundError("", err)
 	}

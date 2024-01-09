@@ -1,5 +1,3 @@
-import { AuthType } from "@/types";
-
 export type { APIResponse } from "@/types";
 
 type BaseModel<E = undefined> = {
@@ -9,35 +7,22 @@ type BaseModel<E = undefined> = {
   expand?: E;
 };
 
-type ApplicationExpanded = {
-  created_by: PBUser;
-  groups: PBGroup[];
-  users: PBUser[];
-  folder: PBFolder;
-};
-
-export interface PBApplication<E = ApplicationExpanded> extends BaseModel<E> {
+export interface PBApplication extends BaseModel {
   name: string;
   slug: string;
   type: number;
   status: "NORMAL" | "RECYCLED";
   public: boolean;
-  all_users: boolean;
-  created_by: string;
+  allUsers: boolean;
   groups: string[];
   users: string[];
-  app_dsl: unknown | null;
-  edit_dsl: unknown | null;
+  appDSL: unknown | null;
+  editDSL: unknown | null;
   folder: string;
 }
 
-type FolderExpanded = {
-  created_by: PBUser;
-};
-
-export interface PBFolder<E = FolderExpanded> extends BaseModel<E> {
+export interface PBFolder extends BaseModel {
   name: string;
-  created_by: string;
 }
 
 type GroupExpanded = {
@@ -51,55 +36,64 @@ export interface PBGroup<E = GroupExpanded> extends BaseModel<E> {
 }
 
 export interface PBUser extends BaseModel {
-  user_id: string;
   name: string;
   avatar?: string;
-  avatar_url?: string;
-  show_tutorial?: boolean;
 }
 
-type ConfigExpanded = {
-  home_page: PBApplication;
-};
-
-export interface PBSettings<E = ConfigExpanded> extends BaseModel<E> {
-  org_name: string;
+export interface PBSettings extends BaseModel {
+  orgName: string;
   logo: string;
   icon: string;
-  header_color: string;
-  home_page: string | null;
+  headerColor: string;
+  homePage: string | null;
   themes: string;
   theme: string; // id
   script?: string;
   libs?: string;
   css?: string;
   plugins?: string;
+  auths: Auths;
+  showTutorial: string[];
 }
 
-type LocalIdType = "username" | "email";
-
-type LocalAllowUpdate = LocalIdType | "password";
-
-export interface PBAuth extends BaseModel {
-  type: AuthType;
-  local_id_label?: string;
-  local_id_input_mask?: string;
-  local_id_type?: LocalIdType[];
-  local_allow_update?: LocalAllowUpdate[];
-  local_email_auto_verified?: boolean;
-  oauth_custom_name?: string;
-  oauth_icon_url?: string;
-  allow_signup: boolean;
-}
-
-type SnapshotExpanded = {
-  app: PBApplication;
-  created_by: PBUser;
+type LocalAuth = {
+  label: string;
+  inputMask: string;
 };
 
-export interface PBSnapshot<E = SnapshotExpanded> extends BaseModel<E> {
+type OauthAuth = {
+  customName: string;
+  customIconUrl: string;
+};
+
+type Auths = {
+  local: LocalAuth;
+  google: OauthAuth;
+  facebook: OauthAuth;
+  github: OauthAuth;
+  discord: OauthAuth;
+  twitter: OauthAuth;
+  microsoft: OauthAuth;
+  spotify: OauthAuth;
+  kakao: OauthAuth;
+  twitch: OauthAuth;
+  strava: OauthAuth;
+  gitte: OauthAuth;
+  livechat: OauthAuth;
+  gitea: OauthAuth;
+  oidc: OauthAuth;
+  oidc2: OauthAuth;
+  oidc3: OauthAuth;
+  apple: OauthAuth;
+  instagram: OauthAuth;
+  vk: OauthAuth;
+  yandex: OauthAuth;
+  patreon: OauthAuth;
+  mailcow: OauthAuth;
+};
+
+export interface PBSnapshot extends BaseModel {
   app: string;
-  created_by: string;
   dsl: string;
   context: string;
 }

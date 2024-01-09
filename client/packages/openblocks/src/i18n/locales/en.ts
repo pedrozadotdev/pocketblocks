@@ -2013,7 +2013,7 @@ export const en = {
     moveToTrash: "Move to trash",
     moveToFolderSubTitle: 'Move "{name}" to:',
     folderName: "Folder name:",
-    resCardSubTitle: "{time} by {creator}",
+    resCardSubTitle: "Created at {time}",
     trashEmpty: "Trash is empty.",
     projectEmpty: "Nothing here.",
     projectEmptyCanAdd: "You don't have any apps yet. Click New to get started.",

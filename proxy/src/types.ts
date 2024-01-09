@@ -31,16 +31,12 @@ export interface Group extends BaseModel {
 }
 
 export interface User extends BaseModel {
-  user_id: string;
-  name: string;
-  avatar?: string;
-  show_tutorial?: boolean;
-}
-
-export interface FullUser extends User {
   username?: string;
   email?: string;
   verified?: boolean;
+  name: string;
+  avatar?: string;
+  show_tutorial?: boolean;
 }
 
 export interface Settings extends BaseModel {
@@ -144,7 +140,7 @@ export type API = {
   };
   auth: {
     changePassword: (newPassword: string, oldPassword: string) => APIResponse;
-    getCurrentUser: () => APIResponse<FullUser>;
+    getCurrentUser: () => APIResponse<User>;
     getAuthMethods: () => APIResponse<Auth[]>;
     isLoggedIn: () => Promise<boolean>;
     isAdmin: () => Promise<boolean>;
