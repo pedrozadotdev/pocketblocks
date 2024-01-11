@@ -1,8 +1,7 @@
-import { User } from "@/types";
-import { APIResponse, PBUser } from "./types";
+import { APIResponse, User } from "@/types";
 import { createDefaultErrorResponse, pb } from "./utils";
 
-function getAvatarURL(user: PBUser) {
+export function getAvatarURL(user: User) {
   return user.avatar
     ? `/api/files/users/${user.id}/${user.avatar}?thumb=100x100`
     : "";
@@ -10,7 +9,7 @@ function getAvatarURL(user: PBUser) {
 
 export async function get(id: string): APIResponse<User> {
   try {
-    const user = await pb.collection("users").getOne<PBUser>(id);
+    const user = await pb.collection("users").getOne<User>(id);
     return {
       status: 200,
       data: { ...user, avatar: getAvatarURL(user) },
@@ -22,7 +21,7 @@ export async function get(id: string): APIResponse<User> {
 
 export async function list(): APIResponse<User[]> {
   try {
-    const users = await pb.collection("users").getFullList<PBUser>();
+    const users = await pb.collection("users").getFullList<User>();
     return {
       status: 200,
       data: users.map((u) => ({ ...u, avatar: getAvatarURL(u) })),

@@ -198,7 +198,7 @@ type PermissionAddEntity = {
  * @param filterItems filterItems
  */
 function getPermissionOptionView(
-  orgGroups: (OrgGroup & { avatarUrl?: string })[],
+  orgGroups: OrgGroup[],
   orgUsers: OrgUser[],
   currentUser: User,
   filterItems: PermissionItem[]
@@ -208,7 +208,6 @@ function getPermissionOptionView(
       type: "GROUP",
       id: group.groupId,
       name: group.groupName,
-      avatarUrl: group.avatarUrl
     };
   });
   permissionViews = permissionViews.concat(

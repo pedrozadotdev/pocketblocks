@@ -96,7 +96,7 @@ export default function FormLogin() {
       ) : null}
       <AuthBottomView>
       {systemConfig.form.rawConfig.oauth.map((o: OauthProps) => (
-        <OauthButton {...o} key={o.type} onClick={onSubmit}/>
+        <OauthButton {...o} key={o.name} onClick={onSubmit}/>
       )) }
         <ThirdPartyAuth invitationId={invitationId} authGoal="login" />
       </AuthBottomView>
@@ -110,18 +110,18 @@ export default function FormLogin() {
 }
 
 type OauthProps = {
-  type: string
-  oauth_custom_name?: string
-  oauth_icon_url?: string
-}
+    name: string
+    customName: string
+    customIconUrl: string
+  }
 
-const oauthLoginLabel = (name: string) => trans("userAuth.signInLabel", { name: name });
+const oauthLoginLabel = (name: string) => trans("userAuth.signInLabel", { name });
 
-function OauthButton({ onClick, type, oauth_custom_name, oauth_icon_url }: OauthProps & { onClick: (provider: string) => void }) {
+function OauthButton({ onClick, name, customName, customIconUrl }: OauthProps & { onClick: (provider: string) => void }) {
   return (
-    <StyledLoginButton onClick={() => onClick(type)}>
-      <LoginLogoStyle alt={oauth_custom_name} src={oauth_icon_url} title={oauth_custom_name} />
-      <CommonGrayLabel className="auth-label">{oauthLoginLabel(oauth_custom_name ?? "")}</CommonGrayLabel>
+    <StyledLoginButton onClick={() => onClick(name)}>
+      <LoginLogoStyle alt={customName} src={customIconUrl} title={customName} />
+      <CommonGrayLabel className="auth-label">{oauthLoginLabel(customName)}</CommonGrayLabel>
     </StyledLoginButton>
   );
 }

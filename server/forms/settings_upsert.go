@@ -5,7 +5,6 @@ import (
 	"github.com/internoapp/pocketblocks/server/daos"
 	"github.com/internoapp/pocketblocks/server/forms/validators"
 	"github.com/internoapp/pocketblocks/server/models"
-	"github.com/internoapp/pocketblocks/server/utils"
 )
 
 // SettingsUpsert is a [models.Settings] upsert (create/update) form.
@@ -26,7 +25,7 @@ func NewSettingsUpsert(dao *daos.Dao) *SettingsUpsert {
 	}
 
 	// load the application settings into the form
-	form.Settings, _ = dao.GetCurrentPblSettings().Clone()
+	form.Settings, _ = dao.GetPblSettings().Clone()
 
 	return form
 }
@@ -39,8 +38,6 @@ func (form *SettingsUpsert) SetDao(dao *daos.Dao) {
 // Validate makes the form validatable by implementing [validation.Validatable] interface.
 func (form *SettingsUpsert) Validate() error {
 	return form.Settings.Validate(
-		validation.Length(utils.DefaultIdLength, utils.DefaultIdLength),
-		validation.Match(utils.IdRegex),
 		validation.By(validators.ValidField(&form.dao.Dao, "_pbl_apps", "slug")),
 	)
 }

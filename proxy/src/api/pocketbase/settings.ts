@@ -1,38 +1,42 @@
-import { Settings } from "@/types";
-import { APIResponse, PBApplication, PBSettings } from "./types";
-import { pb, createDefaultErrorResponse } from "./utils";
+import { Settings, APIResponse, UsersInfo } from "@/types";
+import { pbl, createDefaultErrorResponse } from "./utils";
 
 export async function get(): APIResponse<Settings> {
   try {
-    const { expand, ...rest } = await pb
-      .collection("pbl_settings")
-      .getFirstListItem<PBSettings>("", {
-        expand: "home_page",
-      });
+    const settings = await pbl.settings.getAll();
     return {
       status: 200,
-      data: {
-        ...rest,
-        home_page: expand?.home_page || null,
-      },
+      data: settings,
     };
   } catch (e) {
     return createDefaultErrorResponse(e);
   }
 }
 
-export async function update({
-  id,
-  ...params
-}: Partial<Settings> & { id: string }) {
+export async function update(params: Partial<Settings>) {
   try {
-    if (params.home_page) {
-      const { id } = await pb
-        .collection("pbl_applications")
-        .getFirstListItem<PBApplication>(`slug="${params.home_page}"`);
-      params.home_page = id;
-    }
-    await pb.collection("pbl_settings").update(id, params);
+    await pbl.settings.update(params);
+    return { status: 200 };
+  } catch (e) {
+    return createDefaultErrorResponse(e);
+  }
+}
+
+export async function getUsersInfo(): APIResponse<UsersInfo> {
+  try {
+    const usersInfo = await pbl.settings.getUsersInfo();
+    return {
+      status: 200,
+      data: usersInfo,
+    };
+  } catch (e) {
+    return createDefaultErrorResponse(e);
+  }
+}
+
+export async function deleteAdminFromTutorial(id: string): APIResponse {
+  try {
+    await pbl.settings.deleteAdminTutorial(id);
     return { status: 200 };
   } catch (e) {
     return createDefaultErrorResponse(e);

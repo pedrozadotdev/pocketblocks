@@ -98,6 +98,10 @@ func (api *folderApi) delete(c echo.Context) error {
 		return apis.NewNotFoundError("", err)
 	}
 
+	if isEmpty, err := api.dao.PblFolderIsEmpty(id); err != nil && !isEmpty {
+		return apis.NewBadRequestError("Folder is not empty.", err)
+	}
+
 	if err := api.dao.DeletePblFolder(folder); err != nil {
 		return apis.NewBadRequestError("Failed to delete folder.", err)
 	}

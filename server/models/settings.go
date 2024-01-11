@@ -16,23 +16,23 @@ const (
 type Settings struct {
 	mux sync.RWMutex
 
-	Name          string   `form:"name" json:"name"`
-	LogoUrl       string   `form:"logoUrl" json:"logoUrl"`
-	IconUrl       string   `form:"iconUrl" json:"iconUrl"`
-	HeaderColor   string   `form:"headerColor" json:"headerColor"`
-	HomePageAppId string   `form:"homePage" json:"homePage"`
-	Script        string   `form:"script" json:"script"`
-	Css           string   `form:"css" json:"css"`
-	ShowTutorial  []string `form:"showTutorial" json:"showTutorial"`
-	Libs          string   `form:"libs" json:"libs"`
-	Plugins       string   `form:"plugins" json:"plugins"`
-	Themes        string   `form:"themes" json:"themes"`
-	ThemeId       string   `form:"theme" json:"theme"`
-	Auths         Auths    `form:"auths" json:"auths"`
+	Name            string   `form:"name" json:"name"`
+	LogoUrl         string   `form:"logoUrl" json:"logoUrl"`
+	IconUrl         string   `form:"iconUrl" json:"iconUrl"`
+	HeaderColor     string   `form:"headerColor" json:"headerColor"`
+	HomePageAppSlug string   `form:"homePage" json:"homePage"`
+	Script          string   `form:"script" json:"script"`
+	Css             string   `form:"css" json:"css"`
+	ShowTutorial    []string `form:"showTutorial" json:"showTutorial"`
+	Libs            string   `form:"libs" json:"libs"`
+	Plugins         string   `form:"plugins" json:"plugins"`
+	Themes          string   `form:"themes" json:"themes"`
+	ThemeId         string   `form:"theme" json:"theme"`
+	Auths           Auths    `form:"auths" json:"auths"`
 }
 
 // Validate is used by SettingsForm to validate fields
-func (s *Settings) Validate(validateHomePageAppId ...validation.Rule) error {
+func (s *Settings) Validate(validateHomePageAppSlug ...validation.Rule) error {
 	s.mux.Lock()
 	defer s.mux.Unlock()
 
@@ -41,7 +41,7 @@ func (s *Settings) Validate(validateHomePageAppId ...validation.Rule) error {
 		validation.Field(&s.LogoUrl, is.URL),
 		validation.Field(&s.IconUrl, is.URL),
 		validation.Field(&s.HeaderColor, is.HexColor),
-		validation.Field(&s.HomePageAppId, validateHomePageAppId...),
+		validation.Field(&s.HomePageAppSlug, validateHomePageAppSlug...),
 		validation.Field(&s.Themes, is.JSON),
 		validation.Field(&s.Libs, is.JSON),
 		validation.Field(&s.Plugins, is.JSON),

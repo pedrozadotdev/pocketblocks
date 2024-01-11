@@ -147,7 +147,7 @@ export function HomeResCard(props: { res: HomeRes; onMove: (res: HomeRes) => voi
   const { folderId } = useParams<{ folderId: string }>();
 
   const subTitle = trans("home.resCardSubTitle", {
-    time: timestampToHumanReadable(res.lastModifyTime, MONTH_MILLIS)
+    time: timestampToHumanReadable(res.lastModifyTime, MONTH_MILLIS, trans("home.resCardSubTitleTimeFormat"))
   });
 
   const resInfo = HomeResInfo[res.type];

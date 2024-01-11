@@ -31,3 +31,13 @@ func (dao *Dao) DeletePblFolder(folder *m.Folder) error {
 func (dao *Dao) SavePblFolder(folder *m.Folder) error {
 	return dao.Save(folder)
 }
+
+func (dao *Dao) PblFolderIsEmpty(id string) (bool, error) {
+	var total int
+
+	if err := dao.PblAppQuery().Select("count(*)").Where(dbx.HashExp{"folder": id}).Row(&total); err != nil {
+		return false, err
+	}
+
+	return total == 0, nil
+}

@@ -43,10 +43,9 @@ export default [
       }
       const newApp: Partial<Application> = {
         name,
-        app_dsl: JSON.stringify(editingApplicationDSL),
-        edit_dsl: JSON.stringify(editingApplicationDSL),
+        appDSL: JSON.stringify(editingApplicationDSL),
+        editDSL: JSON.stringify(editingApplicationDSL),
         type: applicationType,
-        created_by: userResponse.data.id,
         folder: folderId,
       };
       const appResponse = await apps.create(newApp);
@@ -65,7 +64,7 @@ export default [
       if (currentAppResponse.data) {
         const appResponse = await apps.update({
           slug: params.slug,
-          app_dsl: currentAppResponse.data.edit_dsl,
+          appDSL: currentAppResponse.data.editDSL,
         });
         if (appResponse.data) {
           return createDefaultResponse(
@@ -116,7 +115,7 @@ export default [
         .data as Partial<Body>;
       const updatedApp: Partial<Application> = {
         name,
-        edit_dsl: JSON.stringify(editingApplicationDSL),
+        editDSL: JSON.stringify(editingApplicationDSL),
         type: applicationType,
       };
       const appResponse = await apps.update({

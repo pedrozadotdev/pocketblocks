@@ -20,11 +20,12 @@ func init() {
 		}
 		usersCollection.System = true
 		usersCollection.Schema.AddField(&schema.SchemaField{
-			System:  true,
-			Id:      "users_name",
-			Type:    schema.FieldTypeText,
-			Name:    "name",
-			Options: &schema.TextOptions{},
+			System:   true,
+			Id:       "users_name",
+			Type:     schema.FieldTypeText,
+			Name:     "name",
+			Options:  &schema.TextOptions{},
+			Required: true,
 		})
 		usersCollection.Schema.AddField(&schema.SchemaField{
 			System: true,
@@ -100,25 +101,25 @@ func init() {
 			[[users]]      JSON DEFAULT "[]" NOT NULL,
 			[[appDSL]]     JSON DEFAULT "{}" NOT NULL,
 			[[editDSL]]    JSON DEFAULT "{}" NOT NULL,
-			[[folderId]]   TEXT,
+			[[folder]]   TEXT,
 			[[created]]    TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
 			[[updated]]    TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
 			---
-			FOREIGN KEY ([[folderId]]) REFERENCES {{_pbl_folders}} ([[id]]) ON UPDATE CASCADE ON DELETE CASCADE
+			FOREIGN KEY ([[folder]]) REFERENCES {{_pbl_folders}} ([[id]]) ON UPDATE CASCADE ON DELETE CASCADE
 		);
 
 		CREATE TABLE {{_pbl_app_snapshots}} (
 			[[id]]        TEXT PRIMARY KEY NOT NULL,
-			[[appId]]     TEXT NOT NULL,
+			[[app]]     TEXT NOT NULL,
 			[[dsl]]       JSON DEFAULT "{}" NOT NULL,
 			[[context]]   JSON DEFAULT "{}" NOT NULL,
 			[[created]]   TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
 			[[updated]]   TEXT DEFAULT (strftime('%Y-%m-%d %H:%M:%fZ')) NOT NULL,
 			---
-			FOREIGN KEY ([[appId]]) REFERENCES {{_pbl_apps}} ([[id]]) ON UPDATE CASCADE ON DELETE CASCADE
+			FOREIGN KEY ([[app]]) REFERENCES {{_pbl_apps}} ([[id]]) ON UPDATE CASCADE ON DELETE CASCADE
 		);
 
-		CREATE INDEX _pbl_app_snapshots_app_idx ON {{_pbl_app_snapshots}} ([[appId]]);
+		CREATE INDEX _pbl_app_snapshots_app_idx ON {{_pbl_app_snapshots}} ([[app]]);
 		CREATE UNIQUE INDEX _pbl_apps_unique_slug_idx ON {{_pbl_apps}} ([[slug]]);
 
 		`).Execute(); tablesErr != nil {

@@ -1,4 +1,4 @@
-import { apps, auth, snapshots } from "@/api";
+import { apps, snapshots } from "@/api";
 import { mocker } from "@/mocker";
 import {
   adminRoute,
@@ -38,32 +38,13 @@ export default [
         });
         if (snapshotResponse.data) {
           return createDefaultResponse({
-            list: await Promise.all(
-              snapshotResponse.data.list.map(
-                async ({ id, context, created, created_by }) => {
-                  const { userId, userName, userAvatar } =
-                    typeof created_by === "string"
-                      ? {
-                          userId: created_by,
-                          userName: created_by,
-                          userAvatar: "",
-                        }
-                      : {
-                          userId: created_by.id,
-                          userName: created_by.name,
-                          userAvatar: created_by.avatar,
-                        };
-                  return {
-                    snapshotId: id,
-                    context: context,
-                    userId,
-                    userName,
-                    userAvatar,
-                    createTime: new Date(created).getTime(),
-                  };
-                },
-              ),
-            ),
+            list: snapshotResponse.data.list.map(({ id, context, created }) => {
+              return {
+                snapshotId: id,
+                context: context,
+                createTime: new Date(created).getTime(),
+              };
+            }),
             count: snapshotResponse.data.total,
           });
         }
@@ -77,11 +58,9 @@ export default [
     adminRoute(async (req) => {
       const { applicationId: slug, context, dsl } = req.config.data as Body;
       const appResponse = await apps.get(slug);
-      const currentUserResponse = await auth.getCurrentUser();
-      if (appResponse.data && currentUserResponse.data) {
+      if (appResponse.data) {
         const snapshotResponse = await snapshots.create({
-          app: appResponse.data,
-          created_by: currentUserResponse.data,
+          app: appResponse.data.id,
           context,
           dsl,
         });
@@ -90,7 +69,7 @@ export default [
         }
         return createDefaultErrorResponse([snapshotResponse]);
       }
-      return createDefaultErrorResponse([appResponse, currentUserResponse]);
+      return createDefaultErrorResponse([appResponse]);
     }),
   ),
 ];

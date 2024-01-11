@@ -1,4 +1,4 @@
-import { apps, auth, folders } from "@/api";
+import { apps, folders } from "@/api";
 import { mocker } from "@/mocker";
 import {
   authRoute,
@@ -35,14 +35,7 @@ export default [
     "/api/folders",
     adminRoute(async (req) => {
       const { name } = req.config.data;
-      const userResponse = await auth.getCurrentUser();
-      if (!userResponse.data) {
-        return createDefaultErrorResponse([userResponse]);
-      }
-      const newFolder: Partial<Folder> = {
-        name,
-        created_by: userResponse.data.id,
-      };
+      const newFolder: Partial<Folder> = { name };
       const foldersResponse = await folders.create(newFolder);
       if (foldersResponse.data) {
         return createDefaultResponse(

@@ -8,7 +8,6 @@ export default {
     unauthorized: "You cannot access this resource!",
     notFound: "Resource not found.",
     serverError: "Something went wrong.",
-    changeMe: "Change Me",
     emailChanged: "Email changed successfully!",
     emailChangedSent:
       "Email sent! Please visit your Mailbox and confirm your new email.",

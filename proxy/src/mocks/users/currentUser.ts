@@ -1,7 +1,6 @@
 import { auth, groups } from "@/api";
 import { mocker } from "@/mocker";
 import { createDefaultResponse } from "@/utils";
-import { t } from "@/i18n";
 
 const defaultDataResponse = {
   id: "",
@@ -22,8 +21,7 @@ export default [
         ...defaultDataResponse,
         avatarUrl: user.avatar,
         id: user.id,
-        name:
-          user.name !== "NONAME" ? user.name || t("changeMe") : t("changeMe"),
+        name: user.name,
         email: user.email,
         groups: groupsResponse.data
           ? groupsResponse.data.map((g) =>

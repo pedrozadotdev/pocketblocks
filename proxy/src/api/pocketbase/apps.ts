@@ -1,34 +1,30 @@
 import { RecordFullListOptions } from "pocketbase";
-import { Application, ListAppsFilters, User } from "@/types";
-import { APIResponse, PBApplication } from "./types";
-import { pb, createDefaultErrorResponse } from "./utils";
+import {
+  Application,
+  ListAppsFilters,
+  APIResponse,
+  AppPermissionOp,
+} from "@/types";
+import { pbl, createDefaultErrorResponse } from "./utils";
+import { updatePermissions } from "@/utils";
 
 export async function list(
   filters?: ListAppsFilters,
 ): APIResponse<Application[]> {
   const params: RecordFullListOptions = {
     sort: "-updated,-created",
-    expand: "created_by,groups,users,folder",
     filter: `status!="RECYCLED"&&${
-      filters?.folderId ? `folder.id="${filters.folderId}"` : "folder=null"
+      filters?.folderId ? `folder="${filters.folderId}"` : "folder=null"
     }`,
   };
   if (filters?.onlyRecycled) {
     params.filter = 'status="RECYCLED"';
   }
   try {
-    const apps = await pb
-      .collection("pbl_applications")
-      .getFullList<PBApplication>(params);
+    const apps = await pbl.applications.getFullList(params);
     return {
       status: 200,
-      data: apps.map(({ expand, ...rest }) => ({
-        ...rest,
-        created_by: expand?.created_by as User,
-        groups: expand?.groups || [],
-        users: expand?.users || [],
-        folder: expand?.folder || null,
-      })),
+      data: apps,
     };
   } catch (e) {
     return createDefaultErrorResponse(e);
@@ -37,20 +33,10 @@ export async function list(
 
 export async function get(slug: string): APIResponse<Application> {
   try {
-    const { expand, ...rest } = await pb
-      .collection("pbl_applications")
-      .getFirstListItem<PBApplication>(`slug="${slug}"`, {
-        expand: "created_by,groups,users,folder",
-      });
+    const app = await pbl.applications.getOne(slug);
     return {
       status: 200,
-      data: {
-        ...rest,
-        created_by: expand?.created_by as User,
-        groups: expand?.groups || [],
-        users: expand?.users || [],
-        folder: expand?.folder || null,
-      },
+      data: app,
     };
   } catch (e) {
     return createDefaultErrorResponse(e);
@@ -61,23 +47,10 @@ export async function create(
   params: Partial<Application>,
 ): APIResponse<Application> {
   try {
-    const { expand, ...rest } = await pb
-      .collection("pbl_applications")
-      .create<PBApplication>(
-        { ...params, status: "NORMAL" },
-        {
-          expand: "created_by,groups,users,folder",
-        },
-      );
+    const app = await pbl.applications.create({ ...params, status: "NORMAL" });
     return {
       status: 200,
-      data: {
-        ...rest,
-        created_by: expand?.created_by as User,
-        groups: expand?.groups || [],
-        users: expand?.users || [],
-        folder: expand?.folder || null,
-      },
+      data: app,
     };
   } catch (e) {
     return createDefaultErrorResponse(e);
@@ -90,48 +63,19 @@ export async function update({
   ...paramsRest
 }: Partial<Application> & {
   slug: string;
-  permissions?: {
-    op: "ADD" | "REMOVE";
-    type: "USER" | "GROUP";
-    id: string;
-  }[];
+  permissions?: AppPermissionOp[];
 }): APIResponse<Application> {
   try {
-    const app = await pb
-      .collection("pbl_applications")
-      .getFirstListItem<PBApplication>(`slug="${slug}"`);
-    const { expand, ...rest } = await pb
-      .collection("pbl_applications")
-      .update<PBApplication>(
-        app.id,
-        {
-          ...paramsRest,
-          "users+": permissions
-            ?.filter((p) => p.op === "ADD" && p.type === "USER")
-            .map((p) => p.id),
-          "groups+": permissions
-            ?.filter((p) => p.op === "ADD" && p.type === "GROUP")
-            .map((p) => p.id),
-          "users-": permissions
-            ?.filter((p) => p.op === "REMOVE" && p.type === "USER")
-            .map((p) => p.id),
-          "groups-": permissions
-            ?.filter((p) => p.op === "REMOVE" && p.type === "GROUP")
-            .map((p) => p.id),
-        },
-        {
-          expand: "created_by,groups,users,folder",
-        },
-      );
+    const currentApp = await pbl.applications.getOne(slug);
+    const app = await pbl.applications.update(slug, {
+      ...paramsRest,
+      ...(permissions
+        ? updatePermissions(currentApp.groups, currentApp.users, permissions)
+        : {}),
+    });
     return {
       status: 200,
-      data: {
-        ...rest,
-        created_by: expand?.created_by as User,
-        groups: expand?.groups || [],
-        users: expand?.users || [],
-        folder: expand?.folder || null,
-      },
+      data: app,
     };
   } catch (e) {
     return createDefaultErrorResponse(e);
@@ -140,10 +84,7 @@ export async function update({
 
 export async function remove(slug: string): APIResponse {
   try {
-    const app = await pb
-      .collection("pbl_applications")
-      .getFirstListItem<PBApplication>(`slug="${slug}"`);
-    await pb.collection("pbl_applications").delete(app.id);
+    await pbl.applications.delete(slug);
     return { status: 200 };
   } catch (e) {
     return createDefaultErrorResponse(e);

@@ -7,13 +7,19 @@ import (
 	"slices"
 
 	m "github.com/internoapp/pocketblocks/server/models"
+	"github.com/pocketbase/pocketbase/tools/store"
 )
 
 var pblSettings *m.Settings
+var pblStore *store.Store[any] = store.New[any](nil)
 
-// GetCurrentPblSettings return the PblSetting Singleton
-func (dao *Dao) GetCurrentPblSettings() *m.Settings {
+// GetPblSettings return the PblSetting Singleton
+func (dao *Dao) GetPblSettings() *m.Settings {
 	return pblSettings
+}
+
+func (dao *Dao) GetPblStore() *store.Store[any] {
+	return pblStore
 }
 
 // RefreshSettings update the current pblSettings
@@ -65,8 +71,8 @@ func (dao *Dao) SavePblSettings(newSettings *m.Settings) error {
 	return dao.RefreshPblSettings()
 }
 
-func (dao *Dao) RemoveAdminFromPblSettingsTutorial(id string) error {
-	settings := dao.GetCurrentPblSettings()
+func (dao *Dao) DeleteAdminFromPblSettingsTutorial(id string) error {
+	settings := dao.GetPblSettings()
 	clone, err := settings.Clone()
 	if err != nil {
 		return err

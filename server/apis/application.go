@@ -176,6 +176,17 @@ func (api *applicationApi) update(c echo.Context) error {
 		return apis.NewBadRequestError("Failed to load the submitted data. Try again later.", err)
 	}
 
+	settingsClone, err := api.dao.GetPblSettings().Clone()
+	if err == nil {
+		if settingsClone.HomePageAppSlug == slug {
+			settingsClone.HomePageAppSlug = applicationUpdated.Slug
+			err := api.dao.GetPblSettings().Merge(settingsClone)
+			if err != nil {
+				return apis.NewApiError(500, "Error trying to update the Default App. Please update it manually on the Settings Page.", err)
+			}
+		}
+	}
+
 	return c.JSON(http.StatusOK, applicationUpdated)
 }
 

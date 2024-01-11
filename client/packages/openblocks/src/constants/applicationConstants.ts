@@ -102,9 +102,6 @@ export type AppSnapshotContext = {
 export type AppSnapshot = {
   snapshotId: string;
   context: AppSnapshotContext;
-  userId: string;
-  userName: string;
-  userAvatar: string;
   createTime: number;
 };
 

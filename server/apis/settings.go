@@ -6,6 +6,7 @@ import (
 
 	"github.com/internoapp/pocketblocks/server/daos"
 	"github.com/internoapp/pocketblocks/server/forms"
+	"github.com/internoapp/pocketblocks/server/utils"
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/pocketbase/apis"
 )
@@ -15,8 +16,9 @@ func BindSettingsApi(dao *daos.Dao, g *echo.Group, logMiddleware echo.Middleware
 
 	subGroup := g.Group("/settings")
 	subGroup.GET("", api.view, apis.RequireAdminOrRecordAuth("users"))
+	subGroup.GET("/users-info", api.usersInfo)
 	subGroup.PATCH("", api.update, apis.RequireAdminAuth(), logMiddleware)
-	subGroup.PATCH("/remove-admin-Tutorial/:id", api.removeAdminTutorial, apis.RequireAdminAuth(), logMiddleware)
+	subGroup.DELETE("/delete-admin-tutorial/:id", api.deleteAdminTutorial, apis.RequireAdminAuth(), logMiddleware)
 
 }
 
@@ -25,7 +27,7 @@ type settingsApi struct {
 }
 
 func (api *settingsApi) view(c echo.Context) error {
-	settings, err := api.dao.GetCurrentPblSettings().Clone()
+	settings, err := api.dao.GetPblSettings().Clone()
 	if err != nil {
 		return apis.NewBadRequestError("", err)
 	}
@@ -51,7 +53,7 @@ func (api *settingsApi) update(c echo.Context) error {
 		return apis.NewBadRequestError("Failed to load the submitted data. Try again later.", err)
 	}
 
-	result, err := api.dao.GetCurrentPblSettings().Clone()
+	result, err := api.dao.GetPblSettings().Clone()
 	if err != nil {
 		return apis.NewApiError(500, "Something went wrong", err)
 	}
@@ -59,12 +61,12 @@ func (api *settingsApi) update(c echo.Context) error {
 	return c.JSON(http.StatusOK, result)
 }
 
-func (api *settingsApi) removeAdminTutorial(c echo.Context) error {
+func (api *settingsApi) deleteAdminTutorial(c echo.Context) error {
 	id := c.PathParam("id")
 	if id == "" {
 		return apis.NewNotFoundError("", nil)
 	}
-	settings, err := api.dao.GetCurrentPblSettings().Clone()
+	settings, err := api.dao.GetPblSettings().Clone()
 	if err != nil {
 		return apis.NewApiError(500, "Something went wrong", err)
 	}
@@ -72,9 +74,29 @@ func (api *settingsApi) removeAdminTutorial(c echo.Context) error {
 		return apis.NewNotFoundError("", nil)
 	}
 
-	if err := api.dao.RemoveAdminFromPblSettingsTutorial(id); err != nil {
+	if err := api.dao.DeleteAdminFromPblSettingsTutorial(id); err != nil {
 		return apis.NewApiError(500, "Something went wrong", err)
 	}
 
 	return c.NoContent(http.StatusNoContent)
+}
+
+func (api *settingsApi) usersInfo(c echo.Context) error {
+	store := api.dao.GetPblStore()
+	userFildUpdate := store.Get(utils.UserFieldUpdateKey).([]string)
+	authMethods := store.Get(utils.UserAuthsKey).([]string)
+	canUserSignUp := store.Get(utils.CanUserSignUpKey).(bool)
+
+	result := struct {
+		UserFildUpdate []string `json:"userFieldUpdate"`
+		AuthMethods    []string `json:"authMethods"`
+		CanUserSignUp  bool     `json:"canUserSignUp"`
+	}{
+		userFildUpdate,
+		authMethods,
+		canUserSignUp,
+	}
+
+	return c.JSON(http.StatusOK, result)
+
 }

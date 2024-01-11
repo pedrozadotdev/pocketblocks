@@ -6,6 +6,7 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/gosimple/slug"
+	"github.com/guregu/null"
 	"github.com/internoapp/pocketblocks/server/daos"
 	"github.com/internoapp/pocketblocks/server/forms/validators"
 	"github.com/internoapp/pocketblocks/server/models"
@@ -27,9 +28,9 @@ type ApplicationUpsert struct {
 	AllUsers bool     `form:"allUsers" json:"allUsers"`
 	Groups   []string `form:"groups" json:"groups"`
 	Users    []string `form:"users" json:"users"`
-	AppDsl   string   `db:"appDSL" json:"appDSL"`
-	EditDsl  string   `db:"editDSL" json:"editDSL"`
-	FolderId string   `db:"folder" json:"folder"`
+	AppDsl   string   `form:"appDSL" json:"appDSL"`
+	EditDsl  string   `form:"editDSL" json:"editDSL"`
+	FolderId string   `form:"folder" json:"folder"`
 }
 
 // NewApplicationUpsert creates a new [ApplicationUpsert] form with initializer
@@ -56,7 +57,7 @@ func NewApplicationUpsert(dao *daos.Dao, application *models.Application) *Appli
 	form.Users = application.Users
 	form.AppDsl = application.AppDsl
 	form.EditDsl = application.EditDsl
-	form.FolderId = application.FolderId
+	form.FolderId = application.FolderId.String
 
 	return form
 }
@@ -129,7 +130,12 @@ func (form *ApplicationUpsert) Submit() (*models.Application, error) {
 	form.application.RawUsers = "[" + strings.Join(form.Users, ",") + "]"
 	form.application.AppDsl = form.AppDsl
 	form.application.EditDsl = form.EditDsl
-	form.application.FolderId = form.FolderId
+
+	if form.FolderId == "" {
+		form.application.FolderId = null.NewString("", false)
+	} else {
+		form.application.FolderId = null.NewString(form.FolderId, true)
+	}
 
 	if form.Slug != "" {
 		form.application.Slug = form.Slug

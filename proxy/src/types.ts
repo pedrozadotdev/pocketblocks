@@ -10,24 +10,21 @@ export interface Application extends BaseModel {
   type: number;
   status: "NORMAL" | "RECYCLED";
   public: boolean;
-  all_users: boolean;
-  created_by?: User | string;
-  groups: Group[] | string[];
-  users: User[] | string[];
-  app_dsl: unknown | null;
-  edit_dsl: unknown | null;
-  folder: Folder | string | null;
+  allUsers: boolean;
+  groups: string[];
+  users: string[];
+  appDSL: unknown | null;
+  editDSL: unknown | null;
+  folder: string | null;
 }
 
 export interface Folder extends BaseModel {
   name: string;
-  created_by: User | string;
 }
 
 export interface Group extends BaseModel {
   name: string;
-  avatar?: string;
-  users: User[] | string[];
+  users: string[];
 }
 
 export interface User extends BaseModel {
@@ -36,66 +33,74 @@ export interface User extends BaseModel {
   verified?: boolean;
   name: string;
   avatar?: string;
-  show_tutorial?: boolean;
 }
 
-export interface Settings extends BaseModel {
-  org_name: string;
+type UserUpdateField = "username" | "email" | "password" | "name" | "avatar";
+
+export interface Settings {
+  orgName: string;
   logo?: string;
   icon?: string;
-  header_color?: string;
-  home_page: Application | string | null;
+  headerColor?: string;
+  homePage: string | null; //appId
   themes: string;
   theme: string; // id
   script?: string;
   libs?: string;
   css?: string;
   plugins?: string;
+  auths: Auths;
+  showTutorial: string[];
 }
 
-export type AuthType =
-  | "local"
-  | "google"
-  | "facebook"
-  | "github"
-  | "gitlab"
-  | "discord"
-  | "twitter"
-  | "microsoft"
-  | "spotify"
-  | "kakao"
-  | "twitch"
-  | "strava"
-  | "gitee"
-  | "livechat"
-  | "gitea"
-  | "oidc"
-  | "oidc2"
-  | "oidc3"
-  | "apple"
-  | "instagram"
-  | "vk"
-  | "yandex";
+export type UsersInfo = {
+  userUpdateFields: UserUpdateField[];
+  authMethods: AllowedAuths[];
+  canUserSignUp: boolean;
+};
 
-type LocalIdType = "username" | "email";
+type LocalAuth = {
+  label: string;
+  inputMask: string;
+};
 
-type LocalAllowUpdate = LocalIdType | "password";
+export type OauthAuth = {
+  customName: string;
+  customIconUrl: string;
+};
 
-export interface Auth extends BaseModel {
-  type: AuthType;
-  local_id_label?: string;
-  local_id_input_mask?: string;
-  local_id_type?: LocalIdType[];
-  local_allow_update?: LocalAllowUpdate[];
-  local_email_auto_verified?: boolean;
-  oauth_custom_name?: string;
-  oauth_icon_url?: string;
-  allow_signup: boolean;
-}
+export type Auths = {
+  local: LocalAuth;
+  google: OauthAuth;
+  facebook: OauthAuth;
+  github: OauthAuth;
+  discord: OauthAuth;
+  twitter: OauthAuth;
+  microsoft: OauthAuth;
+  spotify: OauthAuth;
+  kakao: OauthAuth;
+  twitch: OauthAuth;
+  strava: OauthAuth;
+  gitte: OauthAuth;
+  livechat: OauthAuth;
+  gitea: OauthAuth;
+  oidc: OauthAuth;
+  oidc2: OauthAuth;
+  oidc3: OauthAuth;
+  apple: OauthAuth;
+  instagram: OauthAuth;
+  vk: OauthAuth;
+  yandex: OauthAuth;
+  patreon: OauthAuth;
+  mailcow: OauthAuth;
+};
+
+type OauthNames = Extract<keyof Omit<Auths, "local">, string>;
+
+type AllowedAuths = "username" | "email" | OauthNames;
 
 export interface Snapshot extends BaseModel {
-  app: Application | string;
-  created_by: User | string;
+  app: string;
   dsl: string;
   context: string;
 }
@@ -141,7 +146,6 @@ export type API = {
   auth: {
     changePassword: (newPassword: string, oldPassword: string) => APIResponse;
     getCurrentUser: () => APIResponse<User>;
-    getAuthMethods: () => APIResponse<Auth[]>;
     isLoggedIn: () => Promise<boolean>;
     isAdmin: () => Promise<boolean>;
     login: (loginId: string, password: string, provider: string) => APIResponse;
@@ -169,7 +173,9 @@ export type API = {
   };
   settings: {
     get: () => APIResponse<Settings>;
-    update: (params: Partial<Settings> & { id: string }) => APIResponse;
+    getUsersInfo: () => APIResponse<UsersInfo>;
+    update: (params: Partial<Settings>) => APIResponse;
+    deleteAdminFromTutorial: (id: string) => APIResponse;
   };
   snapshots: {
     create: (params: Partial<Snapshot>) => APIResponse<Snapshot>;
@@ -179,7 +185,7 @@ export type API = {
     ) => APIResponse<{ list: Snapshot[]; total: number }>;
   };
   users: {
-    get: (user_id: string) => APIResponse<User>;
+    get: (id: string) => APIResponse<User>;
     list: () => APIResponse<User[]>;
     update: (
       params: Partial<User> & { id: string; username?: string },
@@ -223,3 +229,9 @@ export interface UploadRequestOption<T = unknown> {
   headers?: UploadRequestHeader;
   method: UploadRequestMethod;
 }
+
+export type AppPermissionOp = {
+  op: "ADD" | "REMOVE";
+  type: "USER" | "GROUP";
+  id: string;
+};

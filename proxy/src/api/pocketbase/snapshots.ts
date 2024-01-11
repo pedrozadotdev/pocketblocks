@@ -1,35 +1,12 @@
-import { Application, Snapshot, ListSnapshotOptions, User } from "@/types";
-import { APIResponse, PBSnapshot } from "./types";
-import { pb, createDefaultErrorResponse } from "./utils";
+import { APIResponse, Snapshot, ListSnapshotOptions } from "@/types";
+import { pbl, createDefaultErrorResponse } from "./utils";
 
-export async function create({
-  app,
-  created_by,
-  context,
-  dsl,
-}: Partial<Snapshot>): APIResponse<Snapshot> {
+export async function create(params: Partial<Snapshot>): APIResponse<Snapshot> {
   try {
-    const { expand, ...rest } = await pb
-      .collection("pbl_snapshots")
-      .create<PBSnapshot>(
-        {
-          app: typeof app === "string" ? app : app?.id,
-          created_by:
-            typeof created_by === "string" ? created_by : created_by?.id,
-          context,
-          dsl,
-        },
-        {
-          expand: "app,created_by",
-        },
-      );
+    const snapshot = await pbl.snapshots.create(params);
     return {
       status: 200,
-      data: {
-        ...rest,
-        app: expand?.app as Application,
-        created_by: expand?.created_by as User,
-      },
+      data: snapshot,
     };
   } catch (e) {
     return createDefaultErrorResponse(e);
@@ -40,21 +17,14 @@ export async function list(
   options: ListSnapshotOptions,
 ): APIResponse<{ list: Snapshot[]; total: number }> {
   try {
-    const snapshots = await pb
-      .collection("pbl_snapshots")
-      .getList<PBSnapshot>(options.page, options.size, {
-        filter: `app.id="${options.app.id}"`,
-        sort: "-updated,-created",
-        expand: "app,created_by",
-      });
+    const snapshots = await pbl.snapshots.getList(options.page, options.size, {
+      filter: `app="${options.app.id}"`,
+      sort: "-updated,-created",
+    });
     return {
       status: 200,
       data: {
-        list: snapshots.items.map(({ expand, ...rest }) => ({
-          ...rest,
-          app: expand?.app as Application,
-          created_by: expand?.created_by as User,
-        })),
+        list: snapshots.items,
         total: snapshots.totalItems,
       },
     };
@@ -65,18 +35,10 @@ export async function list(
 
 export async function get(id: string): APIResponse<Snapshot> {
   try {
-    const { expand, ...rest } = await pb
-      .collection("pbl_snapshots")
-      .getOne<PBSnapshot>(id, {
-        expand: "app,created_by",
-      });
+    const snapshot = await pbl.snapshots.getOne(id);
     return {
       status: 200,
-      data: {
-        ...rest,
-        app: expand?.app as Application,
-        created_by: expand?.created_by as User,
-      },
+      data: snapshot,
     };
   } catch (e) {
     return createDefaultErrorResponse(e);

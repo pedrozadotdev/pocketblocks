@@ -6,6 +6,7 @@ import (
 
 	"github.com/internoapp/pocketblocks/server/daos"
 	"github.com/internoapp/pocketblocks/server/ui"
+	"github.com/internoapp/pocketblocks/server/utils"
 	"github.com/labstack/echo/v5"
 	"github.com/labstack/echo/v5/middleware"
 	"github.com/pocketbase/pocketbase"
@@ -31,7 +32,7 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 
 	// Serves static files from the provided public dir (if exists),
 	//
-	// Register pbl routes and init pbl settings
+	// Register pbl routes and init pbl settings/store
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		e.Router.GET("/pbl/*", apis.StaticDirectoryHandler(os.DirFS(publicDir), false))
 		e.Router.GET(
@@ -41,9 +42,27 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 			middleware.Gzip(),
 		)
 		registerRoutes(app, e.Router)
-		if err := daos.New(app.Dao().DB()).RefreshPblSettings(); err != nil {
+
+		dao := daos.New(app.Dao().DB())
+		if err := dao.RefreshPblSettings(); err != nil {
 			return err
 		}
+		store := dao.GetPblStore()
+		userFieldUpdate, err := utils.GetUserAllowedUpdateFields(app)
+		if err != nil {
+			return err
+		}
+		store.Set(utils.UserFieldUpdateKey, userFieldUpdate)
+		userAuthMethods, err := utils.GetUserAuthMethods(app)
+		if err != nil {
+			return err
+		}
+		store.Set(utils.UserAuthsKey, userAuthMethods)
+		canUserSingUp, err := utils.GetCanUserSignUp(app)
+		if err != nil {
+			return err
+		}
+		store.Set(utils.CanUserSignUpKey, canUserSingUp)
 
 		return nil
 	})
@@ -64,7 +83,7 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 	//Add/Remove Admin from Settings.AdminTutorial
 	app.OnAdminAfterCreateRequest().Add(func(e *core.AdminCreateEvent) error {
 		dao := daos.New(app.Dao().DB())
-		settings := dao.GetCurrentPblSettings()
+		settings := dao.GetPblSettings()
 
 		clone, err := settings.Clone()
 		if err != nil {
@@ -85,7 +104,7 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 
 	app.OnAdminAfterDeleteRequest().Add(func(e *core.AdminDeleteEvent) error {
 		dao := daos.New(app.Dao().DB())
-		if err := dao.RemoveAdminFromPblSettingsTutorial(e.Admin.Id); err != nil {
+		if err := dao.DeleteAdminFromPblSettingsTutorial(e.Admin.Id); err != nil {
 			return apis.NewApiError(500, "Something went wrong", err)
 		}
 		return nil
@@ -150,6 +169,41 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 			}
 		}
 
+		return nil
+	})
+
+	//Update store when settings or user collection change
+	app.OnSettingsAfterUpdateRequest().Add(func(e *core.SettingsUpdateEvent) error {
+		dao := daos.New(app.Dao().DB())
+		store := dao.GetPblStore()
+		userAuthMethods, err := utils.GetUserAuthMethods(app)
+		if err != nil {
+			return err
+		}
+		store.Set(utils.UserAuthsKey, userAuthMethods)
+
+		return nil
+	})
+	app.OnCollectionAfterUpdateRequest().Add(func(e *core.CollectionUpdateEvent) error {
+		if e.Collection.Id == "_pb_users_auth_" {
+			dao := daos.New(app.Dao().DB())
+			store := dao.GetPblStore()
+			userFieldUpdate, err := utils.GetUserAllowedUpdateFields(app)
+			if err != nil {
+				return err
+			}
+			store.Set(utils.UserFieldUpdateKey, userFieldUpdate)
+			userAuthMethods, err := utils.GetUserAuthMethods(app)
+			if err != nil {
+				return err
+			}
+			store.Set(utils.UserAuthsKey, userAuthMethods)
+			canUserSingUp, err := utils.GetCanUserSignUp(app)
+			if err != nil {
+				return err
+			}
+			store.Set(utils.CanUserSignUpKey, canUserSingUp)
+		}
 		return nil
 	})
 }

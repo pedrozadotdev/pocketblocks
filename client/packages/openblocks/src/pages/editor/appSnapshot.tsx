@@ -224,7 +224,6 @@ export function AppSnapshot(props: { currentAppInfo: AppSummaryInfo }) {
               : ""
           }` + getOperationDesc(snapshot.context),
         timeInfo: timestampToHumanReadable(snapshot.createTime),
-        userName: snapshot.userName,
         onClick: () => {
           onSnapshotItemClick(snapshot.snapshotId);
         },
@@ -236,7 +235,6 @@ export function AppSnapshot(props: { currentAppInfo: AppSummaryInfo }) {
           selected: selectedItemKey === CURRENT_ITEM_KEY,
           title: trans("history.currentVersion"),
           timeInfo: trans("history.justNow"),
-          userName: user.username,
           onClick: () => {
             onSnapshotItemClick(CURRENT_ITEM_KEY);
           },

@@ -69,10 +69,7 @@ export function applyAPICache(api: API): API {
       update: invalidateCache(async (params) => {
         return ({ queryKey }) => {
           const getArgs = queryKey[1] as Parameters<API["apps"]["get"]>[0];
-          const folderId =
-            typeof params.folder === "string"
-              ? params.folder
-              : params.folder?.id;
+          const folderId = params.folder;
           const firstCondition =
             queryKey[0] === "listApps" &&
             (!!params.status || typeof folderId === "string");
@@ -104,7 +101,6 @@ export function applyAPICache(api: API): API {
     auth: {
       ...api.auth,
       getCurrentUser: applyCache("getCurrentUser", api.auth.getCurrentUser),
-      getAuthMethods: applyCache("getAuthMethods", api.auth.getAuthMethods),
       verifyEmailToken: invalidateCache(async () => {
         return ({ queryKey }) => {
           return queryKey[0] === "getCurrentUser";
@@ -134,11 +130,16 @@ export function applyAPICache(api: API): API {
     },
     settings: {
       get: applyCache("getSettings", api.settings.get),
+      getUsersInfo: applyCache("getUsersInfo", api.settings.getUsersInfo),
       update: invalidateCache(async () => {
         return ({ queryKey }) => {
           return queryKey[0] === "getSettings";
         };
       }, api.settings.update),
+      deleteAdminFromTutorial: applyCache(
+        "deleteAdminFromTutorial",
+        api.settings.deleteAdminFromTutorial,
+      ),
     },
     snapshots: {
       get: applyCache("getSnapshot", api.snapshots.get),
@@ -148,10 +149,7 @@ export function applyAPICache(api: API): API {
           const listArgs = queryKey[1] as Parameters<
             API["snapshots"]["list"]
           >[0];
-          return (
-            queryKey[0] === "listSnapshots" &&
-            listArgs.app.id === (typeof app === "string" ? app : app?.id)
-          );
+          return queryKey[0] === "listSnapshots" && listArgs.app.id === app;
         };
       }, api.snapshots.create),
     },

@@ -1,6 +1,13 @@
 import { apps as appsAPI, auth, settings as settingsAPI } from "@/api";
 import { MockHandler, MockRequest, MockResponse } from "@/mocker";
-import { APIResponse, Application, Auth, Folder } from "@/types";
+import {
+  APIResponse,
+  AppPermissionOp,
+  Application,
+  Auths,
+  Folder,
+  OauthAuth,
+} from "@/types";
 
 export async function createAppList(apps: Application[]) {
   const admin = await auth.isAdmin();
@@ -12,7 +19,7 @@ export async function createAppList(apps: Application[]) {
     role: admin ? "owner" : "viewer",
     applicationType: a.type,
     applicationStatus: a.status,
-    folderId: typeof a.folder === "string" ? a.folder : a.folder?.id,
+    folderId: a.folder,
     lastViewTime: new Date(a.updated).getTime(),
     lastModifyTime: new Date(a.updated).getTime(),
     publicToAll: a.public,
@@ -23,8 +30,8 @@ export async function createAppList(apps: Application[]) {
 function getCorrectDSL(app: Application) {
   const editDSLPaths = [`/apps/${app.slug}/edit`, `/apps/${app.slug}/preview`];
   return editDSLPaths.includes(window.location.pathname)
-    ? app.edit_dsl
-    : app.app_dsl;
+    ? app.editDSL
+    : app.appDSL;
 }
 
 export async function createFullAppResponseData(app: Application) {
@@ -36,10 +43,7 @@ export async function createFullAppResponseData(app: Application) {
     orgCommonSettings: settings
       ? {
           themeList: settings.themes,
-          defaultHomePage:
-            typeof settings.home_page === "string"
-              ? settings.home_page
-              : settings.home_page?.slug,
+          defaultHomePage: settings.homePage,
           defaultTheme: settings.theme,
           preloadCSS: settings.css,
           preloadJavaScript: settings.script,
@@ -125,6 +129,10 @@ export function adminRoute(handler: MockHandler): MockHandler {
   };
 }
 
+interface Oauth extends OauthAuth {
+  name: string;
+}
+
 const defaultAuthConfig = {
   authType: "FORM",
   id: "EMAIL",
@@ -138,30 +146,71 @@ const defaultAuthConfig = {
     type: ["email"],
     allowUpdate: [] as string[],
   },
-  oauth: [] as Auth[],
+  oauth: [] as Oauth[],
 };
 
 export async function getAuthConfigs() {
-  const authMethodsResponse = await auth.getAuthMethods();
+  const usersInfoResponse = await settingsAPI.getUsersInfo();
+  const settingsResponse = await settingsAPI.get();
   const isAdmin = await auth.isAdmin();
   const result = defaultAuthConfig;
-  if (authMethodsResponse.status === 200 && authMethodsResponse.data) {
-    const authMethods = authMethodsResponse.data;
-    const localAuth = authMethods?.find((am) => am.type === "local");
-    if (isAdmin) {
-      localAuth?.local_allow_update?.push("password");
-    }
-    if (localAuth) {
-      result.enable = true;
-      result.enableRegister = localAuth.allow_signup;
-      result.customProps = {
-        label: localAuth.local_id_label ?? "",
-        mask: localAuth.local_id_input_mask ?? "",
-        type: localAuth.local_id_type ?? [],
-        allowUpdate: localAuth.local_allow_update ?? [],
-      };
-    }
-    result.oauth = authMethods?.filter((am) => am.type !== "local");
+  if (
+    usersInfoResponse.status === 200 &&
+    usersInfoResponse.data &&
+    settingsResponse.status === 200 &&
+    settingsResponse.data
+  ) {
+    const { authMethods, userUpdateFields, canUserSignUp } =
+      usersInfoResponse.data;
+    const auths = settingsResponse.data.auths;
+    result.enable =
+      authMethods.includes("email") || authMethods.includes("username");
+    result.enableRegister = canUserSignUp;
+    result.customProps = {
+      label: auths.local.label,
+      mask: auths.local.inputMask,
+      type: [
+        ...(authMethods.includes("email") ? ["email"] : []),
+        ...(authMethods.includes("username") ? ["username"] : []),
+      ],
+      allowUpdate: isAdmin ? [] : userUpdateFields ?? [],
+    };
+    result.oauth = authMethods
+      .filter((m) => m !== "username" && m !== "email")
+      .map((name) => {
+        const { customIconUrl, customName } = auths[
+          name as keyof Auths
+        ] as OauthAuth;
+        return {
+          name,
+          customIconUrl,
+          customName: customName
+            ? customName
+            : name.toUpperCase() + name.slice(1),
+        } as Oauth;
+      });
   }
   return [result];
+}
+
+export function updatePermissions(
+  groups: string[],
+  users: string[],
+  ops: AppPermissionOp[],
+) {
+  const removeGroups = ops
+    .filter((o) => o.op === "REMOVE" && o.type === "GROUP")
+    .map((o) => o.id);
+  const removeUsers = ops
+    .filter((o) => o.op === "REMOVE" && o.type === "USER")
+    .map((o) => o.id);
+  const addGroups = ops
+    .filter((o) => o.op === "ADD" && o.type === "GROUP")
+    .map((o) => o.id);
+  const addUsers = ops
+    .filter((o) => o.op === "ADD" && o.type === "USER")
+    .map((o) => o.id);
+  groups = [...groups.filter((g) => !removeGroups.includes(g)), ...addGroups];
+  users = [...users.filter((u) => !removeUsers.includes(u)), ...addUsers];
+  return { groups, users };
 }

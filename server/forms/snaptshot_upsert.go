@@ -16,7 +16,7 @@ type SnapshotUpsert struct {
 	snapshot *models.Snapshot
 
 	Id      string `form:"id" json:"id"`
-	AppId   string `form:"appId" json:"appId"`
+	AppId   string `form:"app" json:"app"`
 	Dsl     string `form:"dsl" json:"dsl"`
 	Context string `form:"context" json:"context"`
 }

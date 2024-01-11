@@ -48,10 +48,6 @@ export const AppPermissionDialog = (props: {
 
   let permissions: PermissionItemsType = [];
   if (appPermissionInfo) {
-    const creator = appPermissionInfo.permissions.find(
-      (p) => p.type === "USER" && p.id === appPermissionInfo.creatorId
-    );
-
     permissions = [
       {
         permissionItem: {
@@ -63,20 +59,10 @@ export const AppPermissionDialog = (props: {
         },
       },
       ...appPermissionInfo.permissions
-        .filter((p) => !(p.type === "USER" && p.id === appPermissionInfo.creatorId))
         .map((p) => ({
           permissionItem: p,
         })),
     ];
-    if (creator) {
-      permissions = [
-        {
-          isCreator: true,
-          permissionItem: creator,
-        },
-        ...permissions,
-      ];
-    }
   }
 
   return (

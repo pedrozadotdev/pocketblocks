@@ -2067,7 +2067,8 @@ export const pt = {
     moveToTrash: "Mover para a lixeira",
     moveToFolderSubTitle: 'Mover "{name}" para:',
     folderName: "Nome da pasta:",
-    resCardSubTitle: "Criado em {time}",
+    resCardSubTitle: "Criado {time}",
+    resCardSubTitleTimeFormat: "DD/MM/YYYY às HH:mm",
     trashEmpty: "A lixeira está vazia.",
     projectEmpty: "Nada por aqui.",
     projectEmptyCanAdd:

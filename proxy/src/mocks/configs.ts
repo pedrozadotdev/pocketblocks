@@ -10,7 +10,7 @@ export default [
   mocker.get("/api/v1/configs", async () => {
     const settingsResponse = await settings.get();
     if (settingsResponse.data) {
-      const { org_name, header_color, logo, icon } = settingsResponse.data;
+      const { orgName, headerColor, logo, icon } = settingsResponse.data;
       return createDefaultResponse({
         authConfigs: await getAuthConfigs(),
         workspaceMode: "ENTERPRISE",
@@ -23,8 +23,8 @@ export default [
         branding: {
           logo,
           favicon: icon,
-          brandName: org_name,
-          headerColor: header_color,
+          brandName: orgName,
+          headerColor: headerColor,
         },
       });
     }

@@ -11,7 +11,7 @@ var (
 type Snapshot struct {
 	m.BaseModel
 
-	AppId   string `db:"appId" json:"appId"`
+	AppId   string `db:"app" json:"app"`
 	Dsl     string `db:"dsl" json:"dsl"`
 	Context string `db:"context" json:"context"`
 }
