@@ -24,13 +24,13 @@ export const DetailContainer = styled.div`
 `;
 
 export const CreateButton = styled(Button)`
-  background-color: #4965f2;
+  background-color: var(--adm-color-primary-link);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4px 8px;
   font-size: 13px;
-  border: 1px solid #4965f2;
+  border: 1px solid var(--adm-color-primary-link);
   box-shadow: none;
   &.ant-btn-primary:hover,
   &.ant-btn-primary:focus {
@@ -99,7 +99,7 @@ export const ChartDesc = styled.div`
   line-height: 19px;
   margin: 6px 0 5px 0;
   a {
-    color: #4965f2;
+    color: var(--adm-color-primary-link);
     &:hover {
       color: #315efb;
     }
@@ -151,7 +151,7 @@ export const BackBtn = styled.div`
   height: 24px;
 
   :hover {
-    color: #4965f2;
+    color: var(--adm-color-primary-link);
   }
 
   svg {
@@ -162,7 +162,7 @@ export const BackBtn = styled.div`
   }
 
   :hover svg g path {
-    fill: #4965f2;
+    fill: var(--adm-color-primary-link);
   }
 `;
 
@@ -228,7 +228,9 @@ export const ThemeBtn = styled.div<{ theme: ThemeDetail }>`
   position: relative;
   cursor: pointer;
   color: ${(props) =>
-    isDarkColor(props.theme.primarySurface) ? props.theme.textLight : props.theme.textDark};
+    isDarkColor(props.theme.primarySurface)
+      ? props.theme.textLight
+      : props.theme.textDark};
   .name {
     font-size: 13px;
     font-weight: 600;
@@ -257,7 +259,8 @@ export const ThemeBtn = styled.div<{ theme: ThemeDetail }>`
       display: flex;
       align-items: center;
       padding: 0 6px;
-      border-bottom: 1px solid ${(props) => darkenColor(props.theme.primarySurface, 0.1)};
+      border-bottom: 1px solid
+        ${(props) => darkenColor(props.theme.primarySurface, 0.1)};
     }
     > div:nth-of-type(1) {
       height: 28px;
@@ -329,13 +332,15 @@ export const ThemeBtn = styled.div<{ theme: ThemeDetail }>`
         justify-content: center;
         background-color: ${(props) => props.theme.primary};
         color: ${(props) =>
-          isDarkColor(props.theme.primary) ? props.theme.textLight : props.theme.textDark};
+          isDarkColor(props.theme.primary)
+            ? props.theme.textLight
+            : props.theme.textDark};
       }
     }
   }
   > svg {
     circle {
-      fill: #4965f2;
+      fill: var(--adm-color-primary-link);
     }
     width: 20px;
     height: 20px;
@@ -520,7 +525,7 @@ export const TableStyled = styled(Table)`
       border: 1px solid #d6e4ff;
       background: #ffffff;
       font-size: 12px;
-      color: #4965f2;
+      color: var(--adm-color-primary-link);
       margin-left: 4px;
     }
   }
@@ -633,7 +638,7 @@ export const EmptySpan = styled.span`
     align-items: center;
     button {
       padding: 0 3px;
-      color: #4965f2;
+      color: var(--adm-color-primary-link);
       &:hover {
         color: #315efb;
       }

@@ -41,7 +41,7 @@ const ExecButton = styled(TacoButton)`
   border: 1px solid #c9d1fc;
   border-radius: 4px;
   font-weight: 500;
-  color: #4965f2;
+  color: var(--adm-color-primary-link);
 
   :hover {
     background: #f9fbff;
@@ -139,7 +139,10 @@ const OperationWrapper = styled.div`
 
 const MONTH_MILLIS = 30 * 24 * 60 * 60 * 1000;
 
-export function HomeResCard(props: { res: HomeRes; onMove: (res: HomeRes) => void }) {
+export function HomeResCard(props: {
+  res: HomeRes;
+  onMove: (res: HomeRes) => void;
+}) {
   const { res, onMove } = props;
   const [appNameEditing, setAppNameEditing] = useState(false);
   const dispatch = useDispatch();
@@ -147,7 +150,11 @@ export function HomeResCard(props: { res: HomeRes; onMove: (res: HomeRes) => voi
   const { folderId } = useParams<{ folderId: string }>();
 
   const subTitle = trans("home.resCardSubTitle", {
-    time: timestampToHumanReadable(res.lastModifyTime, MONTH_MILLIS, trans("home.resCardSubTitleTimeFormat"))
+    time: timestampToHumanReadable(
+      res.lastModifyTime,
+      MONTH_MILLIS,
+      trans("home.resCardSubTitleTimeFormat")
+    ),
   });
 
   const resInfo = HomeResInfo[res.type];
@@ -162,7 +169,11 @@ export function HomeResCard(props: { res: HomeRes; onMove: (res: HomeRes) => voi
     <Wrapper>
       <Card>
         {Icon && (
-          <Icon width={"24px"} height={"24px"} style={{ marginRight: "10px", flexShrink: 0 }} />
+          <Icon
+            width={"24px"}
+            height={"24px"}
+            style={{ marginRight: "10px", flexShrink: 0 }}
+          />
         )}
         <CardInfo
           onClick={(e) => {
@@ -176,7 +187,9 @@ export function HomeResCard(props: { res: HomeRes; onMove: (res: HomeRes) => voi
                 history.push(APPLICATION_VIEW_URL(res.id, "view"));
                 return;
               }
-              res.isEditable ? handleAppEditClick(e, res.id) : handleAppViewClick(res.id);
+              res.isEditable
+                ? handleAppEditClick(e, res.id)
+                : handleAppViewClick(res.id);
             }
           }}
         >
@@ -192,17 +205,26 @@ export function HomeResCard(props: { res: HomeRes; onMove: (res: HomeRes) => voi
                 dispatch(updateFolder({ id: res.id, name: value }));
               } else {
                 dispatch(
-                  updateAppMetaAction({ applicationId: res.id, name: value, folderId: folderId })
+                  updateAppMetaAction({
+                    applicationId: res.id,
+                    name: value,
+                    folderId: folderId,
+                  })
                 );
               }
               setAppNameEditing(false);
             }}
           />
-          <AppTimeOwnerInfoLabel title={subTitle}>{subTitle}</AppTimeOwnerInfoLabel>
+          <AppTimeOwnerInfoLabel title={subTitle}>
+            {subTitle}
+          </AppTimeOwnerInfoLabel>
         </CardInfo>
         <OperationWrapper>
           {res.isEditable && (
-            <EditButton onClick={(e) => handleAppEditClick(e, res.id)} buttonType="primary">
+            <EditButton
+              onClick={(e) => handleAppEditClick(e, res.id)}
+              buttonType="primary"
+            >
               {trans("edit")}
             </EditButton>
           )}

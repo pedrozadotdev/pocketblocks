@@ -13,8 +13,8 @@ export interface Application extends BaseModel {
   allUsers: boolean;
   groups: string[];
   users: string[];
-  appDSL: unknown | null;
-  editDSL: unknown | null;
+  appDSL: string;
+  editDSL: string;
   folder: string | null;
 }
 
@@ -35,10 +35,10 @@ export interface User extends BaseModel {
   avatar?: string;
 }
 
-type UserUpdateField = "username" | "email" | "password" | "name" | "avatar";
+type UserFieldUpdate = "username" | "email" | "password" | "name" | "avatar";
 
 export interface Settings {
-  orgName: string;
+  name: string;
   logo?: string;
   icon?: string;
   headerColor?: string;
@@ -53,10 +53,18 @@ export interface Settings {
   showTutorial: string[];
 }
 
+export type LocalAuthInfo = {
+  minPasswordLength: number;
+  requireEmail: boolean;
+};
+
 export type UsersInfo = {
-  userUpdateFields: UserUpdateField[];
+  userFieldUpdate: UserFieldUpdate[];
   authMethods: AllowedAuths[];
   canUserSignUp: boolean;
+  setupFirstAdmin: boolean;
+  smtpStatus: boolean;
+  localAuthInfo: LocalAuthInfo;
 };
 
 type LocalAuth = {
@@ -150,7 +158,11 @@ export type API = {
     isAdmin: () => Promise<boolean>;
     login: (loginId: string, password: string, provider: string) => APIResponse;
     logout: () => APIResponse;
-    signup: (loginId: string, password: string) => APIResponse;
+    signup: (
+      loginId: string,
+      password: string,
+      setupFirstAdmin?: boolean,
+    ) => APIResponse;
     verifyEmailToken: (token: string) => APIResponse;
     verifyEmailChangeToken: (token: string, password: string) => APIResponse;
     sendChangeEmail: (email: string) => APIResponse;

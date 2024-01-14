@@ -1,5 +1,6 @@
 export default {
   translation: {
+    admin: "Admin",
     unknown: "Unknown",
     authInvalid: "Invalid email/username or password.",
     authInvalidEmail: "The email is invalid or already in use!",

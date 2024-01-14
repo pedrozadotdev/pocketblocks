@@ -30,17 +30,28 @@ export async function login(
   }
 }
 
-export async function signup(loginId: string, password: string): APIResponse {
-  const [email, username] = loginId.split("\n");
-  console.log;
+export async function signup(
+  loginId: string,
+  password: string,
+  setupFirstAdmin?: boolean,
+): APIResponse {
+  const [email, username, name] = loginId.split("\n");
   try {
-    await pb.collection("users").create({
-      email,
-      username,
-      password,
-      passwordConfirm: password,
-    });
-    await pb.collection("users").authWithPassword(email || username, password);
+    if (setupFirstAdmin) {
+      await pb.admins.create({ email, password, passwordConfirm: password });
+      await pb.admins.authWithPassword(email, password);
+    } else {
+      await pb.collection("users").create({
+        email,
+        username,
+        name,
+        password,
+        passwordConfirm: password,
+      });
+      await pb
+        .collection("users")
+        .authWithPassword(email || username, password);
+    }
     return { status: 200 };
   } catch (e) {
     const { status, response, message: rawMessage } = e as ClientResponseError;

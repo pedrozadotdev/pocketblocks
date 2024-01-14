@@ -23,7 +23,7 @@ export function ProfileInfoCard(props: ProfileModalCardProps) {
   const email = getConnectedName(user, UserConnectionSource.email);
   const systemConfig = useSelector(selectSystemConfig);
 
-  const { type, mask, allowUpdate, label } = systemConfig?.form.rawConfig.customProps
+  const { type, mask, allowUpdate, label, smtp } = systemConfig?.form.rawConfig.customProps
 
   const [provider, setProvider] = useState("")
 
@@ -36,33 +36,31 @@ export function ProfileInfoCard(props: ProfileModalCardProps) {
   const username = user.connections?.find(c => c.source === UserConnectionSource.email)?.rawUserInfo?.username as string | undefined
   return (
     <>
-      <HeadNameFiled />
-      { type.includes("email") ? (
-        <ProfileInfoItem
-          key="email"
-          titleLabel="Email:"
-          infoLabel={trans("profile.loginAfterBind", { name: trans("profile.email") })}
-          value={email}
-          actionButtonConfig={{
-            label: trans("profile.change"),
-            onClick: () => {
-              setModalContent(<EmailCard />);
-              setTitle(trans("profile.change") + " Email");
-              setShowBackLink(true);
-            },
-            hidden: !!provider || !allowUpdate.includes("email")
-          }}
-        />
-      ) : null }
-      { !provider && username !== "ADMIN" && type.includes("username") ? (
+      <HeadNameFiled /> 
+      <ProfileInfoItem
+        key="email"
+        titleLabel="Email:"
+        infoLabel={trans("profile.loginAfterBind", { name: trans("profile.email") })}
+        value={email}
+        actionButtonConfig={{
+          label: trans("profile.change"),
+          onClick: () => {
+            setModalContent(<EmailCard />);
+            setTitle(trans("profile.change") + " Email");
+            setShowBackLink(true);
+          },
+          hidden: !!provider || !allowUpdate.includes("email") || !smtp
+        }}
+      />
+      { !provider && (
         <>
-          { mask ? (
+          { mask && (
             <TacoInput
               ref={ref}
               style={{ display: "none" }}
               value={ username || "" }
             />
-          ) : null }
+          )}
           <ProfileInfoItem
             key="username"
             titleLabel={(label ? label[0].toUpperCase() + label.slice(1) : "Username") + ":"}
@@ -78,8 +76,8 @@ export function ProfileInfoCard(props: ProfileModalCardProps) {
             }}
           />
         </>
-      ) : null }
-      { !provider ? (
+      )}
+      { !provider && (
         <ProfileInfoItem
           key="password"
           titleLabel={trans("profile.password")}
@@ -96,7 +94,7 @@ export function ProfileInfoCard(props: ProfileModalCardProps) {
             hidden: !allowUpdate.includes("password"),
           }}
         />
-      ) : null }
+      )}
     </>
   );
 }

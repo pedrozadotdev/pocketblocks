@@ -14,14 +14,22 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "redux/reducers";
 import { fetchDatasourceStructure } from "redux/reduxActions/datasourceActions";
-import { getDataSource, getDataSourceTypes } from "redux/selectors/datasourceSelectors";
+import {
+  getDataSource,
+  getDataSourceTypes,
+} from "redux/selectors/datasourceSelectors";
 import { DatasourceStructure } from "api/datasourceApi";
 import styled from "styled-components";
 import { getDataSourceTypeConfig } from "./generate";
 import { DataSourceTypeConfig, TableColumn } from "./generate/dataSourceCommon";
 import { CompConfig } from "./generate/comp";
 import { uiCompRegistry } from "comps/uiCompRegistry";
-import { arrayMove, SortableContainer, SortableElement, SortableHandle } from "react-sortable-hoc";
+import {
+  arrayMove,
+  SortableContainer,
+  SortableElement,
+  SortableHandle,
+} from "react-sortable-hoc";
 import { trans } from "i18n";
 import log from "loglevel";
 import { Datasource } from "@openblocks-ee/constants/datasourceConstants";
@@ -32,7 +40,7 @@ const OpenDialogButton = styled.span`
     cursor: pointer;
   }
 
-  color: #4965f2;
+  color: var(--adm-color-primary-link);
 `;
 const LineWrapper = styled.div`
   width: 100%;
@@ -228,7 +236,9 @@ const CompFormItem = styled(FormItem)`
 const StyledCheckbox = styled(CheckBox)<{ disabled?: boolean }>`
   .ant-checkbox-checked {
     .ant-checkbox-inner::after {
-      border: 2px solid ${(props) => (props.disabled ? "#B8B9BF" : "#4965f2")};
+      border: 2px solid
+        ${(props) =>
+          props.disabled ? "#B8B9BF" : "var(--adm-color-primary-link)"};
       border-top: 0;
       border-left: 0;
     }
@@ -271,10 +281,17 @@ export type CreateData = {
 
 export type CreateHandler = (data: CreateData) => Promise<string>;
 
-function getCompSelection(dataSourceTypeConfig: DataSourceTypeConfig, columnType: string) {
+function getCompSelection(
+  dataSourceTypeConfig: DataSourceTypeConfig,
+  columnType: string
+) {
   const compSelection = dataSourceTypeConfig.getCompSelection(columnType);
   if (!compSelection) {
-    log.error(trans("formComp.compSelectionError"), dataSourceTypeConfig.type, columnType);
+    log.error(
+      trans("formComp.compSelectionError"),
+      dataSourceTypeConfig.type,
+      columnType
+    );
     return undefined;
   }
   const compItems: CompItem[] = [];
@@ -349,7 +366,9 @@ function onSubmit(
   items.map(({ columnName, columnType, compItems }) => {
     const info = data.columns?.[columnName];
     if (info && info.enabled) {
-      const compItem = compItems.find(({ comp }) => comp.type === info.compType);
+      const compItem = compItems.find(
+        ({ comp }) => comp.type === info.compType
+      );
       if (compItem) {
         columns.push({
           type: columnType,
@@ -420,71 +439,89 @@ const CustomEditText = (props: {
 
 const DragHandle = SortableHandle(() => <StyledDragIcon />);
 
-const SortableItem = SortableElement((props: { item: RowItem; form: FormInstance }) => {
-  const { item, form } = props;
-  const { columnName, columnType, compItems } = item;
-  const disabled = !Form.useWatch(["columns", columnName, "enabled"], form);
-  return (
-    <DataRow disabled={disabled}>
-      <CellName>
-        <LineWrapper>
-          <DragHandle />
-          <FormItem
-            name={["columns", columnName, "enabled"]}
-            valuePropName="checked"
-            style={{ width: "auto", marginLeft: "4px", marginRight: "8px" }}
-          >
-            <CheckBox />
+const SortableItem = SortableElement(
+  (props: { item: RowItem; form: FormInstance }) => {
+    const { item, form } = props;
+    const { columnName, columnType, compItems } = item;
+    const disabled = !Form.useWatch(["columns", columnName, "enabled"], form);
+    return (
+      <DataRow disabled={disabled}>
+        <CellName>
+          <LineWrapper>
+            <DragHandle />
+            <FormItem
+              name={["columns", columnName, "enabled"]}
+              valuePropName="checked"
+              style={{ width: "auto", marginLeft: "4px", marginRight: "8px" }}
+            >
+              <CheckBox />
+            </FormItem>
+            <TextWrapper title={columnName}>{columnName}</TextWrapper>
+          </LineWrapper>
+        </CellName>
+        <CellType>
+          <TextWrapper title={columnType}>{columnType}</TextWrapper>
+        </CellType>
+        <CellLabel>
+          <FormItem name={["columns", columnName, "label"]}>
+            <CustomEditText disabled={disabled} />
           </FormItem>
-          <TextWrapper title={columnName}>{columnName}</TextWrapper>
-        </LineWrapper>
-      </CellName>
-      <CellType>
-        <TextWrapper title={columnType}>{columnType}</TextWrapper>
-      </CellType>
-      <CellLabel>
-        <FormItem name={["columns", columnName, "label"]}>
-          <CustomEditText disabled={disabled} />
-        </FormItem>
-      </CellLabel>
-      <CellComp>
-        <CompFormItem name={["columns", columnName, "compType"]}>
-          <StyledSelect
-            placeholder={trans("formComp.selectCompType")}
-            border={true}
-            disabled={disabled}
+        </CellLabel>
+        <CellComp>
+          <CompFormItem name={["columns", columnName, "compType"]}>
+            <StyledSelect
+              placeholder={trans("formComp.selectCompType")}
+              border={true}
+              disabled={disabled}
+            >
+              {compItems.map(({ comp, compTypeName }) => {
+                return (
+                  <Select.Option key={comp.type} value={comp.type}>
+                    {compTypeName}
+                  </Select.Option>
+                );
+              })}
+            </StyledSelect>
+          </CompFormItem>
+        </CellComp>
+        <CellRequired>
+          <FormItem
+            name={["columns", columnName, "required"]}
+            valuePropName="checked"
           >
-            {compItems.map(({ comp, compTypeName }) => {
-              return (
-                <Select.Option key={comp.type} value={comp.type}>
-                  {compTypeName}
-                </Select.Option>
-              );
-            })}
-          </StyledSelect>
-        </CompFormItem>
-      </CellComp>
-      <CellRequired>
-        <FormItem name={["columns", columnName, "required"]} valuePropName="checked">
-          <StyledCheckbox disabled={disabled} />
-        </FormItem>
-      </CellRequired>
-    </DataRow>
-  );
-});
+            <StyledCheckbox disabled={disabled} />
+          </FormItem>
+        </CellRequired>
+      </DataRow>
+    );
+  }
+);
 
-const SortableBody = SortableContainer((props: { items: RowItem[]; form: FormInstance }) => {
-  return (
-    <DataBody>
-      {props.items.map((t, index) => {
-        // Use the column name as the key here to ensure that the useState is correct when dragging
-        return <SortableItem key={t.columnName} index={index} item={t} form={props.form} />;
-      })}
-    </DataBody>
-  );
-});
+const SortableBody = SortableContainer(
+  (props: { items: RowItem[]; form: FormInstance }) => {
+    return (
+      <DataBody>
+        {props.items.map((t, index) => {
+          // Use the column name as the key here to ensure that the useState is correct when dragging
+          return (
+            <SortableItem
+              key={t.columnName}
+              index={index}
+              item={t}
+              form={props.form}
+            />
+          );
+        })}
+      </DataBody>
+    );
+  }
+);
 
-function getEmptyText(dataSourceNum: number, tableNum: number, columnNum: number): string {
+function getEmptyText(
+  dataSourceNum: number,
+  tableNum: number,
+  columnNum: number
+): string {
   if (dataSourceNum === 0) {
     return trans("formComp.noDataSourceFound");
   }
@@ -508,7 +545,10 @@ function useDataSourceItems() {
       typeConfigs[id] = config;
     }
   });
-  const dataSourceItems: { dataSource: Datasource; typeConfig: DataSourceTypeConfig }[] = [];
+  const dataSourceItems: {
+    dataSource: Datasource;
+    typeConfig: DataSourceTypeConfig;
+  }[] = [];
   dataSourceInfos?.forEach(({ datasource }) => {
     const typeConfig = typeConfigs[datasource.type];
     if (typeConfig) {
@@ -519,9 +559,13 @@ function useDataSourceItems() {
 }
 
 function useTableStructures(dataSourceId?: string) {
-  const dataSourceStructure = useSelector((state: AppState) => state.entities.datasource.structure);
+  const dataSourceStructure = useSelector(
+    (state: AppState) => state.entities.datasource.structure
+  );
   return dataSourceId && dataSourceStructure
-    ? (dataSourceStructure[dataSourceId] ?? []).filter((t) => t.type === "TABLE")
+    ? (dataSourceStructure[dataSourceId] ?? []).filter(
+        (t) => t.type === "TABLE"
+      )
     : [];
 }
 
@@ -530,11 +574,16 @@ const CreateFormBody = (props: { onCreate: CreateHandler }) => {
   // data source
   const dataSourceId: string | undefined = Form.useWatch("dataSourceId", form);
   const dataSourceItems = useDataSourceItems();
-  const dataSourceItem = dataSourceItems.find((t) => t.dataSource.id === dataSourceId);
+  const dataSourceItem = dataSourceItems.find(
+    (t) => t.dataSource.id === dataSourceId
+  );
   // default to the first item
   useEffect(() => {
     if (!dataSourceItem) {
-      const id = dataSourceItems.length > 0 ? dataSourceItems[0].dataSource.id : undefined;
+      const id =
+        dataSourceItems.length > 0
+          ? dataSourceItems[0].dataSource.id
+          : undefined;
       form.setFieldsValue({ dataSourceId: id });
     }
   }, [dataSourceItems]);
@@ -552,7 +601,8 @@ const CreateFormBody = (props: { onCreate: CreateHandler }) => {
   // default to the first one
   useEffect(() => {
     if (!tableStructure) {
-      const name = tableStructures.length > 0 ? tableStructures[0].name : undefined;
+      const name =
+        tableStructures.length > 0 ? tableStructures[0].name : undefined;
       form.setFieldsValue({ tableName: name });
     }
   }, [tableStructures]);
@@ -560,12 +610,19 @@ const CreateFormBody = (props: { onCreate: CreateHandler }) => {
   const [items, setItems] = useState<RowItem[]>([]);
   const dataSourceTypeConfig = dataSourceItem?.typeConfig;
   useEffect(() => {
-    const { initItems, initColumns } = getInitItemsAndColumns(dataSourceTypeConfig, tableStructure);
+    const { initItems, initColumns } = getInitItemsAndColumns(
+      dataSourceTypeConfig,
+      tableStructure
+    );
     // Set the initial value by the method. Because if another table has the same column name, setting via initialValue is invalid.
     form.setFieldsValue({ columns: initColumns });
     setItems(initItems);
   }, [dataSourceTypeConfig, tableStructure]);
-  const emptyText = getEmptyText(dataSourceItems.length, tableStructures.length, items.length);
+  const emptyText = getEmptyText(
+    dataSourceItems.length,
+    tableStructures.length,
+    items.length
+  );
   return (
     <>
       <Form form={form} preserve={false}>
@@ -573,11 +630,16 @@ const CreateFormBody = (props: { onCreate: CreateHandler }) => {
           <DataSourceWrapper>
             <SelectLabel>{trans("formComp.dataSource")}</SelectLabel>
             <FormItem name={"dataSourceId"}>
-              <StyledSelect style={{ width: "208px" }} placeholder={trans("formComp.selectSource")}>
+              <StyledSelect
+                style={{ width: "208px" }}
+                placeholder={trans("formComp.selectSource")}
+              >
                 {dataSourceItems.map(({ dataSource }) => (
                   <Select.Option key={dataSource.id} value={dataSource.id}>
                     <SelectOptionWrapper>
-                      {dataSource.type && <DataSourceIcon dataSourceType={dataSource.type} />}
+                      {dataSource.type && (
+                        <DataSourceIcon dataSourceType={dataSource.type} />
+                      )}
                       <SelectOptionLabel title={dataSource.name}>
                         {dataSource.name}
                       </SelectOptionLabel>
@@ -615,7 +677,9 @@ const CreateFormBody = (props: { onCreate: CreateHandler }) => {
               <CellType head={true}>{trans("formComp.dataType")}</CellType>
               <CellLabel head={true}>{trans("label")}</CellLabel>
               <CellComp head={true}>{trans("formComp.compType")}</CellComp>
-              <CellRequired head={true}>{trans("formComp.required")}</CellRequired>
+              <CellRequired head={true}>
+                {trans("formComp.required")}
+              </CellRequired>
             </HeaderRow>
             <SortableBody
               items={items}
@@ -631,7 +695,9 @@ const CreateFormBody = (props: { onCreate: CreateHandler }) => {
               <TacoButton
                 buttonType="primary"
                 loading={false}
-                onClick={() => onClick(form, dataSourceTypeConfig, items, props.onCreate)}
+                onClick={() =>
+                  onClick(form, dataSourceTypeConfig, items, props.onCreate)
+                }
               >
                 {trans("formComp.generateForm")}
               </TacoButton>

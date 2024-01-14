@@ -6,6 +6,7 @@ import {
   Application,
   Auths,
   Folder,
+  LocalAuthInfo,
   OauthAuth,
 } from "@/types";
 
@@ -38,17 +39,17 @@ export async function createFullAppResponseData(app: Application) {
   const { data: settings } = await settingsAPI.get();
   return {
     applicationInfoView: (await createAppList([app]))[0],
-    applicationDSL: getCorrectDSL(app),
+    applicationDSL: JSON.parse(getCorrectDSL(app)),
     moduleDSL: {},
     orgCommonSettings: settings
       ? {
-          themeList: settings.themes,
-          defaultHomePage: settings.homePage,
+          themeList: settings.themes ? JSON.parse(settings.themes) : [],
+          defaultHomePage: settings.homePage ? settings.homePage : undefined,
           defaultTheme: settings.theme,
           preloadCSS: settings.css,
           preloadJavaScript: settings.script,
-          preloadLibs: settings.libs,
-          npmPlugins: settings.plugins || [],
+          preloadLibs: settings.libs ? JSON.parse(settings.libs) : [],
+          npmPlugins: settings.plugins ? JSON.parse(settings.plugins) : [],
         }
       : null,
     templateId: null,
@@ -145,6 +146,12 @@ const defaultAuthConfig = {
     mask: "",
     type: ["email"],
     allowUpdate: [] as string[],
+    setupAdmin: false,
+    smtp: false,
+    localAuthInfo: {
+      minPasswordLength: 8,
+      requireEmail: false,
+    } as LocalAuthInfo,
   },
   oauth: [] as Oauth[],
 };
@@ -160,8 +167,14 @@ export async function getAuthConfigs() {
     settingsResponse.status === 200 &&
     settingsResponse.data
   ) {
-    const { authMethods, userUpdateFields, canUserSignUp } =
-      usersInfoResponse.data;
+    const {
+      authMethods,
+      userFieldUpdate,
+      canUserSignUp,
+      setupFirstAdmin,
+      smtpStatus,
+      localAuthInfo,
+    } = usersInfoResponse.data;
     const auths = settingsResponse.data.auths;
     result.enable =
       authMethods.includes("email") || authMethods.includes("username");
@@ -173,7 +186,10 @@ export async function getAuthConfigs() {
         ...(authMethods.includes("email") ? ["email"] : []),
         ...(authMethods.includes("username") ? ["username"] : []),
       ],
-      allowUpdate: isAdmin ? [] : userUpdateFields ?? [],
+      allowUpdate: isAdmin ? [] : userFieldUpdate ?? [],
+      setupAdmin: setupFirstAdmin,
+      smtp: smtpStatus,
+      localAuthInfo,
     };
     result.oauth = authMethods
       .filter((m) => m !== "username" && m !== "email")

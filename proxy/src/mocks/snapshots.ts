@@ -8,8 +8,8 @@ import {
 
 type Body = {
   applicationId: string;
-  context: string;
-  dsl: string;
+  context: unknown;
+  dsl: unknown;
 };
 
 export default [
@@ -19,7 +19,7 @@ export default [
       const snapshotResponse = await snapshots.get(params.id as string);
       if (snapshotResponse.data) {
         return createDefaultResponse({
-          applicationsDsl: snapshotResponse.data.dsl,
+          applicationsDsl: JSON.parse(snapshotResponse.data.dsl),
           moduleDSL: {},
         });
       }
@@ -41,7 +41,7 @@ export default [
             list: snapshotResponse.data.list.map(({ id, context, created }) => {
               return {
                 snapshotId: id,
-                context: context,
+                context: JSON.parse(context),
                 createTime: new Date(created).getTime(),
               };
             }),
@@ -61,8 +61,8 @@ export default [
       if (appResponse.data) {
         const snapshotResponse = await snapshots.create({
           app: appResponse.data.id,
-          context,
-          dsl,
+          context: JSON.stringify(context),
+          dsl: JSON.stringify(dsl),
         });
         if (snapshotResponse.data) {
           return createDefaultResponse(true);

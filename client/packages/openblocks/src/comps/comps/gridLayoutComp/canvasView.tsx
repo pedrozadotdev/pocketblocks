@@ -19,9 +19,6 @@ import { defaultTheme } from "comps/controls/styleControlConstants";
 import { checkIsMobile } from "util/commonUtils";
 import { CanvasContainerID } from "constants/domLocators";
 import { CNRootContainer } from "constants/styleSelectors";
-import RootWrapper from "components/RootWrapper"
-import { useSelector } from "react-redux";
-import { getBrandingConfig } from "redux/selectors/configSelectors";
 
 const UICompContainer = styled.div<{ maxWidth?: number; readOnly?: boolean; bgColor: string }>`
   height: 100%;
@@ -73,7 +70,6 @@ function getDragSelectedNames(
 const EmptySet = new Set<string>();
 
 export function CanvasView(props: ContainerBaseProps) {
-  const brandingConfig = useSelector(getBrandingConfig);
   const editorState = useContext(EditorContext);
   const [dragSelectedComps, setDragSelectedComp] = useState(EmptySet);
   const scrollContainerRef = useRef(null);
@@ -97,27 +93,25 @@ export function CanvasView(props: ContainerBaseProps) {
 
   if (readOnly) {
     return (
-      <RootWrapper headerColor={brandingConfig?.headerColor}>
-        <UICompContainer
-          maxWidth={maxWidth}
-          readOnly={true}
-          className={CNRootContainer}
-          bgColor={bgColor}
-        >
-          <div>
-            <Profiler id="Panel" onRender={profilerCallback}>
-              <InnerGrid
-                containerPadding={rootContainerPadding}
-                overflow={rootContainerOverflow}
-                {...props}
-                {...gridLayoutCanvasProps}
-                bgColor={bgColor}
-                radius="0px"
-              />
-            </Profiler>
-          </div>
-        </UICompContainer>
-      </RootWrapper>
+      <UICompContainer
+        maxWidth={maxWidth}
+        readOnly={true}
+        className={CNRootContainer}
+        bgColor={bgColor}
+      >
+        <div>
+          <Profiler id="Panel" onRender={profilerCallback}>
+            <InnerGrid
+              containerPadding={rootContainerPadding}
+              overflow={rootContainerOverflow}
+              {...props}
+              {...gridLayoutCanvasProps}
+              bgColor={bgColor}
+              radius="0px"
+            />
+          </Profiler>
+        </div>
+      </UICompContainer>
     );
   }
 

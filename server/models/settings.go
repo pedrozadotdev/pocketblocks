@@ -17,8 +17,8 @@ type Settings struct {
 	mux sync.RWMutex
 
 	Name            string   `form:"name" json:"name"`
-	LogoUrl         string   `form:"logoUrl" json:"logoUrl"`
-	IconUrl         string   `form:"iconUrl" json:"iconUrl"`
+	LogoUrl         string   `form:"logoUrl" json:"logo"`
+	IconUrl         string   `form:"iconUrl" json:"icon"`
 	HeaderColor     string   `form:"headerColor" json:"headerColor"`
 	HomePageAppSlug string   `form:"homePage" json:"homePage"`
 	Script          string   `form:"script" json:"script"`

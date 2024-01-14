@@ -1,6 +1,6 @@
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import LoginBackground from "assets/images/loginBackground.png";
-import React, { CSSProperties, useRef, } from "react";
+import React, { CSSProperties, useRef } from "react";
 import { CheckBox, PackUpIcon, TacoButton } from "openblocks-design";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -121,7 +121,11 @@ const StyledConfirmButton = styled(TacoButton)`
   transition: unset;
 `;
 
-export const AuthContainer = (props: { children: any; title?: string; type?: string }) => {
+export const AuthContainer = (props: {
+  children: any;
+  title?: string;
+  type?: string;
+}) => {
   return (
     <AuthCardContainer>
       <AuthCardTitle type={props.type}>{props.title || ""}</AuthCardTitle>
@@ -155,7 +159,7 @@ export const ConfirmButton = (props: {
         }}
         global
       />
-      <StyledConfirmButton ref={ref} buttonType="primary" {...props}/>
+      <StyledConfirmButton ref={ref} buttonType="primary" {...props} />
     </>
   );
 };
@@ -177,7 +181,9 @@ const TermsAndPrivacyLabel = styled.span`
   margin-left: 8px;
 `;
 
-export const TermsAndPrivacyInfo = (props: { onCheckChange: (e: CheckboxChangeEvent) => void }) => {
+export const TermsAndPrivacyInfo = (props: {
+  onCheckChange: (e: CheckboxChangeEvent) => void;
+}) => {
   const termsUrl = trans("docUrls.terms");
   const privacyUrl = trans("docUrls.privacy");
   if (!termsUrl || !privacyUrl) {
@@ -224,7 +230,7 @@ export const StyledLoginButton = styled.button`
 
   &:hover {
     p {
-      color: #4965f2;
+      color: var(--adm-color-primary-link);
     }
   }
 `;
@@ -234,7 +240,7 @@ export const StyledRouteLink = styled(Link)`
   align-items: center;
 
   font-size: 16px;
-  color: #4965f2;
+  color: var(--adm-color-primary-link);
   line-height: 16px;
   margin-left: auto;
 
@@ -314,10 +320,10 @@ const BackNavLink = styled.a`
   }
 
   &:hover {
-    color: #4965f2;
+    color: var(--adm-color-primary-link);
 
     svg g path {
-      fill: #4965f2;
+      fill: var(--adm-color-primary-link);
     }
   }
 `;
@@ -328,7 +334,10 @@ const StyledPackUpIcon = styled(PackUpIcon)`
   height: 24px;
 `;
 
-export function AuthNavBack(props: { onBack: () => void; style?: CSSProperties }) {
+export function AuthNavBack(props: {
+  onBack: () => void;
+  style?: CSSProperties;
+}) {
   return (
     <BackNavLink type="button" onClick={props.onBack} style={props.style}>
       <StyledPackUpIcon />

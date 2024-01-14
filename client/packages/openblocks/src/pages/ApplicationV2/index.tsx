@@ -25,8 +25,14 @@ import {
   RecyclerIcon,
 } from "openblocks-design";
 import React, { useEffect, useState } from "react";
-import { fetchAllApplications, fetchHomeData } from "redux/reduxActions/applicationActions";
-import { getHomeOrg, normalAppListSelector } from "redux/selectors/applicationSelector";
+import {
+  fetchAllApplications,
+  fetchHomeData,
+} from "redux/reduxActions/applicationActions";
+import {
+  getHomeOrg,
+  normalAppListSelector,
+} from "redux/selectors/applicationSelector";
 import { clearStyleEval, evalStyle } from "openblocks-core";
 import { ProductLoading } from "components/ProductLoading";
 import { Layout } from "../../components/layout/Layout";
@@ -37,7 +43,10 @@ import { FolderView } from "./FolderView";
 import { TrashView } from "./TrashView";
 import { SideBarItemType } from "../../components/layout/SideBarSection";
 import { RootFolderListView } from "./RootFolderListView";
-import { fetchFolderElements, updateFolder } from "../../redux/reduxActions/folderActions";
+import {
+  fetchFolderElements,
+  updateFolder,
+} from "../../redux/reduxActions/folderActions";
 import { ModuleView } from "./ModuleView";
 import { useCreateFolder } from "./useCreateFolder";
 import { trans } from "../../i18n";
@@ -98,7 +107,7 @@ const FolderNameWrapper = styled.div<{ selected: boolean }>`
   }
 `;
 
-const FolderName = (props: { id: string; name: string, orgDev?: boolean }) => {
+const FolderName = (props: { id: string; name: string; orgDev?: boolean }) => {
   const dispatch = useDispatch();
   const [folderNameEditing, setFolderNameEditing] = useState(false);
 
@@ -117,10 +126,17 @@ const FolderName = (props: { id: string; name: string, orgDev?: boolean }) => {
         }}
       />
       {props.orgDev ? (
-        <EditPopover items={[{ text: trans("rename"), onClick: () => setFolderNameEditing(true) }]}>
+        <EditPopover
+          items={[
+            {
+              text: trans("rename"),
+              onClick: () => setFolderNameEditing(true),
+            },
+          ]}
+        >
           <PopoverIcon tabIndex={-1} />
         </EditPopover>
-      ): null}
+      ) : null}
     </>
   );
 };
@@ -140,7 +156,8 @@ const MoreFoldersIcon = styled(PointIcon)<{ selected: boolean }>`
   flex-shrink: 0;
 
   g {
-    fill: ${(props) => (props.selected ? "#4965f2" : "#8b8fa3")};
+    fill: ${(props) =>
+      props.selected ? "var(--adm-color-primary-link)" : "#8b8fa3"};
   }
 `;
 
@@ -265,7 +282,11 @@ export default function ApplicationHome() {
         onSelected: (_, currentPath) => currentPath === path,
         text: (props: { selected: boolean }) => (
           <FolderNameWrapper selected={props.selected}>
-            <FolderName name={folder.name} id={folder.folderId} orgDev={user.orgDev} />
+            <FolderName
+              name={folder.name}
+              id={folder.folderId}
+              orgDev={user.orgDev}
+            />
           </FolderNameWrapper>
         ),
         routePath: FOLDER_URL,
@@ -282,7 +303,9 @@ export default function ApplicationHome() {
       ...folderItems,
       {
         text: (props: { selected: boolean }) => (
-          <MoreFoldersWrapper selected={props.selected}>{trans("more")}</MoreFoldersWrapper>
+          <MoreFoldersWrapper selected={props.selected}>
+            {trans("more")}
+          </MoreFoldersWrapper>
         ),
         routePath: FOLDERS_URL,
         routeComp: RootFolderListView,
@@ -310,7 +333,11 @@ export default function ApplicationHome() {
                 routePath: ALL_APPLICATIONS_URL,
                 routeComp: HomeView,
                 icon: ({ selected, ...otherProps }) =>
-                  selected ? <HomeActiveIcon {...otherProps} /> : <HomeIcon {...otherProps} />,
+                  selected ? (
+                    <HomeActiveIcon {...otherProps} />
+                  ) : (
+                    <HomeIcon {...otherProps} />
+                  ),
               },
               {
                 text: <TabLabel>{trans("home.modules")}</TabLabel>,
@@ -369,7 +396,8 @@ export default function ApplicationHome() {
                     <HomeSettingsIcon {...otherProps} />
                   ),
                 visible: ({ user }) => user.orgDev,
-                onSelected: (_, currentPath) => currentPath.split("/")[1] === "setting",
+                onSelected: (_, currentPath) =>
+                  currentPath.split("/")[1] === "setting",
               },
             ],
           },

@@ -7,6 +7,7 @@ require (
 	github.com/fatih/color v1.15.0
 	github.com/go-ozzo/ozzo-validation/v4 v4.3.0
 	github.com/gosimple/slug v1.13.1
+	github.com/guregu/null v4.0.0+incompatible
 	github.com/labstack/echo/v5 v5.0.0-20230722203903-ec5b858dab61
 	github.com/pocketbase/dbx v1.10.1
 	github.com/pocketbase/pocketbase v0.19.4
@@ -54,7 +55,6 @@ require (
 	github.com/google/wire v0.5.0 // indirect
 	github.com/googleapis/gax-go/v2 v2.12.0 // indirect
 	github.com/gosimple/unidecode v1.0.1 // indirect
-	github.com/guregu/null v4.0.0+incompatible // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect

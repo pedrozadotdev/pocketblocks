@@ -6,7 +6,10 @@ import { AddIcon, Dropdown } from "openblocks-design";
 import { EllipsisSpan } from "pages/setting/theme/styledComponents";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { getDefaultTheme, getThemeList } from "redux/selectors/commonSettingSelectors";
+import {
+  getDefaultTheme,
+  getThemeList,
+} from "redux/selectors/commonSettingSelectors";
 import styled, { css } from "styled-components";
 import { trans } from "i18n";
 import { GreyTextColor } from "constants/style";
@@ -59,7 +62,7 @@ export const TagDesc = styled.span<{ theme: ThemeDetail }>`
 export const DefaultSpan = styled.span`
   border: 1px solid #d6e4ff;
   border-radius: 8px;
-  color: #4965f2;
+  color: var(--adm-color-primary-link);
   font-size: 12px;
   margin-left: 4px;
   display: inline-flex;
@@ -153,7 +156,8 @@ function AppSettingsModal(props: ChildrenInstance) {
   const themeWithDefault = (
     themeId.getView() === DEFAULT_THEMEID ||
     (!!themeId.getView() &&
-      THEME_OPTIONS.findIndex((item) => item.value === themeId.getView()) === -1)
+      THEME_OPTIONS.findIndex((item) => item.value === themeId.getView()) ===
+        -1)
       ? DEFAULT_THEMEID
       : themeId.getView()
   ) as string;
@@ -172,8 +176,12 @@ function AppSettingsModal(props: ChildrenInstance) {
           <div className="left" />
           <div className="right" />
         </TagDesc>
-        <EllipsisSpan style={{ maxWidth: "238px" }}>{themeItem?.name}</EllipsisSpan>
-        {themeItem?.id === defaultTheme && <DefaultSpan>{trans("appSetting.default")}</DefaultSpan>}
+        <EllipsisSpan style={{ maxWidth: "238px" }}>
+          {themeItem?.name}
+        </EllipsisSpan>
+        {themeItem?.id === defaultTheme && (
+          <DefaultSpan>{trans("appSetting.default")}</DefaultSpan>
+        )}
       </ItemSpan>
     );
   };
@@ -188,9 +196,9 @@ function AppSettingsModal(props: ChildrenInstance) {
           placement: "bottom",
           min: 350,
           lastNode: <span>{trans("appSetting.maxWidthTip")}</span>,
-          labelStyle: {marginBottom: "8px"},
-          dropdownStyle: {marginBottom: "12px"},
-          inputStyle: {marginBottom: "12px"}
+          labelStyle: { marginBottom: "8px" },
+          dropdownStyle: { marginBottom: "12px" },
+          inputStyle: { marginBottom: "12px" },
         })}
         <Dropdown
           defaultValue={
@@ -204,8 +212,8 @@ function AppSettingsModal(props: ChildrenInstance) {
           options={THEME_OPTIONS}
           label={trans("appSetting.themeSetting")}
           placement="bottom"
-          labelStyle={{marginBottom: "8px"}}
-          dropdownStyle={{marginBottom: "12px"}}
+          labelStyle={{ marginBottom: "8px" }}
+          dropdownStyle={{ marginBottom: "12px" }}
           itemNode={(value) => <DropdownItem value={value} />}
           preNode={() => (
             <>
@@ -238,6 +246,12 @@ export const AppSettingsComp = new MultiCompBuilder(childrenMap, (props) => {
   .setPropertyViewFn((children) => {
     const themeList = useSelector(getThemeList) || [];
     const defaultTheme = (useSelector(getDefaultTheme) || "").toString();
-    return <AppSettingsModal {...children} themeList={themeList} defaultTheme={defaultTheme} />;
+    return (
+      <AppSettingsModal
+        {...children}
+        themeList={themeList}
+        defaultTheme={defaultTheme}
+      />
+    );
   })
   .build();

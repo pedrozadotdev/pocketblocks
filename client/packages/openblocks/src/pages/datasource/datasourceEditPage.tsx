@@ -2,12 +2,20 @@ import styled from "styled-components";
 import history from "../../util/history";
 import { Button } from "antd";
 import { useCallback, useMemo, useState } from "react";
-import { CopyTextButton, DocIcon, PackUpIcon, TacoButton } from "openblocks-design";
+import {
+  CopyTextButton,
+  DocIcon,
+  PackUpIcon,
+  TacoButton,
+} from "openblocks-design";
 import { useDatasourceForm } from "./form/useDatasourceForm";
 import { useParams } from "react-router-dom";
 import { DATASOURCE_URL } from "../../constants/routesURL";
 import { useSelector } from "react-redux";
-import { getDataSource, getDataSourceTypes } from "../../redux/selectors/datasourceSelectors";
+import {
+  getDataSource,
+  getDataSourceTypes,
+} from "../../redux/selectors/datasourceSelectors";
 import { trans } from "i18n";
 import { DatasourceType } from "@openblocks-ee/constants/queryConstants";
 import { getDatasourceTutorial } from "@openblocks-ee/util/tutorialUtils";
@@ -46,7 +54,7 @@ const BackBtn = styled.div`
   height: 24px;
 
   :hover {
-    color: #4965f2;
+    color: var(--adm-color-primary-link);
   }
 
   svg {
@@ -57,7 +65,7 @@ const BackBtn = styled.div`
   }
 
   :hover svg g path {
-    fill: #4965f2;
+    fill: var(--adm-color-primary-link);
   }
 `;
 
@@ -173,8 +181,14 @@ export const DatasourceEditPage = () => {
 
   const finalDataSourceType = datasourceType || datasourceInfo?.datasource.type;
 
-  const { testLoading, createLoading, form, genRequest, resolveTest, resolveCreate } =
-    useDatasourceForm();
+  const {
+    testLoading,
+    createLoading,
+    form,
+    genRequest,
+    resolveTest,
+    resolveCreate,
+  } = useDatasourceForm();
 
   const handleFormReadyStatusChange = useCallback((isReady) => {
     setIsReady(isReady);
@@ -185,8 +199,13 @@ export const DatasourceEditPage = () => {
   }
 
   const tutorial = getDatasourceTutorial(finalDataSourceType);
-  const pluginDef = datasourceInfo?.datasource.pluginDefinition || dataSourceTypeInfo?.definition;
-  const formManifest = getDataSourceFormManifest(finalDataSourceType, pluginDef);
+  const pluginDef =
+    datasourceInfo?.datasource.pluginDefinition ||
+    dataSourceTypeInfo?.definition;
+  const formManifest = getDataSourceFormManifest(
+    finalDataSourceType,
+    pluginDef
+  );
   const DatasourceForm = formManifest?.form;
 
   return (
@@ -237,7 +256,8 @@ export const DatasourceEditPage = () => {
                       resolveTest(
                         genRequest({
                           datasourceId: datasourceId,
-                          datasourceType: datasourceType ?? datasourceInfo?.datasource.type,
+                          datasourceType:
+                            datasourceType ?? datasourceInfo?.datasource.type,
                         })
                       )
                     }
@@ -255,7 +275,8 @@ export const DatasourceEditPage = () => {
                       datasourceId: datasourceId,
                       request: genRequest({
                         datasourceId: datasourceId,
-                        datasourceType: datasourceType ?? datasourceInfo?.datasource.type,
+                        datasourceType:
+                          datasourceType ?? datasourceInfo?.datasource.type,
                       }),
                       afterCreate: () => history.push(DATASOURCE_URL),
                     })
@@ -269,8 +290,16 @@ export const DatasourceEditPage = () => {
 
           {formManifest?.whitelist && (
             <Whitelist>
-              <div style={{ fontWeight: 600, fontSize: "14px" }}>{trans("query.whitelist")}</div>
-              <div style={{ fontSize: "14px", color: "#8B8FA3", marginBottom: "12px" }}>
+              <div style={{ fontWeight: 600, fontSize: "14px" }}>
+                {trans("query.whitelist")}
+              </div>
+              <div
+                style={{
+                  fontSize: "14px",
+                  color: "#8B8FA3",
+                  marginBottom: "12px",
+                }}
+              >
                 {trans("query.whitelistTooltip")}
               </div>
 

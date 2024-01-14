@@ -17,7 +17,9 @@ export const Body = styled.div`
   background: #f1f2f5;
   display: flex;
 `;
-const Card = ({ className, children }: any) => <div className={className}>{children}</div>;
+const Card = ({ className, children }: any) => (
+  <div className={className}>{children}</div>
+);
 
 const StyledCard = styled(Card)`
   width: 289px;
@@ -101,7 +103,7 @@ export const EditorContainer = styled.div`
 `;
 
 export const StyledLink = styled.a`
-  color: #4965f2;
+  color: var(--adm-color-primary-link);
 
   :hover {
     color: #315efb;
@@ -153,10 +155,14 @@ const ReadOnlyMaskDiv = styled.div`
   height: 100%;
   cursor: not-allowed;
 `;
-const readOnlyWarn = _.throttle(() => message.warn(trans("header.editError")), 3000, {
-  leading: true,
-  trailing: false,
-});
+const readOnlyWarn = _.throttle(
+  () => message.warn(trans("header.editError")),
+  3000,
+  {
+    leading: true,
+    trailing: false,
+  }
+);
 
 export const ReadOnlyMask = (props: {
   children: JSX.Element | React.ReactNode;

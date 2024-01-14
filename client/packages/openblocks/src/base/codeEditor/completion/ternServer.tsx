@@ -1,5 +1,9 @@
 import { checkCursorInBinding } from "base/codeEditor/codeEditorUtils";
-import { Completion, CompletionContext, CompletionResult } from "base/codeEditor/codeMirror";
+import {
+  Completion,
+  CompletionContext,
+  CompletionResult,
+} from "base/codeEditor/codeMirror";
 import { CompletionsQuery, Def, Server } from "tern";
 import ecma from "./defs/ecmascript.json";
 import { CompletionSource } from "./completion";
@@ -100,7 +104,7 @@ export class TernServer extends CompletionSource {
                   <div class="hintDiv" onclick='javascript:window.open("${completion.url}")' >
                     <svg width="16px" height="16px" class="hintSvg" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                       <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
-                          <g transform="translate(8.000000, 8.000000) rotate(30.000000) translate(-8.000000, -8.000000) translate(5.000000, 1.500000)" stroke="#4965F2" stroke-width="1.5">
+                          <g transform="translate(8.000000, 8.000000) rotate(30.000000) translate(-8.000000, -8.000000) translate(5.000000, 1.500000)" stroke="var(--adm-color-primary-link)" stroke-width="1.5">
                               <path d="M0,4.5 L0,3 C0,1.34314575 1.34314575,0 3,0 C4.65685425,0 6,1.34314575 6,3 L6,4.5 L6,4.5 M6,8.5 L6,10 C6,11.6568542 4.65685425,13 3,13 C1.34314575,13 0,11.6568542 0,10 L0,8.5 L0,8.5"></path>
                               <line x1="3" y1="4" x2="3" y2="9"></line>
                           </g>

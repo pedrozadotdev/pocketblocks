@@ -1,9 +1,10 @@
-import { AUTH_LOGIN_URL, USER_AUTH_URL } from "constants/routesURL";
+import { AUTH_LOGIN_URL, AUTH_REGISTER_URL, USER_AUTH_URL } from "constants/routesURL";
 import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectSystemConfig } from "redux/selectors/configSelectors";
 import { AuthContext } from "pages/userAuth/authUtils";
+import UserRegister from "pages/userAuth/register";
 import { AuthRoutes } from "@openblocks-ee/constants/authConstants";
 import { AuthLocationState } from "constants/authConstants";
 import { ProductLoading } from "components/ProductLoading";
@@ -36,6 +37,7 @@ export default function UserAuth() {
   if (!systemConfig) {
     return <ProductLoading hideHeader />;
   }
+  const { customProps: { setupAdmin } } = systemConfig.form.rawConfig
   return (
     <WrapperContainer headerColor={systemConfig.branding?.headerColor}>
       <AuthContext.Provider
@@ -46,8 +48,11 @@ export default function UserAuth() {
         }}
       >
         <Switch location={location}>
-          <Redirect exact from={USER_AUTH_URL} to={AUTH_LOGIN_URL} />
-          {AuthRoutes.map((route) => (
+          <Redirect exact from={USER_AUTH_URL} to={setupAdmin ? AUTH_REGISTER_URL : AUTH_LOGIN_URL} />
+          <Route key={AUTH_REGISTER_URL} exact path={AUTH_REGISTER_URL} component={UserRegister} />
+          {AuthRoutes.map((route) => setupAdmin ? (
+            <Redirect key={route.path} exact from={route.path} to={AUTH_REGISTER_URL} />
+          ) : (
             <Route key={route.path} exact path={route.path} component={route.component} />
           ))}
         </Switch>

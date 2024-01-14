@@ -15,11 +15,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "redux/selectors/usersSelectors";
 import { UploadChangeParam } from "antd/lib/upload";
 import { beforeImgUpload, getBase64 } from "util/fileUtils";
-import { updateUserAction, updateUserSuccess } from "redux/reduxActions/userActions";
+import {
+  updateUserAction,
+  updateUserSuccess,
+} from "redux/reduxActions/userActions";
 import { message, Upload } from "antd";
 import { USER_HEAD_UPLOAD_URL } from "constants/apiConstants";
 import { trans } from "i18n";
 import { checkIsMobile } from "util/commonUtils";
+import { selectSystemConfig } from "redux/selectors/configSelectors";
 
 const FormInputStyle = css`
   input {
@@ -118,14 +122,14 @@ const ProfileInfoItemWrapper = styled.div`
     height: 13px;
 
     font-size: 13px;
-    color: #4965f2;
+    color: var(--adm-color-primary-link);
     text-align: right;
     line-height: 13px;
     background: #ffffff;
   }
 
   button:hover svg g path {
-    fill: #4965f2;
+    fill: var(--adm-color-primary-link);
   }
 
   button:disabled,
@@ -204,7 +208,9 @@ export function ProfileInfoItem(props: {
         <CommonTextLabel>{props.titleLabel}</CommonTextLabel>
       </IconNameWrapper>
       {props.value ? (
-        <CommonTextLabel style={{ marginLeft: "7px", whiteSpace: "break-spaces" }}>
+        <CommonTextLabel
+          style={{ marginLeft: "7px", whiteSpace: "break-spaces" }}
+        >
           {props.value}
         </CommonTextLabel>
       ) : (
@@ -237,6 +243,7 @@ export function getConnectedName(user: User, source: string) {
 }
 
 export function HeadNameFiled() {
+  const systemConfig = useSelector(selectSystemConfig);
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const handleUploadChange = (info: UploadChangeParam) => {
@@ -249,6 +256,7 @@ export function HeadNameFiled() {
       message.error(trans("profile.uploadError"));
     }
   };
+  const { allowUpdate } = systemConfig?.form.rawConfig.customProps;
   if (!user) {
     return null;
   }
@@ -256,6 +264,7 @@ export function HeadNameFiled() {
     <HeadNameWrapper>
       <div style={{ height: "72px" }}>
         <Upload
+          disabled={!allowUpdate.includes("avatar")}
           accept="image/*"
           showUploadList={false}
           action={USER_HEAD_UPLOAD_URL}
@@ -266,22 +275,33 @@ export function HeadNameFiled() {
           withCredentials
         >
           <ProfileImageWrapper>
-            <StyledProfileImage side={72} source={user.avatarUrl} userName={user.username} />
-            <ProfileImageMask>{trans("profile.editProfilePicture")}</ProfileImageMask>
+            <StyledProfileImage
+              side={72}
+              source={user.avatarUrl}
+              userName={user.username}
+            />
+            {allowUpdate.includes("avatar") ? (
+              <ProfileImageMask>
+                {trans("profile.editProfilePicture")}
+              </ProfileImageMask>
+            ) : null}
           </ProfileImageWrapper>
         </Upload>
       </div>
       <BlurFinishInput
+        disabled={!allowUpdate.includes("name")}
         valueCheck={{
           rule: (val) => val.trim() !== "",
           message: trans("profile.nameCheck"),
         }}
         inputStyle={{
-          width: checkIsMobile(window.innerWidth) ? `${window.innerWidth - 140}px` : "248px",
+          width: checkIsMobile(window.innerWidth)
+            ? `${window.innerWidth - 140}px`
+            : "248px",
           height: " 32px",
         }}
-        label={trans("profile.name")}
         mustFill
+        label={trans("profile.name")}
         placeholder={trans("profile.namePlaceholder")}
         defaultValue={user.username}
         onFinish={(value: string) => {

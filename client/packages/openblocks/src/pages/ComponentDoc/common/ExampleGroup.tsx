@@ -18,7 +18,7 @@ const Wrapper = styled.div`
     color: #8b8fa3;
     &:hover,
     &.ant-tabs-tab-active .ant-tabs-tab-btn {
-      color: #4965f2;
+      color: var(--adm-color-primary-link);
       font-weight: 500;
     }
     & + .ant-tabs-tab {
@@ -28,7 +28,7 @@ const Wrapper = styled.div`
 
   .ant-tabs-ink-bar {
     border-radius: 2px;
-    background-color: #4965f2;
+    background-color: var(--adm-color-primary-link);
   }
   .ant-tabs-nav-wrap::before {
     border: 0;
@@ -36,12 +36,15 @@ const Wrapper = styled.div`
 `;
 export default function ExampleGroup(props: React.PropsWithChildren<IProps>) {
   const { title, description, children } = props;
-  const tabs = React.Children.map(children as ReactElement, (child: ReactElement) => {
-    return {
-      title: child.props.title,
-      child,
-    };
-  });
+  const tabs = React.Children.map(
+    children as ReactElement,
+    (child: ReactElement) => {
+      return {
+        title: child.props.title,
+        child,
+      };
+    }
+  );
   const [isBorderShow, showBorder] = useState(false);
   return (
     <Wrapper>

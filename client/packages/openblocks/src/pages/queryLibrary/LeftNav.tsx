@@ -66,7 +66,7 @@ const CreateBtn = styled(TacoButton)<{ readOnly?: boolean }>`
   :disabled,
   :disabled:hover {
     ${AddIcon} g {
-      stroke: #4965f230;
+      stroke: var(--adm-color-primary-link) 30;
     }
   }
 `;
@@ -174,7 +174,11 @@ export const LeftNav = (props: {
             onChange={(e) => setSearchValue(e.target.value)}
             style={{ width: "154px", height: "32px", margin: "0" }}
           />
-          <CreateBtn buttonType={"blue"} onClick={props.addQuery} readOnly={props.readOnly}>
+          <CreateBtn
+            buttonType={"blue"}
+            onClick={props.addQuery}
+            readOnly={props.readOnly}
+          >
             <AddIcon />
             {trans("newItem")}
           </CreateBtn>
@@ -187,8 +191,9 @@ export const LeftNav = (props: {
                 props.queryList
                   .filter((q) => {
                     let datasourceTypeName =
-                      datasourceTypes[q.libraryQueryDSL?.query?.compType as DatasourceType]?.name ??
-                      "";
+                      datasourceTypes[
+                        q.libraryQueryDSL?.query?.compType as DatasourceType
+                      ]?.name ?? "";
                     if (searchValue) {
                       return (
                         q.name.toLowerCase().includes(searchValue) ||
@@ -208,13 +213,19 @@ export const LeftNav = (props: {
                         <ContentTop>
                           <QueryType>
                             <DataSourceIcon
-                              dataSourceType={q.libraryQueryDSL?.query?.compType}
+                              dataSourceType={
+                                q.libraryQueryDSL?.query?.compType
+                              }
                               size="large"
-                              httpMethod={q.libraryQueryDSL?.query?.comp?.httpMethod}
+                              httpMethod={
+                                q.libraryQueryDSL?.query?.comp?.httpMethod
+                              }
                             />
                             {
-                              datasourceTypes[q.libraryQueryDSL?.query?.compType as DatasourceType]
-                                ?.name
+                              datasourceTypes[
+                                q.libraryQueryDSL?.query
+                                  ?.compType as DatasourceType
+                              ]?.name
                             }
                           </QueryType>
                           <EditPopover
@@ -222,20 +233,33 @@ export const LeftNav = (props: {
                               {
                                 text: trans("queryLibrary.export"),
                                 onClick: () => {
-                                  const blob = new Blob([JSON.stringify(q.libraryQueryDSL)], {
-                                    type: "application/json;charset=utf-16",
+                                  const blob = new Blob(
+                                    [JSON.stringify(q.libraryQueryDSL)],
+                                    {
+                                      type: "application/json;charset=utf-16",
+                                    }
+                                  );
+                                  return saveAs(blob, q.name, {
+                                    autoBom: true,
                                   });
-                                  return saveAs(blob, q.name, { autoBom: true });
                                 },
                               },
                               {
                                 text: trans("delete"),
                                 onClick: () =>
                                   CustomModal.confirm({
-                                    title: trans("queryLibrary.deleteQueryTitle"),
-                                    content: trans("queryLibrary.deleteQueryContent"),
+                                    title: trans(
+                                      "queryLibrary.deleteQueryTitle"
+                                    ),
+                                    content: trans(
+                                      "queryLibrary.deleteQueryContent"
+                                    ),
                                     onConfirm: () =>
-                                      dispatch(deleteQueryLibrary({ queryLibraryId: q.id })),
+                                      dispatch(
+                                        deleteQueryLibrary({
+                                          queryLibraryId: q.id,
+                                        })
+                                      ),
                                     confirmBtnType: "delete",
                                     okText: trans("delete"),
                                   }),
@@ -248,7 +272,10 @@ export const LeftNav = (props: {
                         </ContentTop>
                         <QueryName>{q.name}</QueryName>
                         <QueryTime>
-                          {timestampToHumanReadable(q.createTime, 30 * 24 * 60 * 60 * 1000)}
+                          {timestampToHumanReadable(
+                            q.createTime,
+                            30 * 24 * 60 * 60 * 1000
+                          )}
                         </QueryTime>
                       </Content>
                     </SelectItem>
@@ -260,7 +287,11 @@ export const LeftNav = (props: {
                     <>
                       <div>{trans("query.noQueries")}</div>
                       <span
-                        style={{ color: "#4965f2", cursor: "pointer", margin: "0 4px" }}
+                        style={{
+                          color: "var(--adm-color-primary-link)",
+                          cursor: "pointer",
+                          margin: "0 4px",
+                        }}
                         onClick={props.addQuery}
                       >
                         {trans("newItem")}

@@ -10,7 +10,7 @@ export const editorBottomClassName = "joyride-editor-bottom";
 
 export const defaultJoyrideStyles: Styles = {
   options: {
-    arrowColor: "#4965F2",
+    arrowColor: "var(--adm-color-primary-link)",
     overlayColor: "rgba(0, 0, 0, 0.4)",
     zIndex: Layers.tutorials,
   },

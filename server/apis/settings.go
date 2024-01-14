@@ -15,7 +15,7 @@ func BindSettingsApi(dao *daos.Dao, g *echo.Group, logMiddleware echo.Middleware
 	api := settingsApi{dao: dao}
 
 	subGroup := g.Group("/settings")
-	subGroup.GET("", api.view, apis.RequireAdminOrRecordAuth("users"))
+	subGroup.GET("", api.view)
 	subGroup.GET("/users-info", api.usersInfo)
 	subGroup.PATCH("", api.update, apis.RequireAdminAuth(), logMiddleware)
 	subGroup.DELETE("/delete-admin-tutorial/:id", api.deleteAdminTutorial, apis.RequireAdminAuth(), logMiddleware)
@@ -83,18 +83,27 @@ func (api *settingsApi) deleteAdminTutorial(c echo.Context) error {
 
 func (api *settingsApi) usersInfo(c echo.Context) error {
 	store := api.dao.GetPblStore()
-	userFildUpdate := store.Get(utils.UserFieldUpdateKey).([]string)
+	userFieldUpdate := store.Get(utils.UserFieldUpdateKey).([]string)
 	authMethods := store.Get(utils.UserAuthsKey).([]string)
 	canUserSignUp := store.Get(utils.CanUserSignUpKey).(bool)
+	setupFirstAdmin := store.Get(utils.SetupFirstAdminKey).(bool)
+	smtpStatus := store.Get(utils.SmtpStatusKey).(bool)
+	localAuthInfo := store.Get(utils.LocalAuthGeneralInfoKey).(utils.LocalAuthGeneralInfo)
 
 	result := struct {
-		UserFildUpdate []string `json:"userFieldUpdate"`
-		AuthMethods    []string `json:"authMethods"`
-		CanUserSignUp  bool     `json:"canUserSignUp"`
+		UserFieldUpdate      []string                   `json:"userFieldUpdate"`
+		AuthMethods          []string                   `json:"authMethods"`
+		CanUserSignUp        bool                       `json:"canUserSignUp"`
+		SetupFirstAdmin      bool                       `json:"setupFirstAdmin"`
+		SmtpStatus           bool                       `json:"smtpStatus"`
+		LocalAuthGeneralInfo utils.LocalAuthGeneralInfo `json:"localAuthInfo"`
 	}{
-		userFildUpdate,
+		userFieldUpdate,
 		authMethods,
 		canUserSignUp,
+		setupFirstAdmin,
+		smtpStatus,
+		localAuthInfo,
 	}
 
 	return c.JSON(http.StatusOK, result)

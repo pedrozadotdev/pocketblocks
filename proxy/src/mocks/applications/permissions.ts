@@ -63,7 +63,7 @@ async function createPermissions(app: Application): Promise<Permission[]> {
 async function createDefaultDataResponse(app: Application, settings: Settings) {
   const permissions = await createPermissions(app);
   return {
-    orgName: settings.orgName,
+    orgName: settings.name,
     groupPermissions: permissions.filter((p) => p.type === "GROUP"),
     userPermissions: permissions.filter((p) => p.type === "USER"),
     publicToAll: app.public,

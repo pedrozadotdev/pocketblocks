@@ -19,7 +19,18 @@ import (
 const UserFieldUpdateKey = "USER_FIELD_UPDATE_KEY"
 const UserAuthsKey = "USER_AUTHS_KEY"
 const CanUserSignUpKey = "USER_SIGNUP_KEY"
+const SetupFirstAdminKey = "SETUP_FIRST_ADMIN_KEY"
+const SmtpStatusKey = "SMTP_STATUS_KEY"
+const LocalAuthGeneralInfoKey = "LOCAL_AUTH_GENERAL_INFO_KEY"
 
+type LocalAuthGeneralInfo struct {
+	MinPasswordLength int  `json:"minPasswordLength"`
+	RequireEmail      bool `json:"requireEmail"`
+}
+
+// GetUserAllowedUpdateFields return a list with the user field that can be updated
+//
+// Ex: GetUserAllowedUpdateFields(app)
 func GetUserAllowedUpdateFields(app *pocketbase.PocketBase) ([]string, error) {
 	result := []string{}
 	transError := app.Dao().RunInTransaction(func(txDao *daos.Dao) error {
@@ -33,17 +44,22 @@ func GetUserAllowedUpdateFields(app *pocketbase.PocketBase) ([]string, error) {
 		if err != nil {
 			return err
 		}
+
+		userFields := []string{"username", "email", "password", "avatar", "name"}
+		if userCollection.UpdateRule == nil {
+			return nil
+		}
+		if *userCollection.UpdateRule == "" {
+			result = userFields
+			return nil
+		}
+
 		//Create user to test update rule
 		user := models.NewRecord(userCollection)
 		if err = txDao.Save(user); err != nil {
 			return err
 		}
 
-		userFields := []string{"username", "email", "password", "avatar", "name"}
-		if userCollection.UpdateRule != nil && *userCollection.UpdateRule == "" {
-			result = userFields
-			return nil
-		}
 		txResult := []string{}
 		for _, field := range userFields {
 			requestInfo := &models.RequestInfo{
@@ -119,6 +135,7 @@ func GetCanUserSignUp(app *pocketbase.PocketBase) (bool, error) {
 	}
 
 	body := map[string]any{
+		"name":            "testusercreaterule",
 		"password":        "abcde12345",
 		"passwordConfirm": "abcde12345",
 		"username":        "testusercreaterule",
@@ -174,4 +191,15 @@ func GetCanUserSignUp(app *pocketbase.PocketBase) (bool, error) {
 	}
 
 	return true, nil
+}
+
+func GetLocalAuthGeneralInfo(app *pocketbase.PocketBase) (LocalAuthGeneralInfo, error) {
+	userCollection, err := app.Dao().FindCollectionByNameOrId("_pb_users_auth_")
+	if err != nil {
+		return LocalAuthGeneralInfo{}, err
+	}
+	return LocalAuthGeneralInfo{
+		MinPasswordLength: userCollection.AuthOptions().MinPasswordLength,
+		RequireEmail:      userCollection.AuthOptions().RequireEmail,
+	}, nil
 }

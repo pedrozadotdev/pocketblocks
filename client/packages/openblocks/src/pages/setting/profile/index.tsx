@@ -1,5 +1,4 @@
 import { CustomModal } from "openblocks-design";
-
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserAction, profileSettingModalVisible } from "redux/reduxActions/userActions";
@@ -7,12 +6,16 @@ import { ProfileInfoCard } from "@openblocks-ee/pages/setting/profile/profileInf
 import EmailChangeCard from "pages/setting/profile/emailChangeCard";
 import { message } from "antd";
 import { WindowMessageTypes } from "constants/messages";
-import { isProfileSettingModalVisible } from "redux/selectors/usersSelectors";
+import { isProfileSettingModalVisible, getUser } from "redux/selectors/usersSelectors";
 import { trans } from "i18n";
 import { checkIsMobile } from "util/commonUtils";
+import RootWrapper from "components/RootWrapper";
+import { getBrandingConfig } from "redux/selectors/configSelectors";
 
 export default function ProfileSettingModal() {
   const visible = useSelector(isProfileSettingModalVisible);
+  const brandinConfig = useSelector(getBrandingConfig)
+  const user = useSelector(getUser)
   const dispatch = useDispatch();
   const [title, setTitle] = useState(trans("profile.personalInfo"));
   const [showBackLink, setShowBackLink] = useState(false);
@@ -67,7 +70,9 @@ export default function ProfileSettingModal() {
         setTitle(trans("profile.personalInfo"));
       }}
     >
-      {modalContent}
+      <RootWrapper headerColor={ user.orgDev ? undefined : brandinConfig?.headerColor }>
+        {modalContent}
+      </RootWrapper>
     </CustomModal>
   );
 }

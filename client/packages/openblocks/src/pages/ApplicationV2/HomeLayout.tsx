@@ -16,14 +16,22 @@ import {
   Search,
 } from "openblocks-design";
 import { canEditApp, canManageApp } from "../../util/permissionUtils";
-import { HomeResKey, HomeResTypeEnum, NavigationTypes } from "../../types/homeRes";
+import {
+  HomeResKey,
+  HomeResTypeEnum,
+  NavigationTypes,
+} from "../../types/homeRes";
 import { HomeResInfo } from "../../util/homeResUtils";
 import { getUser } from "../../redux/selectors/usersSelectors";
 import { useLocation } from "react-use";
 import { TrashTableView } from "./TrashTableView";
 import { HomepageTourV2 } from "../tutorials/HomeTutorialsV2";
 import { HomeCardView } from "./HomeCardView";
-import { getHomeLayout, HomeLayoutType, saveHomeLayout } from "../../util/localStorageUtil";
+import {
+  getHomeLayout,
+  HomeLayoutType,
+  saveHomeLayout,
+} from "../../util/localStorageUtil";
 import { HomeTableView } from "./HomeTableView";
 import { Layers } from "../../constants/Layers";
 import { CreateDropdown } from "./CreateDropdown";
@@ -113,7 +121,7 @@ const FilterDropdown = styled(Select)`
 
   &:is(.ant-select-open) {
     .ant-select-selection-item {
-      color: #315efb;
+      color: var(--adm-color-primary);
     }
   }
 
@@ -136,7 +144,7 @@ const FilterDropdown = styled(Select)`
 
   .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
     font-weight: 400;
-    color: #4965f2;
+    color: var(--adm-color-primary-link);
     background-color: white;
   }
 `;
@@ -262,9 +270,7 @@ export function HomeLayout(props: HomeLayoutProps) {
 
   const resList: HomeRes[] = elements
     .filter((e) =>
-      searchValue
-        ? e.name.toLocaleLowerCase().includes(searchValue)
-        : true
+      searchValue ? e.name.toLocaleLowerCase().includes(searchValue) : true
     )
     .filter((e) => {
       if (HomeResTypeEnum[filterBy].valueOf() === HomeResTypeEnum.All) {
@@ -274,14 +280,18 @@ export function HomeLayout(props: HomeLayoutProps) {
         return HomeResTypeEnum[filterBy] === HomeResTypeEnum.Folder;
       } else {
         if (filterBy === "Navigation") {
-          return NavigationTypes.map((t) => t.valueOf()).includes(e.applicationType);
+          return NavigationTypes.map((t) => t.valueOf()).includes(
+            e.applicationType
+          );
         }
         return HomeResTypeEnum[filterBy].valueOf() === e.applicationType;
       }
     })
     .filter((e) => {
-      if (user.orgDev) { return true}
-      return e.folder || e.applicationType === 1
+      if (user.orgDev) {
+        return true;
+      }
+      return e.folder || e.applicationType === 1;
     })
     .map((e) =>
       e.folder
@@ -292,13 +302,18 @@ export function HomeLayout(props: HomeLayoutProps) {
             type: HomeResTypeEnum.Folder,
             lastModifyTime: e.createAt,
             isManageable: e.manageable,
-            isDeletable: e.manageable && !e.subApplications?.length && !e.subFolders?.length,
+            isDeletable:
+              e.manageable &&
+              !e.subApplications?.length &&
+              !e.subFolders?.length,
           }
         : {
             key: e.applicationId,
             id: e.applicationId,
             name: e.name,
-            type: HomeResTypeEnum[HomeResTypeEnum[e.applicationType] as HomeResKey],
+            type: HomeResTypeEnum[
+              HomeResTypeEnum[e.applicationType] as HomeResKey
+            ],
             lastModifyTime: e.lastModifyTime,
             isEditable: canEditApp(user, e),
             isManageable: canManageApp(user, e),
@@ -311,7 +326,11 @@ export function HomeLayout(props: HomeLayoutProps) {
     return {
       label: (
         <FilterMenuItem>
-          {Icon && <Icon style={{ width: "16px", height: "16px", marginRight: "4px" }} />}
+          {Icon && (
+            <Icon
+              style={{ width: "16px", height: "16px", marginRight: "4px" }}
+            />
+          )}
           {HomeResInfo[type].name}
         </FilterMenuItem>
       ),
@@ -325,13 +344,17 @@ export function HomeLayout(props: HomeLayoutProps) {
         <Breadcrumb separator={<ArrowIcon />}>
           <BreadcrumbItem
             onClick={() =>
-              currentPath !== ALL_APPLICATIONS_URL && history.push(ALL_APPLICATIONS_URL)
+              currentPath !== ALL_APPLICATIONS_URL &&
+              history.push(ALL_APPLICATIONS_URL)
             }
           >
             {trans("home.home")}
           </BreadcrumbItem>
           {breadcrumb.map((b, i) => (
-            <BreadcrumbItem onClick={() => currentPath !== b.path && history.push(b.path)} key={i}>
+            <BreadcrumbItem
+              onClick={() => currentPath !== b.path && history.push(b.path)}
+              key={i}
+            >
               {b.text}
             </BreadcrumbItem>
           ))}
@@ -350,9 +373,15 @@ export function HomeLayout(props: HomeLayoutProps) {
             options={[
               getFilterMenuItem(HomeResTypeEnum.All),
               getFilterMenuItem(HomeResTypeEnum.Application),
-              ...(user.orgDev ? [getFilterMenuItem(HomeResTypeEnum.Module)] : []),
-              ...(user.orgDev ? [getFilterMenuItem(HomeResTypeEnum.Navigation)] : []),
-              ...(mode !== "trash" ? [getFilterMenuItem(HomeResTypeEnum.Folder)] : []),
+              ...(user.orgDev
+                ? [getFilterMenuItem(HomeResTypeEnum.Module)]
+                : []),
+              ...(user.orgDev
+                ? [getFilterMenuItem(HomeResTypeEnum.Navigation)]
+                : []),
+              ...(mode !== "trash"
+                ? [getFilterMenuItem(HomeResTypeEnum.Folder)]
+                : []),
             ]}
             getPopupContainer={(node) => node}
             suffixIcon={<ArrowSolidIcon />}
@@ -367,14 +396,21 @@ export function HomeLayout(props: HomeLayoutProps) {
             style={{ width: "192px", height: "32px", margin: "0" }}
           />
           {mode !== "trash" && user.orgDev && (
-            <CreateDropdown defaultVisible={showNewUserGuide(user)} mode={mode} />
+            <CreateDropdown
+              defaultVisible={showNewUserGuide(user)}
+              mode={mode}
+            />
           )}
         </OperationRightWrapper>
       </OperationWrapper>
 
       <ContentWrapper>
         {isFetching && resList.length === 0 ? (
-          <SkeletonStyle active paragraph={{ rows: 8, width: 648 }} title={false} />
+          <SkeletonStyle
+            active
+            paragraph={{ rows: 8, width: 648 }}
+            title={false}
+          />
         ) : (
           <>
             {resList.length > 0 ? (
@@ -383,7 +419,11 @@ export function HomeLayout(props: HomeLayoutProps) {
                   <TrashTableView resources={resList} />
                 ) : (
                   <>
-                    <LayoutSwitcher onClick={() => setLayout(layout === "list" ? "card" : "list")}>
+                    <LayoutSwitcher
+                      onClick={() =>
+                        setLayout(layout === "list" ? "card" : "list")
+                      }
+                    >
                       {layout === "list" ? <HomeCardIcon /> : <HomeListIcon />}
                     </LayoutSwitcher>
                     {layout === "list" ? (
@@ -404,7 +444,9 @@ export function HomeLayout(props: HomeLayoutProps) {
                     ? trans("home.projectEmptyCanAdd")
                     : trans("home.projectEmpty")}
                 </div>
-                {mode !== "trash" && user.orgDev && <CreateDropdown mode={mode} />}
+                {mode !== "trash" && user.orgDev && (
+                  <CreateDropdown mode={mode} />
+                )}
               </EmptyView>
             )}
           </>

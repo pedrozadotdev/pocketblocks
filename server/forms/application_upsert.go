@@ -137,10 +137,14 @@ func (form *ApplicationUpsert) Submit() (*models.Application, error) {
 		form.application.FolderId = null.NewString(form.FolderId, true)
 	}
 
-	if form.Slug != "" {
-		form.application.Slug = form.Slug
-	} else {
-		form.application.Slug = slug.Make(form.Name)
+	if form.Name != "" {
+		newSlug := slug.Make(form.Name)
+		err := validators.UniqueSlug(&form.dao.Dao, "_pbl_apps", form.Id)(newSlug)
+		if err == nil {
+			form.application.Slug = newSlug
+		} else {
+			form.application.Slug = newSlug + "-" + utils.GenerateId()[:9]
+		}
 	}
 
 	if err := form.dao.SavePblApp(form.application); err != nil {

@@ -151,6 +151,7 @@ const InputLabel = (props: { mustFill?: boolean; label?: string; errorMsg?: stri
 };
 
 function BlurFinishInput(props: {
+  disabled?: boolean;
   defaultValue?: string;
   // onFinish triggers when onBlur triggers and value is valid
   onFinish: (value: string) => void;
@@ -181,6 +182,7 @@ function BlurFinishInput(props: {
         <CommonErrorLabel>{!valueValid && valueCheck?.message}</CommonErrorLabel>
       </BlurInputLabel>
       <TacoInput
+        disabled={props.disabled}
         style={inputStyle}
         placeholder={placeholder}
         defaultValue={defaultValue}

@@ -26,13 +26,13 @@ export default [
         const { themes, homePage, theme, css, script, libs, plugins } =
           settingsResponse.data;
         return createDefaultResponse({
-          themeList: themes,
-          defaultHomePage: homePage,
+          themeList: themes ? JSON.parse(themes) : [],
+          defaultHomePage: homePage ? homePage : undefined,
           defaultTheme: theme,
           preloadCSS: css,
           preloadJavaScript: script,
-          preloadLibs: libs,
-          npmPlugins: plugins || [],
+          preloadLibs: libs ? JSON.parse(libs) : [],
+          npmPlugins: plugins ? JSON.parse(plugins) : [],
         });
       }
       return createDefaultErrorResponse([settingsResponse]);

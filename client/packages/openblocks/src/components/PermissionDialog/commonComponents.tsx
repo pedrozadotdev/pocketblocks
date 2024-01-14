@@ -1,5 +1,10 @@
 import styled from "styled-components";
-import { AdminIcon, CustomSelect, GroupIcon, WhiteLoading } from "openblocks-design";
+import {
+  AdminIcon,
+  CustomSelect,
+  GroupIcon,
+  WhiteLoading,
+} from "openblocks-design";
 import React from "react";
 
 export const StyledRoleSelect = styled(CustomSelect)`
@@ -15,11 +20,11 @@ export const StyledRoleSelect = styled(CustomSelect)`
 
   .ant-select:hover {
     .ant-select-selector .ant-select-selection-item {
-      color: #4965f2;
+      color: var(--adm-color-primary-link);
     }
 
     .ant-select-arrow svg g path {
-      fill: #4965f2;
+      fill: var(--adm-color-primary-link);
     }
   }
 

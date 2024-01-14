@@ -24,7 +24,11 @@ import {
   DraggableTreeNodeItemRenderProps,
 } from "components/DraggableTree/types";
 import RefTreeComp from "comps/comps/refTreeComp";
-import { ActiveTextColor, BorderActiveColor, NormalMenuIconColor } from "constants/style";
+import {
+  ActiveTextColor,
+  BorderActiveColor,
+  NormalMenuIconColor,
+} from "constants/style";
 
 const Contain = styled.div`
   flex-grow: 1;
@@ -87,7 +91,7 @@ const AddBtn = styled(TacoButton)`
   width: 64px;
   padding: 4px 12px;
   background-color: #fafbff;
-  color: #4965f2;
+  color: var(--adm-color-primary-link);
   border-color: #c9d1fc;
   display: flex;
   align-items: center;
@@ -116,7 +120,7 @@ const AddBtn = styled(TacoButton)`
     border-radius: 4px;
 
     ${AddIcon} g {
-      stroke: #4965f230;
+      stroke: var(--adm-color-primary-link) 30;
     }
   }
 `;
@@ -135,7 +139,8 @@ interface BottomSidebarProps {
 }
 
 export function BottomSidebar(props: BottomSidebarProps) {
-  const { items, refTreeComp, onOpenCreatePanel, onSelect, onCopy, onDelete } = props;
+  const { items, refTreeComp, onOpenCreatePanel, onSelect, onCopy, onDelete } =
+    props;
   const readOnly = useSelector(showAppSnapshotSelector);
   const [isSearchShow, showSearch] = useState(false);
   const [search, setSearch] = useState("");
@@ -181,7 +186,9 @@ export function BottomSidebar(props: BottomSidebarProps) {
       items: childrenItems,
       data: bottomResComp,
       addSubItem(value) {
-        const pushAction = refTreeComp.children.items.pushAction({ value: value.id() });
+        const pushAction = refTreeComp.children.items.pushAction({
+          value: value.id(),
+        });
         refTreeComp.children.items.dispatch(pushAction);
       },
       deleteItem(index) {
@@ -189,7 +196,9 @@ export function BottomSidebar(props: BottomSidebarProps) {
         refTreeComp.children.items.dispatch(deleteAction);
       },
       addItem(value) {
-        const pushAction = refTreeComp.children.items.pushAction({ value: value.id() });
+        const pushAction = refTreeComp.children.items.pushAction({
+          value: value.id(),
+        });
         refTreeComp.children.items.dispatch(pushAction);
       },
       moveItem(from, to) {
@@ -211,7 +220,9 @@ export function BottomSidebar(props: BottomSidebarProps) {
 
   const node = convertRefTree(refTreeComp);
   const idsInTree = refTreeComp.getAllValuesInTree();
-  const itemsNotInTree = items.filter((i) => !idsInTree.includes(i.id())).map((i) => i.id());
+  const itemsNotInTree = items
+    .filter((i) => !idsInTree.includes(i.id()))
+    .map((i) => i.id());
 
   useEffect(() => {
     if (itemsNotInTree.length > 0) {
@@ -263,7 +274,9 @@ export function BottomSidebar(props: BottomSidebarProps) {
       )}
       <ScrollBar>
         {items.length > 0 && node ? (
-          <div style={{ paddingTop: 4, paddingBottom: 100, overflow: "hidden" }}>
+          <div
+            style={{ paddingTop: 4, paddingBottom: 100, overflow: "hidden" }}
+          >
             <DraggableTree<BottomResComp>
               node={node}
               disable={!!search}
@@ -282,7 +295,12 @@ export function BottomSidebar(props: BottomSidebarProps) {
                 return indent;
               }}
               renderItemContent={(params) => {
-                const { node, onToggleFold, onDelete: onDeleteTreeItem, ...otherParams } = params;
+                const {
+                  node,
+                  onToggleFold,
+                  onDelete: onDeleteTreeItem,
+                  ...otherParams
+                } = params;
                 const resComp = node.data;
                 if (!resComp) {
                   return null;
@@ -317,12 +335,17 @@ export function BottomSidebar(props: BottomSidebarProps) {
   );
 }
 
-const HighlightBorder = styled.div<{ active: boolean; foldable: boolean; level: number }>`
+const HighlightBorder = styled.div<{
+  active: boolean;
+  foldable: boolean;
+  level: number;
+}>`
   flex: 1;
   display: flex;
   padding-left: ${(props) => props.level * 20 + (props.foldable ? 0 : 14)}px;
   border-radius: 4px;
-  border: 1px solid ${(props) => (props.active ? BorderActiveColor : "transparent")};
+  border: 1px solid
+    ${(props) => (props.active ? BorderActiveColor : "transparent")};
   align-items: center;
   justify-content: center;
 `;
@@ -341,10 +364,12 @@ const ColumnDiv = styled.div<ColumnDivProps>`
   padding-right: 15px;
   /* background-color: #ffffff; */
   /* margin: 2px 0; */
-  background-color: ${(props) => (props.isOverlay ? "rgba(255, 255, 255, 0.11)" : "")};
+  background-color: ${(props) =>
+    props.isOverlay ? "rgba(255, 255, 255, 0.11)" : ""};
 
   &&& {
-    background-color: ${(props) => (props.$color && !props.isOverlay ? "#f2f7fc" : null)};
+    background-color: ${(props) =>
+      props.$color && !props.isOverlay ? "#f2f7fc" : null};
   }
 
   :hover {
@@ -433,7 +458,8 @@ function BottomSidebarItem(props: BottomSidebarItemProps) {
   const type = resComp.type();
   const name = resComp.name();
   const icon = resComp.icon();
-  const isSelected = type === selectedBottomResType && id === selectedBottomResName;
+  const isSelected =
+    type === selectedBottomResType && id === selectedBottomResName;
   const isFolder = type === BottomResTypeEnum.Folder;
 
   const handleFinishRename = (value: string) => {
@@ -470,11 +496,29 @@ function BottomSidebarItem(props: BottomSidebarItemProps) {
   };
 
   return (
-    <ColumnDiv onClick={handleClickItem} $color={isSelected} isOverlay={isOverlay}>
-      <HighlightBorder active={isOver && isFolder} level={level} foldable={isFolder}>
-        {isFolder && <FoldIconBtn>{!isFolded ? <FoldedIcon /> : <UnfoldIcon />}</FoldIconBtn>}
+    <ColumnDiv
+      onClick={handleClickItem}
+      $color={isSelected}
+      isOverlay={isOverlay}
+    >
+      <HighlightBorder
+        active={isOver && isFolder}
+        level={level}
+        foldable={isFolder}
+      >
+        {isFolder && (
+          <FoldIconBtn>
+            {!isFolded ? <FoldedIcon /> : <UnfoldIcon />}
+          </FoldIconBtn>
+        )}
         {icon}
-        <div style={{ flexGrow: 1, marginRight: "8px", width: "calc(100% - 62px)" }}>
+        <div
+          style={{
+            flexGrow: 1,
+            marginRight: "8px",
+            width: "calc(100% - 62px)",
+          }}
+        >
           <EditText
             text={name}
             forceClickIcon={isFolder}
@@ -521,7 +565,11 @@ export const EmptyQueryList = (props: { newColumn: () => void }) => (
     <NolistDiv>
       <div style={{ color: "#b8b9bf" }}>{trans("query.noQueries")}</div>
       <span
-        style={{ color: "#4965f2", cursor: "pointer", margin: "0 4px" }}
+        style={{
+          color: "var(--adm-color-primary-link)",
+          cursor: "pointer",
+          margin: "0 4px",
+        }}
         onClick={props.newColumn}
       >
         {trans("newItem")}

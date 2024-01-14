@@ -2,6 +2,7 @@ package core
 
 import (
 	"os"
+	"slices"
 	"time"
 
 	"github.com/internoapp/pocketblocks/server/daos"
@@ -44,25 +45,44 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 		registerRoutes(app, e.Router)
 
 		dao := daos.New(app.Dao().DB())
+
 		if err := dao.RefreshPblSettings(); err != nil {
 			return err
 		}
+
 		store := dao.GetPblStore()
 		userFieldUpdate, err := utils.GetUserAllowedUpdateFields(app)
 		if err != nil {
 			return err
 		}
 		store.Set(utils.UserFieldUpdateKey, userFieldUpdate)
+
 		userAuthMethods, err := utils.GetUserAuthMethods(app)
 		if err != nil {
 			return err
 		}
 		store.Set(utils.UserAuthsKey, userAuthMethods)
+
 		canUserSingUp, err := utils.GetCanUserSignUp(app)
 		if err != nil {
 			return err
 		}
 		store.Set(utils.CanUserSignUpKey, canUserSingUp)
+
+		totalAdmin, err := dao.TotalAdmins()
+		if err != nil {
+			return err
+		}
+		store.Set(utils.SetupFirstAdminKey, totalAdmin == 0)
+
+		settings, _ := app.Settings().Clone()
+		store.Set(utils.SmtpStatusKey, settings.Smtp.Enabled)
+
+		localAuthInfo, err := utils.GetLocalAuthGeneralInfo(app)
+		if err != nil {
+			return err
+		}
+		store.Set(utils.LocalAuthGeneralInfoKey, localAuthInfo)
 
 		return nil
 	})
@@ -80,7 +100,7 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 		return nil
 	})
 
-	//Add/Remove Admin from Settings.AdminTutorial
+	//Add/Remove Admin from Settings.AdminTutorial and set SetupFirstAdmin to false
 	app.OnAdminAfterCreateRequest().Add(func(e *core.AdminCreateEvent) error {
 		dao := daos.New(app.Dao().DB())
 		settings := dao.GetPblSettings()
@@ -97,6 +117,11 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 
 		if err := dao.SavePblSettings(settings); err != nil {
 			return apis.NewApiError(500, "Something went wrong", err)
+		}
+
+		store := dao.GetPblStore()
+		if store.Get(utils.SetupFirstAdminKey).(bool) {
+			store.Set(utils.SetupFirstAdminKey, false)
 		}
 
 		return nil
@@ -182,28 +207,65 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 		}
 		store.Set(utils.UserAuthsKey, userAuthMethods)
 
+		settings, _ := app.Settings().Clone()
+		store.Set(utils.SmtpStatusKey, settings.Smtp.Enabled)
+
 		return nil
 	})
 	app.OnCollectionAfterUpdateRequest().Add(func(e *core.CollectionUpdateEvent) error {
 		if e.Collection.Id == "_pb_users_auth_" {
 			dao := daos.New(app.Dao().DB())
 			store := dao.GetPblStore()
+
 			userFieldUpdate, err := utils.GetUserAllowedUpdateFields(app)
 			if err != nil {
 				return err
 			}
 			store.Set(utils.UserFieldUpdateKey, userFieldUpdate)
+
 			userAuthMethods, err := utils.GetUserAuthMethods(app)
 			if err != nil {
 				return err
 			}
 			store.Set(utils.UserAuthsKey, userAuthMethods)
+
 			canUserSingUp, err := utils.GetCanUserSignUp(app)
 			if err != nil {
 				return err
 			}
 			store.Set(utils.CanUserSignUpKey, canUserSingUp)
+
+			localAuthInfo, err := utils.GetLocalAuthGeneralInfo(app)
+			if err != nil {
+				return err
+			}
+			store.Set(utils.LocalAuthGeneralInfoKey, localAuthInfo)
 		}
+
+		return nil
+	})
+
+	//Prevent user to edit email/password if users update rule don't allow it
+	app.OnRecordBeforeRequestEmailChangeRequest("users").Add(func(e *core.RecordRequestEmailChangeEvent) error {
+		dao := daos.New(app.Dao().DB())
+		store := dao.GetPblStore()
+		updateFields := store.Get(utils.UserFieldUpdateKey).([]string)
+
+		if !slices.Contains(updateFields, "email") {
+			return apis.NewForbiddenError("You cannot change the email.", nil)
+		}
+
+		return nil
+	})
+	app.OnRecordBeforeRequestPasswordResetRequest("users").Add(func(e *core.RecordRequestPasswordResetEvent) error {
+		dao := daos.New(app.Dao().DB())
+		store := dao.GetPblStore()
+		updateFields := store.Get(utils.UserFieldUpdateKey).([]string)
+
+		if !slices.Contains(updateFields, "password") {
+			return apis.NewForbiddenError("You cannot change the password.", nil)
+		}
+
 		return nil
 	})
 }

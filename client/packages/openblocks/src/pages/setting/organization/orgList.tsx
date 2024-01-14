@@ -1,7 +1,15 @@
 import { ADMIN_ROLE } from "constants/orgConstants";
-import { AddIcon, CustomModal, DangerIcon, EditPopover } from "openblocks-design";
+import {
+  AddIcon,
+  CustomModal,
+  DangerIcon,
+  EditPopover,
+} from "openblocks-design";
 import { useDispatch, useSelector } from "react-redux";
-import { createOrgAction, deleteOrgAction } from "redux/reduxActions/orgActions";
+import {
+  createOrgAction,
+  deleteOrgAction,
+} from "redux/reduxActions/orgActions";
 import styled from "styled-components";
 import { trans, transToNode } from "i18n";
 import { buildOrgId } from "constants/routesURL";
@@ -14,7 +22,10 @@ import {
 import { Table } from "components/Table";
 import history from "util/history";
 import { StyledOrgLogo } from "./styledComponents";
-import { Level1SettingPageContentWithList, Level1SettingPageTitleWithBtn } from "../styled";
+import {
+  Level1SettingPageContentWithList,
+  Level1SettingPageTitleWithBtn,
+} from "../styled";
 import { timestampToHumanReadable } from "util/dateTimeUtils";
 import { isSaasMode } from "util/envUtils";
 import { selectSystemConfig } from "redux/selectors/configSelectors";
@@ -127,7 +138,9 @@ type DataItemInfo = {
 function OrganizationSetting() {
   const user = useSelector(getUser);
   const orgs = user.orgs;
-  const adminOrgs = orgs.filter((org) => user.orgRoleMap.get(org.id) === ADMIN_ROLE);
+  const adminOrgs = orgs.filter(
+    (org) => user.orgRoleMap.get(org.id) === ADMIN_ROLE
+  );
   const orgCreateStatus = useSelector(getOrgCreateStatus);
   const dispatch = useDispatch();
   const sysConfig = useSelector(selectSystemConfig);
@@ -162,7 +175,8 @@ function OrganizationSetting() {
           scroll={{ x: "100%" }}
           pagination={false}
           onRow={(record) => ({
-            onClick: () => history.push(buildOrgId((record as DataItemInfo).id)),
+            onClick: () =>
+              history.push(buildOrgId((record as DataItemInfo).id)),
           })}
           columns={[
             {
@@ -172,7 +186,10 @@ function OrganizationSetting() {
               render: (_, record: any) => {
                 return (
                   <OrgName>
-                    <StyledOrgLogo source={record.logoUrl} orgName={record.orgName} />
+                    <StyledOrgLogo
+                      source={record.logoUrl}
+                      orgName={record.orgName}
+                    />
                     <span>{record.orgName}</span>
                   </OrgName>
                 );
@@ -183,7 +200,9 @@ function OrganizationSetting() {
               dataIndex: "createTime",
               ellipsis: true,
               render: (value) => (
-                <span style={{ color: "#8B8FA3" }}>{timestampToHumanReadable(value)}</span>
+                <span style={{ color: "#8B8FA3" }}>
+                  {timestampToHumanReadable(value)}
+                </span>
               ),
             },
             { title: " ", dataIndex: "operation", width: "208px" },
@@ -214,30 +233,47 @@ function OrganizationSetting() {
                               <span>
                                 {transToNode("orgSettings.deleteModalContent", {
                                   permanentlyDelete: (
-                                    <b>{trans("orgSettings.permanentlyDelete")}</b>
+                                    <b>
+                                      {trans("orgSettings.permanentlyDelete")}
+                                    </b>
                                   ),
-                                  notRestored: <b>{trans("orgSettings.notRestored")}</b>,
+                                  notRestored: (
+                                    <b>{trans("orgSettings.notRestored")}</b>
+                                  ),
                                 })}
                               </span>
                             </Tip>
                             <Form layout="vertical" form={form}>
                               <Form.Item
                                 name="name"
-                                label={transToNode("orgSettings.deleteModalLabel", {
-                                  name: (
-                                    <span style={{ color: "#4965F2", margin: "0 5px" }}>
-                                      {item.orgName}
-                                    </span>
-                                  ),
-                                })}
+                                label={transToNode(
+                                  "orgSettings.deleteModalLabel",
+                                  {
+                                    name: (
+                                      <span
+                                        style={{
+                                          color:
+                                            "var(--adm-color-primary-link)",
+                                          margin: "0 5px",
+                                        }}
+                                      >
+                                        {item.orgName}
+                                      </span>
+                                    ),
+                                  }
+                                )}
                                 rules={[
                                   {
                                     required: true,
-                                    message: trans("orgSettings.deleteModalTip"),
+                                    message: trans(
+                                      "orgSettings.deleteModalTip"
+                                    ),
                                   },
                                 ]}
                               >
-                                <Input placeholder={trans("orgSettings.orgName")} />
+                                <Input
+                                  placeholder={trans("orgSettings.orgName")}
+                                />
                               </Form.Item>
                             </Form>
                           </Content>

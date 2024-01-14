@@ -42,7 +42,7 @@ func (api *applicationApi) list(c echo.Context) error {
 	if info.Admin == nil {
 		groups, err := api.dao.FindRecordsByFilter(
 			"_pb_groups_col_",
-			"users ?= \""+info.Admin.Id+"\"",
+			"users ?= \""+info.AuthRecord.Id+"\"",
 			"-created",
 			500,
 			0,
@@ -57,15 +57,22 @@ func (api *applicationApi) list(c echo.Context) error {
 			groupIds = append(groupIds, g.Id)
 		}
 
-		var filterExpr dbx.Expression
+		var filterExpr dbx.Expression = dbx.Or(
+			dbx.HashExp{"public": true},
+			dbx.HashExp{"allUsers": true},
+		)
 
 		if len(groupIds) > 0 {
 			filterExpr = dbx.Or(
-				dbx.Like("users", info.Admin.Id),
+				filterExpr,
+				dbx.Like("users", info.AuthRecord.Id),
 				dbx.OrLike("groups", groupIds...),
 			)
 		} else {
-			filterExpr = dbx.Like("users", info.Admin.Id)
+			filterExpr = dbx.Or(
+				filterExpr,
+				dbx.Like("users", info.AuthRecord.Id),
+			)
 		}
 		query = query.AndWhere(filterExpr)
 	}
@@ -89,13 +96,13 @@ func (api *applicationApi) view(c echo.Context) error {
 	}
 
 	info := apis.RequestInfo(c)
-	var filterExpr dbx.Expression = dbx.HashExp{"public": 1}
+	var filterExpr dbx.Expression = dbx.HashExp{"public": true}
 
 	if info.Admin == nil {
 		if info.AuthRecord != nil {
 			groups, err := api.dao.FindRecordsByFilter(
 				"_pb_groups_col_",
-				"users ?= \""+info.Admin.Id+"\"",
+				"users ?= \""+info.AuthRecord.Id+"\"",
 				"-created",
 				500,
 				0,
@@ -113,14 +120,14 @@ func (api *applicationApi) view(c echo.Context) error {
 				filterExpr = dbx.Or(
 					filterExpr,
 					dbx.HashExp{"allUsers": 1},
-					dbx.Like("users", info.Admin.Id),
+					dbx.Like("users", info.AuthRecord.Id),
 					dbx.OrLike("groups", groupIds...),
 				)
 			} else {
 				filterExpr = dbx.Or(
 					filterExpr,
 					dbx.HashExp{"allUsers": 1},
-					dbx.Like("users", info.Admin.Id),
+					dbx.Like("users", info.AuthRecord.Id),
 				)
 			}
 		}

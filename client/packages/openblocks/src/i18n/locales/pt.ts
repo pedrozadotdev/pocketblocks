@@ -1637,7 +1637,7 @@ export const pt = {
     deleteSuccessMsg: "Deletado com sucesso",
     checkDuplicateNames:
       "O nome do tema já existe, por favor entre com outro nome",
-    copySuffix: "Copiar",
+    copySuffix: "Cópia",
     saveSuccessMsg: "Salvado com sucesso",
     leaveTipTitle: "Dicas",
     leaveTipContent: "Dados não salvos, você realmente quer sair?",
@@ -1838,7 +1838,7 @@ export const pt = {
     joinedOrg: "Os meus espaços de trabalho",
     createOrg: "Criar espaço de trabalho",
     logout: "Sair",
-    personalInfo: "O meu perfil",
+    personalInfo: "Meu perfil",
     bindingSuccess: "{sourceName} atualizado com sucesso",
     uploadError: "Erro ao fazer upload",
     editProfilePicture: "Modificar",
@@ -1848,9 +1848,9 @@ export const pt = {
     toBind: "Para vincular",
     binding: "Vinculando",
     bindError: "Erro de parâmetro, vinculação não suportada.",
-    bindName: "Vincular {name}",
+    bindName: "Vincular o {name}",
     loginAfterBind:
-      "Depois de vincular, você pode usar {name} para fazer login",
+      "Depois de vincular, você pode usar o {name} para fazer login",
     bindEmail: "Email:",
     email: "email",
     emailCheck: "Digite um email válido",
@@ -1941,7 +1941,10 @@ export const pt = {
   },
   userAuth: {
     registerByEmail: "Registre-se",
+    registerAdmin: "Crie o primeiro administrador",
     email: "Email:",
+    name: "Nome Completo:",
+    inputValidName: "Por favor, insira seu nome completo",
     inputEmail: "Por favor, digite o seu {label}",
     inputValidEmail: "Por favor, insira um {label} válido",
     register: "Registre-se",
@@ -2068,7 +2071,7 @@ export const pt = {
     moveToFolderSubTitle: 'Mover "{name}" para:',
     folderName: "Nome da pasta:",
     resCardSubTitle: "Criado {time}",
-    resCardSubTitleTimeFormat: "DD/MM/YYYY às HH:mm",
+    resCardSubTitleTimeFormat: "em DD/MM/YYYY",
     trashEmpty: "A lixeira está vazia.",
     projectEmpty: "Nada por aqui.",
     projectEmptyCanAdd:
@@ -2107,7 +2110,7 @@ export const pt = {
     appPublicMessage: "Tornar o aplicativo público. Qualquer um pode ver.",
     modulePublicMessage: "Tornar o módulo público. Qualquer um pode ver.",
     memberPermissionList: "Permissões de membros:",
-    orgName: "Administradores do(a) {orgName}",
+    orgName: "Administradores ({orgName})",
     addMember: "Adicionar membros",
     addPermissionPlaceholder:
       "Por favor, insira um nome de membro para pesquisar",

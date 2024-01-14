@@ -121,7 +121,7 @@ export const CheckboxStyled = styled(Checkbox)`
   }
 
   .ant-checkbox-checked .ant-checkbox-inner::after {
-    border-color: #4965f2;
+    border-color: var(--adm-color-primary-link);
   }
 `;
 
@@ -132,7 +132,7 @@ export const SaveButton = styled(Button)`
   background: #fafbff;
   border: 1px solid #c9d1fc;
   font-size: 13px;
-  color: #4965f2;
+  color: var(--adm-color-primary-link);
 
   &:hover,
   &.ant-btn-loading {
