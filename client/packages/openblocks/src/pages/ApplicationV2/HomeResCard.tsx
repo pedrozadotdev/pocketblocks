@@ -38,15 +38,15 @@ const ExecButton = styled(TacoButton)`
   padding: 5px 12px;
   margin-right: 24px;
   background: #fafbff;
-  border: 1px solid #c9d1fc;
+  border: 1px solid var(--adm-color-primary-50);
   border-radius: 4px;
   font-weight: 500;
   color: var(--adm-color-primary-link);
 
   :hover {
     background: #f9fbff;
-    border: 1px solid #c2d6ff;
-    color: #315efb;
+    border: 1px solid var(--adm-color-primary-link);
+    color: var(--adm-color-primary-link);
   }
 
   @media screen and (max-width: 500px) {
@@ -74,6 +74,10 @@ const Card = styled.div`
   width: 100%;
   border-bottom: 1px solid #f5f5f6;
   padding: 0 10px;
+
+  path[fill="#2693FF"] {
+    fill: var(--adm-color-primary-BB) !important;
+  }
 
   button {
     opacity: 0;
@@ -109,7 +113,7 @@ const CardInfo = styled.div`
 
   :hover {
     .ant-typography {
-      color: #315efb;
+      color: var(--adm-color-primary-BB);
     }
   }
 

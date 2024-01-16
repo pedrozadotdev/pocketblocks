@@ -3,6 +3,8 @@ import styled from "styled-components";
 const WrapperContainer = styled.div<{ headerColor?: string }>`
   --antd-wave-shadow-color: ${(props) => props.headerColor || "#3377ff"};
   --adm-color-primary: ${(props) => props.headerColor || "#1677ff"};
+  --adm-color-primary-50: ${(props) => props.headerColor || "#1677ff"}50;
+  --adm-color-primary-BB: ${(props) => props.headerColor || "#1677ff"}BB;
   --adm-color-primary-link: ${(props) => props.headerColor || "#4965f2"};
   --adm-color-primary-disabled: ${(props) => props.headerColor ? props.headerColor + "10" : "#dbe1fd"};
   .ant-spin-dot-item {
@@ -31,11 +33,11 @@ const WrapperContainer = styled.div<{ headerColor?: string }>`
   .ant-menu-submenu-title:active {
     background: ${(props) => props.headerColor || "#3377ff"}10;
   }
-  .ant-btn-default {
+  .ant-btn-primary {
     background: var(--adm-color-primary-link) !important;
     border: 1px solid var(--adm-color-primary-link) !important;
   }
-  .ant-btn-default:disabled {
+  .ant-btn-primary:disabled {
     background: var(--adm-color-primary-disabled) !important;
     border: 1px solid var(--adm-color-primary-disabled) !important;
   }

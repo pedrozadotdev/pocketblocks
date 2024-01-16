@@ -143,14 +143,14 @@ const ProfileInfoItemWrapper = styled.div`
   }
 `;
 
-const StyledProfileImage = styled(ProfileImage)`
+export const StyledProfileImage = styled(ProfileImage)`
   span {
     font-size: 16px;
     font-weight: 500;
   }
 `;
 
-const ProfileImageWrapper = styled.div`
+export const ProfileImageWrapper = styled.div`
   position: relative;
 `;
 
@@ -175,7 +175,7 @@ const ProfileImageMask = styled.div`
   }
 `;
 
-const HeadNameWrapper = styled.div`
+export const HeadNameWrapper = styled.div`
   display: flex;
   align-items: center;
   padding: 0 0 27px 0;
@@ -291,7 +291,7 @@ export function HeadNameFiled() {
       <BlurFinishInput
         disabled={!allowUpdate.includes("name")}
         valueCheck={{
-          rule: (val) => val.trim() !== "",
+          rule: (val) => val.split(" ").filter(v => v).length >= 2,
           message: trans("profile.nameCheck"),
         }}
         inputStyle={{

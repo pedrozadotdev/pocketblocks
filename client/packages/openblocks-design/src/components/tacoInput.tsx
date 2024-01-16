@@ -325,6 +325,8 @@ function PhoneNumberInput(props: {
 }
 
 const FormInput = (props: {
+  initialValue?: any;
+  resetEmptyToInitialValue?: boolean
   mustFill?: boolean;
   label: string;
   placeholder?: string;
@@ -341,6 +343,7 @@ const FormInput = (props: {
   const { mustFill, checkRule, label, placeholder, onChange, formName, className, inputRef } =
     props;
   const [valueValid, setValueValid] = useState(true);
+  const [valueIn, setValueIn] = useState(props.initialValue)
   return (
     <FormInputFiled className={className}>
       <InputLabel
@@ -349,6 +352,7 @@ const FormInput = (props: {
         errorMsg={valueValid ? "" : checkRule?.errorMsg}
       />
       <TacoInput
+        value={props.resetEmptyToInitialValue ? valueIn || props.initialValue : valueIn}
         ref={inputRef}
         name={formName}
         placeholder={placeholder}
@@ -358,6 +362,7 @@ const FormInput = (props: {
             valid = checkRule.check(e.target.value);
             setValueValid(valid);
           }
+          setValueIn(e.target.value)
           onChange && onChange(e.target.value, valid);
         }}
       />

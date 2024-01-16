@@ -37,7 +37,7 @@ export default function UserAuth() {
   if (!systemConfig) {
     return <ProductLoading hideHeader />;
   }
-  const { customProps: { setupAdmin } } = systemConfig.form.rawConfig
+  const { customProps: { setupAdmin,  } } = systemConfig.form.rawConfig
   return (
     <WrapperContainer headerColor={systemConfig.branding?.headerColor}>
       <AuthContext.Provider
@@ -49,7 +49,11 @@ export default function UserAuth() {
       >
         <Switch location={location}>
           <Redirect exact from={USER_AUTH_URL} to={setupAdmin ? AUTH_REGISTER_URL : AUTH_LOGIN_URL} />
-          <Route key={AUTH_REGISTER_URL} exact path={AUTH_REGISTER_URL} component={UserRegister} />
+          {(systemConfig.form.enableRegister || setupAdmin) &&
+            (
+              <Route key={AUTH_REGISTER_URL} exact path={AUTH_REGISTER_URL} component={UserRegister} />
+            )
+          }
           {AuthRoutes.map((route) => setupAdmin ? (
             <Redirect key={route.path} exact from={route.path} to={AUTH_REGISTER_URL} />
           ) : (

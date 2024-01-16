@@ -63,10 +63,19 @@ export const COLOR_PALETTE = [
 export const PHONE_NUMBER_PATTERN = /^1\d{10}$/;
 export const EMAIL_PATTERN = /^[\w-+.]+@([\w-]+\.)+[\w-]{2,}$/;
 export const URL_PATTERN = /^(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)$/; // prettier-ignore
+export const HEXCOLOR_PATTERN =/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 
 export const checkOtpValid = (value: string): boolean => {
   return /^\d{6}$/.test(value);
 };
+
+export const checkUrlValid = (value: string): boolean => {
+  return URL_PATTERN.test(value)
+}
+
+export const checkHexColor = (value: string): boolean => {
+  return HEXCOLOR_PATTERN.test(value)
+}
 
 export const checkPhoneValid = (value: string): boolean => {
   return PHONE_NUMBER_PATTERN.test(value);

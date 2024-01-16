@@ -1,5 +1,6 @@
 import { ThemeHome } from "./theme";
 import { AdvancedSetting } from "./advanced/AdvancedSetting";
+import { BrandingSettings } from "./branding/BrandingSetting";
 import { trans } from "i18n";
 import { TwoColumnSettingPageContent } from "./styled";
 import SubSideBar from "components/layout/SubSideBar";
@@ -29,6 +30,10 @@ export function SettingHome() {
       key: SettingPageEnum.Advanced,
       label: trans("settings.advanced"),
     },
+    {
+      key: SettingPageEnum.Branding,
+      label: trans("settings.branding"),
+    },
   ];
 
   return (
@@ -45,6 +50,7 @@ export function SettingHome() {
       </SubSideBar>
       {selectKey === SettingPageEnum.Theme && <ThemeHome />}
       {selectKey === SettingPageEnum.Advanced && <AdvancedSetting />}
+      {selectKey === SettingPageEnum.Branding && <BrandingSettings />}
     </TwoColumnSettingPageContent>
   );
 }

@@ -182,7 +182,6 @@ NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
         selectedKey = firstItem[0];
       }
     }
-    console.log(selectedKey)
     setSelectedKey(selectedKey);
   }, [appPageId]);
 

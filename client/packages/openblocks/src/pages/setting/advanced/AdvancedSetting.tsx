@@ -72,7 +72,7 @@ export function AdvancedSetting() {
   const [settings, setSettings] = useState(commonSettings);
   const appList = useSelector(normalAppListSelector);
   const [canLeave, setCanLeave] = useState(false);
-  const appListOptions = appList.filter(app => app.applicationType === AppTypeEnum.Application).map((app) => ({
+  const appListOptions = appList.filter(app => app.applicationType !== AppTypeEnum.Module).map((app) => ({
     value: app.applicationId,
     label: app.name,
   }));
