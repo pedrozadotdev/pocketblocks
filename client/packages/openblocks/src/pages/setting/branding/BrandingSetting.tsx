@@ -21,17 +21,21 @@ import _ from "lodash";
 
 import { ReactComponent as BrowserSVG } from "./Browser.svg";
 import { getUser } from "redux/selectors/usersSelectors";
+import { useDispatch } from "react-redux";
+import { setCustomConfigAction } from "@openblocks-ee/redux/reduxActions/configActions";
 
 const AdvancedSettingContent = styled.div`
   .section-title {
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 8px;
+    min-width: 288px;
   }
 `;
 
 const BrowserContainer = styled.div<{ headerColor?: string }>`
   position: relative;
+  padding-right: 30px;
 
   .branding-name-tab {
     position: absolute;
@@ -77,7 +81,7 @@ const BrowserContainer = styled.div<{ headerColor?: string }>`
     width: 29.5px;
     height: 29.5px;
     top: 62px;
-    right: 29px;
+    right: 59px;
     border-radius: 50%;
   }
 
@@ -95,6 +99,7 @@ const SaveButton = styled(TacoButton)`
 let locationInfo: Location | Location<unknown> | null = null;
 
 export function BrandingSettings() {
+  const dispatch = useDispatch();
   const brandingConfig = useShallowEqualSelector(getBrandingConfig);
   const currentUser = useSelector(getUser);
   const [branding, setBranding] = useState(brandingConfig);
@@ -106,9 +111,17 @@ export function BrandingSettings() {
     }
   }, [canLeave]);
 
-  const handleSave = () => {
-    message.success(trans("advanced.saveSuccess"));
-  };
+  const handleSave = () =>
+    dispatch(
+      setCustomConfigAction({
+        data: {
+          branding,
+        },
+        onSuccess: () => {
+          message.success(trans("advanced.saveSuccess"));
+        },
+      })
+    );
 
   const isNotChange =
     JSON.stringify(brandingConfig) === JSON.stringify(branding);
@@ -140,7 +153,7 @@ export function BrandingSettings() {
       <Level1SettingPageTitle>{trans("branding.title")}</Level1SettingPageTitle>
       <AdvancedSettingContent>
         <div style={{ display: "flex", flexDirection: "row" }}>
-          <div style={{ width: 288, marginRight: "5%" }}>
+          <div style={{ width: 288, marginRight: 30 }}>
             <div className="section-title" style={{ marginBottom: -13 }}>
               {trans("branding.brandNameTitle")}
             </div>
@@ -285,7 +298,6 @@ export function BrandingSettings() {
                 </div>
               </HeadNameWrapper>
             </div>
-
             <SaveButton
               buttonType="primary"
               disabled={isNotChange}

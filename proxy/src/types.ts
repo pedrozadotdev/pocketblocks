@@ -186,7 +186,7 @@ export type API = {
   settings: {
     get: () => APIResponse<Settings>;
     getUsersInfo: () => APIResponse<UsersInfo>;
-    update: (params: Partial<Settings>) => APIResponse;
+    update: (params: Partial<Settings>) => APIResponse<Settings>;
     deleteAdminFromTutorial: (id: string) => APIResponse;
   };
   snapshots: {

@@ -1,3 +1,4 @@
+import { BrandingConfig, PblAuthConfig } from "@openblocks-ee/constants/configConstants";
 import { ReduxActionTypes } from "constants/reduxActionConstants";
 import { ExternalEditorContextState } from "util/context/ExternalEditorContext";
 
@@ -13,3 +14,18 @@ export const setEditorExternalStateAction = (state: Partial<ExternalEditorContex
     payload: state,
   };
 };
+
+export interface CustomConfigPayload {
+  data: {
+    branding?: BrandingConfig
+    auths?: PblAuthConfig
+  }
+  onSuccess?: () => void
+}
+
+export const setCustomConfigAction = (state: CustomConfigPayload) => {
+  return {
+    type: ReduxActionTypes.SET_CUSTOM_SETTING,
+    payload: state
+  }
+}

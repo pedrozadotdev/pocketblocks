@@ -13,10 +13,10 @@ export async function get(): APIResponse<Settings> {
   }
 }
 
-export async function update(params: Partial<Settings>) {
+export async function update(params: Partial<Settings>): APIResponse<Settings> {
   try {
-    await pbl.settings.update(params);
-    return { status: 200 };
+    const settings = await pbl.settings.update(params);
+    return { status: 200, data: settings };
   } catch (e) {
     return createDefaultErrorResponse(e);
   }

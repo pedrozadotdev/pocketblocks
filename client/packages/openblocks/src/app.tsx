@@ -55,7 +55,7 @@ const LazyDebugNewComp = React.lazy(() => import("./debugNew"));
 const Wrapper = (props: { children: React.ReactNode, headerColor?: string }) => {
   return (
     <RootWrapper headerColor={props.headerColor}>
-      <ConfigProvider locale={getAntdLocale(language)}>{props.children}</ConfigProvider>;
+      <ConfigProvider locale={getAntdLocale(language)}>{props.children}</ConfigProvider>
     </RootWrapper>
   )
 };
