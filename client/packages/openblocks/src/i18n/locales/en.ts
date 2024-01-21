@@ -1916,7 +1916,7 @@ export const en = {
     passwordCheckContainsNumberAndLetter: "Must contain letters and numbers",
     passwordCheckSpace: "Cannot contain whitespace characters",
     // eslint-disable-next-line only-ascii/only-ascii
-    welcomeTitle: "🎉 Welcome to {productName} 🎉",
+    welcomeTitle: "Welcome to {productName}",
     inviteWelcomeTitle: "{username} invite you to login {productName}",
     terms: "Terms",
     privacy: "Privacy Policy",

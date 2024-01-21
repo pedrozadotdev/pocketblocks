@@ -172,7 +172,7 @@ The following example conducts event tests in the **Event Test** section.&#x20;
 
 ## Permissions
 
-End users are automatically granted permissions to view modules in apps or other modules they have viewing permissions with.If you are an editor and wish to use a module in external apps, you should at least have the viewer's role of that module. For more information, see [permissions-for-resources.md](../workspace-management/permissions-for-resources.md "mention").
+End users are not automatically granted permissions to view modules in apps or other modules they have viewing permissions with, because of that, you have to grant permission on modules as you do with apps. For more information, see [permissions-for-resources.md](../workspace-management/permissions-for-resources.md "mention").
 
 ## Releases and versions
 

@@ -1,10 +1,10 @@
 ---
-description: a quick look at the app editor before you start
+description: A quick look at the app editor before you start
 ---
 
 # App editor
 
-In PocketBlocks, the app editor is where you assemble components, create javascript functions to interact with pocketbase data, and publish your apps. It consists of five areas:
+In PocketBlocks, the app editor is where you assemble components, create javascript functions to interact with PocketBase data, and publish your apps. It consists of five areas:
 
 1. Toolbar
 2. Canvas
@@ -43,7 +43,7 @@ The canvas at the center of the editor is where you design and see the overall U
 
 <figure><img src="../.gitbook/assets/build-apps/app-editor/03.gif" alt=""><figcaption></figcaption></figure>
 
-Check out Design app UI for UI layout practices.
+Check out [Design app UI](./design-app-ui) for UI layout practices.
 
 ## Data browser
 
@@ -57,7 +57,7 @@ The query editor lay at the bottom consists of two sections: query list (with **
 
 <figure><img src="../.gitbook/assets/build-apps/app-editor/06.png" alt=""><figcaption></figcaption></figure>
 
-You can access the Pocketbase sdk through the **window.sdk** object.
+You can access the Pocketbase sdk through the **window.pb** object.
 
 ## Component and property pane
 

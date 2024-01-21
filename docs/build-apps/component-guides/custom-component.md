@@ -130,14 +130,14 @@ For instance, given table `users` which displays information of all users, you w
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/custom-component/06.png" alt=""><figcaption></figcaption></figure>
 
-According to the requirement, the **Custom component** contains an **Input** component and a **Button** component. You can also add a **Text** component to provide context to the users of your app. When a user inputs into the text box, for example "gov", and then clicks the search button, the table only presents the entries in which the "email" field contains "gov".
+According to the requirement, the **Custom component** contains an **Input** component and a **Button** component. You can also add a **Text** component to provide context to the users of your app. When a user inputs into the text box, for example "Lor", and then clicks the search button, the table only presents the entries in which the "Name" field contains "Lor".
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/custom-component/07.png" alt=""><figcaption></figcaption></figure>
 
 To implement such a **Custom component**, first you create query `filterUser` to access data from the custom component and set it to run by manual invoke.
 
-```SQL
-select * from users where email like '%{{custom1.model.search}}%';
+```javascript
+return users.value.filter(u => u.name.includes(custom1.model.search || ""));
 ```
 
 Then, you import the "antd" library and use the components **Button**, **Input**, **Card**, and **Space**. Finally, one more setting for each component inside the **Custom component**:
@@ -173,7 +173,7 @@ Then, you import the "antd" library and use the components **Button**, **Input**
         />
           <Button
             type="primary"
-            onClick={() => runQuery(filterUser)}
+            onClick={() => runQuery("filterUser")}
          >
             Search
           </Button>
