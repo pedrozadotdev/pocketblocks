@@ -1,10 +1,7 @@
 package core
 
 import (
-	"bytes"
-	"io"
-	"mime"
-	"net/http"
+	"context"
 	"os"
 	"slices"
 	"time"
@@ -319,29 +316,14 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 			}
 
 			if e.OAuth2User.AvatarUrl != "" {
-				response, err := http.Get(e.OAuth2User.AvatarUrl)
+				ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+				defer cancel()
+				file, err := filesystem.NewFileFromUrl(ctx, e.OAuth2User.AvatarUrl)
 				if err != nil {
 					return err
 				}
-				defer response.Body.Close()
 
-				buffer := new(bytes.Buffer)
-				_, err = io.Copy(buffer, response.Body)
-				if err != nil {
-					return err
-				}
-				extensions, err := mime.ExtensionsByType(response.Header.Get("Content-type"))
-				if err != nil {
-					return err
-				}
-				if len(extensions) > 0 {
-					ext := extensions[len(extensions)-1]
-					file, err := filesystem.NewFileFromBytes(buffer.Bytes(), "avatar"+ext)
-					if err != nil {
-						return err
-					}
-					form.AddFiles("avatar", file)
-				}
+				form.AddFiles("avatar", file)
 			}
 			if err := form.Submit(); err != nil {
 				return err
