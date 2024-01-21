@@ -18,8 +18,8 @@ PocketBlocks provides some JavaScript built-in libraries for use.
 
 PocketBlocks supports setting up preloaded JavaScript and libraries which can be at **app-level** or **workspace-level**.
 
-- **App-level** libraries \*\*\*\* get loaded only in the app where defined. Plus, app A cannot use libraries that are set up for app B.
-- **Workspace-level** libraries \*\*\*\* will be loaded when you open any application in your workspace. All the apps can access those libraries. There can be a certain impact on app performance, especially when you have complex JavaScript functions that aren't being used in every app.
+- **App-level** libraries get loaded only in the app where defined. Plus, app A cannot use libraries that are set up for app B.
+- **Workspace-level** libraries will be loaded when you open any application in your workspace. All the apps can access those libraries. There can be a certain impact on app performance, especially when you have complex JavaScript functions that aren't being used in every app.
 
 {% hint style="info" %}
 **Tips you should know before setting up libraries:**
@@ -30,31 +30,31 @@ PocketBlocks supports setting up preloaded JavaScript and libraries which can be
 - The export of the library must be set directly on the window object, global variables like `var xxx = xxx` do not take effect.
 - The external libraries run in a restricted sandbox environment and the following global variables are not available:
 
-      <mark style="background-color:yellow;">`parent`</mark>
+  <mark style="background-color:yellow;">`parent`</mark>
 
-      <mark style="background-color:yellow;">`document`</mark>
+  <mark style="background-color:yellow;">`document`</mark>
 
-      <mark style="background-color:yellow;">`location`</mark>
+  <mark style="background-color:yellow;">`location`</mark>
 
-      <mark style="background-color:yellow;">`chrome`</mark>
+  <mark style="background-color:yellow;">`chrome`</mark>
 
-      <mark style="background-color:yellow;">`setTimeout`</mark>
+  <mark style="background-color:yellow;">`setTimeout`</mark>
 
-      <mark style="background-color:yellow;">`fetch`</mark>
+  <mark style="background-color:yellow;">`fetch`</mark>
 
-      <mark style="background-color:yellow;">`setInterval`</mark>
+  <mark style="background-color:yellow;">`setInterval`</mark>
 
-      <mark style="background-color:yellow;">`clearInterval`</mark>
+  <mark style="background-color:yellow;">`clearInterval`</mark>
 
-      <mark style="background-color:yellow;">`setImmediate`</mark>
+  <mark style="background-color:yellow;">`setImmediate`</mark>
 
-      <mark style="background-color:yellow;">`XMLHttpRequest`</mark>
+  <mark style="background-color:yellow;">`XMLHttpRequest`</mark>
 
-      <mark style="background-color:yellow;">`importScripts`</mark>
+  <mark style="background-color:yellow;">`importScripts`</mark>
 
-      <mark style="background-color:yellow;">`Navigator`</mark>
+  <mark style="background-color:yellow;">`Navigator`</mark>
 
-      <mark style="background-color:yellow;">`MutationObserver`</mark>
+  <mark style="background-color:yellow;">`MutationObserver`</mark>
 
   {% endhint %}
 

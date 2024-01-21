@@ -21,6 +21,43 @@ export interface BrandingConfig {
   headerColor?: string;
 }
 
+export interface LocalAuth {
+  label: string;
+  inputMask: string;
+};
+
+export interface OauthAuth {
+  name: string;
+  customName: string;
+  customIconUrl: string;
+};
+
+export interface PblAuthConfig {
+  local: LocalAuth;
+  google: OauthAuth;
+  facebook: OauthAuth;
+  github: OauthAuth;
+  discord: OauthAuth;
+  twitter: OauthAuth;
+  microsoft: OauthAuth;
+  spotify: OauthAuth;
+  kakao: OauthAuth;
+  twitch: OauthAuth;
+  strava: OauthAuth;
+  gitte: OauthAuth;
+  livechat: OauthAuth;
+  gitea: OauthAuth;
+  oidc: OauthAuth;
+  oidc2: OauthAuth;
+  oidc3: OauthAuth;
+  apple: OauthAuth;
+  instagram: OauthAuth;
+  vk: OauthAuth;
+  yandex: OauthAuth;
+  patreon: OauthAuth;
+  mailcow: OauthAuth;
+};
+
 export type ConfigBaseInfo = {
   selfDomain: boolean;
   cloudHosting: boolean;

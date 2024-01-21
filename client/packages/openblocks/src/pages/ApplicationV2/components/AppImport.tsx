@@ -29,7 +29,6 @@ export const exportApplicationAsJSONFile = (applicationId: string) => {
           applicationInfo: {
             name: applicationName,
             createAt: respseData.applicationInfoView.createAt,
-            createBy: respseData.applicationInfoView.createBy,
             applicationId: respseData.applicationInfoView.applicationId,
             applicationType: respseData.applicationInfoView.applicationType,
           },

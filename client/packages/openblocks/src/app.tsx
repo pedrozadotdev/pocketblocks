@@ -44,6 +44,7 @@ import { isFetchUserFinished } from "redux/selectors/usersSelectors";
 import { SystemWarning } from "./components/SystemWarning";
 import { getBrandingConfig, getSystemConfigFetching } from "./redux/selectors/configSelectors";
 import { buildMaterialPreviewURL } from "./util/materialUtils";
+import RootWrapper from "components/RootWrapper";
 
 const LazyUserAuthComp = React.lazy(() => import("pages/userAuth"));
 const LazyComponentDoc = React.lazy(() => import("pages/ComponentDoc"));
@@ -51,8 +52,12 @@ const LazyComponentPlayground = React.lazy(() => import("pages/ComponentPlaygrou
 const LazyDebugComp = React.lazy(() => import("./debug"));
 const LazyDebugNewComp = React.lazy(() => import("./debugNew"));
 
-const Wrapper = (props: { children: React.ReactNode }) => {
-  return <ConfigProvider locale={getAntdLocale(language)}>{props.children}</ConfigProvider>;
+const Wrapper = (props: { children: React.ReactNode, headerColor?: string }) => {
+  return (
+    <RootWrapper headerColor={props.headerColor}>
+      <ConfigProvider locale={getAntdLocale(language)}>{props.children}</ConfigProvider>
+    </RootWrapper>
+  )
 };
 
 type AppIndexProps = {
@@ -66,6 +71,7 @@ type AppIndexProps = {
   fetchHome: () => void;
   favicon: string;
   brandName: string;
+  headerColor?: string;
 };
 
 class AppIndex extends React.Component<AppIndexProps, any> {
@@ -96,7 +102,7 @@ class AppIndex extends React.Component<AppIndexProps, any> {
       return <ProductLoading hideHeader={hideLoadingHeader} />;
     }
     return (
-      <Wrapper>
+      <Wrapper headerColor={this.props.orgDev ? undefined : this.props.headerColor}>
         <Helmet>
           {<title>{this.props.brandName}</title>}
           {<link rel="icon" href={this.props.favicon} />}
@@ -167,7 +173,8 @@ const mapStateToProps = (state: AppState) => ({
   favicon: getBrandingConfig(state)?.favicon
     ? buildMaterialPreviewURL(getBrandingConfig(state)?.favicon!)
     : favicon,
-  brandName: getBrandingConfig(state)?.brandName ?? trans("productName")
+  brandName: getBrandingConfig(state)?.brandName ?? trans("productName"),
+  headerColor: getBrandingConfig(state)?.headerColor
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

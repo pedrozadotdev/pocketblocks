@@ -151,6 +151,7 @@ const InputLabel = (props: { mustFill?: boolean; label?: string; errorMsg?: stri
 };
 
 function BlurFinishInput(props: {
+  disabled?: boolean;
   defaultValue?: string;
   // onFinish triggers when onBlur triggers and value is valid
   onFinish: (value: string) => void;
@@ -181,6 +182,7 @@ function BlurFinishInput(props: {
         <CommonErrorLabel>{!valueValid && valueCheck?.message}</CommonErrorLabel>
       </BlurInputLabel>
       <TacoInput
+        disabled={props.disabled}
         style={inputStyle}
         placeholder={placeholder}
         defaultValue={defaultValue}
@@ -323,6 +325,8 @@ function PhoneNumberInput(props: {
 }
 
 const FormInput = (props: {
+  initialValue?: any;
+  resetEmptyToValue?: string
   mustFill?: boolean;
   label: string;
   placeholder?: string;
@@ -339,6 +343,7 @@ const FormInput = (props: {
   const { mustFill, checkRule, label, placeholder, onChange, formName, className, inputRef } =
     props;
   const [valueValid, setValueValid] = useState(true);
+  const [valueIn, setValueIn] = useState(props.initialValue)
   return (
     <FormInputFiled className={className}>
       <InputLabel
@@ -347,6 +352,7 @@ const FormInput = (props: {
         errorMsg={valueValid ? "" : checkRule?.errorMsg}
       />
       <TacoInput
+        value={valueIn === "" ? props.resetEmptyToValue || valueIn : valueIn}
         ref={inputRef}
         name={formName}
         placeholder={placeholder}
@@ -356,6 +362,7 @@ const FormInput = (props: {
             valid = checkRule.check(e.target.value);
             setValueValid(valid);
           }
+          setValueIn(e.target.value)
           onChange && onChange(e.target.value, valid);
         }}
       />

@@ -17,7 +17,7 @@ const TagStyled = styled.span`
 const NewTagStyle = styled(TagStyled)`
   border: 1px solid #d6e4ff;
   background: #ffffff;
-  color: #4965f2;
+  color: var(--adm-color-primary-link);
 `;
 
 export default function FreeLimitTag(props: { text?: string }) {

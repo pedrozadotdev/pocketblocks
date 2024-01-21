@@ -2,7 +2,11 @@ import { Dropdown, message, Skeleton } from "antd";
 import LayoutHeader from "components/layout/Header";
 import { SHARE_TITLE } from "constants/apiConstants";
 import { AppTypeEnum } from "constants/applicationConstants";
-import { ALL_APPLICATIONS_URL, AUTH_LOGIN_URL, preview } from "constants/routesURL";
+import {
+  ALL_APPLICATIONS_URL,
+  AUTH_LOGIN_URL,
+  preview,
+} from "constants/routesURL";
 import { User } from "constants/userConstants";
 import {
   CommonTextLabel,
@@ -20,8 +24,14 @@ import { trans } from "i18n";
 import moment from "moment";
 import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { publishApplication, updateAppMetaAction } from "redux/reduxActions/applicationActions";
-import { recoverSnapshotAction, setShowAppSnapshot } from "redux/reduxActions/appSnapshotActions";
+import {
+  publishApplication,
+  updateAppMetaAction,
+} from "redux/reduxActions/applicationActions";
+import {
+  recoverSnapshotAction,
+  setShowAppSnapshot,
+} from "redux/reduxActions/appSnapshotActions";
 import { currentApplication } from "redux/selectors/applicationSelector";
 import {
   getSelectedAppSnapshot,
@@ -112,7 +122,7 @@ const IconRadius = styled.div<{ disabled?: boolean }>`
 const PreviewBtn = styled(TacoButton)`
   padding: 4px 12px;
   height: 28px;
-  background: #4965f2;
+  background: var(--adm-color-primary-link);
   border-radius: 4px 0 0 4px;
 `;
 
@@ -128,8 +138,8 @@ const RecoverSnapshotBtn = styled(TacoButton)`
 
   :disabled,
   :disabled:hover {
-    background: #4965f2;
-    border: 1px solid #4965f2;
+    background: var(--adm-color-primary-link);
+    border: 1px solid var(--adm-color-primary-link);
     color: #ffffff;
     opacity: 0.35;
   }
@@ -250,7 +260,10 @@ function HeaderProfile(props: { user: User }) {
   return (
     <div>
       {user.isAnonymous ? (
-        <LoginBtn buttonType="primary" onClick={() => history.push(AUTH_LOGIN_URL)}>
+        <LoginBtn
+          buttonType="primary"
+          onClick={() => history.push(AUTH_LOGIN_URL)}
+        >
           {trans("userAuth.login")}
         </LoginBtn>
       ) : (
@@ -302,7 +315,12 @@ export default function Header(props: HeaderProps) {
                 message.warn(trans("header.nameCheckMessage"));
                 return;
               }
-              dispatch(updateAppMetaAction({ applicationId: applicationId, name: value }));
+              dispatch(
+                updateAppMetaAction({
+                  applicationId: applicationId,
+                  name: value,
+                })
+              );
               setEditName(false);
             }}
           />
@@ -315,7 +333,9 @@ export default function Header(props: HeaderProps) {
           }}
         />
       )}
-      {showAppSnapshot && <ViewOnlyLabel>{trans("header.viewOnly")}</ViewOnlyLabel>}
+      {showAppSnapshot && (
+        <ViewOnlyLabel>{trans("header.viewOnly")}</ViewOnlyLabel>
+      )}
     </>
   );
 
@@ -340,7 +360,9 @@ export default function Header(props: HeaderProps) {
               CustomModal.confirm({
                 title: trans("header.recoverAppSnapshotTitle"),
                 content: trans("header.recoverAppSnapshotContent", {
-                  time: moment(selectedSnapshot.createTime).format("YYYY-MM-DD HH:mm"),
+                  time: moment(selectedSnapshot.createTime).format(
+                    "YYYY-MM-DD HH:mm"
+                  ),
                 }),
                 onConfirm: () => {
                   dispatch(
@@ -372,11 +394,15 @@ export default function Header(props: HeaderProps) {
         <AppPermissionDialog
           applicationId={applicationId}
           visible={permissionDialogVisible}
-          onVisibleChange={(visible) => !visible && setPermissionDialogVisible(false)}
+          onVisibleChange={(visible) =>
+            !visible && setPermissionDialogVisible(false)
+          }
         />
       )}
       {canManageApp(user, application) && (
-        <GrayBtn onClick={() => setPermissionDialogVisible(true)}>{SHARE_TITLE}</GrayBtn>
+        <GrayBtn onClick={() => setPermissionDialogVisible(true)}>
+          {SHARE_TITLE}
+        </GrayBtn>
       )}
       <PreviewBtn buttonType="primary" onClick={() => preview(applicationId)}>
         {trans("header.preview")}
@@ -399,11 +425,15 @@ export default function Header(props: HeaderProps) {
             items={[
               {
                 key: "deploy",
-                label: <CommonTextLabel>{trans("header.deploy")}</CommonTextLabel>,
+                label: (
+                  <CommonTextLabel>{trans("header.deploy")}</CommonTextLabel>
+                ),
               },
               {
                 key: "snapshot",
-                label: <CommonTextLabel>{trans("header.snapshot")}</CommonTextLabel>,
+                label: (
+                  <CommonTextLabel>{trans("header.snapshot")}</CommonTextLabel>
+                ),
               },
             ]}
           />
@@ -419,7 +449,11 @@ export default function Header(props: HeaderProps) {
   );
 
   return (
-    <LayoutHeader headerStart={headerStart} headerMiddle={headerMiddle} headerEnd={headerEnd} />
+    <LayoutHeader
+      headerStart={headerStart}
+      headerMiddle={headerMiddle}
+      headerEnd={headerEnd}
+    />
   );
 }
 
@@ -437,7 +471,9 @@ export function AppHeader() {
     <LayoutHeader
       headerStart={headerStart}
       headerEnd={headerEnd}
-      style={user.orgDev ? {} : { backgroundColor: brandingConfig?.headerColor }}
+      style={
+        user.orgDev ? {} : { backgroundColor: brandingConfig?.headerColor }
+      }
     />
   );
 }

@@ -3,9 +3,17 @@ import {
   newCustomColumn,
   RawColumnType,
 } from "comps/comps/tableComp/column/tableColumnComp";
-import { hiddenPropertyView, loadingPropertyView } from "comps/utils/propertyUtils";
+import {
+  hiddenPropertyView,
+  loadingPropertyView,
+} from "comps/utils/propertyUtils";
 import { trans } from "i18n";
-import { changeValueAction, deferAction, MultiBaseComp, wrapChildAction } from "openblocks-core";
+import {
+  changeValueAction,
+  deferAction,
+  MultiBaseComp,
+  wrapChildAction,
+} from "openblocks-core";
 import {
   BluePlusIcon,
   CheckBox,
@@ -53,7 +61,7 @@ const StyledRefreshIcon = styled(RefreshIcon)`
 
   :hover {
     g g {
-      stroke: #4965f2;
+      stroke: var(--adm-color-primary-link);
     }
   }
 `;
@@ -200,7 +208,9 @@ function columnBatchCheckBox<T extends keyof ColumnCompType["children"]>(
     };
 
     if (childrenKey === "hide") {
-      return <HideIcon hide={allChecked} setHide={(hide) => onCheckChange(hide)} />;
+      return (
+        <HideIcon hide={allChecked} setHide={(hide) => onCheckChange(hide)} />
+      );
     }
 
     return (
@@ -228,7 +238,9 @@ const ColumnBatchView: Record<
   }),
   align: (column) => {
     const columns = Array.isArray(column) ? column : [column];
-    const value = Array.isArray(column) ? undefined : column.children.align.getView();
+    const value = Array.isArray(column)
+      ? undefined
+      : column.children.align.getView();
     return (
       <ColumnDropdown
         options={alignOptions}
@@ -236,7 +248,9 @@ const ColumnBatchView: Record<
         radioButton={true}
         onChange={(value) => {
           columns.forEach((c) =>
-            c.children.align.dispatch(deferAction(changeValueAction(value, true)))
+            c.children.align.dispatch(
+              deferAction(changeValueAction(value, true))
+            )
           );
         }}
       />
@@ -250,20 +264,27 @@ function ColumnPropertyView<T extends MultiBaseComp<TableChildrenType>>(props: {
 }) {
   const { comp } = props;
   const selection = getSelectedRowKeys(comp.children.selection)[0] ?? "0";
-  const [columnFilterType, setColumnFilterType] = useState<ColumnFilterOptionValueType>("all");
+  const [columnFilterType, setColumnFilterType] =
+    useState<ColumnFilterOptionValueType>("all");
   const columns = comp.children.columns.getView();
   const rowExample = comp.children.dataRowExample.getView();
   const dynamicColumn = comp.children.dynamicColumn.getView();
   const data = comp.children.data.getView();
-  const [columnBatchType, setColumnBatchType] = useState<ColumnBatchOptionValueType>("hide");
+  const [columnBatchType, setColumnBatchType] =
+    useState<ColumnBatchOptionValueType>("hide");
   const columnOptionItems = useMemo(
-    () => columns.filter((c) => columnFilterType === "all" || !c.children.hide.getView()),
+    () =>
+      columns.filter(
+        (c) => columnFilterType === "all" || !c.children.hide.getView()
+      ),
     [columnFilterType, columns]
   );
 
   const columnOptionToolbar = (
     <InsertDiv>
-      <div style={{ display: "flex", alignItems: "center", marginRight: "auto" }}>
+      <div
+        style={{ display: "flex", alignItems: "center", marginRight: "auto" }}
+      >
         <TextLabel label={props.columnLabel} />
         <Graylabel>{"(" + columns.length + ")"}</Graylabel>
       </div>
@@ -292,7 +313,9 @@ function ColumnPropertyView<T extends MultiBaseComp<TableChildrenType>>(props: {
         icon={<BluePlusIcon />}
         text={trans("addItem")}
         onClick={() => {
-          comp.children.columns.dispatch(comp.children.columns.pushAction(newCustomColumn()));
+          comp.children.columns.dispatch(
+            comp.children.columns.pushAction(newCustomColumn())
+          );
         }}
       />
     </InsertDiv>
@@ -353,13 +376,17 @@ function ColumnPropertyView<T extends MultiBaseComp<TableChildrenType>>(props: {
         itemTitle={(column) => {
           const columnView = column.getView();
           if (columnView.hide) {
-            return <span style={{ color: GreyTextColor }}>{columnView.title}</span>;
+            return (
+              <span style={{ color: GreyTextColor }}>{columnView.title}</span>
+            );
           }
           return columnView.title;
         }}
         popoverTitle={(column) => {
           const columnView = column.getView();
-          return columnView.isCustom ? trans("table.customColumn") : columnView.dataIndex;
+          return columnView.isCustom
+            ? trans("table.customColumn")
+            : columnView.dataIndex;
         }}
         content={(column, index) => (
           <>
@@ -369,9 +396,13 @@ function ColumnPropertyView<T extends MultiBaseComp<TableChildrenType>>(props: {
                 onClick={() => {
                   CustomModal.confirm({
                     title: trans("table.deleteColumn"),
-                    content: trans("table.confirmDeleteColumn") + `${column.getView().title}?`,
+                    content:
+                      trans("table.confirmDeleteColumn") +
+                      `${column.getView().title}?`,
                     onConfirm: () =>
-                      comp.children.columns.dispatch(comp.children.columns.deleteAction(index)),
+                      comp.children.columns.dispatch(
+                        comp.children.columns.deleteAction(index)
+                      ),
                     confirmBtnType: "delete",
                     okText: trans("delete"),
                   });
@@ -383,10 +414,15 @@ function ColumnPropertyView<T extends MultiBaseComp<TableChildrenType>>(props: {
           </>
         )}
         onAdd={() => {
-          comp.children.columns.dispatch(comp.children.columns.pushAction(newCustomColumn()));
+          comp.children.columns.dispatch(
+            comp.children.columns.pushAction(newCustomColumn())
+          );
         }}
         onMove={(fromIndex, toIndex) => {
-          const action = comp.children.columns.arrayMoveAction(fromIndex, toIndex);
+          const action = comp.children.columns.arrayMoveAction(
+            fromIndex,
+            toIndex
+          );
           comp.children.columns.dispatch(action);
         }}
         dataIndex={(column) => column.getView().dataIndex}
@@ -395,7 +431,9 @@ function ColumnPropertyView<T extends MultiBaseComp<TableChildrenType>>(props: {
   );
 }
 
-function columnPropertyView<T extends MultiBaseComp<TableChildrenType>>(comp: T) {
+function columnPropertyView<T extends MultiBaseComp<TableChildrenType>>(
+  comp: T
+) {
   const columnLabel = trans("table.columnNum");
   const dynamicColumn = comp.children.dynamicColumn.getView();
   return [
@@ -403,7 +441,9 @@ function columnPropertyView<T extends MultiBaseComp<TableChildrenType>>(comp: T)
       { filterText: columnLabel },
       <ColumnPropertyView comp={comp} columnLabel={columnLabel} />
     ),
-    comp.children.dynamicColumn.propertyView({ label: trans("table.dynamicColumn") }),
+    comp.children.dynamicColumn.propertyView({
+      label: trans("table.dynamicColumn"),
+    }),
     dynamicColumn &&
       comp.children.dynamicColumnConfig.propertyView({
         label: trans("table.dynamicColumnConfig"),
@@ -412,7 +452,9 @@ function columnPropertyView<T extends MultiBaseComp<TableChildrenType>>(comp: T)
   ];
 }
 
-export function compTablePropertyView<T extends MultiBaseComp<TableChildrenType>>(comp: T) {
+export function compTablePropertyView<
+  T extends MultiBaseComp<TableChildrenType>
+>(comp: T) {
   const dataLabel = trans("data");
   return (
     <>
@@ -434,7 +476,9 @@ export function compTablePropertyView<T extends MultiBaseComp<TableChildrenType>
       <Section name={trans("prop.rowSelection")}>
         {comp.children.selection.getPropertyView()}
       </Section>
-      <Section name={trans("prop.toolbar")}>{comp.children.toolbar.getPropertyView()}</Section>
+      <Section name={trans("prop.toolbar")}>
+        {comp.children.toolbar.getPropertyView()}
+      </Section>
       <Section name={trans("prop.pagination")}>
         {comp.children.pagination.getPropertyView()}
       </Section>

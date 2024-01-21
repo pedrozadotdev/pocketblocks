@@ -158,7 +158,7 @@ function OrgUsersPermission(props: UsersPermissionProp) {
           ellipsis
           render={(value, record: OrgUser) => (
             <UserTableCellWrapper>
-              <ProfileImage source={record.avatarUrl} userName={record.name} side={34} />
+              <ProfileImage source={record.avatarUrl} userName={record.name} size={34} />
               <span title={record.name}>{record.name}</span>
               {record.role === ADMIN_ROLE && <SuperUserIcon />}
             </UserTableCellWrapper>

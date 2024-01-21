@@ -75,7 +75,6 @@ const TimeLabel = styled.span`
 export interface SnapshotItemProps {
   title: string;
   timeInfo: string;
-  userName: string;
   onClick: () => void;
   selected?: boolean;
 }
@@ -87,7 +86,6 @@ const SnapshotItem = (props: SnapshotItemProps) => (
       <span title={props.title}>{props.title}</span>
     </ItemTitle>
     <ItemNameTime>
-      <NameLabel>{props.userName}</NameLabel>
       <TimeLabel>{props.timeInfo}</TimeLabel>
     </ItemNameTime>
   </SnapshotItemDiv>

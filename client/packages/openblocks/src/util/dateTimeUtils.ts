@@ -15,10 +15,11 @@ export type PickerMode = "date" | "week" | "month" | "quarter" | "year";
 /**
  * timestamp to date string
  * @param timestamp timestamp milliseconds
+ * @param timeFormat default value is "YYYY-MM-DD HH:mm"
  * @returns string YYYY-MM-DD HH:mm
  */
-export function formatTimestamp(timestamp: number): string {
-  return moment.unix(timestamp / 1000).format("YYYY-MM-DD HH:mm");
+export function formatTimestamp(timestamp: number, timeFormat: string = "YYYY-MM-DD HH:mm"): string {
+  return moment.unix(timestamp / 1000).format(timeFormat);
 }
 
 /**
@@ -28,22 +29,23 @@ export function formatTimestamp(timestamp: number): string {
  *
  * @param timestamp timestamp milliseconds
  * @param intervalMillis default value is an hour
+ * @param timeFormat default value is "YYYY-MM-DD HH:mm"
  * @returns readable string
  */
 export function timestampToHumanReadable(
   timestamp?: number,
-  intervalMillis: number = 3600000
+  intervalMillis: number = 3600000,
+  timeFormat: string = "YYYY-MM-DD HH:mm"
 ): string {
   if (!timestamp) {
     return "";
   }
   const now = Date.now();
-  const TIME_FORMAT = "YYYY-MM-DD HH:mm";
   let timeInfo;
   if (now - new Date(timestamp).getTime() <= intervalMillis) {
     timeInfo = moment(timestamp).fromNow();
   } else {
-    timeInfo = moment(timestamp).format(TIME_FORMAT);
+    timeInfo = moment(timestamp).format(timeFormat);
   }
   return timeInfo;
 }

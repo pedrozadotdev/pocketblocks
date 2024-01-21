@@ -34,7 +34,6 @@ export interface ApplicationMeta {
   applicationType: AppTypeEnum;
   applicationId: string;
   containerSize?: { height: number; width: number };
-  createBy: string;
   createAt: number;
   orgId: string;
   role: ApplicationRoleType;
@@ -51,7 +50,6 @@ export interface FolderMeta {
   parentFolderId?: string;
   orgId: string;
   name: string;
-  createBy: string;
   createAt: number;
   manageable: boolean;
   lastViewTime: number;
@@ -104,9 +102,6 @@ export type AppSnapshotContext = {
 export type AppSnapshot = {
   snapshotId: string;
   context: AppSnapshotContext;
-  userId: string;
-  userName: string;
-  userAvatar: string;
   createTime: number;
 };
 

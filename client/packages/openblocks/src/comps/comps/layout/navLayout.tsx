@@ -13,9 +13,6 @@ import { EditorContainer, EmptyContent } from "pages/common/styledComponent";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { isUserViewMode, useAppPathParam, useAppPageId } from "util/hooks";
-import RootWrapper from "components/RootWrapper"
-import { useSelector } from "react-redux";
-import { getBrandingConfig } from "redux/selectors/configSelectors";
 import { AppViewInstance, OpenblocksAppView } from "index.sdk";
 
 const StyledSide = styled(Layout.Sider)`
@@ -185,11 +182,8 @@ NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
         selectedKey = firstItem[0];
       }
     }
-    console.log(selectedKey)
     setSelectedKey(selectedKey);
   }, [appPageId]);
-
-  const brandingConfig = useSelector(getBrandingConfig);
 
   let pageView = <EmptyContent text="" style={{ height: "100%" }} />;
   const selectedItem = itemKeyRecord[selectedKey];
@@ -202,31 +196,29 @@ NavTmpLayout = withViewFn(NavTmpLayout, (comp) => {
   }
 
   let content = (
-    <RootWrapper headerColor={brandingConfig?.headerColor}>
-      <Layout>
-        <StyledSide theme="light" width={240}>
-          <AntdMenu
-            items={menuItems}
-            mode="inline"
-            style={{ height: "100%" }}
-            defaultOpenKeys={defaultOpenKeys}
-            selectedKeys={[selectedKey]}
-            onClick={(e) => {
-              const itemComp = itemKeyRecord[e.key];
-              const url = window.location.pathname +
-                window.location.search +
-                (
-                  itemComp.getItemKey() ?
-                  updateHash(itemComp.getItemKey()) :
-                  ""
-                )
-              itemComp.children.action.act(url);
-            }}
-          />
-        </StyledSide>
-        <MainContent>{pageView}</MainContent>
-      </Layout>
-    </RootWrapper>
+    <Layout>
+      <StyledSide theme="light" width={240}>
+        <AntdMenu
+          items={menuItems}
+          mode="inline"
+          style={{ height: "100%" }}
+          defaultOpenKeys={defaultOpenKeys}
+          selectedKeys={[selectedKey]}
+          onClick={(e) => {
+            const itemComp = itemKeyRecord[e.key];
+            const url = window.location.pathname +
+              window.location.search +
+              (
+                itemComp.getItemKey() ?
+                updateHash(itemComp.getItemKey()) :
+                ""
+              )
+            itemComp.children.action.act(url);
+          }}
+        />
+      </StyledSide>
+      <MainContent>{pageView}</MainContent>
+    </Layout>
   );
   return isViewMode ? (
     content

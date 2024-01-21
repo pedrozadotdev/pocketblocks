@@ -1,6 +1,5 @@
 import { ClientResponseError } from "pocketbase";
-import { Auth, FullUser } from "@/types";
-import { APIResponse, PBAuth } from "./types";
+import { APIResponse, User } from "@/types";
 import * as users from "./users";
 import { createDefaultErrorResponse, pb } from "./utils";
 import { t } from "@/i18n";
@@ -31,17 +30,28 @@ export async function login(
   }
 }
 
-export async function signup(loginId: string, password: string): APIResponse {
-  const [email, username] = loginId.split("\n");
-  console.log;
+export async function signup(
+  loginId: string,
+  password: string,
+  setupFirstAdmin?: boolean,
+): APIResponse {
+  const [email, username, name] = loginId.split("\n");
   try {
-    await pb.collection("users").create({
-      email,
-      username,
-      password,
-      passwordConfirm: password,
-    });
-    await pb.collection("users").authWithPassword(email || username, password);
+    if (setupFirstAdmin) {
+      await pb.admins.create({ email, password, passwordConfirm: password });
+      await pb.admins.authWithPassword(email, password);
+    } else {
+      await pb.collection("users").create({
+        email,
+        username,
+        name,
+        password,
+        passwordConfirm: password,
+      });
+      await pb
+        .collection("users")
+        .authWithPassword(email || username, password);
+    }
     return { status: 200 };
   } catch (e) {
     const { status, response, message: rawMessage } = e as ClientResponseError;
@@ -73,21 +83,16 @@ export const isLoggedIn = async () => pb.authStore.isValid;
 
 export const isAdmin = async () => pb.authStore.isAdmin;
 
-export async function getCurrentUser(): APIResponse<FullUser> {
-  const userModel = pb.authStore.model;
-  if (userModel) {
-    const { data } = await users.get(userModel.id);
-    if (data) {
-      return {
-        status: 200,
-        data: {
-          ...data,
-          email: userModel.email,
-          username: userModel.username,
-          verified: userModel.verified,
-        },
-      };
-    }
+export async function getCurrentUser(): APIResponse<User> {
+  if (pb.authStore.model) {
+    const user = pb.authStore.model as User;
+    user.avatar = pb.authStore.isAdmin
+      ? "/_/images/avatars/avatar" + pb.authStore.model.avatar + ".svg"
+      : users.getAvatarURL(user);
+
+    user.name = user.name !== "NONAME" ? user.name : t("unknown");
+
+    return { status: 200, data: user };
   }
   return { status: 401 };
 }
@@ -123,31 +128,6 @@ export async function changePassword(
     if (status === 400) {
       return { status: 403, message: t("authInvalidPassword") };
     }
-    return createDefaultErrorResponse(e);
-  }
-}
-
-export async function getAuthMethods(): APIResponse<Auth[]> {
-  try {
-    const rawAuthMethods = await pb
-      .collection("pbl_auth")
-      .getFullList<PBAuth>();
-    const authMethods = rawAuthMethods.map((m) => ({
-      ...m,
-      oauth_icon_url:
-        m.oauth_icon_url ||
-        (m.type !== "local" ? `/_/images/oauth2/${m.type}.svg` : undefined),
-      oauth_custom_name:
-        m.oauth_custom_name ||
-        (m.type !== "local"
-          ? m.type[0].toUpperCase() + m.type.slice(1)
-          : undefined),
-    }));
-    return {
-      status: 200,
-      data: authMethods,
-    };
-  } catch (e) {
     return createDefaultErrorResponse(e);
   }
 }

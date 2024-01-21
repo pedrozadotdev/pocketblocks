@@ -109,7 +109,7 @@ function GroupUsersPermission(props: GroupPermissionProp) {
           ellipsis
           render={(value, record: GroupUser) => (
             <UserTableCellWrapper>
-              <ProfileImage source={record.avatarUrl} userName={record.userName} side={34} />
+              <ProfileImage source={record.avatarUrl} userName={record.userName} size={34} />
               <span title={record.userName}>{record.userName}</span>
               {isGroupAdmin(record.role) && <SuperUserIcon />}
             </UserTableCellWrapper>

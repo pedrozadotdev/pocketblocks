@@ -1,4 +1,7 @@
-import { ApplicationPermissionType, ApplicationRoleType } from "constants/applicationConstants";
+import {
+  ApplicationPermissionType,
+  ApplicationRoleType,
+} from "constants/applicationConstants";
 import {
   CommonErrorLabel,
   CommonGrayLabel,
@@ -59,7 +62,7 @@ const CreatorTag = styled.div`
   border-radius: 8px;
 
   font-size: 12px;
-  color: #4965f2;
+  color: var(--adm-color-primary-link);
   line-height: 12px;
   width: fit-content;
   height: 16px;
@@ -97,18 +100,25 @@ function PermissionLiItem(props: {
   return (
     <PermissionLi key={permissionItem.permissionId}>
       <ProfileImage
-        side={32}
+        size={32}
         userName={permissionItem.name}
         source={permissionItem.avatar && permissionItem.avatar}
-        svg={SvgIcon && <SvgIcon color={getInitialsAndColorCode(permissionItem.name)[1]} />}
+        svg={
+          SvgIcon && (
+            <SvgIcon color={getInitialsAndColorCode(permissionItem.name)[1]} />
+          )
+        }
       />
       <PermissionItemName title={permissionItem.name}>
-        {permissionItem.type === "GROUP" && trans("home.groupWithSquareBrackets")}
+        {permissionItem.type === "GROUP" &&
+          trans("home.groupWithSquareBrackets")}
         {permissionItem.name}
       </PermissionItemName>
       {isCreator && <CreatorTag>{trans("home.creator")}</CreatorTag>}
       {isCreator || permissionItem.type === "ORG_ADMIN" ? (
-        <CommonGrayLabel style={{ color: "color: #B8B9BF", margin: "0 24px 0 4px" }}>
+        <CommonGrayLabel
+          style={{ color: "color: #B8B9BF", margin: "0 24px 0 4px" }}
+        >
           ({props.ownerLabel})
         </CommonGrayLabel>
       ) : (
@@ -128,16 +138,18 @@ function PermissionLiItem(props: {
             }
           }}
         >
-          {props.supportRoles.map((role) => (
-            <CustomSelect.Option
-              key={role.value}
-              label={role.label}
-              value={role.value}
-              permissionid={permissionItem.permissionId}
-            >
-              <RoleSelectOption role={role.label} />
-            </CustomSelect.Option>
-          ))[0]}
+          {
+            props.supportRoles.map((role) => (
+              <CustomSelect.Option
+                key={role.value}
+                label={role.label}
+                value={role.value}
+                permissionid={permissionItem.permissionId}
+              >
+                <RoleSelectOption role={role.label} />
+              </CustomSelect.Option>
+            ))[0]
+          }
           <CustomSelect.Option
             key="delete"
             label={trans("remove")}
@@ -152,7 +164,10 @@ function PermissionLiItem(props: {
   );
 }
 
-export type PermissionItemsType = { permissionItem: PermissionItem; isCreator?: boolean }[];
+export type PermissionItemsType = {
+  permissionItem: PermissionItem;
+  isCreator?: boolean;
+}[];
 export const PermissionList = (props: {
   ownerLabel: string;
   supportRoles: { label: string; value: PermissionRole }[];

@@ -21,7 +21,10 @@ import styled from "styled-components";
 import history from "util/history";
 import ProfileImage from "pages/common/profileImage";
 import { isProfileSettingModalVisible } from "redux/selectors/usersSelectors";
-import { logoutAction, profileSettingModalVisible } from "redux/reduxActions/userActions";
+import {
+  logoutAction,
+  profileSettingModalVisible,
+} from "redux/reduxActions/userActions";
 import { trans } from "i18n";
 import { showSwitchOrg } from "@openblocks-ee/pages/common/customerService";
 import { checkIsMobile } from "util/commonUtils";
@@ -47,10 +50,6 @@ const ProfileWrapper = styled.div`
 
   :hover svg {
     visibility: visible;
-
-    g g {
-      fill: #3377ff;
-    }
   }
 `;
 
@@ -77,7 +76,7 @@ const SelectDropMenuItem = styled(Menu.Item)`
   }
 
   .ant-dropdown-menu-title-content {
-    color: #4965f2;
+    color: var(--adm-color-primary-link);
     padding-right: 22px;
   }
 `;
@@ -114,7 +113,7 @@ const StyledNameLabel = styled.div`
 
 const OrgRoleLabel = styled.div`
   font-size: 12px;
-  color: #4965f2;
+  color: var(--adm-color-primary-link);
   line-height: 14px;
   border: 1px solid #d6e4ff;
   border-radius: 8px;
@@ -128,8 +127,9 @@ type DropDownProps = {
   fontSize?: number;
 };
 export default function ProfileDropdown(props: DropDownProps) {
-  const { avatarUrl, username, orgs, currentOrgId, orgDev, connections } = props.user;
-  const userEmail = connections ? connections[0]?.name || "" : ""
+  const { avatarUrl, username, orgs, currentOrgId, orgDev, connections } =
+    props.user;
+  const userEmail = connections ? connections[0]?.name || "" : "";
   const currentOrgRoleId = props.user.orgRoleMap.get(currentOrgId);
   const currentOrg = useMemo(
     () => props.user.orgs.find((o) => o.id === currentOrgId),
@@ -137,6 +137,8 @@ export default function ProfileDropdown(props: DropDownProps) {
   );
   const settingModalVisible = useSelector(isProfileSettingModalVisible);
   const sysConfig = useSelector(selectSystemConfig);
+  const { allowUpdate } = sysConfig?.form.rawConfig.customProps;
+  const label = orgDev ? userEmail : username;
   const dispatch = useDispatch();
   const handleClick = (e: any) => {
     if (e.key === "profile") {
@@ -160,10 +162,10 @@ export default function ProfileDropdown(props: DropDownProps) {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const emailChangeToken = urlParams.get("emailChangeToken");
-    if(emailChangeToken) {
-      dispatch(profileSettingModalVisible(true))
+    if (emailChangeToken) {
+      dispatch(profileSettingModalVisible(true));
     }
-  }, [])
+  }, []);
 
   const menu = (
     <DropdownMenu
@@ -171,12 +173,16 @@ export default function ProfileDropdown(props: DropDownProps) {
       onClick={handleClick}
       expandIcon={<StyledPackUpIcon />}
     >
-      <Menu.Item key="profile" disabled={orgDev}>
+      <Menu.Item
+        key="profile"
+        disabled={!allowUpdate.length}
+        style={{ cursor: allowUpdate.length ? "pointer" : "default" }}
+      >
         <ProfileWrapper>
-          <ProfileImage source={avatarUrl} userName={orgDev ? userEmail : username} side={48} />
+          <ProfileImage source={avatarUrl} userName={label} size={48} />
           <StyledNameLabel>
-            <CommonTextLabel2 title={username}>{orgDev ? userEmail : username}</CommonTextLabel2>
-            {!checkIsMobile(window.innerWidth) && <EditIcon />}
+            <CommonTextLabel2 title={label}>{label}</CommonTextLabel2>
+            {!!allowUpdate.length && <EditIcon />}
           </StyledNameLabel>
           {currentOrg && (
             <CommonGrayLabel
@@ -204,9 +210,13 @@ export default function ProfileDropdown(props: DropDownProps) {
             {trans("profile.joinedOrg")}
           </CommonTextLabel>
           {orgs.map((org: Org) => {
-            const MenuItem = currentOrgId === org.id ? SelectDropMenuItem : Menu.Item;
+            const MenuItem =
+              currentOrgId === org.id ? SelectDropMenuItem : Menu.Item;
             return (
-              <MenuItem key={org.id} icon={currentOrgId === org.id && <CheckoutIcon />}>
+              <MenuItem
+                key={org.id}
+                icon={currentOrgId === org.id && <CheckoutIcon />}
+              >
                 {org.name}
               </MenuItem>
             );
@@ -232,7 +242,7 @@ export default function ProfileDropdown(props: DropDownProps) {
             style={{ cursor: "pointer", userSelect: "none" }}
             source={avatarUrl}
             userName={orgDev ? userEmail : username}
-            side={props.profileSide}
+            size={props.profileSide}
             fontSize={props.fontSize}
           />
         </div>

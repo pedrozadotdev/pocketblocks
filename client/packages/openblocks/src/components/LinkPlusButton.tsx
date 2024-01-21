@@ -12,7 +12,7 @@ const Icon = styled.div`
 const Btn = styled(TacoButton)`
   height: 13px;
   padding: 0;
-  color: #4965f2;
+  color: var(--adm-color-primary-link);
   border: none;
   display: flex;
   align-items: center;

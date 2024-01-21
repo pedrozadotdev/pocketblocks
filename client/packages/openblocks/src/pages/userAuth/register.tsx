@@ -17,7 +17,7 @@ import { requiresUnAuth } from "./authHOC";
 import { useLocation } from "react-router-dom";
 import { UserConnectionSource } from "@openblocks-ee/constants/userConstants";
 import { trans } from "i18n";
-import { AuthContext, checkPassWithMsg, useAuthSubmit, useInputMask } from "pages/userAuth/authUtils";
+import { AuthContext, checkPassWithMsg, useAuthSubmit, useInputMask, getLoginTitle } from "pages/userAuth/authUtils";
 
 const StyledFormInput = styled(FormInput)`
   margin-bottom: 16px;
@@ -43,16 +43,18 @@ const TermsAndPrivacyInfoWrapper = styled.div`
   }
 `;
 
-function disableBtn(type: string, username: string, email: string) {
-  if(type === "username" && !username) return true
-  if(type === "email" && !email) return true
-  if(type === "both" && (!email || !username)) return true
-  return false
-}
+const disableBtn = (customProps: any, username: string, email: string, name: string) =>
+  customProps.setupAdmin
+    ? !email
+    : !name || 
+      (customProps.localAuthInfo.requireEmail && !email) ||
+      (customProps.type.includes("username") && !username)
+
 
 function UserRegister() {
   const [submitBtnDisable, setSubmitBtnDisable] = useState(false);
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const redirectUrl = useRedirectUrl();
@@ -63,7 +65,7 @@ function UserRegister() {
     () =>
       UserApi.formLogin({
         register: true,
-        loginId: `${email}\n${username}`,
+        loginId: `${email}\n${username}\n${name}`,
         password: password,
         invitationId: inviteInfo?.invitationId,
         source: UserConnectionSource.email,
@@ -81,13 +83,14 @@ function UserRegister() {
   }
 
   return (
-    <AuthContainer title={trans("userAuth.register")} type="large">
+    <AuthContainer title={getLoginTitle(inviteInfo?.createUserName, systemConfig.branding?.brandName)}>
       <RegisterContent>
-        <LoginCardTitle>{trans("userAuth.registerByEmail")}</LoginCardTitle>
-        {customProps.type.includes("username") ? (
+        <LoginCardTitle>{trans(customProps.setupAdmin ? "userAuth.registerAdmin" : "userAuth.registerByEmail")}</LoginCardTitle>
+        {customProps.type.includes("username") && !customProps.setupAdmin && (
           <StyledFormInput
             inputRef={customProps.mask ? ref : undefined}
             className="form-input"
+            mustFill
             label={((customProps.label as string).split("").map((l, i) => !i ? l.toUpperCase() : l).join("") || "Username") + ":"}
             onChange={(value, valid) => setUsername(valid ? (customProps.mask ? unmask(value) : value) : "")}
             placeholder={trans("userAuth.inputEmail", { label: customProps.label || "username" })}
@@ -96,27 +99,45 @@ function UserRegister() {
               errorMsg: trans("userAuth.inputValidEmail", { label: customProps.label || "username" }),
             }}
           />
-        ) : null}
-        {customProps.type.includes("email") ? (
+        )}
+        {(customProps.type.includes("email") || customProps.setupAdmin) && (
           <StyledFormInput
             className="form-input"
             label="Email:"
+            mustFill={customProps.localAuthInfo.requireEmail || customProps.setupAdmin}
             onChange={(value, valid) => setEmail(valid ? value : "")}
             placeholder={trans("userAuth.inputEmail", { label: "email" })}
             checkRule={{
-              check: (value) => checkEmailValid(value),
+              check: (value) => (
+                !(customProps.localAuthInfo.requireEmail || customProps.setupAdmin || value) ||
+                checkEmailValid(value)
+              ),
               errorMsg: trans("userAuth.inputValidEmail", { label: "email" }),
             }}
           />
-        ) : null}
+        )}
+        {!customProps.setupAdmin && (
+          <StyledFormInput
+            className="form-input"
+            label={trans("userAuth.name")}
+            mustFill
+            onChange={(value, valid) => setName(valid ? value : "")}
+            placeholder={trans("userAuth.inputEmail", { label: trans("userAuth.name").toLowerCase().slice(0, -1) })}
+            checkRule={{
+              check: (value) => value.split(" ").filter(v => v).length >= 2,
+              errorMsg: trans("userAuth.inputValidName"),
+            }}
+          />
+        )}
         <StyledPasswordInput
           className="form-input"
-          valueCheck={checkPassWithMsg}
+          mustFill
+          valueCheck={value => checkPassWithMsg(value, customProps.setupAdmin ? 10 : customProps.localAuthInfo.minPasswordLength)}
           onChange={(value, valid) => setPassword(valid ? value : "")}
           doubleCheck
         />
         <ConfirmButton
-          disabled={disableBtn(customProps.type, username, email) || !password || submitBtnDisable}
+          disabled={disableBtn(customProps, username, email, name) || !password || submitBtnDisable}
           onClick={onSubmit}
           loading={loading}
         >
@@ -125,9 +146,13 @@ function UserRegister() {
         <TermsAndPrivacyInfoWrapper>
           <TermsAndPrivacyInfo onCheckChange={(e) => setSubmitBtnDisable(!e.target.checked)} />
         </TermsAndPrivacyInfoWrapper>
-        <StyledRouteLinkLogin to={{ pathname: AUTH_LOGIN_URL, state: location.state }}>
-          {trans("userAuth.userLogin")}
-        </StyledRouteLinkLogin>
+        { !customProps.setupAdmin &&
+          (
+            <StyledRouteLinkLogin to={{ pathname: AUTH_LOGIN_URL, state: location.state }}>
+              {trans("userAuth.userLogin")}
+            </StyledRouteLinkLogin>
+          )
+        }
       </RegisterContent>
     </AuthContainer>
   );

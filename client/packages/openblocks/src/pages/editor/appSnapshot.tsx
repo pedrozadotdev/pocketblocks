@@ -19,7 +19,10 @@ import {
 } from "redux/selectors/appSnapshotSelector";
 import { Skeleton } from "antd";
 import { TacoPagination } from "openblocks-design";
-import { AppSnapshotContext, AppSnapshotList } from "constants/applicationConstants";
+import {
+  AppSnapshotContext,
+  AppSnapshotList,
+} from "constants/applicationConstants";
 import { ExtraActionType } from "openblocks-core";
 import { formatString } from "util/stringUtils";
 import { getUser } from "redux/selectors/usersSelectors";
@@ -32,7 +35,10 @@ import FreeLimitTag from "pages/common/freeLimitTag";
 import { AppSnapshotDslInfo } from "api/appSnapshotApi";
 import { EmptyContent } from "components/EmptyContent";
 import { AppSummaryInfo } from "redux/reduxActions/applicationActions";
-import { AppEditorInternalView, useRootCompInstance } from "pages/editor/appEditorInternal";
+import {
+  AppEditorInternalView,
+  useRootCompInstance,
+} from "pages/editor/appEditorInternal";
 import { TopHeaderHeight } from "constants/style";
 import { SnapshotItemProps, SnapshotList } from "../../components/SnapshotList";
 import { trans } from "i18n";
@@ -88,7 +94,7 @@ const StyledCloseIcon = styled(CloseIcon)`
 
   :hover {
     g line {
-      stroke: #4965f2;
+      stroke: var(--adm-color-primary-link);
     }
   }
 `;
@@ -115,7 +121,9 @@ function getOperationDesc(context: AppSnapshotContext) {
         desc,
         o.compName,
         o.oldName || "",
-        o.snapshotCreateTime ? moment(o.snapshotCreateTime).format(TIME_FORMAT) : ""
+        o.snapshotCreateTime
+          ? moment(o.snapshotCreateTime).format(TIME_FORMAT)
+          : ""
       );
     })
     .join(", ");
@@ -146,7 +154,10 @@ export function AppSnapshot(props: { currentAppInfo: AppSummaryInfo }) {
   const isSnapshotDslLoading = useSelector(isAppSnapshotDslFetching);
   const compInstance = useRootCompInstance(appInfo, true, true);
 
-  const fetchSnapshotList = (page: number, onSuccess?: (snapshots: AppSnapshotList) => void) => {
+  const fetchSnapshotList = (
+    page: number,
+    onSuccess?: (snapshots: AppSnapshotList) => void
+  ) => {
     dispatch(setSelectSnapshotId(""));
     application &&
       dispatch(
@@ -168,9 +179,13 @@ export function AppSnapshot(props: { currentAppInfo: AppSummaryInfo }) {
         return;
       }
       dispatch(
-        fetchSnapshotDslAction(application.applicationId, snapshots.list[0].snapshotId, (res) => {
-          setLatestDsl(res);
-        })
+        fetchSnapshotDslAction(
+          application.applicationId,
+          snapshots.list[0].snapshotId,
+          (res) => {
+            setLatestDsl(res);
+          }
+        )
       );
     });
   });
@@ -178,7 +193,9 @@ export function AppSnapshot(props: { currentAppInfo: AppSummaryInfo }) {
   useEffect(() => {
     currentDsl &&
       latestDsl &&
-      setLatestDslChanged(JSON.stringify(currentDsl) !== JSON.stringify(latestDsl.applicationsDsl));
+      setLatestDslChanged(
+        JSON.stringify(currentDsl) !== JSON.stringify(latestDsl.applicationsDsl)
+      );
   }, [latestDsl, currentDsl]);
 
   const onSnapshotItemClick = useCallback(
@@ -187,7 +204,9 @@ export function AppSnapshot(props: { currentAppInfo: AppSummaryInfo }) {
         return;
       }
       setSelectedItemKey(snapshotId);
-      dispatch(setSelectSnapshotId(snapshotId === CURRENT_ITEM_KEY ? "" : snapshotId));
+      dispatch(
+        setSelectSnapshotId(snapshotId === CURRENT_ITEM_KEY ? "" : snapshotId)
+      );
       if (snapshotId === CURRENT_ITEM_KEY) {
         setAppInfo(currentAppInfo);
         return;
@@ -209,34 +228,39 @@ export function AppSnapshot(props: { currentAppInfo: AppSummaryInfo }) {
   );
 
   let snapShotContent;
-  if (snapshotsFetching || (currentPage === 1 && appSnapshots.length > 0 && !latestDsl)) {
-    snapShotContent = <Skeleton style={{ padding: "0 16px" }} active paragraph={{ rows: 10 }} />;
+  if (
+    snapshotsFetching ||
+    (currentPage === 1 && appSnapshots.length > 0 && !latestDsl)
+  ) {
+    snapShotContent = (
+      <Skeleton style={{ padding: "0 16px" }} active paragraph={{ rows: 10 }} />
+    );
   } else if (appSnapshots.length <= 0 || !application) {
     snapShotContent = <EmptyContent text={trans("history.emptyHistory")} />;
   } else {
-    let snapshotItems: SnapshotItemProps[] = appSnapshots.map((snapshot, index) => {
-      return {
-        selected: selectedItemKey === snapshot.snapshotId,
-        title:
-          `${
-            !latestDslChanged && currentPage === 1 && index === 0
-              ? trans("history.currentVersionWithBracket")
-              : ""
-          }` + getOperationDesc(snapshot.context),
-        timeInfo: timestampToHumanReadable(snapshot.createTime),
-        userName: snapshot.userName,
-        onClick: () => {
-          onSnapshotItemClick(snapshot.snapshotId);
-        },
-      };
-    });
+    let snapshotItems: SnapshotItemProps[] = appSnapshots.map(
+      (snapshot, index) => {
+        return {
+          selected: selectedItemKey === snapshot.snapshotId,
+          title:
+            `${
+              !latestDslChanged && currentPage === 1 && index === 0
+                ? trans("history.currentVersionWithBracket")
+                : ""
+            }` + getOperationDesc(snapshot.context),
+          timeInfo: timestampToHumanReadable(snapshot.createTime),
+          onClick: () => {
+            onSnapshotItemClick(snapshot.snapshotId);
+          },
+        };
+      }
+    );
     if (currentPage === 1 && latestDslChanged) {
       snapshotItems = [
         {
           selected: selectedItemKey === CURRENT_ITEM_KEY,
           title: trans("history.currentVersion"),
           timeInfo: trans("history.justNow"),
-          userName: user.username,
           onClick: () => {
             onSnapshotItemClick(CURRENT_ITEM_KEY);
           },

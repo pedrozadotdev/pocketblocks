@@ -63,7 +63,7 @@ const Wrapper = styled.div`
       }
       &.active,
       &:hover {
-        color: #4965f2;
+        color: var(--adm-color-primary-link);
         background: #eef0f3;
       }
       &.active {
@@ -127,7 +127,9 @@ export default function ComponentDoc() {
                       <Link
                         key={n.name}
                         to={`/components/${n.key}`}
-                        className={`nav ${n.key === params.name ? "active" : ""}`}
+                        className={`nav ${
+                          n.key === params.name ? "active" : ""
+                        }`}
                       >
                         {n.name}
                       </Link>

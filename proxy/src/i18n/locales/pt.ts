@@ -1,5 +1,6 @@
 export default {
   translation: {
+    admin: "Administrador",
     unknown: "Desconhecido",
     authInvalid: "Email/username ou senha inválida.",
     authInvalidEmail: "O email é inválido ou já está em uso!",
@@ -8,7 +9,6 @@ export default {
     unauthorized: "Você não tem permissão para acessar esse recurso.",
     notFound: "Recurso não encontrado",
     serverError: "Algo deu errado.",
-    changeMe: "Me Mude",
     emailChanged: "Email alterado com sucesso!",
     emailChangedSent:
       "Email enviado! Por favor, visite sua caixa de email e confirme-o.",

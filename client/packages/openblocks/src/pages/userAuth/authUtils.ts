@@ -90,15 +90,15 @@ export function authRespValidate(
   }
 }
 
-export const checkPassWithMsg = (value: string) => {
+export const checkPassWithMsg = (value: string, min = 8) => {
   const hasDigit = /\d/.test(value);
   const hasLetter = /[a-zA-Z]/.test(value);
   const hasSpace = /\s/.test(value);
   const messages: string[] = [];
   let valid = true;
-  if (!value || value.length < 8) {
+  if (!value || value.length < min) {
     valid = false;
-    messages.push(trans("userAuth.passwordCheckLength", { min: 8 }));
+    messages.push(trans("userAuth.passwordCheckLength", { min }));
   }
   if (!hasDigit || !hasLetter) {
     valid = false;
@@ -108,7 +108,7 @@ export const checkPassWithMsg = (value: string) => {
     valid = false;
     messages.push(trans("userAuth.passwordCheckSpace"));
   }
-  return [valid, messages.join(",")] as const;
+  return [valid, messages.join(", ")] as const;
 };
 
 export const getLoginTitle = (inviteUserName?: string, brandName?: string) => {

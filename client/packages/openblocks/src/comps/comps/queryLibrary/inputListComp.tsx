@@ -1,6 +1,10 @@
 import { JSONValueControl } from "comps/controls/codeControl";
 import CompNameControl from "comps/controls/compNameControl";
-import { simpleMultiComp, valueComp, withPropertyViewFn } from "comps/generators";
+import {
+  simpleMultiComp,
+  valueComp,
+  withPropertyViewFn,
+} from "comps/generators";
 import { withExposingRaw } from "comps/generators/withExposing";
 import { trans } from "i18n";
 import {
@@ -45,14 +49,20 @@ const PropertyView = (props: {
               <>
                 {props.comp.children.name.propertyView({
                   label: trans("queryLibrary.inputName"),
-                  onValidate: (pre: string, value: string) => context.checkRename(pre, value),
-                  onFinish: (pre: string, value: string) => context.rename(pre, value),
+                  onValidate: (pre: string, value: string) =>
+                    context.checkRename(pre, value),
+                  onFinish: (pre: string, value: string) =>
+                    context.rename(pre, value),
                 })}
-                <ControlPropertyViewWrapper label={trans("queryLibrary.inputDesc")}>
+                <ControlPropertyViewWrapper
+                  label={trans("queryLibrary.inputDesc")}
+                >
                   <Input
                     value={props.comp.children.description.getView()}
                     onChange={(e) => {
-                      props.comp.children.description.dispatchChangeValueAction(e.target.value);
+                      props.comp.children.description.dispatchChangeValueAction(
+                        e.target.value
+                      );
                     }}
                   />
                 </ControlPropertyViewWrapper>
@@ -115,7 +125,7 @@ const AddButton = styled(TacoButton)`
   height: 28px;
   width: 70px;
   background-color: #fafbff;
-  color: #4965f2;
+  color: var(--adm-color-primary-link);
   border-color: #c9d1fc;
   display: flex;
   align-items: center;
@@ -148,52 +158,59 @@ const InputsWrapper = styled.div`
   gap: 12px;
 `;
 
-export const InputListComp = withPropertyViewFn(list(InputListItemComp), (comp) => {
-  const queryLibraryState = useContext(QueryLibraryContext);
-  const [newIdx, setNewIdx] = useState<number | undefined>(undefined);
+export const InputListComp = withPropertyViewFn(
+  list(InputListItemComp),
+  (comp) => {
+    const queryLibraryState = useContext(QueryLibraryContext);
+    const [newIdx, setNewIdx] = useState<number | undefined>(undefined);
 
-  useEffect(() => {
-    setNewIdx(undefined);
-  }, [comp]);
+    useEffect(() => {
+      setNewIdx(undefined);
+    }, [comp]);
 
-  const handleAdd = () => {
-    comp.dispatch(
-      comp.pushAction({
-        name: queryLibraryState.getNameGenerator().genItemName("queryInput"),
-      })
+    const handleAdd = () => {
+      comp.dispatch(
+        comp.pushAction({
+          name: queryLibraryState.getNameGenerator().genItemName("queryInput"),
+        })
+      );
+      setNewIdx(comp.getView().length);
+    };
+
+    return (
+      <Wrapper>
+        {comp.getView().length > 0 ? (
+          <InputsWrapper>
+            {comp.getView().map((t, i) => (
+              <Fragment key={i}>
+                {(t as any).propertyView({
+                  onDelete: () => comp.dispatch(comp.deleteAction(i)),
+                  showPopover: i === newIdx,
+                })}
+              </Fragment>
+            ))}
+            <AddButton onClick={handleAdd}>{trans("addItem")}</AddButton>
+          </InputsWrapper>
+        ) : (
+          <EmptyContent
+            text={
+              <>
+                <div>{trans("queryLibrary.emptyInputs")}</div>
+                <span
+                  style={{
+                    color: "var(--adm-color-primary-link)",
+                    cursor: "pointer",
+                    margin: "0 4px",
+                  }}
+                  onClick={handleAdd}
+                >
+                  {trans("queryLibrary.clickToAdd")}
+                </span>
+              </>
+            }
+          />
+        )}
+      </Wrapper>
     );
-    setNewIdx(comp.getView().length);
-  };
-
-  return (
-    <Wrapper>
-      {comp.getView().length > 0 ? (
-        <InputsWrapper>
-          {comp.getView().map((t, i) => (
-            <Fragment key={i}>
-              {(t as any).propertyView({
-                onDelete: () => comp.dispatch(comp.deleteAction(i)),
-                showPopover: i === newIdx,
-              })}
-            </Fragment>
-          ))}
-          <AddButton onClick={handleAdd}>{trans("addItem")}</AddButton>
-        </InputsWrapper>
-      ) : (
-        <EmptyContent
-          text={
-            <>
-              <div>{trans("queryLibrary.emptyInputs")}</div>
-              <span
-                style={{ color: "#4965f2", cursor: "pointer", margin: "0 4px" }}
-                onClick={handleAdd}
-              >
-                {trans("queryLibrary.clickToAdd")}
-              </span>
-            </>
-          }
-        />
-      )}
-    </Wrapper>
-  );
-});
+  }
+);

@@ -1,21 +1,23 @@
-import { User } from "@/types";
-import { APIResponse, PBUser } from "./types";
+import { APIResponse, User } from "@/types";
 import { createDefaultErrorResponse, pb } from "./utils";
+import { t } from "i18next";
 
-function getAvatarURL(user: PBUser) {
+export function getAvatarURL(user: User) {
   return user.avatar
-    ? `/api/files/pbl_users/${user.id}/${user.avatar}?thumb=100x100`
-    : user.avatar_url ?? "";
+    ? `/api/files/users/${user.id}/${user.avatar}?thumb=100x100`
+    : "";
 }
 
-export async function get(user_id: string): APIResponse<User> {
+export async function get(id: string): APIResponse<User> {
   try {
-    const user = await pb
-      .collection("pbl_users")
-      .getFirstListItem<PBUser>(`user_id="${user_id}"`);
+    const user = await pb.collection("users").getOne<User>(id);
     return {
       status: 200,
-      data: { ...user, avatar: getAvatarURL(user) },
+      data: {
+        ...user,
+        avatar: getAvatarURL(user),
+        name: user.name !== "NONAME" ? user.name : t("unknown"),
+      },
     };
   } catch (e) {
     return createDefaultErrorResponse(e);
@@ -24,10 +26,14 @@ export async function get(user_id: string): APIResponse<User> {
 
 export async function list(): APIResponse<User[]> {
   try {
-    const users = await pb.collection("pbl_users").getFullList<PBUser>();
+    const users = await pb.collection("users").getFullList<User>();
     return {
       status: 200,
-      data: users.map((u) => ({ ...u, avatar: getAvatarURL(u) })),
+      data: users.map((u) => ({
+        ...u,
+        avatar: getAvatarURL(u),
+        name: u.name !== "NONAME" ? u.name : t("unknown"),
+      })),
     };
   } catch (e) {
     return createDefaultErrorResponse(e);
@@ -36,13 +42,11 @@ export async function list(): APIResponse<User[]> {
 
 export async function update({
   id,
-  username,
-  ...rest
-}: Partial<User> & { id: string; username?: string }): APIResponse {
+  ...params
+}: Partial<User> & { id: string }): APIResponse {
   try {
-    await pb.collection("pbl_users").update(id, rest);
-    if (pb.authStore.isAuthRecord && username) {
-      await pb.collection("users").update(pb.authStore.model?.id, { username });
+    await pb.collection("users").update(id, params);
+    if (pb.authStore.isAuthRecord && params.username) {
       await pb.collection("users").authRefresh();
     }
     return { status: 200 };

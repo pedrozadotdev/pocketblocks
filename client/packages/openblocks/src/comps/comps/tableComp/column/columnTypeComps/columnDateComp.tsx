@@ -78,7 +78,7 @@ const StylePanel = styled.div`
     padding: 10px 16px;
   }
   .ant-picker-now-btn {
-    color: #4965f2;
+    color: var(--adm-color-primary-link);
     &:hover {
       color: #315efb;
     }
@@ -91,7 +91,7 @@ const StylePanel = styled.div`
   }
   .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
   .ant-picker-ok .ant-btn-primary {
-    background: #4965f2;
+    background: var(--adm-color-primary-link);
     border: none;
     box-shadow: none;
     &:hover {
@@ -104,7 +104,7 @@ const StylePanel = styled.div`
   .ant-picker-cell:hover:not(.ant-picker-cell-selected):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end):not(.ant-picker-cell-range-hover-start):not(.ant-picker-cell-range-hover-end)
     .ant-picker-cell-inner {
     background-color: #f2f7fc;
-    color: #4965f2;
+    color: var(--adm-color-primary-link);
   }
   .ant-picker-year-panel,
   .ant-picker-month-panel {
@@ -135,7 +135,9 @@ const childrenMap = {
   format: withDefault(StringControl, DATE_FORMAT),
 };
 
-const getBaseValue: ColumnTypeViewFn<typeof childrenMap, string, string> = (props) => props.text;
+const getBaseValue: ColumnTypeViewFn<typeof childrenMap, string, string> = (
+  props
+) => props.text;
 
 type DateEditProps = {
   value: string;

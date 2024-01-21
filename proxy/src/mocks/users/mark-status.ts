@@ -1,4 +1,4 @@
-import { auth, users } from "@/api";
+import { auth, settings } from "@/api";
 import { mocker } from "@/mocker";
 import {
   adminRoute,
@@ -10,16 +10,15 @@ export default [
   mocker.put(
     "/api/users/mark-status",
     adminRoute(async (req) => {
-      const { type, value } = req.config.data;
+      const { type } = req.config.data;
       if (type === "newUserGuidance") {
         const authResponse = await auth.getCurrentUser();
         if (!authResponse.data) {
           return createDefaultErrorResponse([{ status: 401 }]);
         }
-        const updateUserResponse = await users.update({
-          id: authResponse.data.id,
-          show_tutorial: !value,
-        });
+        const updateUserResponse = await settings.deleteAdminFromTutorial(
+          authResponse.data.id,
+        );
         if (updateUserResponse.status === 200) {
           return createDefaultResponse();
         }

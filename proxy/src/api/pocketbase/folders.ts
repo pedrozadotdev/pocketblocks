@@ -1,19 +1,14 @@
-import { Folder, User } from "@/types";
-import { APIResponse, PBFolder } from "./types";
-import { pb, createDefaultErrorResponse } from "./utils";
+import { APIResponse, Folder } from "@/types";
+import { pbl, createDefaultErrorResponse } from "./utils";
 
 export async function list(): APIResponse<Folder[]> {
   try {
-    const folders = await pb.collection("pbl_folders").getFullList<PBFolder>({
-      expand: "created_by",
+    const folders = await pbl.folders.getFullList({
       sort: "-updated,-created",
     });
     return {
       status: 200,
-      data: folders.map(({ expand, ...rest }) => ({
-        ...rest,
-        created_by: expand?.created_by as User,
-      })),
+      data: folders,
     };
   } catch (e) {
     return createDefaultErrorResponse(e);
@@ -22,17 +17,10 @@ export async function list(): APIResponse<Folder[]> {
 
 export async function create(params: Partial<Folder>): APIResponse<Folder> {
   try {
-    const { expand, ...rest } = await pb
-      .collection("pbl_folders")
-      .create<PBFolder>(params, {
-        expand: "created_by",
-      });
+    const folder = await pbl.folders.create(params);
     return {
       status: 200,
-      data: {
-        ...rest,
-        created_by: expand?.created_by as User,
-      },
+      data: folder,
     };
   } catch (e) {
     return createDefaultErrorResponse(e);
@@ -44,17 +32,10 @@ export async function update({
   ...params
 }: Partial<Folder> & { id: string }): APIResponse<Folder> {
   try {
-    const { expand, ...rest } = await pb
-      .collection("pbl_folders")
-      .update<PBFolder>(id, params, {
-        expand: "created_by",
-      });
+    const folder = await pbl.folders.update(id, params);
     return {
       status: 200,
-      data: {
-        ...rest,
-        created_by: expand?.created_by as User,
-      },
+      data: folder,
     };
   } catch (e) {
     return createDefaultErrorResponse(e);
@@ -63,7 +44,7 @@ export async function update({
 
 export async function remove(id: string): APIResponse {
   try {
-    await pb.collection("pbl_folders").delete(id);
+    await pbl.folders.delete(id);
     return { status: 200 };
   } catch (e) {
     return createDefaultErrorResponse(e);

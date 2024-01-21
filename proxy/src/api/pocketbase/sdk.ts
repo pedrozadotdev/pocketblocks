@@ -35,7 +35,7 @@ export const setup = () => {
     const { data: user } = await auth.getCurrentUser();
     if (user) {
       try {
-        await pb.collection("pbl_users").update(user.id, {
+        await pb.collection("users").update(user.id, {
           avatar: config.file,
         });
         if (config.onSuccess) {

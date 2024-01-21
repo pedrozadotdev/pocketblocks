@@ -4,31 +4,12 @@ PocketBlocks provides a white-labelling feature that allows you to customize you
 
 ## Branding settings
 
-Only **Admins** have the permission to customize branding. Navigate to **Pocketbase Admin Panel**, go to **pbl_settings** collection and select the generated workspace settings.
+Only **Admins** have the permission to customize branding. Navigate to **PocketBlocks Settings** and go to **Branding**.
 
 <figure><img src="../.gitbook/assets/workspace-management/customize-branding/01.png" alt=""><figcaption></figcaption></figure>
 
-The customizable branding settings are listed as follows:
+As you change the data, the preview on the side updates in real time.
 
-- Logo: Set the **logo** field with the logo's URL. PocketBlocks supports `.jpg`, `.svg`, and `.png` files.
-- Head color: Set a hexcolor(#000000) value to **header_color** field.
-- Brand name: Enter your **Brand Name** in the **org_name** field.
-- Favicon: Set the **icon** field with the icon's URL. Use `.ico` or `.png` files.
-
-{% hint style="success" %}
-Click the **Save changes** button and the settings will immediately take effect.
+{% hint style="info" %}
+This customization only applies to non-administrators, so administrators continue to view the default branding(PocketBlocks).
 {% endhint %}
-
-### Example&#x20;
-
-The following pictures show what workspace **members** and **end users** will see on the login page, homepage, and application pages after branding is successfully customized (take the brand name "My brand" for example).
-
-<figure><img src="../.gitbook/assets/workspace-management/customize-branding/02.png" alt=""><figcaption><p>the login page</p></figcaption></figure>
-
-<figure><img src="../.gitbook/assets/workspace-management/customize-branding/03.png" alt=""><figcaption><p>the homepage</p></figcaption></figure>
-
-<figure><img src="../.gitbook/assets/workspace-management/customize-branding/04.png" alt=""><figcaption><p>application pages</p></figcaption></figure>
-
-Note that workspace **admins** still see "PocketBlocks" branding on the homepage and application pages.
-
-<figure><img src="../.gitbook/assets/workspace-management/customize-branding/05.png" alt=""><figcaption></figcaption></figure>

@@ -1,6 +1,6 @@
 # Members and groups
 
-In PocketBlocks, you can organize the members of your workspace using different groups, and assign roles to groups to manage [permissions for resources](permissions-for-resources.md). You can find members and groups settings in **pbl_users** and **pbl_groups** on Pocketbase Admin Panel.
+In PocketBlocks, you can organize the members of your workspace using different groups, and assign roles to groups to manage [permissions for resources](permissions-for-resources.md). You can find members and groups settings in **users** and **groups** on Pocketbase Admin Panel.
 
 <figure><img src="../.gitbook/assets/workspace-management/members-and-groups/01.png" alt=""><figcaption></figcaption></figure>
 
@@ -17,7 +17,7 @@ Users can be **Admins** or **Members**. To be an **Admin** the user needs to be 
 
 ## Manage groups
 
-Group-based management helps to organize members from different functional departments in your workspace. You can create groups in **pbl_groups** Pocketbase collection.
+Group-based management helps to organize members from different functional departments in your workspace. You can create groups in **groups** Pocketbase collection.
 
 <figure><img src="../.gitbook/assets/workspace-management/members-and-groups/02.png" alt=""><figcaption></figcaption></figure>
 
@@ -25,7 +25,7 @@ Group-based management helps to organize members from different functional depar
 
 The permissions are listed in the table below.
 
-| Role   | Permissions                                                                                                       |
-| ------ | ----------------------------------------------------------------------------------------------------------------- |
-| Admin  | <ul><li>Change group name</li><li>Delete groups</li><li>Manage group members</li><li>View group members</li></ul> |
-| Member | View group members                                                                                                |
+| Role   | Permissions                                                                                                                                                         |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Admin  | <ul><li>Change group name</li><li>Delete groups</li><li>Manage group members</li><li>View group members</li><li>Manage group apps</li><li>View group apps</li></ul> |
+| Member | View group apps                                                                                                                                                     |

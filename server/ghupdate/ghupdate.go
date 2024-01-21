@@ -221,7 +221,7 @@ func (p *plugin) update(withBackup bool) error {
 	}
 
 	tryToRevertExecChanges := func() {
-		if revertErr := os.Rename(renamedOldExec, oldExec); revertErr != nil && p.app.IsDebug() {
+		if revertErr := os.Rename(renamedOldExec, oldExec); revertErr != nil && p.app.IsDev() {
 			log.Println(revertErr)
 		}
 	}

@@ -16,7 +16,7 @@ export const BackgroundColor = "#F5F5F6";
 // text
 export const GreyTextColor = "#8B8FA3";
 export const LabelTextColor = "#222222";
-export const LightActiveTextColor = "#4965f2";
+export const LightActiveTextColor = "var(--adm-color-primary-link)";
 export const DarkActiveTextColor = "#222222";
 export const ActiveTextColor = "#315efb";
 

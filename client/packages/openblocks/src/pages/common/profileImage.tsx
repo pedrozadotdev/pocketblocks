@@ -5,11 +5,11 @@ import { fullAvatarUrl } from "util/urlUtils";
 
 export const ImgWrapper = styled.div<{
   backgroundColor?: string;
-  side?: number;
+  size?: number;
   fontSize?: number;
 }>`
-  width: ${(props) => props.side || 34}px;
-  height: ${(props) => props.side || 34}px;
+  width: ${(props) => props.size || 34}px;
+  height: ${(props) => props.size || 34}px;
   display: flex;
   align-items: center;
   border-radius: 50%;
@@ -41,7 +41,7 @@ export const ImgWrapper = styled.div<{
 export default function ProfileImage(props: {
   userName: string;
   className?: string;
-  side?: number;
+  size?: number;
   source?: string;
   style?: CSSProperties;
   svg?: JSX.Element | false;
@@ -60,7 +60,7 @@ export default function ProfileImage(props: {
       style={props.style}
       backgroundColor={backgroundColor}
       className={props.className}
-      side={props.side}
+      size={props.size}
       title={props.userName}
     >
       {!shouldRenderImage ? (

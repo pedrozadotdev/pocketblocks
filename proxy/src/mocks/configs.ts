@@ -1,6 +1,7 @@
 import { settings } from "@/api";
 import { mocker } from "@/mocker";
 import {
+  adminRoute,
   createDefaultErrorResponse,
   createDefaultResponse,
   getAuthConfigs,
@@ -10,7 +11,7 @@ export default [
   mocker.get("/api/v1/configs", async () => {
     const settingsResponse = await settings.get();
     if (settingsResponse.data) {
-      const { org_name, header_color, logo, icon } = settingsResponse.data;
+      const { name, headerColor, logo, icon } = settingsResponse.data;
       return createDefaultResponse({
         authConfigs: await getAuthConfigs(),
         workspaceMode: "ENTERPRISE",
@@ -23,11 +24,53 @@ export default [
         branding: {
           logo,
           favicon: icon,
-          brandName: org_name,
-          headerColor: header_color,
+          brandName: name,
+          headerColor,
         },
       });
     }
     return createDefaultErrorResponse([settingsResponse]);
   }),
+  mocker.put(
+    "/api/v1/configs/custom-configs",
+    adminRoute(async (req) => {
+      const { branding, auths } = req.config.data;
+      let settingsResponse: Awaited<ReturnType<typeof settings.update>> = {
+        status: 404,
+      };
+      if (branding) {
+        const { brandName, headerColor, favicon, logo } = branding;
+        settingsResponse = await settings.update({
+          name: brandName,
+          headerColor,
+          icon: favicon,
+          logo,
+        });
+      } else if (auths) {
+        settingsResponse = await settings.update({
+          auths,
+        });
+      }
+      if (settingsResponse.data) {
+        const { name, headerColor, logo, icon } = settingsResponse.data;
+        return createDefaultResponse({
+          authConfigs: await getAuthConfigs(),
+          workspaceMode: "ENTERPRISE",
+          selfDomain: false,
+          cookieName: "TOKEN",
+          cloudHosting: false,
+          featureFlag: {
+            enableCustomBranding: true,
+          },
+          branding: {
+            logo,
+            favicon: icon,
+            brandName: name,
+            headerColor,
+          },
+        });
+      }
+      return createDefaultErrorResponse([settingsResponse]);
+    }),
+  ),
 ];

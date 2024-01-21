@@ -66,7 +66,7 @@ export default function FormLogin() {
   return (
     <>
       <LoginCardTitle>{trans("userAuth.login")}</LoginCardTitle>
-      {systemConfig.form.enableLogin ? (
+      {systemConfig.form.enableLogin && (
         <AccountLoginWrapper>
           <FormInput
             inputRef={customProps.mask ? ref : undefined}
@@ -84,23 +84,25 @@ export default function FormLogin() {
             onChange={(value) => setPassword(value)}
             valueCheck={() => [true, ""]}
           />
-          {customProps.allowUpdate.includes("password") && customProps.type.includes("email") ? (
+          { customProps.allowUpdate.includes("password") &&
+            customProps.type.includes("email") &&
+            customProps.smtp && (
             <StyledRouteLink style={{ marginBottom: 16, marginTop: -20 }} to={{ pathname: AUTH_PASSWORD_RECOVERY_URL, state: location.state }}>
               {trans("userAuth.recoveryPassword")}
             </StyledRouteLink>
-          ) : null}
+          )}
           <ConfirmButton loading={loading} disabled={!account || !password} onClick={() => onSubmit()}>
             {trans("userAuth.login")}
           </ConfirmButton>
         </AccountLoginWrapper>
-      ) : null}
+      )}
       <AuthBottomView>
       {systemConfig.form.rawConfig.oauth.map((o: OauthProps) => (
-        <OauthButton {...o} key={o.type} onClick={onSubmit}/>
+        <OauthButton {...o} key={o.name} onClick={onSubmit}/>
       )) }
         <ThirdPartyAuth invitationId={invitationId} authGoal="login" />
       </AuthBottomView>
-      {systemConfig.form.enableRegister && (
+      {systemConfig.form.enableRegister && systemConfig.form.enableLogin && (
         <StyledRouteLink to={{ pathname: AUTH_REGISTER_URL, state: location.state }}>
           {trans("userAuth.register")}
         </StyledRouteLink>
@@ -110,18 +112,20 @@ export default function FormLogin() {
 }
 
 type OauthProps = {
-  type: string
-  oauth_custom_name?: string
-  oauth_icon_url?: string
-}
+    name: string
+    customName: string
+    customIconUrl: string
+    defaultIconUrl: string
+    defaultName: string
+  }
 
-const oauthLoginLabel = (name: string) => trans("userAuth.signInLabel", { name: name });
+const oauthLoginLabel = (name: string) => trans("userAuth.signInLabel", { name });
 
-function OauthButton({ onClick, type, oauth_custom_name, oauth_icon_url }: OauthProps & { onClick: (provider: string) => void }) {
+function OauthButton({ onClick, name, customName, customIconUrl, defaultIconUrl, defaultName }: OauthProps & { onClick: (provider: string) => void }) {
   return (
-    <StyledLoginButton onClick={() => onClick(type)}>
-      <LoginLogoStyle alt={oauth_custom_name} src={oauth_icon_url} title={oauth_custom_name} />
-      <CommonGrayLabel className="auth-label">{oauthLoginLabel(oauth_custom_name ?? "")}</CommonGrayLabel>
+    <StyledLoginButton onClick={() => onClick(name)}>
+      <LoginLogoStyle alt={customName || defaultName} src={customIconUrl || defaultIconUrl} title={customName || defaultName} />
+      <CommonGrayLabel className="auth-label">{oauthLoginLabel(customName || defaultName)}</CommonGrayLabel>
     </StyledLoginButton>
   );
 }

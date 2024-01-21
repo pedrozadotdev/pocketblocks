@@ -125,11 +125,7 @@ const DropDownMenuItemCss = `
   }
   .ant-dropdown-menu-item:hover,
   .ant-dropdown-menu-submenu-title:hover {
-    background: #f2f7fc;
     border-radius: 4px;
-    svg g path {
-      fill: #315efb;
-    }
   }
   .ant-dropdown-menu-title-content {
     

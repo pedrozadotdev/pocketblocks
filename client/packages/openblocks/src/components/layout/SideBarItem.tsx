@@ -22,7 +22,7 @@ const Wrapper = styled.div<{ size?: SideBarSize; selected?: boolean }>`
   ${(props) =>
     props.selected &&
     css`
-      color: #4965f2;
+      color: var(--adm-color-primary-link);
       background: #ebf0f7;
     `}
 `;
@@ -34,13 +34,19 @@ export const SideBarItem = (props: SideBarItemProps) => {
   return (
     <Wrapper
       style={props.style}
-      className={CNSidebarItem}
+      className={CNSidebarItem + (props.selected ? " sidebar-item-active" : "")}
       size={props.size}
       selected={props.selected}
       onClick={() => props.onClick?.(currentPath)}
     >
-      {Icon && <Icon selected={props.selected} style={{ marginRight: "8px" }} />}
-      {typeof Text === "function" ? <Text selected={props.selected} /> : Text ?? null}
+      {Icon && (
+        <Icon selected={props.selected} style={{ marginRight: "8px" }} />
+      )}
+      {typeof Text === "function" ? (
+        <Text selected={props.selected} />
+      ) : (
+        Text ?? null
+      )}
     </Wrapper>
   );
 };

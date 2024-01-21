@@ -24,10 +24,6 @@ import { ConfigViewWrapper } from "./styled";
 import { CNRootContainer } from "constants/styleSelectors";
 import styled from "styled-components";
 
-import RootWrapper from "components/RootWrapper"
-import { useSelector } from "react-redux";
-import { getBrandingConfig } from "redux/selectors/configSelectors";
-
 export const MODULE_LAYOUT_COMP = "@moduleLayoutComp";
 
 const ModulePreviewWrapper = styled.div`
@@ -65,13 +61,10 @@ function ModuleLayoutView(props: IProps) {
   const { containerSize, containerView, positionParams, onPositionParamsChange, onLayoutChange } =
     props;
   const { readOnly } = useContext(ExternalEditorContext);
-  const brandingConfig = useSelector(getBrandingConfig);
 
   if (readOnly) {
     return (
-      <RootWrapper headerColor={brandingConfig?.headerColor}>
-        <ModulePreviewWrapper className={CNRootContainer}>{props.containerView}</ModulePreviewWrapper>
-      </RootWrapper>
+      <ModulePreviewWrapper className={CNRootContainer}>{props.containerView}</ModulePreviewWrapper>
     );
   }
 

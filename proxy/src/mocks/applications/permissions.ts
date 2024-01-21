@@ -1,4 +1,4 @@
-import { apps, settings } from "@/api";
+import { apps, settings, users } from "@/api";
 import { ALL_USERS_GROUP_ID } from "@/constants";
 import { mocker } from "@/mocker";
 import {
@@ -13,14 +13,14 @@ type Permission = {
   permissionId: string;
   type: "GROUP" | "USER";
   id: string;
-  avatar: string;
+  avatar?: string;
   name: string;
   role: "editor" | "viewer";
 };
 
 async function createPermissions(app: Application): Promise<Permission[]> {
   const result: Permission[] = [];
-  if (app.all_users) {
+  if (app.allUsers) {
     result.push({
       permissionId: `${ALL_USERS_GROUP_ID}|GROUP`,
       type: "GROUP",
@@ -37,7 +37,6 @@ async function createPermissions(app: Application): Promise<Permission[]> {
         permissionId: `${id}|GROUP`,
         type: "GROUP",
         id,
-        avatar: typeof g === "string" ? "" : (await g.avatar) ?? "",
         name,
         role: "viewer",
       });
@@ -45,15 +44,17 @@ async function createPermissions(app: Application): Promise<Permission[]> {
   );
   await Promise.all(
     app.users.map(async (u) => {
-      const { id, name } = typeof u === "string" ? { id: u, name: u } : u;
-      result.push({
-        permissionId: `${id}|USER`,
-        type: "USER",
-        id,
-        avatar: typeof u === "string" ? "" : u.avatar || "",
-        name,
-        role: "viewer",
-      });
+      const userResponse = await users.get(u);
+      if (userResponse.data) {
+        result.push({
+          permissionId: `${u}|USER`,
+          type: "USER",
+          id: u,
+          avatar: userResponse.data.avatar,
+          name: userResponse.data.name,
+          role: "viewer",
+        });
+      }
     }),
   );
   return result;
@@ -62,14 +63,9 @@ async function createPermissions(app: Application): Promise<Permission[]> {
 async function createDefaultDataResponse(app: Application, settings: Settings) {
   const permissions = await createPermissions(app);
   return {
-    orgName: settings.org_name,
+    orgName: settings.name,
     groupPermissions: permissions.filter((p) => p.type === "GROUP"),
     userPermissions: permissions.filter((p) => p.type === "USER"),
-    creatorId: app.created_by
-      ? typeof app.created_by === "string"
-        ? app.created_by
-        : app.created_by.id
-      : "UNKNOWN",
     publicToAll: app.public,
     permissions,
   };
@@ -109,7 +105,7 @@ export default [
         ],
       };
       if (groupIds.includes(ALL_USERS_GROUP_ID)) {
-        updatedApp.all_users = true;
+        updatedApp.allUsers = true;
       }
       const appResponse = await apps.update(updatedApp);
       if (appResponse.data) {
@@ -135,7 +131,7 @@ export default [
                 id: memberId,
               },
             ],
-        all_users: IsAllUsers ? false : undefined,
+        allUsers: IsAllUsers ? false : undefined,
       };
       const appResponse = await apps.update(updatedApp);
       if (appResponse.data) {

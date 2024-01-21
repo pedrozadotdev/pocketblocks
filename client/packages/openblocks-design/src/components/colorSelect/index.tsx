@@ -13,6 +13,8 @@ import { throttle } from "lodash";
 import { changeValueAction } from "openblocks-core";
 
 interface ColorSelectProps {
+  size?: number;
+  borderRadius?: number;
   color: string;
   trigger?: string;
   dispatch?: (value: any) => void;
@@ -64,7 +66,7 @@ export const ColorSelect = (props: ColorSelectProps) => {
         </PopoverContainer>
       }
     >
-      <ColorBlock color={color?.substring(0, 7)}>
+      <ColorBlock color={color?.substring(0, 7)} style={{ width: props.size, height: props.size, borderRadius: props.borderRadius }}>
         <BackDiv color={alphaOfRgba(toRGBA(color))}></BackDiv>
       </ColorBlock>
     </Popover>

@@ -9,7 +9,7 @@ import {
 
 const renamedParams = {
   themeList: "themes",
-  defaultHomePage: "home_page",
+  defaultHomePage: "homePage",
   defaultTheme: "theme",
   preloadCSS: "css",
   preloadJavaScript: "script",
@@ -23,17 +23,16 @@ export default [
     authRoute(async () => {
       const settingsResponse = await settings.get();
       if (settingsResponse.data) {
-        const { themes, home_page, theme, css, script, libs, plugins } =
+        const { themes, homePage, theme, css, script, libs, plugins } =
           settingsResponse.data;
         return createDefaultResponse({
-          themeList: themes,
-          defaultHomePage:
-            typeof home_page === "string" ? home_page : home_page?.slug,
+          themeList: themes ? JSON.parse(themes) : [],
+          defaultHomePage: homePage ? homePage : undefined,
           defaultTheme: theme,
           preloadCSS: css,
           preloadJavaScript: script,
-          preloadLibs: libs,
-          npmPlugins: plugins || [],
+          preloadLibs: libs ? JSON.parse(libs) : [],
+          npmPlugins: plugins ? JSON.parse(plugins) : [],
         });
       }
       return createDefaultErrorResponse([settingsResponse]);
@@ -51,10 +50,7 @@ export default [
         typeof value === "string" ? value : !value ? "" : JSON.stringify(value);
       const currentSettingsResponse = await settings.get();
       if (currentSettingsResponse.data) {
-        const settingsResponse = await settings.update({
-          id: currentSettingsResponse.data.id,
-          ...bodyParams,
-        });
+        const settingsResponse = await settings.update(bodyParams);
         if (settingsResponse.status === 200) {
           return createDefaultResponse(true);
         }

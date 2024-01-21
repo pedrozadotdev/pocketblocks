@@ -1,4 +1,4 @@
-import { auth } from "@/api";
+import { auth, settings } from "@/api";
 import { mocker } from "@/mocker";
 import { APIResponse } from "@/types";
 import { createDefaultResponse, createDefaultErrorResponse } from "@/utils";
@@ -19,11 +19,20 @@ export default [
         authResponse = await auth.sendPasswordReset(loginId);
       }
     } else {
-      authResponse = await auth[register ? "signup" : "login"](
-        loginId,
-        password,
-        source === "EMAIL" ? "local" : (source as string),
-      );
+      if (register) {
+        const usersInfoResponse = await settings.getUsersInfo();
+        authResponse = await auth.signup(
+          loginId,
+          password,
+          usersInfoResponse.data?.setupFirstAdmin,
+        );
+      } else {
+        authResponse = await auth.login(
+          loginId,
+          password,
+          source === "EMAIL" ? "local" : (source as string),
+        );
+      }
       if (authResponse.status === 403) {
         return {
           status: 403,
