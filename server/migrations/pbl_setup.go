@@ -132,6 +132,17 @@ func init() {
 			return err
 		}
 
+		//Setup Settings
+		settings, _ := dao.FindSettings()
+		settings.Meta.VerificationTemplate.ActionUrl = "{APP_URL}/apps?verifyEmailToken={TOKEN}"
+		settings.Meta.ConfirmEmailChangeTemplate.ActionUrl = "{APP_URL}/apps?emailChangeToken={TOKEN}"
+		settings.Meta.ResetPasswordTemplate.ActionUrl = "{APP_URL}/user/auth/reset-password?resetToken={TOKEN}"
+
+		daoWH := dao.WithoutHooks() //Prevent to trigger hooks and get error from "Prevent use to change email action URLs"
+		if err := daoWH.SaveSettings(settings); err != nil {
+			return err
+		}
+
 		return nil
 	}, func(db dbx.Builder) error {
 		return nil

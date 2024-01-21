@@ -1,5 +1,6 @@
 import { APIResponse, User } from "@/types";
 import { createDefaultErrorResponse, pb } from "./utils";
+import { t } from "i18next";
 
 export function getAvatarURL(user: User) {
   return user.avatar
@@ -12,7 +13,11 @@ export async function get(id: string): APIResponse<User> {
     const user = await pb.collection("users").getOne<User>(id);
     return {
       status: 200,
-      data: { ...user, avatar: getAvatarURL(user) },
+      data: {
+        ...user,
+        avatar: getAvatarURL(user),
+        name: user.name !== "NONAME" ? user.name : t("unknown"),
+      },
     };
   } catch (e) {
     return createDefaultErrorResponse(e);
@@ -24,7 +29,11 @@ export async function list(): APIResponse<User[]> {
     const users = await pb.collection("users").getFullList<User>();
     return {
       status: 200,
-      data: users.map((u) => ({ ...u, avatar: getAvatarURL(u) })),
+      data: users.map((u) => ({
+        ...u,
+        avatar: getAvatarURL(u),
+        name: u.name !== "NONAME" ? u.name : t("unknown"),
+      })),
     };
   } catch (e) {
     return createDefaultErrorResponse(e);

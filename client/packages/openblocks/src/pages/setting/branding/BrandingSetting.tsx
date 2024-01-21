@@ -24,12 +24,34 @@ import { getUser } from "redux/selectors/usersSelectors";
 import { useDispatch } from "react-redux";
 import { setCustomConfigAction } from "@openblocks-ee/redux/reduxActions/configActions";
 
+import { Logo, LogoWithName } from "@openblocks-ee/assets/images";
+
 const AdvancedSettingContent = styled.div`
   .section-title {
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 8px;
     min-width: 288px;
+  }
+`;
+
+const ImageWrapper = styled.div`
+  height: 72px;
+
+  div {
+    border-radius: 10px !important;
+  }
+
+  path {
+    fill: #000 !important;
+  }
+
+  svg,
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px !important;
   }
 `;
 
@@ -50,9 +72,10 @@ const BrowserContainer = styled.div<{ headerColor?: string }>`
 
   .branding-name-header {
     position: absolute;
-    top: 68px;
+    top: 65px;
     left: 65px;
     font-weight: 600;
+    font-size: 15px;
     color: #fff;
     max-width: 620px;
     text-overflow: ellipsis;
@@ -68,9 +91,19 @@ const BrowserContainer = styled.div<{ headerColor?: string }>`
     left: 102px;
   }
 
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .branding-favicon svg {
+    path {
+      fill: #000 !important;
+    }
+  }
+
   .branding-logo {
     position: absolute;
-    width: 29px;
     height: 29px;
     top: 63px;
     left: 29px;
@@ -161,7 +194,7 @@ export function BrandingSettings() {
               <StyledFormInput
                 label={String.fromCharCode(173)}
                 initialValue={branding?.brandName}
-                resetEmptyToInitialValue
+                resetEmptyToValue={brandingConfig?.brandName}
                 onChange={(value) =>
                   setBranding((b) => ({
                     ...b,
@@ -174,27 +207,26 @@ export function BrandingSettings() {
             <div className="section-title">{trans("branding.logoTitle")}</div>
             <div className="section-content">
               <HeadNameWrapper>
-                <div style={{ height: "72px" }}>
+                <ImageWrapper>
                   <ProfileImageWrapper>
                     <StyledProfileImage
-                      key={branding?.logo}
-                      side={72}
+                      key={branding?.logo + "logo"}
+                      size={72}
                       source={branding?.logo}
+                      svg={!branding?.logo && <Logo />}
                       userName=""
-                      style={{ borderRadius: 10 }}
                     />
                   </ProfileImageWrapper>
-                </div>
+                </ImageWrapper>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <StyledFormInput
                     initialValue={branding?.logo}
-                    resetEmptyToInitialValue
                     label={String.fromCharCode(173)}
                     onChange={(value, valid) =>
                       valid &&
                       setBranding((b) => ({
                         ...b,
-                        logo: value || brandingConfig?.logo,
+                        logo: value,
                       }))
                     }
                     placeholder={trans("branding.logoPlaceholder")}
@@ -214,27 +246,26 @@ export function BrandingSettings() {
             </div>
             <div className="section-content">
               <HeadNameWrapper>
-                <div style={{ height: "72px" }}>
+                <ImageWrapper>
                   <ProfileImageWrapper>
                     <StyledProfileImage
-                      key={branding?.favicon}
-                      side={72}
+                      key={branding?.favicon + "favicon"}
+                      size={72}
                       source={branding?.favicon}
+                      svg={!branding?.favicon && <Logo />}
                       userName=""
-                      style={{ borderRadius: 10 }}
                     />
                   </ProfileImageWrapper>
-                </div>
+                </ImageWrapper>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <StyledFormInput
                     initialValue={branding?.favicon}
-                    resetEmptyToInitialValue
                     label={String.fromCharCode(173)}
                     onChange={(value, valid) =>
                       valid &&
                       setBranding((b) => ({
                         ...b,
-                        favicon: value || brandingConfig?.favicon,
+                        favicon: value,
                       }))
                     }
                     placeholder={trans("branding.faviconPlaceholder")}
@@ -270,20 +301,20 @@ export function BrandingSettings() {
                         trailing: true,
                       }
                     )}
-                    color={branding?.headerColor || ""}
+                    color={branding?.headerColor || "#2c2c2c"}
                     trigger="hover"
                   />
                 </div>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <StyledFormInput
                     initialValue={branding?.headerColor}
-                    resetEmptyToInitialValue
+                    resetEmptyToValue="#2c2c2c"
                     label={String.fromCharCode(173)}
                     onChange={(value, valid) =>
                       valid &&
                       setBranding((b) => ({
                         ...b,
-                        headerColor: value || brandingConfig?.headerColor,
+                        headerColor: value,
                       }))
                     }
                     placeholder={trans("branding.headColorPlaceholder")}
@@ -306,15 +337,29 @@ export function BrandingSettings() {
               {trans("advanced.saveBtn")}
             </SaveButton>
           </div>
-          <BrowserContainer headerColor={branding?.headerColor}>
+          <BrowserContainer headerColor={branding?.headerColor || "#2c2c2c"}>
             <div className="branding-name-tab">{branding?.brandName}</div>
-            <div className="branding-name-header">{branding?.brandName}</div>
-            <img
-              className="branding-favicon"
-              src={branding?.favicon}
-              alt="favicon"
-            />
-            <img className="branding-logo" src={branding?.logo} alt="logo" />
+            {branding?.logo && (
+              <div className="branding-name-header">{branding?.brandName}</div>
+            )}
+            {branding?.favicon ? (
+              <img
+                className="branding-favicon"
+                src={branding?.favicon}
+                alt="favicon"
+              />
+            ) : (
+              <div className="branding-favicon">
+                <Logo />
+              </div>
+            )}
+            {branding?.logo ? (
+              <img className="branding-logo" src={branding?.logo} alt="logo" />
+            ) : (
+              <div className="branding-logo">
+                <LogoWithName />
+              </div>
+            )}
             <img
               className="profile-image"
               src={currentUser.avatarUrl}

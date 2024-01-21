@@ -34,9 +34,9 @@ export default [
   mocker.put(
     "/api/v1/configs/custom-configs",
     adminRoute(async (req) => {
-      const { branding } = req.config.data;
+      const { branding, auths } = req.config.data;
       let settingsResponse: Awaited<ReturnType<typeof settings.update>> = {
-        status: 502,
+        status: 404,
       };
       if (branding) {
         const { brandName, headerColor, favicon, logo } = branding;
@@ -45,6 +45,10 @@ export default [
           headerColor,
           icon: favicon,
           logo,
+        });
+      } else if (auths) {
+        settingsResponse = await settings.update({
+          auths,
         });
       }
       if (settingsResponse.data) {

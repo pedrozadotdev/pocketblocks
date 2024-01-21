@@ -326,7 +326,7 @@ function PhoneNumberInput(props: {
 
 const FormInput = (props: {
   initialValue?: any;
-  resetEmptyToInitialValue?: boolean
+  resetEmptyToValue?: string
   mustFill?: boolean;
   label: string;
   placeholder?: string;
@@ -352,7 +352,7 @@ const FormInput = (props: {
         errorMsg={valueValid ? "" : checkRule?.errorMsg}
       />
       <TacoInput
-        value={props.resetEmptyToInitialValue ? valueIn || props.initialValue : valueIn}
+        value={valueIn === "" ? props.resetEmptyToValue || valueIn : valueIn}
         ref={inputRef}
         name={formName}
         placeholder={placeholder}

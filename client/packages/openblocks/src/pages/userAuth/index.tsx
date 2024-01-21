@@ -49,7 +49,7 @@ export default function UserAuth() {
       >
         <Switch location={location}>
           <Redirect exact from={USER_AUTH_URL} to={setupAdmin ? AUTH_REGISTER_URL : AUTH_LOGIN_URL} />
-          {(systemConfig.form.enableRegister || setupAdmin) &&
+          {((systemConfig.form.enableRegister && systemConfig.form.enableLogin) || setupAdmin) &&
             (
               <Route key={AUTH_REGISTER_URL} exact path={AUTH_REGISTER_URL} component={UserRegister} />
             )

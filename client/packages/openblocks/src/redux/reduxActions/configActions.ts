@@ -18,7 +18,7 @@ export const setEditorExternalStateAction = (state: Partial<ExternalEditorContex
 export interface CustomConfigPayload {
   data: {
     branding?: BrandingConfig
-    auths?: PblAuthConfig
+    auths?: Partial<PblAuthConfig>
   }
   onSuccess?: () => void
 }

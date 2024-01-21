@@ -179,7 +179,7 @@ export default function ProfileDropdown(props: DropDownProps) {
         style={{ cursor: allowUpdate.length ? "pointer" : "default" }}
       >
         <ProfileWrapper>
-          <ProfileImage source={avatarUrl} userName={label} side={48} />
+          <ProfileImage source={avatarUrl} userName={label} size={48} />
           <StyledNameLabel>
             <CommonTextLabel2 title={label}>{label}</CommonTextLabel2>
             {!!allowUpdate.length && <EditIcon />}
@@ -242,7 +242,7 @@ export default function ProfileDropdown(props: DropDownProps) {
             style={{ cursor: "pointer", userSelect: "none" }}
             source={avatarUrl}
             userName={orgDev ? userEmail : username}
-            side={props.profileSide}
+            size={props.profileSide}
             fontSize={props.fontSize}
           />
         </div>

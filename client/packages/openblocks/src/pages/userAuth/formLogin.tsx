@@ -102,7 +102,7 @@ export default function FormLogin() {
       )) }
         <ThirdPartyAuth invitationId={invitationId} authGoal="login" />
       </AuthBottomView>
-      {systemConfig.form.enableRegister && (
+      {systemConfig.form.enableRegister && systemConfig.form.enableLogin && (
         <StyledRouteLink to={{ pathname: AUTH_REGISTER_URL, state: location.state }}>
           {trans("userAuth.register")}
         </StyledRouteLink>
@@ -115,15 +115,17 @@ type OauthProps = {
     name: string
     customName: string
     customIconUrl: string
+    defaultIconUrl: string
+    defaultName: string
   }
 
 const oauthLoginLabel = (name: string) => trans("userAuth.signInLabel", { name });
 
-function OauthButton({ onClick, name, customName, customIconUrl }: OauthProps & { onClick: (provider: string) => void }) {
+function OauthButton({ onClick, name, customName, customIconUrl, defaultIconUrl, defaultName }: OauthProps & { onClick: (provider: string) => void }) {
   return (
     <StyledLoginButton onClick={() => onClick(name)}>
-      <LoginLogoStyle alt={customName} src={customIconUrl} title={customName} />
-      <CommonGrayLabel className="auth-label">{oauthLoginLabel(customName)}</CommonGrayLabel>
+      <LoginLogoStyle alt={customName || defaultName} src={customIconUrl || defaultIconUrl} title={customName || defaultName} />
+      <CommonGrayLabel className="auth-label">{oauthLoginLabel(customName || defaultName)}</CommonGrayLabel>
     </StyledLoginButton>
   );
 }

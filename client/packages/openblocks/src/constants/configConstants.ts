@@ -21,12 +21,13 @@ export interface BrandingConfig {
   headerColor?: string;
 }
 
-interface LocalAuth {
+export interface LocalAuth {
   label: string;
   inputMask: string;
 };
 
 export interface OauthAuth {
+  name: string;
   customName: string;
   customIconUrl: string;
 };

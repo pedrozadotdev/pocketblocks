@@ -1,6 +1,10 @@
 package core
 
 import (
+	"bytes"
+	"io"
+	"mime"
+	"net/http"
 	"os"
 	"slices"
 	"time"
@@ -13,7 +17,11 @@ import (
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
+	"github.com/pocketbase/pocketbase/forms"
+	"github.com/pocketbase/pocketbase/models"
+	"github.com/pocketbase/pocketbase/tools/filesystem"
 	"github.com/pocketbase/pocketbase/tools/hook"
+	"github.com/pocketbase/pocketbase/tools/security"
 )
 
 func uiCacheControl() echo.MiddlewareFunc {
@@ -266,6 +274,80 @@ func registerHooks(app *pocketbase.PocketBase, publicDir string, queryTimeout in
 			return apis.NewForbiddenError("You cannot change the password.", nil)
 		}
 
+		return nil
+	})
+
+	//Prevent Name Required Error when login with oauth
+	app.OnRecordBeforeAuthWithOAuth2Request("users").Add(func(e *core.RecordAuthWithOAuth2Event) error {
+		if e.Record == nil {
+			newUser := models.NewRecord(e.Collection)
+			form := forms.NewRecordUpsert(app, newUser)
+			form.SetFullManageAccess(true)
+
+			var name, username, email, password string
+			verified := false
+
+			if e.OAuth2User.Username != "" &&
+				len(e.OAuth2User.Username) >= 3 &&
+				len(e.OAuth2User.Username) <= 150 &&
+				utils.UsernameRegex.MatchString(e.OAuth2User.Username) {
+				username = app.Dao().SuggestUniqueAuthRecordUsername(
+					e.Collection.Id,
+					e.OAuth2User.Username,
+				)
+			}
+			if e.OAuth2User.Email != "" {
+				email = e.OAuth2User.Email
+				verified = true
+			}
+			password = security.RandomString(30)
+			name = e.OAuth2User.Name
+			if name == "" {
+				name = "NONAME"
+			}
+
+			err := form.LoadData(map[string]any{
+				"username":        username,
+				"name":            name,
+				"email":           email,
+				"password":        password,
+				"passwordConfirm": password,
+				"verified":        verified,
+			})
+			if err != nil {
+				return err
+			}
+
+			if e.OAuth2User.AvatarUrl != "" {
+				response, err := http.Get(e.OAuth2User.AvatarUrl)
+				if err != nil {
+					return err
+				}
+				defer response.Body.Close()
+
+				buffer := new(bytes.Buffer)
+				_, err = io.Copy(buffer, response.Body)
+				if err != nil {
+					return err
+				}
+				extensions, err := mime.ExtensionsByType(response.Header.Get("Content-type"))
+				if err != nil {
+					return err
+				}
+				if len(extensions) > 0 {
+					ext := extensions[len(extensions)-1]
+					file, err := filesystem.NewFileFromBytes(buffer.Bytes(), "avatar"+ext)
+					if err != nil {
+						return err
+					}
+					form.AddFiles("avatar", file)
+				}
+			}
+			if err := form.Submit(); err != nil {
+				return err
+			}
+			e.Record = newUser
+		}
 		return nil
 	})
 }

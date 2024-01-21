@@ -100,7 +100,7 @@ function PermissionLiItem(props: {
   return (
     <PermissionLi key={permissionItem.permissionId}>
       <ProfileImage
-        side={32}
+        size={32}
         userName={permissionItem.name}
         source={permissionItem.avatar && permissionItem.avatar}
         svg={

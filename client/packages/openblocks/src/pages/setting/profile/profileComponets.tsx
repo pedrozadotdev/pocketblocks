@@ -276,7 +276,7 @@ export function HeadNameFiled() {
         >
           <ProfileImageWrapper>
             <StyledProfileImage
-              side={72}
+              size={72}
               source={user.avatarUrl}
               userName={user.username}
             />

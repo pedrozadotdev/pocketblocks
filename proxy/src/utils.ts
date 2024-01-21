@@ -194,15 +194,14 @@ export async function getAuthConfigs() {
     result.oauth = authMethods
       .filter((m) => m !== "username" && m !== "email")
       .map((name) => {
-        const { customIconUrl, customName } = auths[
-          name as keyof Auths
-        ] as OauthAuth;
+        const { customIconUrl, customName, defaultIconUrl, defaultName } =
+          auths[name as keyof Auths] as OauthAuth;
         return {
           name,
           customIconUrl,
-          customName: customName
-            ? customName
-            : name.toUpperCase() + name.slice(1),
+          customName,
+          defaultIconUrl,
+          defaultName,
         } as Oauth;
       });
   }

@@ -18,6 +18,8 @@ var IdRegex = regexp.MustCompile(`^[^\@\#\$\&\|\.\,\'\"\\\/\s]+$`)
 
 var SlugRegex = regexp.MustCompile(`^[A-Za-z0-9]+(?:[-_][A-Za-z0-9]+)*$`)
 
+var UsernameRegex = regexp.MustCompile(`^[\w][\w\.\-]*$`)
+
 func GenerateId() string {
 	return security.RandomStringWithAlphabet(DefaultIdLength, DefaultIdAlphabet)
 }

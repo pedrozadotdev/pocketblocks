@@ -237,7 +237,7 @@ function PermissionSelectorOption(props: { optionView: AddAppOptionView }) {
     <OptionViewWrapper>
       <ProfileImage
         userName={optionView.name}
-        side={32}
+        size={32}
         source={optionView.avatarUrl}
         svg={groupIcon}
       />
@@ -249,11 +249,11 @@ function PermissionSelectorOption(props: { optionView: AddAppOptionView }) {
 function PermissionSelectorLabel(props: { view: AddAppOptionView }) {
   const { view } = props;
   const groupIcon = view.type === "GROUP" && (
-    <StyledGroupIcon color={getInitialsAndColorCode(view.name)[1]} side={9} />
+    <StyledGroupIcon color={getInitialsAndColorCode(view.name)[1]} size={9} />
   );
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
-      <LabelProfileImage userName={view.name} side={18} source={view.avatarUrl} svg={groupIcon} />
+      <LabelProfileImage userName={view.name} size={18} source={view.avatarUrl} svg={groupIcon} />
       <CommonTextLabel
         style={{
           marginLeft: "4px",

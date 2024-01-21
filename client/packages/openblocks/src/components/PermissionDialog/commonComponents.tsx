@@ -48,10 +48,10 @@ export const RoleSelectOptionWrapper = styled.div`
 
 export const StyledGroupIcon = styled(GroupIcon)<{
   color: string;
-  side?: number;
+  size?: number;
 }>`
-  width: ${(props) => props.side ?? 16}px;
-  height: ${(props) => props.side ?? 16}px;
+  width: ${(props) => props.size ?? 16}px;
+  height: ${(props) => props.size ?? 16}px;
 
   g g {
     fill: ${(props) => props.color};

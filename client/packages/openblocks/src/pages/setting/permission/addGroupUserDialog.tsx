@@ -107,7 +107,7 @@ function AddGroupUserDialog(props: {
                 ellipsis
                 render={(value, record: OrgUser) => (
                   <UserTableCellWrapper>
-                    <ProfileImage source={record.avatarUrl} userName={record.name} side={32} />
+                    <ProfileImage source={record.avatarUrl} userName={record.name} size={32} />
                     <span title={record.name}>{record.name}</span>
                     {isGroupAdmin(record.role) && <SuperUserIcon />}
                   </UserTableCellWrapper>

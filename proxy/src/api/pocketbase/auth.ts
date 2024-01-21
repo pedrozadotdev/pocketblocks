@@ -90,6 +90,8 @@ export async function getCurrentUser(): APIResponse<User> {
       ? "/_/images/avatars/avatar" + pb.authStore.model.avatar + ".svg"
       : users.getAvatarURL(user);
 
+    user.name = user.name !== "NONAME" ? user.name : t("unknown");
+
     return { status: 200, data: user };
   }
   return { status: 401 };

@@ -75,6 +75,8 @@ type LocalAuth = {
 export type OauthAuth = {
   customName: string;
   customIconUrl: string;
+  defaultName: string;
+  defaultIconUrl: string;
 };
 
 export type Auths = {
