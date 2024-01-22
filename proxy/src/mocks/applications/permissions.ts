@@ -1,4 +1,4 @@
-import { apps, settings, users } from "@/api";
+import { apps, settings, users, groups } from "@/api";
 import { ALL_USERS_GROUP_ID } from "@/constants";
 import { mocker } from "@/mocker";
 import {
@@ -20,6 +20,7 @@ type Permission = {
 
 async function createPermissions(app: Application): Promise<Permission[]> {
   const result: Permission[] = [];
+  const allGroups = await groups.list();
   if (app.allUsers) {
     result.push({
       permissionId: `${ALL_USERS_GROUP_ID}|GROUP`,
@@ -31,13 +32,13 @@ async function createPermissions(app: Application): Promise<Permission[]> {
     });
   }
   await Promise.all(
-    app.groups.map(async (g) => {
-      const { id, name } = typeof g === "string" ? { id: g, name: g } : g;
+    app.groups.map(async (id) => {
+      const group = allGroups.data?.find((g) => g.id === id);
       result.push({
         permissionId: `${id}|GROUP`,
         type: "GROUP",
         id,
-        name,
+        name: group?.name || id,
         role: "viewer",
       });
     }),

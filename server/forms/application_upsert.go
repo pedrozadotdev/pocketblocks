@@ -120,14 +120,22 @@ func (form *ApplicationUpsert) Submit() (*models.Application, error) {
 		form.application.SetId(form.Id)
 	}
 
+	var groupsStr, usersStr string
+	if len(form.Groups) > 0 {
+		groupsStr = "\"" + strings.Join(form.Groups, "\",\"") + "\""
+	}
+	if len(form.Users) > 0 {
+		usersStr = "\"" + strings.Join(form.Users, "\",\"") + "\""
+	}
+
 	form.application.Id = form.Id
 	form.application.Name = form.Name
 	form.application.Type = form.Type
 	form.application.Status = form.Status
 	form.application.Public = form.Public
 	form.application.AllUsers = form.AllUsers
-	form.application.RawGroups = "[" + strings.Join(form.Groups, ",") + "]"
-	form.application.RawUsers = "[" + strings.Join(form.Users, ",") + "]"
+	form.application.RawGroups = "[" + groupsStr + "]"
+	form.application.RawUsers = "[" + usersStr + "]"
 	form.application.AppDsl = form.AppDsl
 	form.application.EditDsl = form.EditDsl
 

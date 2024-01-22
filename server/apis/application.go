@@ -41,8 +41,8 @@ func (api *applicationApi) list(c echo.Context) error {
 
 	if info.Admin == nil {
 		groups, err := api.dao.FindRecordsByFilter(
-			"_pb_groups_col_",
-			"users ?= \""+info.AuthRecord.Id+"\"",
+			"groups",
+			"users.id ?= \""+info.AuthRecord.Id+"\"",
 			"-created",
 			500,
 			0,
@@ -101,8 +101,8 @@ func (api *applicationApi) view(c echo.Context) error {
 	if info.Admin == nil {
 		if info.AuthRecord != nil {
 			groups, err := api.dao.FindRecordsByFilter(
-				"_pb_groups_col_",
-				"users ?= \""+info.AuthRecord.Id+"\"",
+				"groups",
+				"users.id ?= \""+info.AuthRecord.Id+"\"",
 				"-created",
 				500,
 				0,
