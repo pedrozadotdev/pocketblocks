@@ -307,6 +307,7 @@ export function BrandingSettings() {
                 </div>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <StyledFormInput
+                    key={branding?.headerColor}
                     initialValue={branding?.headerColor}
                     resetEmptyToValue="#2c2c2c"
                     label={String.fromCharCode(173)}
