@@ -177,7 +177,7 @@ function CreateModal(props: CreateModalProp) {
                       }
                       placeholder={trans("idSource.customIconUrlPlaceholder")}
                       checkRule={{
-                        check: (value) => !value || checkUrlValid(value),
+                        check: (value) => !value || checkUrlValid(value) || value.startsWith("/pbl/"),
                         errorMsg: trans("idSource.customIconUrlCheckMsg"),
                       }}
                     />

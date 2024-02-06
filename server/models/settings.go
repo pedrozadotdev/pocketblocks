@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"strings"
 	"sync"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
@@ -38,8 +39,8 @@ func (s *Settings) Validate(validateHomePageAppSlug ...validation.Rule) error {
 
 	return validation.ValidateStruct(s,
 		validation.Field(&s.Name, validation.Required),
-		validation.Field(&s.LogoUrl, is.URL),
-		validation.Field(&s.IconUrl, is.URL),
+		validation.Field(&s.LogoUrl, validation.When(strings.HasPrefix(s.LogoUrl, "/pbl/")).Else(is.URL)),
+		validation.Field(&s.IconUrl, validation.When(strings.HasPrefix(s.IconUrl, "/pbl/")).Else(is.URL)),
 		validation.Field(&s.HeaderColor, is.HexColor),
 		validation.Field(&s.HomePageAppSlug, validateHomePageAppSlug...),
 		validation.Field(&s.Themes, is.JSON),
@@ -207,6 +208,6 @@ type OauthAuth struct {
 // Validate makes OauthAuth validatable by implementing [validation.Validatable] interface.
 func (a *OauthAuth) Validate() error {
 	return validation.ValidateStruct(&a,
-		validation.Field(&a.CustomIconUrl, is.URL),
+		validation.Field(&a.CustomIconUrl, validation.When(strings.HasPrefix(a.CustomIconUrl, "/pbl/")).Else(is.URL)),
 	)
 }

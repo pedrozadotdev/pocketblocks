@@ -231,7 +231,7 @@ export function BrandingSettings() {
                     }
                     placeholder={trans("branding.logoPlaceholder")}
                     checkRule={{
-                      check: (value) => !value || checkUrlValid(value),
+                      check: (value) => !value || checkUrlValid(value) || value.startsWith("/pbl/"),
                       errorMsg: trans("branding.urlCheck"),
                     }}
                   />
@@ -270,7 +270,7 @@ export function BrandingSettings() {
                     }
                     placeholder={trans("branding.faviconPlaceholder")}
                     checkRule={{
-                      check: (value) => !value || checkUrlValid(value),
+                      check: (value) => !value || checkUrlValid(value) || value.startsWith("/pbl/"),
                       errorMsg: trans("branding.urlCheck"),
                     }}
                   />

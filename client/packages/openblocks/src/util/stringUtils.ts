@@ -62,7 +62,7 @@ export const COLOR_PALETTE = [
 
 export const PHONE_NUMBER_PATTERN = /^1\d{10}$/;
 export const EMAIL_PATTERN = /^[\w-+.]+@([\w-]+\.)+[\w-]{2,}$/;
-export const URL_PATTERN = /^(https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)$/; // prettier-ignore
+export const URL_PATTERN = /^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$/; // prettier-ignore
 export const HEXCOLOR_PATTERN =/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 
 export const checkOtpValid = (value: string): boolean => {
