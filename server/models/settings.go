@@ -124,6 +124,8 @@ func (s *Settings) GetOauthByAuthName(name string) OauthAuth {
 		return s.Auths.Patreon
 	case "mailcow":
 		return s.Auths.Mailcow
+	case "bitbucket":
+		return s.Auths.Bitbucket
 	default:
 		return OauthAuth{}
 	}
@@ -162,6 +164,7 @@ type Auths struct {
 	Yandex    OauthAuth `form:"yandex" json:"yandex"`
 	Patreon   OauthAuth `form:"patreon" json:"patreon"`
 	Mailcow   OauthAuth `form:"mailcow" json:"mailcow"`
+	Bitbucket OauthAuth `form:"bitbucket" json:"bitbucket"`
 }
 
 // Validate makes Auths validatable by implementing [validation.Validatable] interface.
@@ -190,6 +193,7 @@ func (a *Auths) Validate() error {
 		validation.Field(&a.Patreon),
 		validation.Field(&a.Patreon),
 		validation.Field(&a.Mailcow),
+		validation.Field(&a.Bitbucket),
 	)
 }
 

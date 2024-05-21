@@ -103,6 +103,7 @@ export type Auths = {
   yandex: OauthAuth;
   patreon: OauthAuth;
   mailcow: OauthAuth;
+  bitbucket: OauthAuth;
 };
 
 type OauthNames = Extract<keyof Omit<Auths, "local">, string>;

@@ -56,6 +56,7 @@ export interface PblAuthConfig {
   yandex: OauthAuth;
   patreon: OauthAuth;
   mailcow: OauthAuth;
+  bitbucket: OauthAuth;
 };
 
 export type ConfigBaseInfo = {
