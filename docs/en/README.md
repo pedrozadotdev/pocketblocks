@@ -1,4 +1,4 @@
-# PocketBlocks overview
+# Overview
 
 ## What is PocketBlocks?
 

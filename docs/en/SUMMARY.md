@@ -1,6 +1,6 @@
 # Table of contents
 
-- [PocketBlocks overview](README.md)
+- [Overview](README.md)
 - [Installation](install.md)
 
 ## Build apps
