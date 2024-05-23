@@ -1,4 +1,4 @@
-# PocketBlocks' frontend
+# PocketBlocks's frontend
 
 ## How to contribute
 

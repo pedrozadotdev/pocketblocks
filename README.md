@@ -2,6 +2,8 @@
 
 <img src="client/packages/openblocks/src/assets/images/logo-with-name.svg" width="280" alt="Logo">
 
+Tradução deste arquivo em Português disponível [neste link](README.pt-br.md).
+
 ## What is PocketBlocks?
 
 **Openblocks + PocketBase = PocketBlocks.**
@@ -24,7 +26,7 @@ Building an internal app basically takes 4 steps:
 
 1. Quickly connect to your Pocketbase API using its SDK.
 2. Use pre-built or user-customized UI components to build your app UI.
-3. Set up [event handlers](build-apps/event-handlers.md) to trigger javascript functions, control components or other actions in reaction to user interactions.
+3. Set up [event handlers](docs/en/build-apps/event-handlers.md) to trigger javascript functions, control components or other actions in reaction to user interactions.
 4. Preview and share your app with others.
 
 ## License

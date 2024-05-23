@@ -1,28 +1,28 @@
-# Installation
+# Instalação
 
-In this article, you will be guided through hosting PocketBlocks on your own server:
+Neste artigo, você vai aprender como hospedar PocketBlocks em seu próprio servidor:
 
-### Manual
+### Manualmente
 
-- Download the binary of your OS and arch from [Release Page](https://github.com/internoapp/pocketblocks/releases);
-- Run `./pocketblocks serve`;
-- Access [PocketBlocks App](http://localhost:8090) and create the first admin user.
+- Baixe o binário do seu sistema operacional e arco na [Página de Lançamento](https://github.com/internoapp/pocketblocks/releases);
+- Execute o comando `./pocketblocks serve` no terminal;
+- Acesse o [Aplicativo do PocketBlocks](http://localhost:8090) e crie o primeiro usuário administrador.
 
 ### Docker
 
-- Get the [docker-compose.yml](https://raw.githubusercontent.com/internoapp/pocketblocks/main/docker-compose.yml) file;
-- Run `docker compose up -d`;
-- Access [PocketBlocks App](http://localhost:8080) and create the first admin user.
+- Salve o arquivo [docker-compose.yml](https://raw.githubusercontent.com/internoapp/pocketblocks/main/docker-compose.yml);
+- Execute o comando `docker compose up -d` no terminal;
+- Acesse o [Aplicativo do PocketBlocks](http://localhost:8080) e crie o primeiro usuário administrador.
 
 ### Fly.io
 
-- Get the [fly.toml](https://raw.githubusercontent.com/internoapp/pocketblocks/main/fly.toml) file;
-- Edit the `app-name` field;
-- Run `flyctl launch`;
-- Run `flyctl vol create data`;
-- Run `flyctl deploy`;
-- Access `https://<your-app-name>.fly.dev` and create the first admin user.
+- Salve o arquivo [fly.toml](https://raw.githubusercontent.com/internoapp/pocketblocks/main/fly.toml);
+- Edite o campo `app-name`;
+- Execute o comando `flyctl launch` no terminal;
+- Execute o comando `flyctl vol create data` no terminal;
+- Execute o comando `flyctl deploy` no terminal;
+- Accesse `https://<your-app-name>.fly.dev` e crie o primeiro usuário administrador.
 
 {% hint style="info" %}
-Remember that PocketBlocks uses Openblocks as the frontend. The `pb_public` dir is already set up but you can use the `pbl_public` dir and all files from that directory will be served at `<serverAddress>/pbl/` path.
+Lembre-se de que PocketBlocks usa o Openblocks como frontend. O diretório `pb_public` já está configurado, mas você pode usar o diretório `pbl_public` e todos os arquivos desse diretório serão servidos no caminho `<serverAddress>/pbl/`.
 {% endhint %}

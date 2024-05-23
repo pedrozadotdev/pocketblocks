@@ -1,4 +1,4 @@
-# PocketBlocks' proxy
+# PocketBlocks's proxy
 
 This folder is where all code related to bridging Openblocks API calls to Pocketbase API sits.
 

@@ -1,4 +1,8 @@
-# Visão Geral
+![Static Badge](https://img.shields.io/badge/Estado_do_Projeto:-Sob_Desenvolvimento_Ativo-green)
+
+<img src="client/packages/openblocks/src/assets/images/logo-with-name.svg" width="280" alt="Logo">
+
+Translation of this file into English available at [this link](README.md).
 
 ## O que é PocketBlocks?
 
@@ -22,5 +26,9 @@ Construir um aplicativo interno leva basicamente 4 passos:
 
 1. Conecte-se rapidamente à sua API Pocketbase usando o SDK.
 2. Use componentes de UI pré-construídos ou personalizados pelo usuário para construir a UI do seu aplicativo.
-3. Configure [manipuladores de eventos](build-apps/event-handlers.md) para acionar funções javascript, controlar componentes ou outras ações em reação às interações do usuário.
+3. Configure [manipuladores de eventos](docs/pt-br/build-apps/event-handlers.md) para acionar funções javascript, controlar componentes ou outras ações em reação às interações do usuário.
 4. Visualize e compartilhe seu aplicativo com outras pessoas.
+
+## Licença
+
+AGPL3
