@@ -1,7 +1,7 @@
-# Where are the Data Sources/Query Library?
+# Onde estão as fontes de dados/biblioteca de consultas?
 
-PocketBlocks integrates Openblocks and PocketBase, or at least the client's part. As this project aims to create as much flexibility as possible between those two software, we opted not to port the **data source/query library** features as we have access to the [Pocketbase SDK](https://pocketbase.io/docs/client-side-sdks/) through **window.pb**. We also can use the [extend features](https://pocketbase.io/docs/js-overview/) of Pocketbase to integrate with data sources using something like [n8n](https://n8n.io/) or [Zarpier](https://zapier.com/).
+PocketBlocks integra Openblocks e PocketBase, ou pelo menos a parte do cliente. Como este projeto visa criar o máximo de flexibilidade possível entre esses dois softwares, optamos por não portar os recursos **fonte de dados/biblioteca de consulta**, pois temos acesso ao [Pocketbase SDK](https://pocketbase.io/docs/client-side-sdks/) por meio do **window.pb**. Também podemos usar os [recursos de extensão](https://pocketbase.io/docs/js-overview/) do Pocketbase para integração com fontes de dados usando algo como [n8n](https://n8n.io/) ou [ Zarpier](https://zapier.com/).
 
-{% hint style="info" %}
-We also provide a [QueryClient instance](https://tanstack.com/query/v4/docs/react/reference/QueryClient) for caching purposes. You can access it with **window.qc**. It uses sessionStorage with a staleTime of 5 minutes.
+{% dica estilo = "info" %}
+Também fornecemos uma [instância do QueryClient](https://tanstack.com/query/v4/docs/react/reference/QueryClient) para fins de armazenamento em cache. Você pode acessá-lo com **window.qc**. Ele usa sessionStorage com staleTime de 5 minutos.
 {% endhint %}

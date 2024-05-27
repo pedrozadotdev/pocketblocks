@@ -1,31 +1,31 @@
-# Members and groups
+# Membros e grupos
 
-In PocketBlocks, you can organize the members of your workspace using different groups, and assign roles to groups to manage [permissions for resources](permissions-for-resources.md). You can find members and groups settings in **users** and **groups** on Pocketbase Admin Panel.
+No PocketBlocks, você pode organizar os membros do seu espaço de trabalho usando diferentes grupos e atribuir funções aos grupos para gerenciar [permissões para recursos](permissions-for-resources.md). Você pode encontrar configurações de membros e grupos em **users** e **groups** no painel de administração do Pocketbase.
 
 <figure><img src="../.gitbook/assets/workspace-management/members-and-groups/01.png" alt=""><figcaption></figcaption></figure>
 
-## Manage workspace members
+## Gerenciando membros do espaço de trabalho
 
-### Workspace roles and permissions
+### Funções e permissões do espaço de trabalho
 
-Users can be **Admins** or **Members**. To be an **Admin** the user needs to be a **Pocketbase Admin**, if not, it will be a **member**.
+Os usuários podem ser **Administradores** ou **Membros**. Para ser um **Administradores** o usuário precisa ser um **Pocketbase Admin**, caso contrário, será um **membro**.
 
-| Role   | Workspace and group level permissions                                                                                                                                                                                                            |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Admin  | <p>Workspace</p><ul><li>Modify workspace information (name, logo, etc.)</li><li>Manage workspace members</li><li>View workspace members</li></ul><p>Groups</p><ul><li>Create groups</li><li>Delete groups</li><li>Manage group members</li></ul> |
-| Member | None                                                                                                                                                                                                                                             |
+| Função        | Permissões em nível de espaço de trabalho e grupo                                                                                                                                                                                                                                                           |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Administrador | <p>Espaço de trabalho</p><ul><li>Modificar informações do espaço de trabalho (nome, logotipo etc.)</li><li>Gerenciar membros do espaço de trabalho</li><li>Ver membros do espaço de trabalho</li></ul><p>Grupos</p><ul><li>Criar grupos</li><li>Excluir grupos</li><li>Gerenciar membros do grupo</li></ul> |
+| Membro        | Nenhuma                                                                                                                                                                                                                                                                                                     |
 
-## Manage groups
+## Gerenciando grupos
 
-Group-based management helps to organize members from different functional departments in your workspace. You can create groups in **groups** Pocketbase collection.
+O gerenciamento baseado em grupo ajuda a organizar membros de diferentes departamentos funcionais em seu espaço de trabalho. Você pode criar grupos na coleção **groups** do Pocketbase.
 
 <figure><img src="../.gitbook/assets/workspace-management/members-and-groups/02.png" alt=""><figcaption></figcaption></figure>
 
-### Group roles and permissions
+### Funções e permissões de grupo
 
-The permissions are listed in the table below.
+As permissões estão listadas na tabela abaixo.
 
-| Role   | Permissions                                                                                                                                                         |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Admin  | <ul><li>Change group name</li><li>Delete groups</li><li>Manage group members</li><li>View group members</li><li>Manage group apps</li><li>View group apps</li></ul> |
-| Member | View group apps                                                                                                                                                     |
+| Função        | Permissões                                                                                                                                                                                             |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Administrador | <ul><li>Alterar nome do grupo</li><li>Excluir grupos</li><li>Gerenciar membros do grupo</li><li>Ver membros do grupo</li><li>Gerenciar aplicativos de grupo</li><li>Ver aplicativos de grupo</li></ul> |
+| Membro        | Ver aplicativos do grupo                                                                                                                                                                               |

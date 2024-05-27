@@ -21,8 +21,8 @@ Neste artigo, você vai aprender como hospedar PocketBlocks em seu próprio serv
 - Execute o comando `flyctl launch` no terminal;
 - Execute o comando `flyctl vol create data` no terminal;
 - Execute o comando `flyctl deploy` no terminal;
-- Accesse `https://<your-app-name>.fly.dev` e crie o primeiro usuário administrador.
+- Acesse `https://<nome-do-seu-app>.fly.dev` e crie o primeiro usuário administrador.
 
 {% hint style="info" %}
-Lembre-se de que PocketBlocks usa o Openblocks como frontend. O diretório `pb_public` já está configurado, mas você pode usar o diretório `pbl_public` e todos os arquivos desse diretório serão servidos no caminho `<serverAddress>/pbl/`.
+Lembre-se de que PocketBlocks usa o Openblocks como frontend. O diretório `pb_public` já está configurado, mas você pode usar o diretório `pbl_public` e todos os arquivos desse diretório serão servidos no caminho `<endereçoDoServidor>/pbl/`.
 {% endhint %}

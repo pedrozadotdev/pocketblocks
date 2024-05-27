@@ -4,7 +4,7 @@ With PocketBLocks plugins, you can develop customized components that are consis
 
 ## Initialization
 
-Execute the following `yarn start` file:
+Execute the following commands:
 
 ```bash
 # Project initiation

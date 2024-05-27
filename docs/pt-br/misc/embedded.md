@@ -1,10 +1,10 @@
-# Embedding Apps in HTML Pages
+# Incorporando aplicativos em páginas HTML
 
-It is also possible to embed PocketBlocks Apps on any HTML Page with simple Scripts, using the [PocketBlocks SDK](https://github.com/internoapp/pocketblocks/tree/main/client/packages/openblocks-sdk) through **window.$pbl**. This enables you to embed PocketBlocks Apps even without deep knowledge of React or Web Development.
+Também é possível incorporar aplicativos PocketBlocks em qualquer página HTML com scripts simples, usando o [SDK PocketBlocks](https://github.com/internoapp/pocketblocks/tree/main/client/packages/openblocks-sdk) através de **window.$pbl**. Isso permite que você incorpore aplicativos PocketBlocks mesmo sem conhecimento profundo de React ou Desenvolvimento Web.
 
-## How to
+## Como fazer
 
-To do it, all installations of PocketBlocks bring an **embedded.html** file in **pb_public** folder with a code example.
+Para isso, todas as instalações do PocketBlocks trazem um arquivo **embedded.html** na pasta **pb_public** com um exemplo de código.
 
 ```html
 <!DOCTYPE html>
@@ -13,7 +13,7 @@ To do it, all installations of PocketBlocks bring an **embedded.html** file in *
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PocketBlocks Embedded</title>
+    <title>PocketBlocks Embarcado</title>
     <script type="module" crossorigin src="/js/proxy.js"></script>
     <style>
       .demo-title {
@@ -35,7 +35,7 @@ To do it, all installations of PocketBlocks bring an **embedded.html** file in *
     <link rel="stylesheet" href="/assets/index-<HASH>.css" />
   </head>
   <body>
-    <h1 class="demo-title">PocketBlocks Embedded</h1>
+    <h1 class="demo-title">PocketBlocks Embarcado</h1>
     <div id="app" class="demo"></div>
 
     <script>
@@ -81,12 +81,12 @@ To do it, all installations of PocketBlocks bring an **embedded.html** file in *
 </html>
 ```
 
-You can test it accessing your local installation at `http://<host>/embedded.html?appId=<appSlug>`
+Você pode testá-lo acessando sua instalação local em `http://<host>/embedded.html?appId=<appSlug>`
 
 {% hint style="warning" %}
-Only **apps** can be embedded in pages. Do not use **navigations** or **modules**.
+Apenas **aplicativos** podem ser incorporados em páginas. Não use **navegações** ou **módulos**.
 {% endhint %}
 
 {% hint style="info" %}
-Do not copy the code above. Always access your **embedded.html** to get the correct code as `<HASH>` changes with updates.
+Não copie o código acima. Sempre acesse seu **embedded.html** para obter o código correto pois o `<HASH>` muda com atualizações.
 {% endhint %}

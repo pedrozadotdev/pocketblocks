@@ -1,15 +1,15 @@
-# Custom branding
+# Customização de Marca
 
-PocketBlocks provides a white-labelling feature that allows you to customize your workspace's **branding**, including logo, favicon, brand name and color. You can easily configure branding to match your company's branding and benefit from consistent experiences with your company's existing internal tools.
+PocketBlocks fornece um recurso de white-labeling que permite personalizar a **marca** do seu espaço de trabalho, incluindo logotipo, favicon, nome da marca e cor. Você pode configurar facilmente a marca para combinar com a marca da sua empresa e se beneficiar de experiências consistentes com as ferramentas internas existentes da sua empresa.
 
-## Branding settings
+## Configurações de marca
 
-Only **Admins** have the permission to customize branding. Navigate to **PocketBlocks Settings** and go to **Branding**.
+Somente **Administradores** têm permissão para personalizar a marca. Navegue até **Configurações do PocketBlocks** e vá para **Marca**.
 
 <figure><img src="../.gitbook/assets/workspace-management/customize-branding/01.png" alt=""><figcaption></figcaption></figure>
 
-As you change the data, the preview on the side updates in real time.
+Conforme você altera os dados, a visualização lateral é atualizada em tempo real.
 
 {% hint style="info" %}
-This customization only applies to non-administrators, so administrators continue to view the default branding(PocketBlocks).
+Essa personalização se aplica apenas a não administradores, portanto, os administradores continuam a visualizar a marca padrão (PocketBlocks).
 {% endhint %}

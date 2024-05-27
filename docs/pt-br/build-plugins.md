@@ -1,99 +1,99 @@
-# Develop UI component plugins
+# Desenvolvendo plug-ins de componentes de UI
 
-With PocketBLocks plugins, you can develop customized components that are consistent with native components for your specific scenarios.
+Com os plug-ins do PocketBLocks, você pode desenvolver componentes personalizados que sejam consistentes com os componentes nativos para seus cenários específicos.
 
-## Initialization
+## Initialização
 
-Execute the following `yarn start` file:
+Execute os comandos a seguir:
 
 ```bash
-# Project initiation
-yarn create pocketblocks-plugin my-plugin
+# Iniciação do projeto
+yarn create pocketblocks-plugin meu-plugin
 
-# Go to the project root
-cd my-plugin
+# Vá para a raiz do projeto
+cd meu-plugin
 
-# Start the development environment
+# Inicie o ambiente de desenvolvimento
 yarn start
 ```
 
-## Component development environment
+## Ambiente de desenvolvimento de componentes
 
-After executing `yarn start`, the browser is automatically opened and you enter the component development environment.
+Após executar `yarn start`, o navegador é aberto automaticamente e você entra no ambiente de desenvolvimento do componente.
 
-<figure><img src=".gitbook/assets/build-plugins/01.jpeg" alt="Screenshot of component development environment"><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/build-plugins/01.jpeg" alt="Captura de tela do ambiente de desenvolvimento de componentes"><figcaption></figcaption></figure>
 
-## Plugin configurations
+## Configurando o plug-in
 
-In `openblocks` field in `package.json` file, you need to define the component properties. For example, the following is the explanation of several fields:
+No campo `openblocks` no arquivo `package.json`, você precisa definir as propriedades do componente. Por exemplo, a seguir está a explicação de vários campos:
 
-- `comps` defines UI components contained in the plugin. For each component, the key name of the object is the unique identity, and the value is metadata.
-- `comps[someCompKey].name` defines the component name shown in the **Insert** tab.
-- `comps[someCompKey].icon` defines the component icon shown on the canvas. Use a relative path to where `package.json` file is located.
-- `comps[someCompKey].layoutInfo` defines the component layout:
-  - w: width of the component. Counted by the number of grid cells (range: 1 - 24).
-  - h: height of the component. Counted by the number of grid cells (range: >= 1).
+- `comps` define os componentes da UI contidos no plugin. Para cada componente, o nome da chave do objeto é a identidade exclusiva e o valor são os metadados.
+- `comps[algumaChaveDeComponente].name` define o nome do componente mostrado na aba **Inserir**.
+- `comps[algumaChaveDeComponente].icon` define o ícone do componente mostrado na tela. Use um caminho relativo para onde o arquivo `package.json` está localizado.
+- `comps[algumaChaveDeComponente].layoutInfo` define o layout do componente:
+  - w: largura do componente. Contado pelo número de células da grade (intervalo: 1 - 24).
+  - h: altura do componente. Contado pelo número de células da grade (intervalo: >= 1).
 
 ```bash
   "openblocks": {
     "description": "",
     "comps": {
-      "hello_world": {
-        "name": "Hello World",
-        "icon": "./icons/hello_world.png",
+      "ola_mundo": {
+        "name": "Olá mundo",
+        "icon": "./icons/ola_mundo.png",
         "layoutInfo": {
           "w": 12,
           "h": 5
         }
       },
-      "counter": {
-        "name": "Counter",
-        "icon": "./icons/hello_world.png"
+      "contador": {
+        "name": "Contador",
+        "icon": "./icons/ola_mundo.png"
       }
     }
   }
 ```
 
-## Export components
+## Exportando componentes
 
-To export all the components, use `src/index.ts`, for example:
+Para exportar todos os componentes, use `src/index.ts`, por exemplo:
 
 ```bash
-import HelloWorldComp from "./HelloWorldComp";
+import OlaMundoComp from "./OlaMundoComp";
 
 export default {
-  hello_world: HelloWorldComp,
+  ola_mundo: OlaMundoComp,
 };
 ```
 
-The default exported object `key` needs to be consistent with the `key` configured in `comps` in `package.json` file.
+O objeto exportado padrão `chave` precisa ser consistente com a `chave` configurada em `comps` no arquivo `package.json`.
 
-## Publish plugins
+## Publicando plug-ins
 
-When you finish developing and testing the plugin, you can publish it into the npm registry. Login in to the npm registry locally, and then execute the following command:
+Ao terminar de desenvolver e testar o plugin, você poderá publicá-lo no registro npm. Faça login no registro npm localmente e execute o seguinte comando:
 
 ```
 yarn build --publish
 ```
 
-If you do not specify the parameter `--publish`, the `tar` file will be saved in the root folder.
+Se você não especificar o parâmetro `--publish`, o arquivo `tar` será salvo na pasta raiz.
 
-## Import plugins
+## Importando plug-ins
 
-In the PocketBLocks app, click **Insert** > **Extensions** > **Add npm plugin** in the right pane. <img src=".gitbook/assets/build-plugins/02.png" alt="" data-size="original">
+No aplicativo PocketBLocks, clique em **Inserir** > **Extensões** > **Adicionar plug-in npm** no painel direito. <img src=".gitbook/assets/build-plugins/02.png" alt="" data-size="original">
 
-Input your npm package's URL or name, and then you can use your customized components.
+Insira o URL ou nome do seu pacote npm e então você poderá usar seus componentes personalizados.
 
 ```bash
-my-plugin
+meu-plugin
 
 # or
 
-https://www.npmjs.com/package/my-plugin
+https://www.npmjs.com/package/meu-plugin
 ```
 
 <figure><img src=".gitbook/assets/build-plugins/03.png" alt=""><figcaption></figcaption></figure>
 
-## Code demo
+## Demonstração de código
 
-For code demo, refer to PocketBlocks [Github](https://github.com/internoapp/pocketblocks/tree/main/client/packages/openblocks-plugin-demo).
+Para demonstração de código, consulte o [Github](https://github.com/internoapp/pocketblocks/tree/main/client/packages/openblocks-plugin-demo) do PocketBlocks.

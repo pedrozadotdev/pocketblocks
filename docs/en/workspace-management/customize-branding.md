@@ -1,10 +1,10 @@
 # Custom branding
 
-PocketBlocks provides a white-labelling feature that allows you to customize your workspace's **branding**, including logo, favicon, brand name and color. You can easily configure branding to match your company's branding and benefit from consistent experiences with your company's existing internal tools.
+PocketBlocks provides a white-labeling feature that allows you to customize your workspace's **branding**, including logo, favicon, brand name and color. You can easily configure branding to match your company's branding and benefit from consistent experiences with your company's existing internal tools.
 
 ## Branding settings
 
-Only **Admins** have the permission to customize branding. Navigate to **PocketBlocks Settings** and go to **Branding**.
+Only **Admins** have permission to customize branding. Navigate to **PocketBlocks Settings** and go to **Branding**.
 
 <figure><img src="../.gitbook/assets/workspace-management/customize-branding/01.png" alt=""><figcaption></figcaption></figure>
 
