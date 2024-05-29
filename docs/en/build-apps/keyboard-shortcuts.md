@@ -66,7 +66,7 @@ Keyboard shortcuts in the Text editor.
 
 ## Custom keyboard shortcuts
 
-You can define custom keyboard shortcuts at app-level. Go to ⚙️ on the left side-bar > **App settings** > **Custom shortcuts**. Click **+ Add** to add new shortcuts for specific actions. Then, you can click a custom shortcut to midify it or click the three dots `···` to delete it.
+You can define custom keyboard shortcuts at app-level. Go to ⚙️ on the left side-bar > **App settings** > **Custom shortcuts**. Click **+ Add** to add new shortcuts for specific actions. Then, you can click a custom shortcut to modify it or click the three dots `···` to delete it.
 
 <figure><img src="../.gitbook/assets/build-apps/keyboard-shortcuts/02.png" alt=""><figcaption></figcaption></figure>
 

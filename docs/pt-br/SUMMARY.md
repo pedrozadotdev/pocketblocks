@@ -5,11 +5,11 @@
 
 ## Construção de aplicativos
 
-- [Criar um novo aplicativo](build-apps/create-a-new-app.md)
+- [Criando um novo aplicativo](build-apps/create-a-new-app.md)
 - [Editor de aplicativo](build-apps/app-editor.md)
 - [Manipuladores de eventos](build-apps/event-handlers.md)
-- [Escrever JavaScript](build-apps/write-javascript/README.md)
-  - [Escrever JavaScript por \{{ \}}](build-apps/write-javascript/write-javascript-in.md)
+- [Escrevendo JavaScript](build-apps/write-javascript/README.md)
+  - [Escrevendo JavaScript por \{{ \}}](build-apps/write-javascript/write-javascript-in.md)
   - [Consulta JavaScript](build-apps/write-javascript/javascript-query.md)
   - [Transformadores](build-apps/write-javascript/transformers.md)
   - [Estado temporário](build-apps/write-javascript/temporary-state.md)
@@ -21,7 +21,7 @@
   - [Exibição de lista](build-apps/component-guides/list-view.md)
   - [Menu lateral](build-apps/component-guides/drawer.md)
   - [Imagem](build-apps/component-guides/image.md)
-  - [Tabelas e gráficos](build-apps/component-guides/charts-and-graphs.md)
+  - [Gráficos](build-apps/component-guides/charts-and-graphs.md)
   - [Carregamento de arquivo](build-apps/component-guides/file-upload.md)
   - [Componente customizado](build-apps/component-guides/custom-component.md)
   - [Uso de Markdown](build-apps/component-guides/use-markdown.md)

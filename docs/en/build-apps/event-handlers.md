@@ -1,10 +1,10 @@
 # Event handlers
 
-In PocketBlocks, event handlers are responsible for collecting and processing events from components and queries, and executing subsequent actions. For example, for a **Button** component, you can add an event handler to trigger the **Run query** action \***\* in response to the button **Click\*\* event.
+In PocketBlocks, event handlers are responsible for collecting and processing events from components and queries, and executing subsequent actions. For example, for a **Button** component, you can add an event handler to trigger the **Run query** action in response to the button **Click** event.
 
 <figure><img src="../.gitbook/assets/build-apps/event-handlers/01.png" alt=""><figcaption></figcaption></figure>
 
-Set event handlers wisely to provide a reactive and responsive user experience (UX). For example, triggering a **get-all** query after **insert-new-data** query finishes enables table automatically refresh.
+Set event handlers wisely to provide a reactive and responsive user experience (UX). For example, triggering a **returns all data** query after **insert new data** query finishes enables table automatically refresh.
 
 {% hint style="info" %}
 You can add as many event handlers as you want for a single component or query, and these event handlers run concurrently.
@@ -115,4 +115,4 @@ Debounce delays an action. Once a debounce time is set, the action will not be e
 
 #### **Throttle**
 
-Throttle lets an action happen only once during a specified period of time. By default, every single event triggers an action, but sometimes running an action can be costly. For example, you set an event handle to trigger **Run query** action \***\* to update data in response to the **Click\*\* event, but you find that query too expensive to run, then you can set a throttle time to let the query run only once within a given time.
+Throttle lets an action happen only once during a specified period of time. By default, every single event triggers an action, but sometimes running an action can be costly. For example, you set an event handle to trigger **Run query** action to update data in response to the **Click** event, but you find that query too expensive to run, then you can set a throttle time to let the query run only once within a given time.

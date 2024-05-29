@@ -4,7 +4,7 @@ Neste artigo, você vai aprender como hospedar PocketBlocks em seu próprio serv
 
 ### Manualmente
 
-- Baixe o binário do seu sistema operacional e arco na [Página de Lançamento](https://github.com/internoapp/pocketblocks/releases);
+- Baixe o binário do seu sistema operacional e arquitetura na [Página de Lançamento](https://github.com/internoapp/pocketblocks/releases);
 - Execute o comando `./pocketblocks serve` no terminal;
 - Acesse o [Aplicativo do PocketBlocks](http://localhost:8090) e crie o primeiro usuário administrador.
 

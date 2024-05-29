@@ -1,36 +1,36 @@
-# Version and release management
+# Gerenciamento de versões e publicações
 
-Version and release management aims at providing a stable live version for end users and allows you to build and test your app safely.
+O gerenciamento de versão e lançamento visa fornecer uma versão estável ao vivo para usuários finais e permite que você crie e teste seu aplicativo com segurança.
 
-By default, end users interact with the latest version of your app. After drafting and modifying your ideas, you can preview and compare with different history versions, and finally publish the version that meets all your needs. The newly published version now becomes live, and all your future updates will not affect the live version until you publish again.
+Por padrão, os usuários finais interagem com a versão mais recente do seu aplicativo. Depois de esboçar e modificar suas ideias, você pode visualizar e comparar com diferentes versões do histórico e, finalmente, publicar a versão que atenda a todas as suas necessidades. A versão recém-publicada agora fica ativa e todas as suas atualizações futuras não afetarão a versão ativa até que você publique novamente.
 
-## History versions
+## Histórico de versões
 
-PocketBlocks automatically stores all your history changes during the construction of an app, such as the addition or deletion of the components, adjustment of the property of the components, rearrangement of the layout, and update of a custom function. You can use it to refer to your earlier ideas or revert to a previous version.
+PocketBlocks armazena automaticamente todas as alterações do seu histórico durante a construção de um aplicativo, como adição ou exclusão de componentes, ajuste de propriedade dos componentes, reorganização do layout e atualização de uma função personalizada. Você pode usá-lo para consultar suas ideias anteriores ou reverter para uma versão anterior.
 
-App history versions are only accessible to admins.
+As versões do histórico do aplicativo só podem ser acessadas por administradores.
 
-### View a history version
+### Visualizando uma versão do histórico
 
-You can view any version of your previous drafts. Click **Preview** **>** **History**.
+Você pode visualizar qualquer versão de seus rascunhos anteriores. Clique em **Visualizar** **>** **Histórico**.
 
 ![](../.gitbook/assets/build-apps/version-and-release-management/01.png)
 
-### Restore a history version
+### Restaurando uma versão do histórico
 
-You can restore your current draft to a history version.
+Você pode restaurar seu rascunho atual para uma versão do histórico.
 
-1. Select the target version from the history version list
-2. Click **Restore this version** on the topbar
+1. Selecione a versão de destino na lista de versões do histórico
+2. Clique em **Restaurar esta versão** na barra superior
 
 <figure><img src="../.gitbook/assets/build-apps/version-and-release-management/02.png" alt=""><figcaption></figcaption></figure>
 
-## Release management
+## Gerenciamento de publicações
 
-Apps are usually upgraded on a regular basis to include new features, improve business processes and correct failures. However, the development of a new version of an app takes time and you need to ensure that user experience is not affected during this progress.
+Os aplicativos geralmente são atualizados regularmente para incluir novos recursos, melhorar processos de negócios e corrigir falhas. No entanto, o desenvolvimento de uma nova versão de um aplicativo leva tempo e você precisa garantir que a experiência do usuário não seja afetada durante esse progresso.
 
-By default, end users interact with the latest version of your app. Once you finalize the sketch for a newer version of your app, you can proceed to publish it. Click **Preview > Publish**.
+Por padrão, os usuários finais interagem com a versão mais recente do seu aplicativo. Depois de finalizar o esboço de uma versão mais recente do seu aplicativo, você poderá publicá-lo. Clique em **Visualizar > Publicar**.
 
 ![](../.gitbook/assets/build-apps/version-and-release-management/03.png)
 
-Now the newly released version becomes live for all end users, and all your future updates will not affect the live version until you publish again.
+Agora a versão recém-lançada está disponível para todos os usuários finais e todas as suas atualizações futuras não afetarão a versão ativa até que você publique novamente.

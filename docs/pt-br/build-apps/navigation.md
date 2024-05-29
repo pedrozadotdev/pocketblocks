@@ -1,55 +1,55 @@
-# Navigation
+# Navegação
 
-**Navigation** aggregates your apps onto the left sidebar and guides you to quickly find the needed app.
+**Navegação** agrega seus aplicativos na barra lateral esquerda e orienta você para encontrar rapidamente o aplicativo necessário.
 
 <figure><img src="../.gitbook/assets/build-apps/navigation/01.png" alt=""><figcaption></figcaption></figure>
 
-On PocketBlocks homepage, click **New** and select **Navigation** to create a navigation page.
+Na página inicial do PocketBlocks, clique em **Novo** e selecione **Navegação** para criar uma página de navegação.
 
 <figure><img src="../.gitbook/assets/build-apps/navigation/02.png" alt=""><figcaption></figcaption></figure>
 
-## Menu items
+## Itens do menu
 
-In the **Navigation** editor, click **+ New** to add menu items.
+No editor de **Navegação**, clique em **+ Novo** para adicionar itens de menu.
 
 <figure><img src="../.gitbook/assets/build-apps/navigation/03.png" alt=""><figcaption></figcaption></figure>
 
-Select a menu item, choose the app to navigate to, and change the label and icon if needed. The app is displayed on the canvas in real time.
+Selecione um item de menu, escolha o aplicativo para navegar e altere o rótulo e o ícone, se necessário. O aplicativo é exibido na tela em tempo real.
 
 <figure><img src="../.gitbook/assets/build-apps/navigation/04.png" alt=""><figcaption></figcaption></figure>
 
-### Add submenu items
+### Adicionando itens de submenu
 
-To add submenu items, click `···` > **Add submenu item**, or drag `⋮⋮` to make one menu item subordinated to another.
+Para adicionar itens de submenu, clique em `···` > **Adicionar item de submenu** ou arraste `⋮⋮` para tornar um item de menu subordinado a outro.
 
 <figure><img src="../.gitbook/assets/build-apps/navigation/05.png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../.gitbook/assets/build-apps/navigation/06.gif" alt=""><figcaption></figcaption></figure>
 
 {% hint style="warning" %}
-A parent menu item can only expand or fold the submenu items. You cannot link an app to it.
+Um item de menu pai só pode expandir ou dobrar os itens do submenu. Você não pode vincular um aplicativo a ele.
 
-When you delete a parent menu item, all submenu items under it are deleted at the same time.
+Quando você exclui um item de menu pai, todos os itens de submenu nele são excluídos ao mesmo tempo.
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/build-apps/navigation/07.png" alt=""><figcaption></figcaption></figure>
 
-### Add URL parameters
+### Adicionando parâmetros de URL
 
-Add URL query parameters or hash parameters to a menu item with `key` and `value`.![](../.gitbook/assets/build-apps/navigation/08.png)
+Adicione parâmetros de consulta de URL ou parâmetros de hash a um item de menu com `chave` e `valor`.![](../.gitbook/assets/build-apps/navigation/08.png)
 
-Then click the menu item on the canvas, and the parameters are appended to the URL of the app to be opened. You can check in **Globals** tab in the left pane.![](../.gitbook/assets/build-apps/navigation/09.png)
+Em seguida, clique no item de menu na tela e os parâmetros serão anexados à URL do aplicativo a ser aberto. Você pode verificar na guia **Globais** no painel esquerdo.![](../.gitbook/assets/build-apps/navigation/09.png)
 
 {% hint style="info" %}
-To reference the url parameters, use `{{url.query.key1}}` or `{{url.hash.key1}}` in your app.
+Para referenciar os parâmetros de URL, use `{{url.query.chave1}}` ou `{{url.hash.chave1}}` em seu aplicativo.
 {% endhint %}
 
-For more information of URL parameters, see Go to app.
+Para obter mais informações sobre parâmetros de URL, veja Ir para app.
 
-### Visability of menu items
+### Visibilidade dos itens do menu
 
-By default, a menu item is hidden for users without app permission. When you toggle this option off, the users can see the menu item but can not view the app it references to.![](../.gitbook/assets/build-apps/navigation/10.png)
+Por padrão, um item de menu fica oculto para usuários sem permissão do aplicativo. Quando você desativa esta opção, os usuários podem ver o item de menu, mas não podem ver o aplicativo ao qual ele faz referência.![](../.gitbook/assets/build-apps/navigation/10.png)
 
-## Permissions
+## Permissões
 
-The permissions for navigations are the same as those for modules and apps. See Permissions for resources.
+As permissões para navegações são as mesmas dos módulos e aplicativos. Consulte Permissões para recursos.

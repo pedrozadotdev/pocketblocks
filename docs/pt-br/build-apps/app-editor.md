@@ -1,68 +1,68 @@
 ---
-description: A quick look at the app editor before you start
+description: Dê uma rápida olhada no editor de aplicativos antes de começar
 ---
 
-# App editor
+# Editor de aplicativos
 
-In PocketBlocks, the app editor is where you assemble components, create javascript functions to interact with PocketBase data, and publish your apps. It consists of five areas:
+No PocketBlocks, o editor de aplicativos é onde você monta componentes, cria funções javascript para interagir com os dados do PocketBase e publica seus aplicativos. É composto por cinco áreas:
 
-1. Toolbar
+1. Barra de ferramentas
 2. Canvas
-3. Data browser
-4. Query editor
-5. Component and property pane
+3. Navegador de dados
+4. Editor de consultas
+5. Painel de componentes e propriedades
 
 <figure><img src="../.gitbook/assets/build-apps/app-editor/01.png" alt=""><figcaption></figcaption></figure>
 
-## Toolbar
+## Barra de ferramentas
 
-The Toolbar is made up of a topbar and a left sidebar.
+A barra de ferramentas é composta por uma barra superior e uma barra lateral esquerda.
 
 <figure><img src="../.gitbook/assets/build-apps/app-editor/01.png" alt=""><figcaption></figcaption></figure>
 
-On the topbar, you can configure your app as follows:
+Na barra superior, você pode configurar seu aplicativo da seguinte forma:
 
-- Change the app name
-- Export to a JSON file
-- Control the visibility of other areas
-- Share your app
-- Preview and deploy your app
-- Check the history versions
+- Alterar o nome do aplicativo
+- Exportar para um arquivo JSON
+- Controlar a visibilidade de outras áreas
+- Compartilhe seu aplicativo
+- Visualize e implante seu aplicativo
+- Verifique as versões do histórico
 
-On the left sidebar, some options are available as follows:
+Na barra lateral esquerda, algumas opções estão disponíveis como segue:
 
-- Show or hide the **Data browser**
-- Set canvas size and app theme
-- Manage scripts and CSS style
-- Start tutorial for app editor
-- Show keyboard shortcuts
+- Mostrar ou ocultar o **Navegador de dados**
+- Defina o tamanho da tela e o tema do aplicativo
+- Gerenciar scripts e estilos CSS
+- Iniciar tutorial para editor de aplicativos
+- Mostrar atalhos de teclado
 
 ## Canvas
 
-The canvas at the center of the editor is where you design and see the overall UI. Drag and drop components onto the canvas, bind them with data and event handlers, and assemble them to build a pleasing and powerful app.
+O Canvas no centro do editor é onde você projeta e vê a UI geral. Arraste e solte componentes na tela, vincule-os a manipuladores de dados e eventos e monte-os para criar um aplicativo poderoso e agradável.
 
 <figure><img src="../.gitbook/assets/build-apps/app-editor/03.gif" alt=""><figcaption></figcaption></figure>
 
-Check out [Design app UI](./design-app-ui) for UI layout practices.
+Confira [Design UI do aplicativo](./design-app-ui) para práticas de layout de UI.
 
-## Data browser
+## Navegador de dados
 
-The data browser on the left pane contains **Queries**, **Components** and **Globals** sections. Here you can inspect the data in a tree structure. For example, to check the returned data of a specific query or component, find its node in belonging section and click<img src="../.gitbook/assets/build-apps/app-editor/04.png" alt="" data-size="line">to expand.
+O navegador de dados no painel esquerdo contém as seções **Consultas**, **Componentes** e **Globais**. Aqui você pode inspecionar os dados em uma estrutura em árvore. Por exemplo, para verificar os dados retornados de uma consulta ou componente específico, encontre seu item na seção pertencente e clique em<img src="../.gitbook/assets/build-apps/app-editor/04.png" alt="" data-size="line">para expandir.
 
 <figure><img src="../.gitbook/assets/build-apps/app-editor/05.gif" alt=""><figcaption></figcaption></figure>
 
-## Query editor
+## Editor de consultas
 
-The query editor lay at the bottom consists of two sections: query list (with **Queries** and **Metadata** tabs) on the left, and query settings (with **General**, **Notification** and **Advanced** tabs) on the right. Create queries to interact with Pocketbase API here.
+O editor de consultas na parte inferior consiste em duas seções: lista de consultas (com as guias **Consultas** e **Metadados**) à esquerda e configurações de consulta (com **Geral**, **Notificação** e **Guias Avançadas**) à direita. Crie consultas para interagir com a API Pocketbase aqui.
 
 <figure><img src="../.gitbook/assets/build-apps/app-editor/06.png" alt=""><figcaption></figcaption></figure>
 
-You can access the Pocketbase sdk through the **window.pb** object.
+Você pode acessar o SDK do Pocketbase através do objeto **window.pb**.
 
-## Component and property pane
+## Painel de componentes e propriedades
 
-The component and property pane is located on the right of the window. Drag components onto the canvas from the **Insert** tab and edit the properties of the components in the **Properties** tab.
+O painel de componentes e propriedades está localizado à direita da janela. Arraste os componentes para a tela a partir da guia **Inserir** e edite as propriedades dos componentes na guia **Propriedades**.
 
 <img src="../.gitbook/assets/build-apps/app-editor/07.png" alt="" data-size="original">![](../.gitbook/assets/build-apps/app-editor/08.png)
 
-When a component is selected on the canvas, the **Properties** tab will be activated automatically and display properties of that component.
+Quando um componente é selecionado na tela, a guia **Propriedades** será ativada automaticamente e exibirá as propriedades desse componente.

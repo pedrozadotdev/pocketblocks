@@ -1,75 +1,77 @@
-# Keyboard shortcuts
+# Atalhos de teclado
 
-## Built-in keyboard shortcuts
+## Atalhos de teclado integrados
 
-Keyboard shortcuts are a powerful tool that can greatly improve productivity and efficiency when working on a computer. With the ability to assign custom keystrokes to frequently used commands, tasks can be completed quickly and with minimal effort. This is particularly useful for individuals who rely heavily on keyboard input, such as programmers, writers, or designers.
+Os atalhos de teclado são uma ferramenta poderosa que pode melhorar significativamente a produtividade e a eficiência ao trabalhar em um computador. Com a capacidade de atribuir teclas personalizadas a comandos usados ​​com frequência, as tarefas podem ser concluídas rapidamente e com esforço mínimo. Isto é particularmente útil para indivíduos que dependem muito da entrada do teclado, como programadores, escritores ou designers.
 
-Keyboard shortcuts have been around for decades, and most software applications come with a set of default shortcuts. PocketBlocks offers built-in keyboard shortcuts to help you work on the interface faster and more efficiently with improved controlling precision.
+Os atalhos de teclado existem há décadas e a maioria dos aplicativos de software vem com um conjunto de atalhos padrão. PocketBlocks oferece atalhos de teclado integrados para ajudá-lo a trabalhar na interface de maneira mais rápida e eficiente, com maior precisão de controle.
 
 <figure><img src="../.gitbook/assets/build-apps/keyboard-shortcuts/01.png" alt=""><figcaption></figcaption></figure>
 
-### Global
+### Globais
 
-Global keyboard shortcuts across PocketBlocks interfaces.
+Atalhos de teclado globais nas interfaces do PocketBlocks.
 
-| Shortcut | Description               |
-| -------- | ------------------------- |
-| `?`      | Toggle keyboard shortcuts |
+| Atalho | Descrição                   |
+| ------ | --------------------------- |
+| `?`    | Alternar atalhos de teclado |
 
-### App editor
+### Editor de aplicativos
 
-Keyboard shortcuts in the [App editor](keyboard-shortcuts.md#app-editor).
+Atalhos de teclado no [editor de aplicativos](keyboard-shortcuts.md#app-editor).
 
-| Shortcut      | Description        |
-| ------------- | ------------------ |
-| `⌘` + `B`     | Toggle left pane   |
-| `⌘` + `J`     | Toggle bottom pane |
-| `⌘` + `U`     | Toggle right pane  |
-| `⌘` + `.`     | Toggle all panes   |
-| `⌘` + ⇧ + `P` | Preview            |
-| `⌘` + `Z`     | Undo               |
-| `⌘` + ⇧ + `Z` | Redo               |
-| `⌘`           | Show grid          |
+| Atalho        | Descrição                 |
+| ------------- | ------------------------- |
+| `⌘` + `B`     | Alternar painel esquerdo  |
+| `⌘` + `J`     | Alternar painel inferior  |
+| `⌘` + `U`     | Alternar painel direito   |
+| `⌘` + `.`     | Alternar todos os painéis |
+| `⌘` + ⇧ + `P` | Visualização              |
+| `⌘` + `Z`     | Desfazer                  |
+| `⌘` + ⇧ + `Z` | Refazer                   |
+| `⌘`           | Mostrar grade             |
 
-### Component
+### Componente
 
-Keyboard shortcuts to control components.
+Atalhos de teclado para controlar componentes.
 
-| Shortcut              | Description     |
-| --------------------- | --------------- |
-| `⌘` + Click           | Select multiple |
-| `⌘` + `A`             | Select all      |
-| `⌘` + `C`             | Copy            |
-| `⌘` + `X`             | Cut             |
-| `⌘` + `V`             | Paste           |
-| `←` `↑` `→` `↓`       | Move            |
-| `⌘` + `←` `↑` `→` `↓` | Resize          |
-| `DEL`/`Backspace`     | Delete          |
-| `ESC`                 | Deselect        |
+| Atalho                | Descrição        |
+| --------------------- | ---------------- |
+| `⌘` + Clique          | Selecione vários |
+| `⌘` + `A`             | Selecionar tudo  |
+| `⌘` + `C`             | Copiar           |
+| `⌘` + `X`             | Corte            |
+| `⌘` + `V`             | Colar            |
+| `←` `↑` `→` `↓`       | Mover            |
+| `⌘` + `←` `↑` `→` `↓` | Redimensionar    |
+| `DEL`/`Backspace`     | Excluir          |
+| `ESC`                 | Desmarcar        |
 
-### Query editor
+### Editor de consultas
 
-Keyboard shortcuts in the Query editor.
+Atalhos de teclado no editor de consultas.
 
-| Shortcut  | Description       |
-| --------- | ----------------- |
-| `⌘` + `↵` | Run current query |
+| Atalho    | Descrição                |
+| --------- | ------------------------ |
+| `⌘` + `↵` | Execute a consulta atual |
 
-### Text editor
+### Editor de texto
 
-Keyboard shortcuts in the Text editor.
+Atalhos de teclado no editor de texto.
 
-| Shortcut    | Description       |
-| ----------- | ----------------- |
-| `⌘` + `L`   | Format            |
-| `⌘` + Click | Open in left pane |
+| Atalho       | Descrição                |
+| ------------ | ------------------------ |
+| `⌘` + `L`    | Formato                  |
+| `⌘` + Clique | Abrir no painel esquerdo |
 
 ## Custom keyboard shortcuts
 
-You can define custom keyboard shortcuts at app-level. Go to ⚙️ on the left side-bar > **App settings** > **Custom shortcuts**. Click **+ Add** to add new shortcuts for specific actions. Then, you can click a custom shortcut to midify it or click the three dots `···` to delete it.
+## Atalhos de teclado personalizados
+
+Você pode definir atalhos de teclado personalizados no nível do aplicativo. Vá para ⚙️ na barra lateral esquerda > **Configurações do aplicativo** > **Atalhos personalizados**. Clique em **+ Adicionar** para adicionar novos atalhos para ações específicas. Em seguida, você pode clicar em um atalho personalizado para modificá-lo ou clicar nos três pontos `···` para excluí-lo.
 
 <figure><img src="../.gitbook/assets/build-apps/keyboard-shortcuts/02.png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-PocketBlocks keyboard shortcuts are better set to avoid conflicts with the browser's keyboard shortcuts, in case they can not be successfully triggered.
+Os atalhos de teclado do PocketBlocks são melhor configurados para evitar conflitos com os atalhos de teclado do navegador, caso não possam ser acionados com sucesso.
 {% endhint %}

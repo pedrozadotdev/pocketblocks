@@ -1,34 +1,34 @@
-# Use third-party libraries
+# Usando bibliotecas de terceiros
 
-Every developer learns one of the most important principles of software engineering early in their career: DRY (Don’t Repeat Yourself). Using third-party libraries can save your time as you do not need to develop the functionality that the library provides. PocketBlocks provides some built-in third-party libraries for common uses, and you can manually import other libraries on demand.
+Todo desenvolvedor aprende um dos princípios mais importantes da engenharia de software no início de sua carreira: DRY (Don’t Repeat Yourself). O uso de bibliotecas de terceiros pode economizar seu tempo, pois você não precisa desenvolver a funcionalidade que a biblioteca oferece. PocketBlocks fornece algumas bibliotecas integradas de terceiros para usos comuns, e você pode importar manualmente outras bibliotecas sob demanda.
 
-## Built-in libraries
+## Bibliotecas integradas
 
-PocketBlocks provides some JavaScript built-in libraries for use.
+PocketBlocks fornece algumas bibliotecas JavaScript integradas para uso.
 
-| Library   | Docs                                                                 | Version                      |
-| --------- | -------------------------------------------------------------------- | ---------------------------- |
-| lodash    | [https://lodash.com/docs/](https://lodash.com/docs/)                 | 4.17.21                      |
-| moment    | [https://momentjs.com/docs/](https://momentjs.com/docs/)             | 2.29.3                       |
-| uuid      | [https://github.com/uuidjs/uuid](https://github.com/uuidjs/uuid)     | 8.3.2（Support v1/v3/v4/v5） |
-| numbro    | [https://numbrojs.com/format.html](https://numbrojs.com/format.html) | 2.3.6                        |
-| papaparse | [https://www.papaparse.com/docs](https://www.papaparse.com/docs)     | 5.3.2                        |
+| Biblioteca | Documentação                                                         | Versão                       |
+| ---------- | -------------------------------------------------------------------- | ---------------------------- |
+| lodash     | [https://lodash.com/docs/](https://lodash.com/docs/)                 | 4.17.21                      |
+| moment     | [https://momentjs.com/docs/](https://momentjs.com/docs/)             | 2.29.3                       |
+| uuid       | [https://github.com/uuidjs/uuid](https://github.com/uuidjs/uuid)     | 8.3.2（Suporta v1/v3/v4/v5） |
+| numbro     | [https://numbrojs.com/format.html](https://numbrojs.com/format.html) | 2.3.6                        |
+| papaparse  | [https://www.papaparse.com/docs](https://www.papaparse.com/docs)     | 5.3.2                        |
 
-## Manually import third-party libraries
+## Importando manualmente bibliotecas de terceiros
 
-PocketBlocks supports setting up preloaded JavaScript and libraries which can be at **app-level** or **workspace-level**.
+PocketBlocks suporta a configuração de JavaScript pré-carregado e bibliotecas que podem estar no **nível do aplicativo** ou no **nível do espaço de trabalho**.
 
-- **App-level** libraries get loaded only in the app where defined. Plus, app A cannot use libraries that are set up for app B.
-- **Workspace-level** libraries will be loaded when you open any application in your workspace. All the apps can access those libraries. There can be a certain impact on app performance, especially when you have complex JavaScript functions that aren't being used in every app.
+- **Bibliotecas em nível de aplicativo** são carregadas somente no aplicativo onde definido. Além disso, o aplicativo A não pode usar bibliotecas configuradas para o aplicativo B.
+- **Bibliotecas no nível do espaço de trabalho** serão carregadas quando você abrir qualquer aplicativo no seu espaço de trabalho. Todos os aplicativos podem acessar essas bibliotecas. Pode haver um certo impacto no desempenho do aplicativo, especialmente quando você tem funções JavaScript complexas que não estão sendo usadas em todos os aplicativos.
 
-{% hint style="info" %}
-**Tips you should know before setting up libraries:**
+{% dica estilo = "info" %}
+**Dicas que você deve saber antes de configurar bibliotecas:**
 
-- External libraries are loaded and run in the browser.
-- NodeJS-only libraries are not supported now.
-- URLs of external libraries need to support cross-domain.
-- The export of the library must be set directly on the window object, global variables like `var xxx = xxx` do not take effect.
-- The external libraries run in a restricted sandbox environment and the following global variables are not available:
+- Bibliotecas externas são carregadas e executadas no navegador.
+- Bibliotecas somente NodeJS não são suportadas.
+- URLs de bibliotecas externas precisam oferecer suporte a vários domínios.
+- A exportação da biblioteca deve ser configurada diretamente no objeto window, variáveis ​​globais como `var xxx = xxx` não têm efeito.
+- As bibliotecas externas são executadas em um ambiente sandbox restrito e as seguintes variáveis ​​globais não estão disponíveis:
 
   <mark style="background-color:yellow;">`parent`</mark>
 
@@ -58,29 +58,29 @@ PocketBlocks supports setting up preloaded JavaScript and libraries which can be
 
   {% endhint %}
 
-Now let's take **cowsay** as an example and import it at app-level and workspace-level.
+Agora vamos pegar **cowsay** como exemplo e importá-lo no nível do aplicativo e no nível do espaço de trabalho.
 
-- GitHub page: [https://github.com/piuccio/cowsay](https://github.com/piuccio/cowsay)
-- Library link: [https://unpkg.com/cowsay@1.5.0/build/cowsay.umd.js](https://unpkg.com/cowsay@1.5.0/build/cowsay.umd.js)
+- Página do GitHub: [https://github.com/piuccio/cowsay](https://github.com/piuccio/cowsay)
+- Link da Biblioteca: [https://unpkg.com/cowsay@1.5.0/build/cowsay.umd.js](https://unpkg.com/cowsay@1.5.0/build/cowsay.umd.js)
 
-### At app-level
+### No nível do aplicativo
 
-Navigate to the settings page and then click the plus sign **+** under the **JavaScript library** tab. Paste the **cowsay** link and click **Add New**. You can also click the download icon to quickly download any recommended JS library.
+Navegue até a página de configurações e clique no sinal de mais **+** na guia **Biblioteca JavaScript**. Cole o link **cowsay** e clique em **Adicionar novo**.
 
 <figure><img src="../.gitbook/assets/build-apps/write-javascript/use-third-party-libraries/01.png" alt=""><figcaption></figcaption></figure>
 
-Create a JS query and insert code.
+Crie uma consulta JS e insira o código.
 
 <figure><img src="../.gitbook/assets/build-apps/write-javascript/use-third-party-libraries/02.png" alt=""><figcaption></figcaption></figure>
 
-You can obtain the same result by calling the `cowsay.say()` method in the value of the text component.
+Você pode obter o mesmo resultado chamando o método `cowsay.say()` no valor do componente de texto.
 
 <figure><img src="../.gitbook/assets/build-apps/write-javascript/use-third-party-libraries/03.png" alt=""><figcaption></figcaption></figure>
 
-Note that the cowsay library is imported at app-level and you can not use it in any other app within your workspace.
+Observe que a biblioteca cowsay é importada no nível do aplicativo e você não pode usá-la em nenhum outro aplicativo em seu espaço de trabalho.
 
-### At workspace-level
+### No nível do espaço de trabalho
 
-Go to PocketBlocks Homepage, select **Settings** > **Advanced**, and then click **Add** under the **JavaScript library** tab. Paste the link of the third-party JS library and click **Add New** to add it to your workspace. You can also click the download icon to quickly add any recommended JS library. The installed libraries are accessible from any app within your workspace.
+Vá para a página inicial do PocketBlocks, selecione **Configurações** > **Avançado** e clique em **Adicionar** na guia **Biblioteca JavaScript**. Cole o link da biblioteca JS de terceiros e clique em **Adicionar novo** para adicioná-la ao seu espaço de trabalho. As bibliotecas instaladas podem ser acessadas de qualquer aplicativo em seu espaço de trabalho.
 
 <figure><img src="../.gitbook/assets/build-apps/write-javascript/use-third-party-libraries/04.png" alt=""><figcaption></figcaption></figure>

@@ -1,25 +1,25 @@
-# Create a new app
+# Criando um novo aplicativo
 
-## Create a new web app
+## Criando um novo aplicativo da web
 
-Click **New > App** on the upper right of Pocketblocks homepage, and go to the app editor. You can rename the app at the left-top of the editor.
+Clique em **Novo > Aplicativo** no canto superior direito da página inicial do Pocketblocks e vá para o editor do aplicativo. Você pode renomear o aplicativo no canto superior esquerdo do editor.
 
 <figure><img src="../.gitbook/assets/build-apps/create-a-new-app/01.gif" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-Only workspace **admins** can create apps.
+Apenas **administradores** do espaço de trabalho podem criar aplicativos.
 {% endhint %}
 
-## Export and import an app
+## Exportando e importando um aplicativo
 
-### Export an app
+### Exportando um aplicativo
 
-Click your app name and select **Export to JSON**, the app will be exported to a JSON file.
+Clique no nome do seu aplicativo e selecione **Exportar para JSON**, o aplicativo será exportado para um arquivo JSON.
 
 <figure><img src="../.gitbook/assets/build-apps/create-a-new-app/02.png" alt=""><figcaption></figcaption></figure>
 
-### Import an app
+### Importando um aplicativo
 
-You can import an existing app in a JSON format by clicking **New > Import**.
+Você pode importar um aplicativo existente em formato JSON clicando em **Novo > Importar**.
 
 <figure><img src="../.gitbook/assets/build-apps/create-a-new-app/03.png" alt=""><figcaption></figcaption></figure>

@@ -140,7 +140,7 @@ You can simulate testing method calling in the **Method Test** function.
 
 ### Event
 
-Events are used to transfer signals from a module to external apps, such as defining `orderPlaced` `OrderModified` events for an order management module. You can add and fire events within a module, and deal with them using [event-handlers.md](event-handlers.md "mention") externally.
+Events are used to transfer signals from a module to external apps, such as defining `orderPlaced` `OrderModified` events for an order management module. You can add and fire events within a module, and deal with them using [event handlers](event-handlers.md) externally.
 
 #### Add a new event
 

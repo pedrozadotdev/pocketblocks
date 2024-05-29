@@ -65,7 +65,7 @@ Now let's take **cowsay** as an example and import it at app-level and workspace
 
 ### At app-level
 
-Navigate to the settings page and then click the plus sign **+** under the **JavaScript library** tab. Paste the **cowsay** link and click **Add New**. You can also click the download icon to quickly download any recommended JS library.
+Navigate to the settings page and then click the plus sign **+** under the **JavaScript library** tab. Paste the **cowsay** link and click **Add New**.
 
 <figure><img src="../.gitbook/assets/build-apps/write-javascript/use-third-party-libraries/01.png" alt=""><figcaption></figcaption></figure>
 
@@ -81,6 +81,6 @@ Note that the cowsay library is imported at app-level and you can not use it in 
 
 ### At workspace-level
 
-Go to PocketBlocks Homepage, select **Settings** > **Advanced**, and then click **Add** under the **JavaScript library** tab. Paste the link of the third-party JS library and click **Add New** to add it to your workspace. You can also click the download icon to quickly add any recommended JS library. The installed libraries are accessible from any app within your workspace.
+Go to PocketBlocks Homepage, select **Settings** > **Advanced**, and then click **Add** under the **JavaScript library** tab. Paste the link of the third-party JS library and click **Add New** to add it to your workspace. The installed libraries are accessible from any app within your workspace.
 
 <figure><img src="../.gitbook/assets/build-apps/write-javascript/use-third-party-libraries/04.png" alt=""><figcaption></figcaption></figure>

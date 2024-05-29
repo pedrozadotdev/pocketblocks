@@ -1,118 +1,118 @@
-# Event handlers
+# Manipuladores de eventos
 
-In PocketBlocks, event handlers are responsible for collecting and processing events from components and queries, and executing subsequent actions. For example, for a **Button** component, you can add an event handler to trigger the **Run query** action \***\* in response to the button **Click\*\* event.
+No PocketBlocks, os manipuladores de eventos são responsáveis ​​por coletar e processar eventos de componentes e consultas e executar ações subsequentes. Por exemplo, para um componente **Butão**, você pode adicionar um manipulador de eventos para acionar a ação **Executar consulta** em resposta ao evento **Clique** do botão.
 
 <figure><img src="../.gitbook/assets/build-apps/event-handlers/01.png" alt=""><figcaption></figcaption></figure>
 
-Set event handlers wisely to provide a reactive and responsive user experience (UX). For example, triggering a **get-all** query after **insert-new-data** query finishes enables table automatically refresh.
+Defina manipuladores de eventos com sabedoria para fornecer uma experiência de usuário (UX) reativa e responsiva. Por exemplo, acionar uma consulta **retorna todos os dados** após o término da consulta de **inserção de dados** permite a atualização automática da tabela.
 
 {% hint style="info" %}
-You can add as many event handlers as you want for a single component or query, and these event handlers run concurrently.
+Você pode adicionar quantos manipuladores de eventos desejar para um único componente ou consulta, e esses manipuladores de eventos serão executados simultaneamente.
 {% endhint %}
 
-## Events
+## Eventos
 
-### Component events
+### Eventos de componentes
 
-Different components have different events. For example, **Button** components only have a **Click** event.
+Componentes diferentes têm eventos diferentes. Por exemplo, os componentes **Butão** possuem apenas um evento **Clique**.
 
 <figure><img src="../.gitbook/assets/build-apps/event-handlers/02.png" alt=""><figcaption></figcaption></figure>
 
-**Input** components have **Change**, **Focus**, **Blur**, and **Submit** events.
+Os componentes **Input** têm eventos **Mudar**, **Foco**, **Desfoque** e **Enviar**.
 
 <figure><img src="../.gitbook/assets/build-apps/event-handlers/03.png" alt=""><figcaption></figcaption></figure>
 
-### Query events
+### Consultar eventos
 
-Running a query can result in success or failure, so queries have two events: **Success** or **Failure**. You can add event handlers to queries in Query editor.
+A execução de uma consulta pode resultar em sucesso ou falha, portanto, as consultas têm dois eventos: **Sucesso** ou **Falha**. Você pode adicionar manipuladores de eventos a consultas no Editor de consultas.
 
 <figure><img src="../.gitbook/assets/build-apps/event-handlers/04.png" alt=""><figcaption></figcaption></figure>
 
-## Actions
+## Ações
 
-There are a number of event handler actions available in PocketBlocks for handling different scenarios. Set them in the **Action** dropdown list in an event handler.
+Existem várias ações de manipulador de eventos disponíveis no PocketBlocks para lidar com diferentes cenários. Defina-os na lista suspensa **Ação** em um manipulador de eventos.
 
 ![](../.gitbook/assets/build-apps/event-handlers/05.png)
 
 {% hint style="info" %}
-See [advanced](event-handlers.md#advanced) on this page to know advanced settings.
+Consulte [avançado](event-handlers.md#advanced) nesta página para conhecer as configurações avançadas.
 {% endhint %}
 
-### Run query
+### Executar consulta
 
-Trigger the selected query.
+Acione a consulta selecionada.
 
 ![](../.gitbook/assets/build-apps/event-handlers/06.png)
 
-### Control components
+### Controlando Componentes
 
-To control a component, select a component in the **Component** dropdown list and call one of its methods in the **Method** dropdown list.
+Para controlar um componente, selecione um componente na lista suspensa **Componente** e chame um de seus métodos na lista suspensa **Método**.
 
 ![](../.gitbook/assets/build-apps/event-handlers/07.png)
 
-### Set temporary state
+### Definir estado temporário
 
-Store data in a [temporary state](write-javascript/temporary-state.md).&#x20;
+Armazene dados em um [estado temporário](write-javascript/temporary-state.md).&#x20;
 
-### Go to app
+### Vá para um aplicativo
 
-Navigate to an PocketBlocks app with optional query or hash parameters.
+Navegue até um aplicativo PocketBlocks com consulta opcional ou parâmetros de hash.
 
-| Parameter            | Function                                                                                            |
-| -------------------- | --------------------------------------------------------------------------------------------------- |
-| <p>URL Query<br></p> | <p>Append <code>?key1=value1&#x26;key2=value2...</code> to the URL of the app to be opened.<br></p> |
-| URL Hash             | Append `#key1=value1&key2=value2...` to the URL of the app to be opened.                            |
+| Parâmetro                  | Função                                                                                             |
+| -------------------------- | -------------------------------------------------------------------------------------------------- |
+| <p>Consulta de URL<br></p> | <p>Anexar <code>?key1=value1&#x26;key2=value2...</code> ao URL do aplicativo a ser aberto.<br></p> |
+| Hash de URL                | Anexe `#key1=value1&key2=value2...` ao URL do aplicativo a ser aberto.                             |
 
-#### **Use case**
+#### **Caso de uso**
 
-In the **User list** app, click **See info** to navigate to the **User info** app, and the detailed information of the user in the selected row will be displayed.
+No aplicativo **Lista de usuários**, clique em **Ver informações** para navegar até o aplicativo **Informações do usuário** e as informações detalhadas do usuário na linha selecionada serão exibidas.
 
-1.  The **User list** app passes `{{currentRow.id}}` in the table row as a URL Query parameter to the **User info** app.
+1. O aplicativo **Lista de usuários** passa `{{currentRow.id}}` na linha da tabela como um parâmetro de consulta de URL para o aplicativo **Informações do usuário**.
 
-    <figure><img src="../.gitbook/assets/build-apps/event-handlers/08.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/build-apps/event-handlers/08.png" alt=""><figcaption></figcaption></figure>
 
-2.  The URL field of the **User info** app global variable will automatically resolve the URL requested by the app. In this case, the value of `url.query` is `{"id":3}`, so the query will retrieve the corresponding user info via `{{url.query.id}}`. See the figure below.
+2. O campo URL da variável global do aplicativo **Informações do usuário** resolverá automaticamente o URL solicitado pelo aplicativo. Neste caso, o valor de `url.query` é `{"id":3}`, então a consulta recuperará as informações do usuário correspondentes via `{{url.query.id}}`. Veja a figura abaixo.
 
-    <figure><img src="../.gitbook/assets/build-apps/event-handlers/09.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/build-apps/event-handlers/09.png" alt=""><figcaption></figcaption></figure>
 
-### Go to URL
+### Ir para URL
 
-Navigate to an external URL.
+Navegue para um URL externo.
 
 ![](../.gitbook/assets/build-apps/event-handlers/10.png)
 
-### Show notification
+### Mostrar notificação
 
-Show a floating notification of informational, success, warning, or error message.
+Mostre uma notificação flutuante de mensagem informativa, de sucesso, de aviso ou de erro.
 
 ![](../.gitbook/assets/build-apps/event-handlers/11.png)
 
-### Copy to clipboard
+### Copiar para área de transferência
 
-Copy a value to the clipboard.
+Copie um valor para a área de transferência.
 
 ![](../.gitbook/assets/build-apps/event-handlers/12.png)
 
-### Export data
+### Exportar dados
 
-Export data in a certain file type (TXT, JSON, CSV, and Excel).
+Exporte dados em um determinado tipo de arquivo (TXT, JSON, CSV e Excel).
 
 ![](../.gitbook/assets/build-apps/event-handlers/13.png)
 
-## Advanced
+## Avançado
 
-### Only run when
+### Execute apenas quando
 
-The action can be triggered only under a specified condition. Configure the running condition of an event handler in **Only run when** option, and then the event handler runs only when this condition evaluates to `true`.
+A ação só pode ser acionada sob uma condição especificada. Configure a condição de execução de um manipulador de eventos na opção **Executar somente quando** e, em seguida, o manipulador de eventos será executado somente quando esta condição for avaliada como `true`.
 
-### Debounce and throttle
+### Debounce e throttle
 
-**Debounce** and **Throttle** reduce the frequency of triggering the action.
+**Debounce** e **Throttle** reduzem a frequência de acionamento da ação.
 
 #### **Debounce**
 
-Debounce delays an action. Once a debounce time is set, the action will not be executed immediately following the event until the debounce time passes. If the event occurs again before the time ends, the debounce time will be retimed. For example, an input component triggers a query once the user changes the text. If the query is expensive to run and you don't want to run it after every single character is typed, you can delay the execution of the query by setting the debounce time. Then the query will only run after the user finishes typing.
+Debounce atrasa uma ação. Uma vez definido o tempo de debounce, a ação não será executada imediatamente após o evento até que o tempo de debounce passe. Se o evento ocorrer novamente antes do término do tempo, o tempo de debounce será cronometrado novamente. Por exemplo, um componente de entrada aciona uma consulta quando o usuário altera o texto. Se a execução da consulta for cara e você não quiser executá-la depois que cada caractere for digitado, você poderá atrasar a execução da consulta definindo o tempo de rejeição. Então a consulta só será executada depois que o usuário terminar de digitar.
 
 #### **Throttle**
 
-Throttle lets an action happen only once during a specified period of time. By default, every single event triggers an action, but sometimes running an action can be costly. For example, you set an event handle to trigger **Run query** action \***\* to update data in response to the **Click\*\* event, but you find that query too expensive to run, then you can set a throttle time to let the query run only once within a given time.
+Throttle permite que uma ação aconteça apenas uma vez durante um período de tempo especificado. Por padrão, cada evento desencadeia uma ação, mas às vezes executar uma ação pode custar caro. Por exemplo, você define um identificador de evento para acionar a ação **Executar consulta** para atualizar dados em resposta ao evento **Clique**, mas acha que essa consulta é muito cara para ser executada, então você pode definir um tempo de aceleração para permitir que a consulta seja executada apenas uma vez em um determinado período.
