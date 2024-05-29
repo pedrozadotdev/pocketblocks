@@ -1,53 +1,53 @@
-# Componente personalizado
+# Custom component
 
-No PocketBlocks, você pode projetar componentes personalizados usando a biblioteca React.js para satisfazer necessidades específicas ao construir seu aplicativo. O componente personalizado pode ser estático ou dinâmico, mas requer codificação.
+In PocketBlocks, you can design custom components using React.js library to satisfy specific needs when building your app. The custom component can be static or dynamic, but either requires coding.
 
-## Pré-requisitos
+## Prerequisites
 
-- Bom entendimento de como construir um aplicativo em PocketBlocks.
-- Familiarizado com HTML/CSS/JS e a biblioteca React.js.
+- Good understanding of how to build an app in PocketBlocks.
+- Familiar with HTML/CSS/JS and the React.js library.
 
-## Fundamentos
+## Basics
 
-Arraste um **componente personalizado** para a tela. Por padrão, PocketBlocks adiciona uma caixa de título, uma caixa de texto e dois botões, conforme mostrado abaixo. Você pode modificar **Dados** e **Código** no painel **Propriedades** para adaptá-los de acordo com suas necessidades.
+Drag a **Custom component** onto the canvas. By default, PocketBlocks adds a title box, a text box, and two buttons into it, as shown below. You can modify **Data** and **Code** in the **Properties** pane to tailor it according to your requirements.
 
 {% hint style="info" %}
-Clique na borda em vez da área interna para selecionar um **Componente personalizado** e exibir suas configurações de propriedade.
+Click the border instead of the inside area to select a **Custom component** and display its property settings.
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/custom-component/01.png" alt=""><figcaption></figcaption></figure>
 
-### Dados
+### Data
 
-**Dados** armazena informações em pares de valores-chave, fornecendo uma interface para o **componente personalizado** interagir com dados externos. Por exemplo, você pode referenciar dados do **componente personalizado** em outros componentes do seu aplicativo por meio de `nomeDoComponenteCustomizado.model` ou passar dados de outros componentes para o **componente personalizado**.
+**Data** stores information in key-value pairs, providing an interface for the **Custom component** to interact with data outside it. For instance, you can reference data of the **Custom component** in other components in your app via `customComponentName.model`, or pass data from other components to the **Custom component**.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/custom-component/02.png" alt=""><figcaption></figcaption></figure>
 
-### Código
+### Code
 
-Por padrão, PocketBlocks define o objeto `model` e duas funções `execultarConsulta` e `atualizarModel`.
+By default, PocketBlocks defines the object `model`, and two functions `runQuery` and `updateModel`.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/custom-component/03.png" alt=""><figcaption></figcaption></figure>
 
-- `executarConsulta` é uma função que aceita um nome de consulta em formato texto. Por exemplo, `executarConsulta(model.consulta)`.
-- `atualizarModel` é uma função que aceita um único argumento do tipo objeto. O argumento passado para `atualizarModel` será mesclado com os dados do **Componente customizado**.
+- `runQuery` is a function that accepts a query name in string format. For example, `runQuery(model.query)`.
+- `updateModel` is a function that accepts a single argument of object type. The argument passed to `updateModel` will be merged with data of the **Custom component**.
 
-## Implementação
+## Implementation
 
-Todo o código do seu **componente personalizado**, incluindo HTML, CSS e JavaScript, é armazenado na caixa **Código** no painel **Propriedades**. Quando seu aplicativo for executado, o componente personalizado será incorporado em um elemento [iframe](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe). Para facilitar a interação entre o **Componente personalizado** e outros componentes do seu aplicativo, o PocketBlocks oferece uma API para você por meio de objetos globais. A definição do tipo e a descrição dos objetos são as seguintes.
+All code of your **Custom component**, including HTML, CSS, and JavaScript, stores in the **Code** box in the **Properties** pane. When your app runs, the custom component will be embedded into an [iframe](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) element.To facilitate the interaction between the **Custom component** and other components in your app, PocketBlocks offers an API for you through global objects. The type definition and description of the objects are as follows.
 
-```typescript
+```javascript
 interface PBL {
-  // Assine a alteração de dados
-  //Quando os dados mudam, o manipulador será acionado
-  // O valor retornado é a função de cancelamento de assinatura
+  // Subscribe to data change
+  // When data changes, handler will be triggered
+  // The returned value is the unsubscribe function
   subscribe(handler: SubscribeHandler): () => void;
-  // Função do componente React HOC que aceita um componente React
-  // Retorna um novo componente que contém propriedades: runQuery, model, updateModel
+  // React HOC component function that accepts a React component
+  // Return a new component that contains properties: runQuery, model, updateModel
   connect(Component: ComponentType<any>): ComponentType;
-  // Execute a consulta especificada
+  // Run the specified query
   runQuery(queryName: string): Promise<void>;
-  // Atualizar dados
+  // Update data
   updateModel(patch: any): Promise<any>;
 }
 
@@ -60,13 +60,13 @@ interface IDataPayload {
 }
 ```
 
-O exemplo a seguir é o mínimo de código que um componente personalizado requer para funcionar.
+The following example is the least code that a custom component requires to work.
 
 ```javascript
 <div id="react"></div>
 <script type="text/babel">
     const MyCustomComponent = ({ runQuery, model, updateModel }) => (
-        <p>Olá, mundo!</p>
+        <p>Hello, world!</p>
     );
     const ConnectedComponent = pbl.connect(MyCustomComponent);
     ReactDOM.render(<ConnectedComponent />,
@@ -74,15 +74,15 @@ document.getElementById("react"));
 </script>
 ```
 
-## Interação de dados
+## Data interaction
 
-### Passando dados do aplicativo para o componente personalizado
+### Pass data from app to custom component
 
-Por exemplo, para passar o texto em uma caixa de entrada para um componente personalizado, você pode usar a sintaxe `{{}}` para referenciar dados deste componente **Texto**. Observe que você também pode fazer referência a dados de consultas da mesma maneira.
+For instance, to pass the text in an input box to a custom component, you can use the `{{}}` syntax to reference data from this **Text** component. Note that you can also reference data from queries in the same way.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/custom-component/04.png" alt=""><figcaption></figcaption></figure>
 
-Abaixo está o código para este exemplo.
+Below is the code for this example.
 
 ```javascript
 <div id="root"></div>
@@ -92,19 +92,19 @@ Abaixo está o código para este exemplo.
   const { Button, Card, Space } = antd;
 
   const MyCustomComponent = ({ runQuery, model, updateModel}) => (
-    <Card title={"Olá, " + model.nome}>
-        <p>{model.texto}</p>
+    <Card title={"Hello, " + model.name}>
+        <p>{model.text}</p>
         <Space>
           <Button
             type="primary"
             onClick={() => runQuery(model.query)}
          >
-            Acionar consulta
+            Trigger query
           </Button>
           <Button
-            onClick={() => updateModel({ texto: "Também estou de bom humor!" })}
+            onClick={() => updateModel({ text: "I'm also in a good mood!" })}
           >
-          Atualizar dados
+          Update data
           </Button>
       </Space>
     </Card>
@@ -118,34 +118,32 @@ Abaixo está o código para este exemplo.
   </script>
 ```
 
-### Passando dados do componente personalizado para o aplicativo
+### Pass data from custom component to app
 
-Por exemplo, para exibir determinado texto do **Componente personalizado** em um componente **Input** no aplicativo, você pode definir o valor de `custom1.model.nome` como o valor padrão de `entrada1`. A notação de ponto `custom1.model.nome` acessa o nome do **componente personalizado**.
+For instance, to display certain text from the **Custom component** in an **Input** component in the app, you can set the value of `custom1.model.name` as the default value of `input1`. The dot notation `custom1.model.name` accesses the name of the **Custom component**.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/custom-component/05.png" alt=""><figcaption></figcaption></figure>
 
-### Acionando consulta do componente personalizado
+### Trigger query from custom component
 
-Por exemplo, dada a tabela `usuarios` que exibe informações de todos os usuários, você deseja filtrar os dados com base no texto inserido em um **Componente personalizado**. Além disso, a operação de filtro é acionada clicando em um botão dentro do mesmo **Componente personalizado**.
+For instance, given table `users` which displays information of all users, you want to filter data based on the inputted text in a **Custom component**. Besides, the filter operation is triggered by clicking a button inside the same **Custom component**.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/custom-component/06.png" alt=""><figcaption></figcaption></figure>
 
-De acordo com o requisito, o **componente personalizado** contém um componente **Input** e um componente **Botão**. Você também pode adicionar um componente **Texto** para fornecer contexto aos usuários do seu aplicativo. Quando um usuário insere na caixa de texto, por exemplo "Lor", e a seguir clica no botão de pesquisa, a tabela apresenta apenas as entradas em que o campo "Nome" que contém "Lor".
+According to the requirement, the **Custom component** contains an **Input** component and a **Button** component. You can also add a **Text** component to provide context to the users of your app. When a user inputs into the text box, for example "Lor", and then clicks the search button, the table only presents the entries in which the "Name" field contains "Lor".
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/custom-component/07.png" alt=""><figcaption></figcaption></figure>
 
-Para implementar esse **componente personalizado**, primeiro você cria a consulta `filtrarUsuario` para acessar os dados do componente personalizado e configura-o para ser executado por invocação manual.
+To implement such a **Custom component**, first you create query `filterUser` to access data from the custom component and set it to run by manual invoke.
 
 ```javascript
-return usuarios.value.filter((u) =>
-  u.name.includes(custom1.model.pesquisa || "")
-);
+return users.value.filter(u => u.name.includes(custom1.model.search || ""));
 ```
 
-Em seguida, você importa a biblioteca "antd" e utiliza os componentes **Button**, **Input**, **Card** e **Space**. Por fim, mais uma configuração para cada componente dentro do **Componente personalizado**:
+Then, you import the "antd" library and use the components **Button**, **Input**, **Card**, and **Space**. Finally, one more setting for each component inside the **Custom component**:
 
-- Configure o método `updateModel` para executar e atualizar os dados do **Componente personalizado** quando o texto no componente **Input** for alterado.
-- Acionar a consulta `filtrarUsuario` pelo método `runQuery` quando o botão **Pesquisar** for clicado.
+- Configure the `updateModel` method to run and update the data of the **Custom component** when the text in the **Input** component changes.
+- Trigger the query `filterUser` by the `runQuery` method when the **Search** button is clicked.
 
 ```javascript
 <style type="text/css">
@@ -165,17 +163,17 @@ Em seguida, você importa a biblioteca "antd" e utiliza os componentes **Button*
   const { Button, Card, Input, Space } = antd;
 
   const MyCustomComponent = ({ runQuery, model, updateModel}) => (
-    <Card title={"Olá, " + model.nome + " filtra dados para você!"}>
+    <Card title={"Hello, " + model.name + " filters data for you!"}>
 
         <Space>
       <Input
           value={model.search}
-          onChange={e => updateModel({ pesquisa: e.target.value})}
-          placeholder="Nome"
+          onChange={e => updateModel({ search: e.target.value})}
+          placeholder="Input a name"
         />
           <Button
             type="primary"
-            onClick={() => runQuery("filtrarUsuario")}
+            onClick={() => runQuery("filterUser")}
          >
             Search
           </Button>
