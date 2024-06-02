@@ -39,7 +39,7 @@ Todo o código do seu **componente personalizado**, incluindo HTML, CSS e JavaSc
 ```typescript
 interface PBL {
   // Assine a alteração de dados
-  //Quando os dados mudam, o manipulador será acionado
+  // Quando os dados mudam, o manipulador será acionado
   // O valor retornado é a função de cancelamento de assinatura
   subscribe(handler: SubscribeHandler): () => void;
   // Função do componente React HOC que aceita um componente React

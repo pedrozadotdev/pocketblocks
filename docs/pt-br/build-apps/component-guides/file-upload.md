@@ -1,111 +1,65 @@
-# File upload
+# Envio de arquivo
 
-## Basics
+## Fundamentos
 
-You can customize the properties of the file upload components in the right panel, such as the displayed text, file types, upload type.
+Você pode personalizar as propriedades dos componentes de upload de arquivo no painel direito, como texto exibido, tipos de arquivo e tipo de upload.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/01.png" alt=""><figcaption></figcaption></figure>
 
-### File type
+### Tipo de arquivo
 
-You can input an array of strings to restrict the types of the files to be uploaded. The default value of file type is empty, meaning that no limitation is pre-defined. Each string value in a specified file type array should be a [unique file type specifier](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers) in one of the following formats.
+Você pode inserir uma série de strings para restringir os tipos de arquivos a serem carregados. O valor padrão do tipo de arquivo está vazio, o que significa que nenhuma limitação é predefinida. Cada valor de string em uma matriz de tipo de arquivo especificada deve ser um [especificador de tipo de arquivo exclusivo](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers) em um dos os seguintes formatos.
 
-- A valid case-insensitive filename extension, starting with a period character ("."), such as `.png`, `.txt`, and `.pdf`.
-- A valid string in [MIME format](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) without an extension.
-- String `audio/*` indicating "any audio file".
-- String `video/*` indicating "any video file".
-- String `image/*` indicating "any image file".
+- Uma extensão de nome de arquivo válida que não diferencia maiúsculas de minúsculas, começando com um caractere de ponto final ("."), como `.png`, `.txt` e `.pdf`.
+- Uma string válida em [formato MIME](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) sem extensão.
+- String `audio/*` indicando "qualquer arquivo de áudio".
+- String `video/*` indicando "qualquer arquivo de vídeo".
+- String `image/*` indicando "qualquer arquivo de imagem".
 
-For example, when the value of file type is `[".pdf", ".mp4", "image/*"]`, you can upload PDF files, MP4 files, and any type of image files.
+Por exemplo, quando o valor do tipo de arquivo é `[".pdf", ".mp4", "image/*"]`, você pode fazer upload de arquivos PDF, arquivos MP4 e qualquer tipo de arquivo de imagem.
 
-### Upload type
+### Tipo de upload
 
-You can decide whether to upload a single file, multiple files, or a directory.
+Você pode decidir se deseja fazer upload de um único arquivo, de vários arquivos ou de um diretório.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/02.png" alt=""><figcaption></figcaption></figure>
 
-### Display uploaded files
+### Exibir arquivos enviados
 
-Switch on or off **Show upload list** to display or hide the list of the uploaded files. You can also set this property via JS code. By default, its value is "true".
+Ative ou desative **Mostrar lista de upload** para exibir ou ocultar a lista de arquivos enviados. Você também pode definir essa propriedade por meio do código JS. Por padrão, seu valor é “verdadeiro”.
 
-The upload list presents the file names of all uploaded files in chronological order. You can also access the name of the uploaded files via the property `files[index].name`. When hovering your mouse over a file, the 🗑️ icon appears and you can click it to delete the corresponding file.
+A lista de upload apresenta os nomes de todos os arquivos carregados em ordem cronológica. Você também pode acessar o nome dos arquivos enviados através da propriedade `files[index].name`. Ao passar o mouse sobre um arquivo, o ícone 🗑️ aparece e você pode clicar nele para excluir o arquivo correspondente.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/03.png" alt=""><figcaption></figcaption></figure>
 
-### Parse files
+### Analisar arquivos
 
-Toggle **Parse files** and PocketBlocks will try to parse the uploaded file data structure into objects, arrays, or strings. You can access the parsed result via the property `parsedValue`. PocketBlocks supports parsing Excel, JSON, and CSV files. The parsing result of other types of files is `null`.
+Alterne **Analisar arquivos** e o PocketBlocks tentará analisar a estrutura de dados do arquivo carregado em objetos, matrizes ou strings. Você pode acessar o resultado analisado através da propriedade `parsedValue`. PocketBlocks oferece suporte à análise de arquivos Excel, JSON e CSV. O resultado da análise de outros tipos de arquivos é `null`.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/04.png" alt=""><figcaption></figcaption></figure>
 
-## Validation
+## Validação
 
-Under the validation tab, you can configure how many files are allowed to be uploaded, as well as the minimum and maximum size of a single file to be uploaded.
+Na aba de validação, você pode configurar quantos arquivos podem ser carregados, bem como o tamanho mínimo e máximo de um único arquivo a ser carregado.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/05.png" alt=""><figcaption></figcaption></figure>
 
-### Max files
+### Máximo de arquivos
 
-When the upload type is "Multiple" or "Directory", you can set **Max files** to limit the maximum number of files to upload. If the number of files to be uploaded exceeds this threshold, the latest uploaded files will replace the oldest ones.
+Quando o tipo de upload é "Múltiplo" ou "Diretório", você pode definir **Máximo de arquivos** para limitar o número máximo de arquivos a serem carregados. Se o número de arquivos a serem carregados exceder esse limite, os arquivos carregados mais recentemente substituirão os mais antigos.
 
-### File size
+### Tamanho do arquivo
 
-You can set the minimum and maximum size of the files to upload, using KB, MB, GB, or TB units. The default unit for file size is byte.When the size of the uploaded file exceeds the limit, you will see a global alert.
+Você pode definir o tamanho mínimo e máximo dos arquivos para upload, usando unidades KB, MB, GB ou TB. A unidade padrão para tamanho de arquivo é byte. Quando o tamanho do arquivo enviado exceder o limite, você verá um alerta global.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/06.png" alt=""><figcaption></figcaption></figure>
 
-### Access uploaded files
+### Acessando os arquivos enviados
 
-Files uploaded via the file upload component are stored in browser cache memory in **base64-encoded** string format. To store these files in data sources, you need to build queries to connect to databases or APIs.You can view the properties of the uploaded files in the data browser in the left pane, or access property names in `{{}}` or JS queries via JS code. Commonly used properties are as follows.
+Os arquivos carregados por meio do componente de upload de arquivo são armazenados na memória cache do navegador em formato de string **codificado em base64**. Para armazenar esses arquivos em fontes de dados, você precisa criar consultas para conectar-se a bancos de dados ou APIs. Você pode visualizar as propriedades dos arquivos enviados no navegador de dados no painel esquerdo ou acessar os nomes das propriedades em `{{}}` ou Consultas JS via código JS. As propriedades comumente usadas são as seguintes.
 
-- `value`: A list of the content of the uploaded files, encoded in base64.
-- `files`: A list of metadata of the uploaded files, including `uid`, `name`, `type`, `size`, and `lastModified`.
-- `parsedValue`: A list of the value of the parsed files.
+- `value`: Uma lista do conteúdo dos arquivos enviados, codificados em base64.
+- `files`: Uma lista de metadados dos arquivos enviados, incluindo `uid`, `name`, `type`, `size` e `lastModified`.
+- `parsedValue`: Uma lista do valor dos arquivos analisados.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/07.png" alt=""><figcaption></figcaption></figure>
-
-## Use case: Upload images to Postman Echo API
-
-This example uploads images to Postman [Echo API](https://learning.postman.com/docs/developer/echo-api/), and inspects the query result whether the files are sent successfully to the remote server. For more details, see [Image uploader](https://cloud.openblocks.dev/apps/63a2651e660ad97d59eb4a51/view).
-
-<figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/08.gif" alt=""><figcaption></figcaption></figure>
-
-### Upload a single file
-
-1.  Insert **File upload** component `file1`, and set **File types** and **Upload type**.&#x20;
-
-    <figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/09.png" alt=""><figcaption></figcaption></figure>
-
-2.  Insert an **Image** component, and set the image source as `data:image;base64,{{file1.value[0]}}` to preview the image cached in the browser.&#x20;
-
-    <figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/10.png" alt=""><figcaption></figcaption></figure>
-
-3.  Create a new query `uploadSingle` to send single images to Echo API. You can add a button, and bind its click event to the query. Select "POST" as the **HTTP Method**, and complete the **Body** in format \*\*\*\* `{data: base64 string, name: string}`, for example–`{data: {{file1.value[0]}}, name: {{file1.files[0].name}}}`.&#x20;
-
-    <figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/11.png" alt=""><figcaption></figcaption></figure>
-
-4.  Run query `uploadSingle`. Create a new text component to display the file name of the returned value of the query by `{{Object.keys(uploadSingle.data?.files??[])[0]}}`. Add a new image component to view the returned image by `{{Object.values(uploadSingle.data?.files??[])[0]}}`.&#x20;
-
-    <figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/02.png" alt=""><figcaption></figcaption></figure>
-
-### Upload multiple files
-
-When uploading multiple files, you send an object of array to Echo API. Each item in the array should use the format `{data: base64 string, name: string}`. You can create a transformer `multipleFileArray` to convert all files to be uploaded to the target format, as shown in the following figure.
-
-<figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/13.png" alt=""><figcaption></figcaption></figure>
-
-Then, create a new query `uploadMultiple` to upload the images to Echo API. In **Body** field, you can use the returned value of query `multipleFileArray` directly.
-
-<figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/14.png" alt=""><figcaption></figcaption></figure>
-
-Run this query and check the result. The file names and the encoded content are properly accessed.
-
-<figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/15.png" alt=""><figcaption></figcaption></figure>
-
-You can present the query result using a [**List View**](list-view.md) \*\*\*\* component.
-
-- Access the number of rows by the value of the field`files` in the query result: `{{Object.keys(uploadMultiple.data?.files?? []).length}}`.
-- Access the file names by `{{Object.keys(uploadMultiple.data.files)[i]}}`.
-- Access the file content by `{{Object.values(uploadMultiple.data.files)[i]}}`.
-
-<figure><img src="../../.gitbook/assets/build-apps/component-guides/file-upload/16.png" alt=""><figcaption></figcaption></figure>

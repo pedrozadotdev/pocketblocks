@@ -1,51 +1,51 @@
-# Image
+# Imagem
 
-Use the **Image** component to present information in your apps in a vivic way. PocketBlocks supports you adding an image via URL and base64 encoded data.
+Use o componente **Imagem** para apresentar informações nos seus aplicativos de maneira vívida. PocketBlocks suporta a adição de uma imagem via URL e dados codificados em base64.
 
 ## URL
 
-Drag the **Image** component onto the canvas or into a **Container**. Click the **Image** component, and the **Properties** tab is displayed on the right. You can set the URL to display an image.
+Arraste o componente **Image** para a tela ou para um **Container**. Clique no componente **Imagem** e a guia **Propriedades** será exibida à direita. Você pode definir o URL para exibir uma imagem.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/image/01.png" alt=""><figcaption></figcaption></figure>
 
-## Base64 encoded data
+## Dados codificados em Base64
 
-You can also insert an image via base64 encoded data. Ensure that the encoded image source starts with `data:image/PICTURE_FORMAT;base64,` or simply`data:image;base64,`.
+Você também pode inserir uma imagem por meio de dados codificados em base64. Certifique-se de que a fonte da imagem codificada comece com `data:image/FORMATODAIMAGEM;base64,` ou simplesmente `data:image;base64,`.
 
 {% hint style="warning" %}
-Don't miss the comma at the end of the prefix:
+Não esqueça da vírgula no final do prefixo:
 
-<mark style="background-color:yellow;">`data:image/PICTURE_FORMAT;base64`</mark><mark style="background-color:yellow;">**`,`**</mark><mark style="background-color:yellow;">`YOUR_BASE64_ENCODED_IMAGE_DATA`</mark>
+<mark style="background-color:yellow;">`data:image/FORMATODAIMAGEM;base64`</mark><mark style="background-color:yellow;">**`,`**</mark> <mark style="background-color:yellow;">`OS_DADOS_DA_SUA_IMAGEM_EM_BASE64`</mark>
 
-<mark style="background-color:yellow;">`data:image;base64`</mark><mark style="background-color:yellow;">**`,`**</mark><mark style="background-color:yellow;">`YOUR_BASE64_ENCODED_IMAGE_DATA`</mark>
+<mark style="background-color:yellow;">`data:image;base64`</mark><mark style="background-color:yellow;">**`,`**</mark><mark style="background-color:yellow;">`OS_DADOS_DA_SUA_IMAGEM_EM_BASE64`</mark>
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/image/02.png" alt=""><figcaption></figcaption></figure>
 
-### Demo: upload and display an image
+### Demo: carreguando e exibindo uma imagem
 
-One common use case for base64 image display would be combining a **File Upload** component with an **Image** component.
+Um caso de uso comum para exibição de imagens base64 seria combinar um componente **Upload de arquivo** com um componente **Imagem**.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/image/03.png" alt=""><figcaption></figcaption></figure>
 
-Here is JS code that concatenates the prefix with the encoded base64 data of the uploaded file via `file1.value[0]`.
+Aqui está o código JS que concatena o prefixo com os dados codificados em base64 do arquivo enviado por meio de `arquivo1.value[0]`.
 
 ```javascript
 {
   {
-    "data:image/jpeg;base64," + file1.value[0];
+    "data:image/jpeg;base64," + arquivo1.value[0];
   }
 }
 ```
 
-## Set click preview for an image
+## Definindo visualização de clique para uma imagem
 
-Toggle **Support click preview** in the **Properties** tab to allow users to preview the image in its full size. Hover your mouse over the image, and you see **👁 Preview**. Then, you can click to preview.
+Ative **Suporte a visualização de clique** na guia **Propriedades** para permitir que os usuários visualizem a imagem em tamanho real. Passe o mouse sobre a imagem e você verá **👁 Visualização**. Então, você pode clicar para visualizar.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/image/04.png" alt=""><figcaption></figcaption></figure>
 
-## Set the style of an image
+## Definindo o estilo de uma imagem
 
-In **Properties** > **Style**, change border color and set **Border radius** in pixels or by percentage.
+Em **Propriedades** > **Estilo**, altere a cor da borda e defina o **Raio da borda** em pixels ou em porcentagem.
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/image/05.png" alt=""><figcaption></figcaption></figure>
