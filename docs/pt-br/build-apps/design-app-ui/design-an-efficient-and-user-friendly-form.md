@@ -1,47 +1,47 @@
-# Design an efficient and user-friendly form
+# Crie um formulário eficiente e fácil de usar
 
-### Select proper input components
+### Selecione os componentes de entrada adequados
 
-The UX design of input components in a form is crucial to the form's efficiency. Properly chosen components can save users effort and lead to better results. PocketBlocks offers a variety of input components, including text input, number input, option list, and radio buttons, each of which works for different scenarios.
+O design UX dos componentes de entrada em um formulário é crucial para a eficiência do formulário. Componentes escolhidos corretamente podem economizar esforço dos usuários e levar a melhores resultados. PocketBlocks oferece uma variedade de componentes de entrada, incluindo entrada de texto, entrada de número, lista de opções e botões de opção, cada um dos quais funciona para diferentes cenários.
 
-For example, when the input is generated from data, use the option list to let users quickly fill in the input.
+Por exemplo, quando a entrada é gerada a partir de dados, use a lista de opções para permitir que os usuários preencham a entrada rapidamente.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/form-design/01.png" alt=""><figcaption></figcaption></figure>
 
-Other input components, such as radio, are really helpful when the users need to directly choose between two options, for example, to indicate whether they would like to sign up for a particular activity, like a conference.
+Outros componentes de entrada, como rádio, são realmente úteis quando os usuários precisam escolher diretamente entre duas opções, por exemplo, para indicar se gostariam de se inscrever em uma atividade específica, como uma conferência.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/form-design/02.png" alt=""><figcaption></figcaption></figure>
 
-Number input is also a commonly used component type—for example, in an order management system.
+A entrada de números também é um tipo de componente comumente usado – por exemplo, em um sistema de gerenciamento de pedidos.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/form-design/03.png" alt=""><figcaption></figcaption></figure>
 
-### Keep layout clear and consistent
+### Mantenha o layout limpo e consistente
 
-Keep all input field lengths the same to make the form visually neat, and put all input fields into a single column to achieve better readability.
+Mantenha todos os comprimentos dos campos de entrada iguais para tornar o formulário visualmente organizado e coloque todos os campos de entrada em uma única coluna para obter melhor legibilidade.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/form-design/04.png" alt=""><figcaption></figcaption></figure>
 
-### Group content with PocketBlocks divider
+### Agrupe o conteúdo com o divisor PocketBlocks
 
-Use the PocketBlocks **Divider** component to group relevant input fields to help users process information in an organized way.
+Use o componente PocketBlocks **Divisor** para agrupar campos de entrada relevantes para ajudar os usuários a processar informações de maneira organizada.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/form-design/05.png" alt=""><figcaption></figcaption></figure>
 
-### Add user feedback
+### Adicionar feedback do usuário
 
-Form component is quite often used for CRUD operations, which sometimes can be risky due to human errors. To avoid harmful CRUD operations, you can add a confirmation modal before the users submit the form.
+O componente Formulário é frequentemente usado para operações CRUD, que às vezes podem ser arriscadas devido a erros humanos. Para evitar operações CRUD prejudiciais, você pode adicionar um modal de confirmação antes que os usuários enviem o formulário.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/form-design/06.gif" alt=""><figcaption></figcaption></figure>
 
-Similarly, a notification after users' submission gives users timely feedback. You can add a global notication to the Submit button. In PocketBlocks, you can add global notifications in three ways. See [global notification](style-theme-and-usability.md#global-notifications) for details.
+Da mesma forma, uma notificação após o envio dos usuários fornece feedback oportuno. Você pode adicionar uma notificação global ao botão Enviar. No PocketBlocks, você pode adicionar notificações globais de três maneiras. Veja [notificação global](style-theme-and-usability.md#global-notifications) para saber mais.
 
-### Clear input fields on submission
+### Limpe os campos de entrada no envio
 
-Clearing input fields in a form upon submission helps users proceed with the subsequent submissions. You can set in **Properties** tab, and toggle **Reset after successful submit**.
+Limpar os campos de entrada em um formulário após o envio ajuda os usuários a prosseguir com os envios subsequentes. Você pode definir na guia **Propriedades** e alternar **Redefinir após envio bem-sucedido**.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/form-design/07.png" alt=""><figcaption></figcaption></figure>
 
-However, sometimes it is better to leave the form uncleared—for example, when much of the values stay the same in subsequent submissions, or when the user continuously edits data. In such cases, you can insert a button with an event handler to clear each input on click.
+No entanto, às vezes é melhor deixar o formulário desmarcado — por exemplo, quando muitos dos valores permanecem os mesmos em envios subsequentes ou quando o usuário edita continuamente os dados. Nesses casos, você pode inserir um botão com um manipulador de eventos para limpar cada entrada ao clicar.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/form-design/08.png" alt=""><figcaption></figcaption></figure>

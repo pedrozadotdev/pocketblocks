@@ -1,6 +1,6 @@
 # Manipuladores de eventos
 
-No PocketBlocks, os manipuladores de eventos são responsáveis ​​por coletar e processar eventos de componentes e consultas e executar ações subsequentes. Por exemplo, para um componente **Butão**, você pode adicionar um manipulador de eventos para acionar a ação **Executar consulta** em resposta ao evento **Clique** do botão.
+No PocketBlocks, os manipuladores de eventos são responsáveis ​​por coletar e processar eventos de componentes e consultas e executar ações subsequentes. Por exemplo, para um componente **Botão**, você pode adicionar um manipulador de eventos para acionar a ação **Executar consulta** em resposta ao evento **Clique** do botão.
 
 <figure><img src="../.gitbook/assets/build-apps/event-handlers/01.png" alt=""><figcaption></figcaption></figure>
 
@@ -14,7 +14,7 @@ Você pode adicionar quantos manipuladores de eventos desejar para um único com
 
 ### Eventos de componentes
 
-Componentes diferentes têm eventos diferentes. Por exemplo, os componentes **Butão** possuem apenas um evento **Clique**.
+Componentes diferentes têm eventos diferentes. Por exemplo, os componentes **Botão** possuem apenas um evento **Clique**.
 
 <figure><img src="../.gitbook/assets/build-apps/event-handlers/02.png" alt=""><figcaption></figcaption></figure>
 

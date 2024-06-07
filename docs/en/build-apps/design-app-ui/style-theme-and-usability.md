@@ -18,7 +18,7 @@ You can also write JavaScript in the text box to conditionally control the style
 
 ## Themes
 
-The [theme feature](https://cloud.openblocks.dev/setting/theme) helps you quickly set the styles of all your apps within a workspace, such as the primary color of the apps and the default background color of containers.
+The theme feature helps you quickly set the styles of all your apps within a workspace, such as the primary color of the apps and the default background color of containers.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/04.gif" alt=""><figcaption></figcaption></figure>
 

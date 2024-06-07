@@ -1,123 +1,123 @@
-# JavaScript query
+# Consulta JavaScript
 
-There are cases where you want to orchestrate operations, for instance, after triggering two queries, you want to combine and store their results to a temporary state, and then open a modal. This process can be complicated when chaining several event handlers, and certainly cannot be done in one line of code in `{{ }}`. That's where JavaScript (JS) query comes into play. It unleashes the ability to interact with components and queries by writing complex JS queries to achieve the following operations:
+Há casos em que você deseja orquestrar operações, por exemplo, após acionar duas consultas, deseja combinar e armazenar seus resultados em um estado temporário e, em seguida, abrir um modal. Este processo pode ser complicado ao encadear vários manipuladores de eventos e certamente não pode ser feito em uma linha de código em `{{ }}`. É aí que entra a consulta JavaScript (JS). Ela libera a capacidade de interagir com componentes e consultas escrevendo consultas JS complexas para realizar as seguintes operações:
 
-- Interact with UI components
-- Trigger queries
-- Access third-party JS libraries
-- Customize functions
+- Interagir com componentes da UI
+- Acionar consultas
+- Acessar bibliotecas JS de terceiros
+- Personalizar funções
 
-The following example is for you to quickly understand what JS query is and how it works.
+O exemplo a seguir é para você entender rapidamente o que é consulta JS e como ela funciona.
 
-## Return data
+## Retorna dados
 
-Use `return` syntax to return result. For example, the following code returns `3`.
+Use a sintaxe `return` para retornar o resultado. Por exemplo, o código a seguir retorna `3`.
 
 ```javascript
 return Math.floor(3.4);
 ```
 
-The result returned can also be a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) object. For example, `query2.run()` returns a Promise object.
+O resultado retornado também pode ser um objeto [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). Por exemplo, `query2.run()` retorna um objecto promise.
 
 ```javascript
 return query2.run();
 ```
 
 {% hint style="info" %}
-The `return` statement is not necessary for scenarios where you want to omit results.
+A instrução `return` não é necessária para cenários onde você deseja omitir resultados.
 {% endhint %}
 
-## Access data
+## Acessando dados
 
-Use JS queries to access data in your app. Notice that there's no need to use `{{ }}` notation.
+Use consultas JS para acessar dados em seu aplicativo. Observe que não há necessidade de usar a notação `{{ }}`.
 
 ```javascript
 var data = [input1.value, query1.data, fileUpload.files[0].name];
 ```
 
-## Control component
+## Controlando Componentes
 
-In JS queries, you can use methods exposed by components to interact with UI components in your app. Such operation is not supported by the inline JS code in `{{}}`.
+Em consultas JS, você pode usar métodos expostos por componentes para interagir com componentes de UI em seu aplicativo. Tal operação não é suportada pelo código JS embutido em `{{}}`.
 
 ```javascript
-// set the value of input1 to "Hello"
-input1.setValue("Hello");
+// defina o valor de input1 como "Olá"
+input1.setValue("Olá");
 ```
 
 {% hint style="warning" %}
-The `input1.setValue()` method (or other component methods) is asynchronous and returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) object. Accessing `input1.value` immediately after setting the value of `input1` does not return the updated value.
+O método `input1.setValue()` (ou outros métodos componentes) é assíncrono e retorna um objeto [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise). Acessando `input1.value` imediatamente após definir o valor de `input1` não retorna o valor atualizado.
 {% endhint %}
 
-## Run query
+## Executando consulta
 
-### `run()` method and callbacks
+### `run()` método e retornos de chamada
 
-Call `run()` method to run other queries, for example:
+Execute o método `run()` para executar outras consultas, por exemplo:
 
 ```javascript
-return queryByName.run(); // run a query and it returns a Promise
+return consultaPorNome.run(); // execute uma consulta e ela retornará uma Promise
 ```
 
-The return value of `query.run()` is a Promise, so you can attach callbacks to handle the successful result or error.
+O valor de retorno de `query.run()` é uma promise, então você pode anexar retornos de chamada para lidar com o resultado ou erro bem-sucedido.
 
 ```javascript
-return queryByName.run().then(
+return consultaPorNome.run().then(
   (data) => {
-    // after query runs successfully
-    return "hello, " + data.user_fullname;
+    // após a consulta ser executada com sucesso
+    return "olá, " + data.user_fullname;
   },
   (error) => {
-    // after query runs in failure
-    // use built-in message function to pop up an error message
-    message.error("An error occured when fetching user: " + error.message);
+    // após a consulta ser executada com falha
+    // use a função de mensagem integrada para exibir uma mensagem de erro
+    message.error("Ocorreu um erro ao buscar o usuário: " + error.message);
   }
 );
 ```
 
-### Pass in parameters
+### Passando parâmetros
 
-You can pass parametes in the `run()` method to decouple query implementation from its parameters.
+Você pode passar parâmetros no método `run()` para dissociar a implementação da consulta de seus parâmetros.
 
 ```javascript
 query.run({
-    param1: value1,
-    param2: value2
+    parametro1: valor1,
+    parametro2: valor2,
     ...
 });
 ```
 
-## Declare a function
+## Declarando uma função
 
-You can declare functions inside a JS query for better readability.
+Você pode declarar funções dentro de uma consulta JS para melhor legibilidade.
 
 ```javascript
-// Whether the first number is a multiple of the second number
-function isMultiple(num1, num2) {
+// Se o primeiro número é um múltiplo do segundo número
+function eMultiplo(num1, num2) {
   return num1 % num2 === 0;
 }
 
-// Call the moment library to return the current date
-function getCurrentDate() {
-  return moment().format("YYYY-MM-DD");
+// Chame a biblioteca do moment para retornar a data atual
+function dataAtual() {
+  return moment().format("DD/MM/YYYY");
 }
 ```
 
-## Add preloaded scripts
+## Adicionando scripts pré-carregados
 
-PocketBlocks supports importing third-party JS libraries and adding predefined JS code, such as adding global methods or variables for reuse either at **app-level** or **workspace-level**. You can find the app-level settings in ⚙️ > **Other** > **Scripts and style**.
+PocketBlocks oferece suporte à importação de bibliotecas JS de terceiros e à adição de código JS predefinido, como a adição de métodos ou variáveis ​​globais para reutilização em **nível de aplicativo** ou **nível de espaço de trabalho**. Você pode encontrar as configurações no nível do aplicativo em ⚙️ > **Outros** > **Scripts e estilo**.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/javascript-query/01.png" alt=""><figcaption></figcaption></figure>
 
-For workspace-level, go to ⚙️ **Settings** > **Advanced**.
+Para nível de espaço de trabalho, acesse ⚙️ **Configurações** > **Avançado**.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/javascript-query/02.png" alt=""><figcaption></figcaption></figure>
 
-In **JavaScript** tab, you can add preloaded JavaScript code to define global methods and variables and then reuse them in your app. For importing libraries, see [use-third-party-libraries.md](../use-third-party-libraries.md "mention").
+Na guia **JavaScript**, você pode adicionar código JavaScript pré-carregado para definir métodos e variáveis ​​globais e reutilizá-los em seu aplicativo. Para importar bibliotecas, consulte [Usando biblioteca de terceiros](../use-third-party-libraries.md).
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/javascript-query/03.png" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/javascript-query/04.png" alt=""><figcaption></figcaption></figure>
 
-## &#x20;Restrictions
+## &#x20;Restrições
 
-For security reasons, several global variables and functions of **window** are disabled in PocketBlocks. Please report to our [GitHub](https://github.com/internoapp/pocketblocks) if you encounter any issues.
+Por motivos de segurança, diversas variáveis ​​globais e funções de **window** estão desabilitadas no PocketBlocks. Por favor, reporte ao nosso [GitHub](https://github.com/internoapp/pocketblocks) se você encontrar algum problema.

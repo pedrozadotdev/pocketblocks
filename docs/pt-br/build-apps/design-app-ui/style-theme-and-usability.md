@@ -1,111 +1,111 @@
-# Style, theme, and usability
+# Estilo, tema e usabilidade
 
-Good user interface (UI) improves user experience (UX) and increases user involvement. You can customize the style of each component in PocketBlocks and use the theme feature to design the interface on a per-app or workspace basis. Features such as icon configuration and hint messages make the app interaction more user-friendly.
+Uma boa interface de usuário (UI) melhora a experiência do usuário (UX) e aumenta o envolvimento do usuário. Você pode personalizar o estilo de cada componente no PocketBlocks e usar o recurso de tema para projetar a interface por aplicativo ou espaço de trabalho. Recursos como configuração de ícones e mensagens de dicas tornam a interação do aplicativo mais fácil de usar.
 
-## Component styles
+## Estilos de componentes
 
-You can modify the style of all components in the **Properties** tab.
+Você pode modificar o estilo de todos os componentes na guia **Propriedades**.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/01.png" alt=""><figcaption></figcaption></figure>
 
-Click the color picker to select a color or write CSS color code in the text box.
+Clique no seletor de cores para selecionar uma cor ou escreva o código de cores CSS na caixa de texto.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/02.png" alt=""><figcaption></figcaption></figure>
 
-You can also write JavaScript in the text box to conditionally control the style setting of the component.
+Você também pode escrever JavaScript na caixa de texto para controlar condicionalmente a configuração de estilo do componente.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/03.gif" alt=""><figcaption></figcaption></figure>
 
-## Themes
+## Temas
 
-The [theme feature](https://cloud.openblocks.dev/setting/theme) helps you quickly set the styles of all your apps within a workspace, such as the primary color of the apps and the default background color of containers.
+O recurso de tema ajuda você a definir rapidamente os estilos de todos os seus aplicativos em um espaço de trabalho, como a cor primária dos aplicativos e a cor de fundo padrão dos contêineres.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/04.gif" alt=""><figcaption></figcaption></figure>
 
-### Create a theme
+### Criando um tema
 
-Workspace admins have access to theme settings. On PocketBlocks homepage, go to **Settings** > **Themes**, and click **+ Create theme**. Enter the theme name, and select one of the preset default themes as the starting point.
+Os administradores do workspace têm acesso às configurações do tema. Na página inicial do PocketBlocks, vá para **Configurações** > **Temas** e clique em **+ Criar tema**. Insira o nome do tema e selecione um dos temas padrão predefinidos como ponto de partida.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/05.png" alt=""><figcaption></figcaption></figure>
 
-Preview the real-time theme effect on the right.
+Visualize o efeito do tema em tempo real à direita.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/06.png" alt=""><figcaption></figcaption></figure>
 
-### Apply a theme
+### Aplicando um tema
 
-In the app editor, switch the theme by clicking ⚙️ on the left side-bar. Select a theme from **Theme setting**.
+No editor do aplicativo, mude o tema clicando em ⚙️ na barra lateral esquerda. Selecione um tema em **Configuração de tema**.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/07.png" alt=""><figcaption></figcaption></figure>
 
-You can also set the default theme for all your apps within a workspace in **Settings** > **Themes** on PocketBlocks homepage.
+Você também pode definir o tema padrão para todos os seus aplicativos em um espaço de trabalho em **Configurações** > **Temas** na página inicial do PocketBlocks.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/08.png" alt=""><figcaption></figcaption></figure>
 
-### Switching themes dynamically
+### Alternando temas dinamicamente
 
-You can access the global variable `theme` and call the method `theme.switchTo()` to allow the end users to switch the theme of the apps on their side using JavaScript.The global variable `theme` has three fields. You can view them in the data browser.
+Você pode acessar a variável global `theme` e chamar o método `theme.switchTo()` para permitir que os usuários finais mudem o tema dos aplicativos de seu lado usando JavaScript. A variável global `theme` possui três campos. Você pode visualizá-los no navegador de dados.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/09.png" alt=""><figcaption></figcaption></figure>
 
-- `id` and `name` are strings, indicating the ID and name of the current theme. When their values are empty, then the default theme is applied.
-- `allThemes` is an array, including all information of available themes in the current workspace.
+- `id` e `name` são strings, indicando o ID e o nome do tema atual. Quando seus valores estão vazios, o tema padrão é aplicado.
+- `allThemes` é um array, incluindo todas as informações dos temas disponíveis no espaço de trabalho atual.
 
-`theme.switchTo()` method switches the theme at the end user's side, and requires only a theme ID. When the passed value is an empty string `""`, then the default theme is applied.Once the end user switches the theme, it will be saved to the user browser's local storage. And this theme will override the default theme and apply to all apps that are used in the same browser.
+O método `theme.switchTo()` alterna o tema no lado do usuário final e requer apenas um ID do tema. Quando o valor passado é uma string vazia `""`, o tema padrão é aplicado. Assim que o usuário final mudar de tema, ele será salvo no armazenamento local do navegador do usuário. E esse tema substituirá o tema padrão e se aplicará a todos os aplicativos usados ​​no mesmo navegador.
 
-#### Demo
+#### Demonstração
 
-Combining Option lists and Events, end users can switch the theme within the app.
+Combinando listas de opções e eventos, os usuários finais podem mudar o tema dentro do aplicativo.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/10.gif" alt=""><figcaption></figcaption></figure>
 
-Follow the steps below to include this function in your app.
+Siga as etapas abaixo para incluir esta função em seu aplicativo.
 
-1. Drag and drop a **Select** component onto your canvas. Set the data value as follows.
+1. Arraste e solte um componente **Seletor** na tela. Defina o valor dos dados da seguinte maneira.
 
-<pre class="language-Plain"><code class="lang-Plain"><strong>{{[{ id: "", name: "Default" }, ...theme.allThemes]}}
+<pre class="idioma-Plain"><code class="lang-Plain"><strong>{{[{ id: "", nome: "Padrão" }, ...theme.allThemes]}}
 </strong></code></pre>
 
-2. Set the labels and values as `{{item.name}}` and `{{item.id}}` respectively. Then, you can view the default theme and all other available themes in the current workspace.
+2. Defina os rótulos e valores como `{{item.nome}}` e `{{item.id}}` respectivamente. Em seguida, você poderá visualizar o tema padrão e todos os outros temas disponíveis na área de trabalho atual.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/11.png" alt=""><figcaption></figcaption></figure>
 
-3. Insert a **Button** component onto your canvas to switch theme. Add an event to the button, select "Run JavaScript" as the action, and run `theme.switchTo()` method which takes the value of the **Select** component.&#x20;
+3. Insira um componente **Botão** em sua tela para mudar de tema. Adicione um evento ao botão, selecione "Executar JavaScript" como a ação e execute o método `theme.switchTo()` que assume o valor do componente **Seletor**.&#x20;
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/12.png" alt=""><figcaption></figcaption></figure>
 
-## Custom CSS
+## CSS customizado
 
-PocketBlocks provides a custom CSS feature for more flexible and customized UI styling.
+PocketBlocks fornece um recurso CSS personalizado para um estilo de UI mais flexível e personalizado.
 
-### App-level CSS
+### CSS no nível do aplicativo
 
-In the app editor, click ⚙️ on the left side-bar, select **Scripts and style** > **CSS**, and then write CSS code for the current app.
+No editor de aplicativos, clique em ⚙️ na barra lateral esquerda, selecione **Scripts e estilo** > **CSS** e escreva o código CSS para o aplicativo atual.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/13.png" alt=""><figcaption></figcaption></figure>
 
-For example, insert text component `text1`. Then use `.text1` as the element name and modify its CSS style.
+Por exemplo, insira o componente de texto `texto1`. Em seguida, use `.texto1` como nome do elemento e modifique seu estilo CSS.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/14.png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-It is recommended to modify the component styles in **Properties** > **Style** because the DOM of an adjusted CSS style may change as the system iterates.
+É recomendado modificar os estilos dos componentes em **Propriedades** > **Estilo** porque o DOM de um estilo CSS ajustado pode mudar conforme o sistema itera.
 {% endhint %}
 
-### Preload CSS
+### Pré-carregando CSS
 
-In PocketBlocks, workspace admins can also set pre-loaded CSS styles for all apps within the workspace. Open the **Settings**, and click **Advanced** > **Preload CSS**.
+No PocketBlocks, os administradores do espaço de trabalho também podem definir estilos CSS pré-carregados para todos os aplicativos no espaço de trabalho. Abra **Configurações** e clique em **Avançado** > **Pré-carregar CSS**.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/15.png" alt=""><figcaption></figcaption></figure>
 
-It is highly recommended to use CSS selectors as follows:
+É altamente recomendado usar seletores CSS da seguinte forma:
 
-| Class name     | Description               |
-| -------------- | ------------------------- |
-| top-header     | Top navigation bar        |
-| root-container | Root container of the app |
+| Nome da classe     | Descrição                    |
+| ------------------ | ---------------------------- |
+| cabeçalho superior | Barra de navegação superior  |
+| contêiner raiz     | Contêiner raiz do aplicativo |
 
-The name of each component functions as the class name. For example, for the `text1` component, you can use `.text1` as its class name and write CSS code for it. And the class names share the same form: `ui-comp-{COMP_TYPE}`—for example, you can use `.ui-comp-select` to define CSS style of all select components. All the components' class names are listed as follows.
+O nome de cada componente funciona como o nome da classe. Por exemplo, para o componente `texto1`, você pode usar `.texto1` como nome de classe e escrever código CSS para ele. E os nomes das classes compartilham o mesmo formato: `ui-comp-{TIPO_DO_COMPONENTE}` — por exemplo, você pode usar `.ui-comp-select` para definir o estilo CSS de todos os componentes seletores. Todos os nomes de classes dos componentes estão listados a seguir.
 
 ```Plain
 input
@@ -164,10 +164,10 @@ imageEditor
 scanner
 ```
 
-Avoid using class names that may change with iterations, such as `sc-dkiQaF bfTYCO`.PocketBlocks supports [CSS pre-processor](https://stylis.js.org/), you can use CSS nesting to improve efficiency, for example:
+Evite usar nomes de classes que possam mudar com iterações, como `sc-dkiQaF bfTYCO`.PocketBlocks suporta [pré-processador CSS](https://stylis.js.org/), você pode usar o aninhamento CSS para melhorar a eficiência, por exemplo:
 
 ```css
-.text1 {
+.texto1 {
   span {
     color: red;
     font-weight: bold;
@@ -175,14 +175,14 @@ Avoid using class names that may change with iterations, such as `sc-dkiQaF bfTY
 }
 ```
 
-All the custom CSS for apps is saved into the space named `#app-{APP_ID}`, and the CSS for modules is saved into the space named `#module-{MODULE_ID}`.If your preload CSS does not work properly, it might be overridden by the theme or component styles with higher priority. Open the browser **Inspect** to check.
+Todo o CSS personalizado para aplicativos é salvo no espaço chamado `#app-{ID_DO_APP}`, e o CSS dos módulos é salvo no espaço chamado `#module-{ID_DO_MODULO}`.Se o seu CSS pré-carregado não funcionar corretamente, pode ser substituído pelo tema ou estilos de componente com maior prioridade. Abra o navegador **Inspecionar** para verificar.
 
-### Demo 1: Line break in table header
+### Demo 1: Quebra de linha no cabeçalho da tabela
 
-To allow line break in table header, insert the following code in **Script and style** > **CSS**.
+Para permitir quebra de linha no cabeçalho da tabela, insira o seguinte código em **Script e estilo** > **CSS**.
 
 ```css
-.table1 {
+.tabela1 {
   th div {
     white-space: pre-wrap;
     word-break: break-word;
@@ -193,9 +193,9 @@ To allow line break in table header, insert the following code in **Script and s
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/16.png" alt=""><figcaption></figcaption></figure>
 
-### Demo 2: Custom font family
+### Demo 2: Família de fontes personalizadas
 
-To use custom font family, you need to define it first and then apply it. Insert the following code in **Script and style** > **CSS** to apply the font "Fredoka One" to all text components using Markdown mode within the app.
+Para usar uma família de fontes personalizada, você precisa primeiro defini-la e depois aplicá-la. Insira o seguinte código em **Script e estilo** > **CSS** para aplicar a fonte "Fredoka One" a todos os componentes de texto usando o modo Markdown no aplicativo.
 
 ```css
 @font-face {
@@ -214,71 +214,71 @@ To use custom font family, you need to define it first and then apply it. Insert
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/17.png" alt=""><figcaption></figcaption></figure>
 
-## User-friendly interaction
+## Interação amigável
 
-PocketBlocks always lives up to efficiency, security, and easy-to-use design.
+PocketBlocks sempre faz jus à eficiência, segurança e design fácil de usar.
 
-### Hide UI components
+### Ocultar componentes da UI
 
-Set the hidden properties of components when necessary to avoid information overload. For example, when creating a suggestion collection form, you can set the input box as visible or hidden depending on the user's selection. <img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/18.gif" alt="" data-size="original">
+Defina as propriedades ocultas dos componentes quando necessário para evitar sobrecarga de informações. Por exemplo, ao criar um formulário de coleta de sugestões, você pode definir a caixa de entrada como visível ou oculta dependendo da seleção do usuário. <img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/18.gif" alt="" data-size="original">
 
-To achieve this effect, set the hidden property of the component `textArea1` with the code:
+Para conseguir este efeito, defina a propriedade oculta do componente `areaDeTexto1` com o código:
 
 ```JavaScript
 {{Number(radio1.value) === 1 ? 'false' : 'true'}}
 ```
 
-When the value of the component `radio1` is "1", the value of the hidden property is "false"; otherwise, the value is "true". The component layout is automatically adjusted.
+Quando o valor do componente `radio1` é “1”, o valor da propriedade oculta é “false”; caso contrário, o valor será "verdadeiro". O layout do componente é ajustado automaticamente.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/19.png" alt=""><figcaption></figcaption></figure>
 
-### Icon configuration
+### Configuração de ícones
 
-Icons are intuitive, and can be alternatives to text in some cases. The proper use of icons gives users a better visual experience, and helps them use the app more easily.
+Os ícones são intuitivos e podem ser alternativas ao texto em alguns casos. O uso adequado dos ícones proporciona aos usuários uma melhor experiência visual e os ajuda a usar o aplicativo com mais facilidade.
 
-Prefix and suffix icons are available for some components, such as **Button**. Add icons in **Properties** > **Layout**.
+Ícones de prefixo e sufixo estão disponíveis para alguns componentes, como **Botão**. Adicione ícones em **Propriedades** > **Layout**.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/20.png" alt=""><figcaption></figcaption></figure>
 
-You can select from preset icons or write JS code to insert icons, for example, `{{ "/icon:solid/Users" }}`.
+Você pode selecionar ícones predefinidos ou escrever código JS para inserir ícones, por exemplo, `{{ "/icon:solid/Users" }}`.
 
-### Placeholder and tooltip
+### Espaço reservado e dica de ferramenta
 
-Tips improve app usability–for example, showing the tips for the input helps users better interact with the app.
+As dicas melhoram a usabilidade do aplicativo – por exemplo, mostrar dicas para a entrada ajuda os usuários a interagir melhor com o aplicativo.
 
-- Placeholder: It displays in the empty input field to prompt the user what to type.
-- Tooltip: It adds an underline to the label. Users can see the tooltip via a mouse hover.
+- Espaço reservado: é exibido no campo de entrada vazio para solicitar ao usuário o que digitar.
+- Dica: Adiciona um sublinhado ao rótulo. Os usuários podem ver a dica de ferramenta passando o mouse.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/21.png" alt=""><figcaption></figcaption></figure>
 
-### Notifications
+### Notificações
 
-Notifications are messages directly sent to your users to remind them of the status of their operations, confirm their success, or help them to proceed.
+Notificações são mensagens enviadas diretamente aos seus usuários para lembrá-los do status de suas operações, confirmar o sucesso ou ajudá-los a prosseguir.
 
-#### Global notifications
+#### Notificações globais
 
-Global notifications for certain user interactions give users timely feedback. PocketBlocks offers four types of global notificaitons: **Information**, **Success**, **Warning** and **Error**.
+Notificações globais para determinadas interações do usuário fornecem feedback oportuno aos usuários. PocketBlocks oferece quatro tipos de notificações globais: **Informações**, **Sucesso**, **Aviso** e **Erro**.
 
-You can set global notifications in three ways:
+Você pode definir notificações globais de três maneiras:
 
-1. Set in **Event handlers** > **Action** > **Show notification**. See [Show notification](../event-handlers.md#show-notification) (Event handlers).
-2. Set in **JavaScript queries** with [built-in functions](../write-javascript/built-in-javascript-functions.md).
-3. Set in **Notification** tab in query settings. See [Notification tab](../../queries/query-basics.md#notification-tab-and-advanced-tab).
+1. Definindo em **Manipuladores de eventos** > **Ação** > **Mostrar notificação**. Consulte [Mostrar notificação](../event-handlers.md#show-notification) (Manipuladores de eventos).
+2. Definindo **consultas JavaScript** com [funções integradas](../write-javascript/built-in-javascript-functions.md).
+3. Definindo na aba **Notificação** nas configurações de consulta. Consulte [Guia Notificação](../../queries/query-basics.md#notification-tab-and-advanced-tab).
 
-### Loading effect
+### Efeito de carregamento
 
-When a query takes time to run, you can set the loading effect to inform your users that the query is running and avoid them from performing frequent operations.
+Quando uma consulta demora para ser executada, você pode definir o efeito de carregamento para informar aos usuários que a consulta está em execução e evitar que executem operações frequentes.
 
-For example, the loading effect of the Submit button is `{{form1SubmitToHrmsEn1.isFetching}}`. Clicking the button triggers query `form1SubmitToHrmsEn1` to run, and during this process, the button is displayed with the loading effect.
+Por exemplo, o efeito de carregamento do botão Enviar é `{{form1SubmitToHrmsEn1.isFetching}}`. Clicar no botão aciona a execução da consulta `form1SubmitToHrmsEn1` e, durante esse processo, o botão é exibido com o efeito de carregamento.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/22.gif" alt=""><figcaption></figcaption></figure>
 
-#### Confirmation modal
+#### Modal de confirmação
 
-You can set a confirmation modal for a double check for your users when they perform operations such as adding, modifying or deleting data. In the **Advanced** tab of the query, toggle **Show a confirmation modal before running**, and enter a confirmation message.
+Você pode definir uma modal de confirmação para uma verificação dupla para seus usuários quando eles realizam operações como adicionar, modificar ou excluir dados. Na guia **Avançado** da consulta, alterne **Mostrar um modal de confirmação antes de executar** e insira uma mensagem de confirmação.
 
 <figure><img src="../../.gitbook/assets/build-apps/design-app-ui/styles-theme-and-usability/23.png" alt=""><figcaption></figcaption></figure>
 
-#### Form design
+#### Design de formulário
 
-Forms are frequently used to collect information. For more details on building easy-to-follow and productive forms, see [Design an efficient and user-friendly form](design-an-efficient-and-user-friendly-form.md).
+Formulários são frequentemente usados ​​para coletar informações. Para obter mais detalhes sobre como criar formulários produtivos e fáceis de seguir, consulte [Criar um formulário eficiente e fácil de usar](design-an-efficient-and-user-friendly-form.md).

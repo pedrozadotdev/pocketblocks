@@ -1,2 +1,1 @@
-# Component guides
-
+# Guias de componentes

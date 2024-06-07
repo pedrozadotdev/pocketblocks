@@ -1,27 +1,27 @@
-# Data responder
+# Respondedor de dados
 
-When building an app, you can set events for the components in order to listen to the changes of certain data. For example, for a **Table** component, the built-in events for the change of the `selectedRow` property include "Row select change", "Filter change", "Sort change", and "Page change".
+Ao construir um aplicativo, você pode definir eventos para os componentes para ouvir as alterações de determinados dados. Por exemplo, para um componente **Tabela**, os eventos integrados para a alteração da propriedade `selectedRow` incluem "Alteração de seleção de linha", "Alteração de filtro", "Alteração de classificação" e "Alteração de página".
 
-However, there lacks similar events for some data changes, such as the changes of temporary states, transformers, or query results. Data responders are designed for these cases and allow you to listen and respond to any data change.
+No entanto, faltam eventos semelhantes para algumas alterações de dados, como alterações de estados temporários, transformadores ou resultados de consultas. Os respondedores de dados são projetados para esses casos e permitem ouvir e responder a qualquer alteração nos dados.
 
 {% hint style="info" %}
-Events for data responders are more general than the events that listen to data changes such as content change, row select change, etc.
+Os eventos para respondedores de dados são mais gerais do que os eventos que escutam alterações de dados, como alteração de conteúdo, alteração de seleção de linha, etc.
 {% endhint %}
 
-## Listen to data changes
+## Ouça as alterações de dados
 
-In query editor, click **+ New**, and then select **Data responder** to create a new data responder.
+No editor de consultas, clique em **+ Novo** e selecione **Respondedor de dados** para criar um novo respondedor de dados.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/data-responder/01.png" alt=""><figcaption></figcaption></figure>
 
-You can set the data that data responder listens to. It supports all kinds of data formats, including number, string, array, and JS object. In the following example, any value change in the **Text** component triggers a global notification.
+Você pode definir os dados que o respondedor de dados escuta. Ele suporta todos os tipos de formatos de dados, incluindo número, string, array e objeto JS. No exemplo a seguir, qualquer alteração de valor no componente **Texto** aciona uma notificação global.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/data-responder/02.png" alt=""><figcaption></figcaption></figure>
 
-If the data is in array or JS object format, then data change from any sub-element will trigger the configured event. For example, the data of `dataResponder2` is a JS object, which listens to two **Input** components in the app. Data change of any component triggers the same global notification.
+Se os dados estiverem em formato de array ou objeto JS, a alteração dos dados de qualquer subelemento acionará o evento configurado. Por exemplo, os dados de `dataResponder2` são um objeto JS, que escuta dois componentes **Entrada de Texto** no aplicativo. A alteração de dados de qualquer componente aciona a mesma notificação global.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/data-responder/03.png" alt=""><figcaption></figcaption></figure>
 
-## Respond actions
+## Respondendo ações
 
-For detailed information, go to [Event handlers](../event-handlers.md) > [Actions](../event-handlers.md#actions).
+Para obter informações detalhadas, vá para [Manipuladores de eventos](../event-handlers.md) > [Ações](../event-handlers.md#actions).

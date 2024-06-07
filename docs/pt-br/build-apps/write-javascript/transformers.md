@@ -1,77 +1,77 @@
-# Transformers
+# Transformadores
 
-Transformers are designed for data transformation and reuse of your multi-line JavaScript code. Data from queries or components might not meet your needs in business scenarios. Also, you may use the same code block several times within an app. In such cases, a transformer is what you need.
+Os transformadores são projetados para transformação de dados e reutilização de seu código JavaScript multilinha. Os dados de consultas ou componentes podem não atender às suas necessidades em cenários de negócios. Além disso, você pode usar o mesmo bloco de código várias vezes em um aplicativo. Nesses casos, um transformador é o que você precisa.
 
-Compared with inline code in `{{ }}`, transformer supports multi-line code blocks. And unlike JavaScript query, transformer is designed to do read-only operations, which means that you cannot trigger a query or update a temporary state inside a transformer.
+Comparado com o código embutido em `{{ }}`, o transformador suporta blocos de código multilinha. E, diferentemente da consulta JavaScript, o transformador foi projetado para realizar operações somente leitura, o que significa que você não pode acionar uma consulta ou atualizar um estado temporário dentro de um transformador.
 
-## Quickstart
+## Começando
 
-Click **+ New > Transfromer** in a query editor to create a transformer.
+Clique em **+ Novo > Transfromer** em um editor de consultas para criar um transformador.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/transformers/01.png" alt=""><figcaption></figcaption></figure>
 
-Then write your JS code in the transformer. You can click **Preview** to get the return value and access it by `transformerName.value` in your app.
+Em seguida, escreva seu código JS no transformador. Você pode clicar em **Visualizar** para obter o valor de retorno e acessá-lo por `nomeDoTransformador.value` em seu aplicativo.
 
-In the following example, `transformer1` uses the data of star rating in `rating1` to calculate a score.
+No exemplo a seguir, `transformador1` usa os dados de classificação por estrelas em `avaliacao1` para calcular uma pontuação.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/transformers/02.png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="warning" %}
-`{{ }}` is disallowed inside a transformer or JS query. `{{ }}` is only used for the purpose of single-line JS expression, whereas a transformer or JS query is for multiple lines of JS code.
+`{{ }}` não é permitido dentro de um transformador ou consulta JS. `{{ }}` é usado apenas para fins de expressão JS de linha única, enquanto um transformador ou consulta JS é para múltiplas linhas de código JS.
 {% endhint %}
 
-## Use cases
+## Casos de uso
 
-### Transform timestamp
+### Transformação de data e hora
 
-Use the `moment().format()` method to transform timestamp formats. The following example converts the timestamp value of `start_time` returned by `query1` to `YYYY-MM-DD` format.
+Use o método `moment().format()` para transformar formatos de data/hora. O exemplo a seguir converte o valor de data/hora de `tempo_inicial` retornado por `consulta1` para o formato `DD/MM/YYYY`.
 
 ```javascript
-return query1.data.map((it) => {
+return consulta1.data.map((isso) => {
   return {
-    ...it,
-    start_time: moment(it.start_time).format("YYYY-MM-DD"),
+    ...isso,
+    tempo_inicial: moment(it.tempo_inicial).format("DD/MM/YYYY"),
   };
 });
 ```
 
-### Sort query data
+### Classificando dados da consulta
 
-Use the `_.orderBy()` method provided by [lodash](https://lodash.com/) to sort data. The following example returns `query1.data` sorted by `amount` column in ascending order.
+Use o método `_.orderBy()` fornecido por [lodash](https://lodash.com/) para classificar os dados. O exemplo a seguir retorna `consulta1.data` classificado pela coluna `quantidade` em ordem crescente.
 
 ```javascript
-return _.orderBy(query1.data, "amount", "asc");
+return _.orderBy(consulta1.data, "quantidade", "asc");
 ```
 
-### Join two queries
+### Juntando duas consultas
 
-The example code below shows how to join query results of `getUsers` and `getOrders` on user id.
+O código de exemplo abaixo mostra como unir os resultados da consulta de `usuarios` e `pedidos` usando o ID do usuário.
 
 ```javascript
-const users = getUsers.data;
-const userOrders = getOrders.data;
-return users.map((user) => ({
-  ...user,
-  orders: userOrders.find((order) => order.customer_id === user.id),
+const usuarios = consultarUsuarios.data;
+const pedidos = consultarPedidos.data;
+return usuarios.map((usuario) => ({
+  ...usuario,
+  pedidos: pedidos.find((pedido) => pedido.clienteId === usuario.id),
 }));
 ```
 
-## Read-only operations
+## Operações somente leitura
 
-Only read-only operations are allowed inside a transformer. It means that you cannot set values of components or temporary states, or trigger queries. For those operations, use JavaScript queries instead.
+Somente operações somente leitura são permitidas dentro de um transformador. Isso significa que você não pode definir valores de componentes ou estados temporários, nem acionar consultas. Para essas operações, use consultas JavaScript.
 
-For example, you cannot call the method `setText()` of a text component in a transformer.
+Por exemplo, você não pode chamar o método `setText()` de um componente de texto em um transformador.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/transformers/03.png" alt=""><figcaption></figcaption></figure>
 
-Instead, calling the method `setText()` in a JavaScript query reports no error.
+Em vez disso, chame o método `setText()` em uma consulta JavaScript não reporta nenhum erro.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/transformers/04.png" alt=""><figcaption></figcaption></figure>
 
-In another example, transformer`sort1` aims at sorting the data of `getUsers` by `first_name`, but the `sort()` method may change the original data, so an error occurs.
+Em outro exemplo, o transformer`ordernador1` visa classificar os dados de `consultarUsuarios` por `primeiro_nome`, mas o método `sort()` pode alterar os dados originais, então ocorre um erro.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/transformers/05.png" alt=""><figcaption></figcaption></figure>
 
-In this case, use the method `_.orderBy()` provided by [lodash](https://lodash.com/) instead.
+Neste caso, use o método `_.orderBy()` fornecido por [lodash](https://lodash.com/).
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/transformers/06.png" alt=""><figcaption></figcaption></figure>

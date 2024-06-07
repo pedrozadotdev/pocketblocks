@@ -116,7 +116,7 @@ Data from queries can be complicated and nested in real cases. Viewing data prov
 
 ### View query result
 
-After running a query inside the query editor by clicking the **Run** button**.** Query result is displayed in the format shown below.
+After running a query inside the query editor by clicking the **Run** button. Query result is displayed in the format shown below.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/write-javascript-in/03.png" alt=""><figcaption></figcaption></figure>
 

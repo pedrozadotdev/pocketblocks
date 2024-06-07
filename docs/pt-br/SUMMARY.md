@@ -18,7 +18,7 @@
   - [Uso de bibliotecas de terceiros](build-apps/use-third-party-libraries.md)
 - [Guias de Componentes](build-apps/component-guides/README.md)
   - [Lista de opções](build-apps/component-guides/option-lists.md)
-  - [Exibição de lista](build-apps/component-guides/list-view.md)
+  - [Exibição em lista](build-apps/component-guides/list-view.md)
   - [Menu lateral](build-apps/component-guides/drawer.md)
   - [Imagem](build-apps/component-guides/image.md)
   - [Gráficos](build-apps/component-guides/charts-and-graphs.md)

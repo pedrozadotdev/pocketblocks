@@ -1,53 +1,53 @@
-# Use Markdown
+# Usar Markdown
 
-PocketBlocks supports you using the lightweight markup language Markdown to format texts in your app, such as changing the font size, inserting code, and adding a list. You can also embed HTML-formatted text in Markdown for more styling options.
+PocketBlocks oferece suporte ao uso da linguagem de marcação leve Markdown para formatar textos em seu aplicativo, como alterar o tamanho da fonte, inserir código e adicionar uma lista. Você também pode incorporar texto formatado em HTML no Markdown para obter mais opções de estilo.
 
-Use Markdown in **Text** and **Table** components.
+Use Markdown nos componentes **Texto** e **Tabela**.
 
-- **Text**: Use Markdown for the input text.
+- **Texto**: Use Markdown para o texto de entrada.
 
   <figure><img src="../../.gitbook/assets/build-apps/component-guides/use-markdown/01.png" alt=""><figcaption></figcaption></figure>
 
-- **Table**: Use Markdown for column type.
+- **Tabela**: Use Markdown para tipo de coluna.
 
   <figure><img src="../../.gitbook/assets/build-apps/component-guides/use-markdown/02.png" alt=""><figcaption></figcaption></figure>
 
-## Markdown basics
+## Noções básicas de Markdown
 
-All Markdown syntax is valid in PocketBlocks.
+Toda a sintaxe Markdown é válida no PocketBlocks.
 
-- **Headings**: Use hashtag (#) before heading. More hashtags, lower heading level.
-- **Paragraphs**: Use a blank line to separate texts into paragraphs.
-- **Line breaks**: Add at least two whitespaces at the end of a line and press **Enter** to start a new line.
-- **Emphasis**: Use single asterisk (∗) before and after text to convert it to _italic_ text, double asterisks (∗∗) for **bold** text, and triple asterisks (∗∗∗) for _**italic bold**_ text.
-- **Blockquotes**: Use the closing angle bracket (>) to create a blockquote.
-- **Lists**: Use hyphen (-), asterisk (∗), or plus sign (+) followed by a whitespace to create an unordered list, and use numbers followed by a period (.) to create an ordered list.
-- **Code**: Use backticks (\`) before and after code to denote `` `code` `` in plain text, and three backticks (\`\`\`) to present ` ```code block``` `.
-- **Horizontal rules**: Use at least three asterisks (∗∗∗), hyphens (---), or underscores (\_ \_ \_) at the beginning of a line to create a horizontal rule.
-- **Links**: Use square brackets (\[]) for the display text and parenthesis (()) for the link address. Note that no space should be inbetween. For example, `[PocketBlocks](https://github.com/internoapp/pocketblocks)`.
-- **Images**: Use an exclamation mark (!) to start an image shiinsertion, and then use square bracket (\[]) for the alternative text and parenthesis (()) for the link address or source path. The caption can follow the parentheses or start at a new line.
-- **Escaping characters**: Use backslash (\\) to display the special symbols that Markdown uses. For instance, to print ` `` ` in plain text, you should use `` \`\` `` in Markdown.&#x20;
+- **Títulos**: Use hashtag (#) antes do título. Mais hashtags, nível de título mais baixo.
+- **Parágrafos**: use uma linha em branco para separar os textos em parágrafos.
+- **Quebras de linha**: adicione pelo menos dois espaços em branco no final de uma linha e pressione **Enter** para iniciar uma nova linha.
+- **Ênfase**: Use um asterisco único (∗) antes e depois do texto para convertê-lo em texto _itálico_, asteriscos duplos (∗∗) para texto em **negrito** e asteriscos triplos (∗∗∗) para _** itálico negrito **_ texto.
+- **Blockquotes**: Use o colchete angular de fechamento (>) para criar uma blockquote.
+- **Listas**: use hífen (-), asterisco (∗) ou sinal de mais (+) seguido de um espaço em branco para criar uma lista não ordenada e use números seguidos de um ponto final (.) para criar uma lista ordenada.
+- **Código**: Use crases (\`) antes e depois do código para denotar `` `code` `` em texto simples, e três crases (\`\`\`) para apresentar ` ```bloco de código` `` `.
+- **Réguas horizontais**: Use pelo menos três asteriscos (∗∗∗), hífens (---) ou sublinhados (\_ \_ \_) no início de uma linha para criar uma régua horizontal.
+- **Links**: Use colchetes (\[]) para o texto de exibição e parênteses (()) para o endereço do link. Observe que não deve haver espaço entre eles. Por exemplo, `[PocketBlocks](https://github.com/internoapp/pocketblocks)`.
+- **Imagens**: Use um ponto de exclamação (!) para iniciar uma inserção de imagem e, em seguida, use colchetes (\[]) para o texto alternativo e parênteses (()) para o endereço do link ou caminho de origem. A legenda pode seguir os parênteses ou começar em uma nova linha.
+- **Caracteres de escape**: Use barra invertida (\\) para exibir os símbolos especiais que o Markdown usa. Por exemplo, para imprimir ` `` ` em texto simples, você deve usar `` \`\` `` em Markdown.&#x20;
 
-For more information, see [Markdown guide](https://www.markdownguide.org/basic-syntax/).
+Para obter mais informações, consulte [Guia de Markdown](https://www.markdownguide.org/basic-syntax/).
 
-## GFM extension
+## Extensão GFM
 
-You can also use GitHub Flavored Markdown (GFM) extensions for additional syntax.
+Você também pode usar extensões GitHub Flavored Markdown (GFM) para sintaxe adicional.
 
-- **Footnotes**: Use caret (^) and number in square brackets (\[]) to insert footnotes. For more information, see [Footnotes](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#footnotes).
-- **Strikethrough lines**: Use double tilde (\~\~) before and after text to add strikethrough lines. For more information, see [Styling text](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#styling-text).
-- **Tables**: Use hyphens (-) separated by the vertical bar (|) to create the header row of a table, and continue using the vertical bar to separate content in cells. For more information, see [Tables (extension)](https://github.github.com/gfm/#tables-extension-).
-- **Task lists**: Use a whitespace in square brackets (\[ ]) within the list format to create task lists. To mark a task completed, replace the whitespace with the letter _x_. For more information, see [Task lists](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#task-lists).
+- **Notas de rodapé**: use o acento circunflexo (^) e o número entre colchetes (\[]) para inserir notas de rodapé. Para obter mais informações, consulte [Notas de rodapé](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#footnotes).
+- **Linhas tachadas**: Use til duplo (\~\~) antes e depois do texto para adicionar linhas tachadas. Para obter mais informações, consulte [Estilização de texto](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#styling-text).
+- **Tabelas**: use hífens (-) separados pela barra vertical (|) para criar a linha de cabeçalho de uma tabela e continue usando a barra vertical para separar o conteúdo nas células. Para obter mais informações, consulte [Tabelas (extensão)](https://github.github.com/gfm/#tables-extension-).
+- **Listas de tarefas**: use um espaço em branco entre colchetes (\[ ]) no formato de lista para criar listas de tarefas. Para marcar uma tarefa concluída, substitua o espaço em branco pela letra _x_. Para obter mais informações, consulte [Listas de tarefas](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#task-lists).
 
-## HTML support
+## Suporte HTML
 
-In PocketBlocks, you can use most HTML tags and properties. For more information, see [Embed HTML in Markdown](https://www.markdownguide.org/basic-syntax/#html).
+No PocketBlocks, você pode usar a maioria das tags e propriedades HTML. Para obter mais informações, consulte [Incorporar HTML no Markdown](https://www.markdownguide.org/basic-syntax/#html).
 
 {% hint style="warning" %}
-For security reasons, a few HTML tags including **iframe** and **script** are not permitted in PocketBlocks.
+Por motivos de segurança, algumas tags HTML, incluindo **iframe** e **script**, não são permitidas no PocketBlocks.
 {% endhint %}
 
-### Appendix: Supported HTML tags
+### Apêndice: Tags HTML suportadas
 
 ```html
 <h1>

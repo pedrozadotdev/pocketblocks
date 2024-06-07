@@ -1,133 +1,133 @@
-# Write JavaScript in \{{ \}}
+# Escreva JavaScript em \{{ \}}
 
-When building apps in PocketBlocks, you can use JavaScript (JS) to access and transform data from objects, including components, queries, and global parameters. When writing JavaScript inside component property's input box, table column settings, etc., always remember to enclose all your JS code inside double curly braces, such as `{{'hello, ' + currentUser.name}}`.
+Ao construir aplicativos no PocketBlocks, você pode usar JavaScript (JS) para acessar e transformar dados de objetos, incluindo componentes, consultas e parâmetros globais. Ao escrever JavaScript dentro da caixa de entrada da propriedade do componente, configurações de coluna da tabela, etc., lembre-se sempre de colocar todo o seu código JS entre chaves duplas, como `{{'olá, ' + usuarioAtual.nome}}`.
 
-## Access data
+## Acessando dados
 
-Objects have globally unique names, such as `input1`, `query1`, and `table1`. You can refer to the properties of the objects in your app by JS code.
+Os objetos têm nomes globalmente exclusivos, como `entrada1`, `consulta1` e `tabela1`. Você pode consultar as propriedades dos objetos em seu aplicativo por código JS.
 
-### Access data in an object
+### Acessando dados em um objeto
 
-PocketBlocks supports you accessing the data in an object using dot notation (`objectName.keyName`). For example,`{{userInfo.selectedRow.userName}}` accesses the `userName` value in the currently selected row of **Table** `userInfo`.
+PocketBlocks oferece suporte para acessar os dados em um objeto usando notação de ponto (`nomeDoObjecto.nomeDaChave`). Por exemplo, `{{informacoesDoUsuario.selectedRow.nome}}` acessa o valor `nome` na linha atualmente selecionada da **Tabela** `informacoesDoUsuario`.
 
-When writing JS in `{{ }}` to access values in an object, add a `.` after the object name to trigger an autosuggest menu in case you are not sure about objects' built-in properties or methods.
+Ao escrever JS em `{{ }}` para acessar valores em um objeto, adicione um `.` após o nome do objeto para acionar um menu de sugestão automática caso você não tenha certeza sobre as propriedades ou métodos integrados dos objetos.
 
-**Example**
+**Exemplo**
 
-This GIF shows how the dot notation triggers an autosuggest menu and displays the properties of `table1`.
+Este GIF mostra como a notação de ponto aciona um menu de sugestão automática e exibe as propriedades de `tabela1`.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/write-javascript-in/01.gif" alt=""><figcaption></figcaption></figure>
 
-### Access data in an array
+### Acessando dados em um array
 
-You can access the values in an array by index. The index always starts at 0, so you can use `array[0]` to access the first element of the array.
+Você pode acessar os valores em um array por índice. O índice sempre começa em 0, então você pode usar `array[0]` para acessar o primeiro elemento do array.
 
-**Example**
+**Exemplo**
 
-The **Data** property of **Table** component is an array of objects. This GIF shows how to access the value of `first_name` in the first element of the **data** array in `table1`.
+A propriedade **Data** do componente **Tabela** é uma matriz de objetos. Este GIF mostra como acessar o valor de `primeiro_nome` no primeiro elemento do array **data** em `tabela1`.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/write-javascript-in/02.gif" alt=""><figcaption></figcaption></figure>
 
-## Transform data
+## Transformando dados
 
-You can leverage built-in JS functions and third-party libraries in `{{ }}` to transform data, such as `filter()`, `map()` and `reduce()` operations.
+Você pode aproveitar funções JS integradas e bibliotecas de terceiros em `{{ }}` para transformar dados, como operações `filter()`, `map()` e `reduce()`.
 
-**Examples**
+**Exemplos**
 
-Lowercase a string.
+Colocando texto em caixa baixa.
 
 ```javascript
 {
   {
-    input1.value.toLowerCase();
+    entrada1.value.toLowerCase();
   }
 }
 ```
 
-Change date format.
+Alterar formato de data
 
 ```javascript
 {
   {
-    moment(table1.selectedRow.date_column).format("YYYY-MM-DD");
+    moment(tabela1.selectedRow.coluna).format("DD/MM/YYYY");
   }
 }
 ```
 
-Return name from query results.
+Retornar o nome dos resultados da consulta.
 
 ```javascript
-{{query1.data.map(i => i.name)}}.
+{{consulta1.data.map(i => i.nome)}}.
 ```
 
-## Restrictions
+## Restrições
 
-The JS code in `{{ }}` should be a single-line code, such as `.map()` or `.reduce()` combined with an arrow function or a ternary operator.
+O código JS em `{{ }}` deve ser um código de linha única, como `.map()` ou `.reduce()` combinado com uma função de seta ou um operador ternário.
 
-**Examples**
+**Exemplos**
 
 ```javascript
 {
   {
-    query1.data.id.length;
+    consulta1.data.id.length;
   }
-} // ✅ to reference a value
+} // ✅ para referenciar um valor
 {
   {
-    query1.data.map((row) => row.id);
+    consulta1.data.map((linha) => linha.id);
   }
-} // ✅ .map() + arrow function
+} // ✅ .map() + função arrow
 {
   {
     num1 > num2 ? num1 : num2;
   }
-} // ✅ ternary
+} // ✅ ternário
 ```
 
-The following JS code examples are illegal in `{{ }}`.
+Os seguintes exemplos de código JS são ilegais em `{{ }}`.
 
 ```javascript
 {
   {
-    // ❌ you can't write code like this in {{ }}
-    const array = query1.data;
-    const filterArray = array.filter((it) => it.value > 10);
-    return filterArray;
+    // ❌ você não pode escrever código como este em {{ }}
+    const lista = consulta1.data;
+    const listaFiltrada = lista.filter((isso) => isso.valor > 10);
+    return listaFiltrada;
   }
 }
 ```
 
-If you wish to orchestrate multiple lines of JavaScript, PocketBlocks supports you writing such code in [transformers](transformers.md).
+Se você deseja orquestrar múltiplas linhas de JavaScript, PocketBlocks oferece suporte para escrever esse código em [transformadores](transformers.md).
 
 ```javascript
-// codes inside a transformer
-if (select.value === "1") {
-  return "Option 1";
+// códigos dentro de um transformador
+if (seletor.value === "1") {
+  return "Opção 1";
 }
-if (select.value === "2") {
-  return "Option 2";
+if (seletor.value === "2") {
+  return "Opção 2";
 }
-return "Option 3";
+return "Opção 3";
 ```
 
-## View data
+## Ver dados
 
-Data from queries can be complicated and nested in real cases. Viewing data provides you with the detailed structure of data in objects and helps you understand your data better. Before accessing or transforming data, you may need to view the data and its structure first. PocketBlocks offers three ways to view data.
+Os dados das consultas podem ser complicados e aninhados em casos reais. A visualização de dados fornece a estrutura detalhada dos dados em objetos e ajuda a entendê-los melhor. Antes de acessar ou transformar dados, pode ser necessário primeiro visualizar os dados e sua estrutura. PocketBlocks oferece três maneiras de visualizar dados.
 
-### View query result
+### Ver resultado da consulta
 
-After running a query inside the query editor by clicking the **Run** button**.** Query result is displayed in the format shown below.
+Depois de executar uma consulta dentro do editor de consultas, clique no botão **Executar**. O resultado da consulta é exibido no formato mostrado abaixo.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/write-javascript-in/03.png" alt=""><figcaption></figcaption></figure>
 
-### View data in Data Browser
+### Visualizando dados no navegador de dados
 
-Data browser located in the left pane displays all of the data inside your app. You can click on the node to expand and view the data structure.
+O navegador de dados localizado no painel esquerdo exibe todos os dados dentro do seu aplicativo. Você pode clicar no nó para expandir e visualizar a estrutura de dados.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/write-javascript-in/04.png" alt=""><figcaption></figcaption></figure>
 
-### Real-time view
+### Visualizando em tempo real
 
-When setting up properties or writing JS code inside an editor, you can view the evaluated result in real-time in a box below your editor.
+Ao configurar propriedades ou escrever código JS dentro de um editor, você pode visualizar o resultado avaliado em tempo real em uma caixa abaixo do seu editor.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/write-javascript-in/05.png" alt=""><figcaption></figcaption></figure>

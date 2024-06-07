@@ -1,34 +1,33 @@
-# Temporary state
+# Estado temporário
 
-You can use temporary state to store and reference local data within an app. Every time you load or refresh an app, the value of temporary state value is reset.
+Você pode usar o estado temporário para armazenar e fazer referência a dados locais em um aplicativo. Cada vez que você carrega ou atualiza um aplicativo, o valor do estado temporário é redefinido.
 
-## Use case scenarios
+## Cenários de casos de uso
 
-Temporary states may help in the following scenarios:
+Os estados temporários podem ajudar nos seguintes cenários:
 
-- To track the temporary values of a variable when the user interacts with your app.
-- To store your data only in operation without persisting to a database.
-- To function as a temporary property when built-in properties in PocketBlocks (such as `{{table.selectedRow}}` and `{{select.value}}`) do not support your use case.
+- Para rastrear os valores temporários de uma variável quando o usuário interage com seu aplicativo.
+- Para armazenar seus dados apenas em operação sem persistir em um banco de dados.
+- Para funcionar como uma propriedade temporária quando propriedades integradas no PocketBlocks (como `{{tabela.selectedRow}}` e `{{seletor.value}}`) não suportam seu caso de uso.
+  {% hint style="info" %}
+  Para armazenar e acessar dados em aplicativos no seu espaço de trabalho, use o localStorage.
+  {% endhint %}
 
-{% hint style="info" %}
-To store and access data across apps in your workspace, use localStorage instead.
-{% endhint %}
+## Crie um estado temporário
 
-## Create a temporary state
-
-Click **+ New** and select **Temporary state** in query editor.
+Clique em **+ Novo** e selecione **Estado temporário** no editor de consultas.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/temporary-state/01.png" alt=""><figcaption></figcaption></figure>
 
-You can rename the temporary state and set an initial value.
+Você pode renomear o estado temporário e definir um valor inicial.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/temporary-state/02.png" alt=""><figcaption></figcaption></figure>
 
-## Set state values
+## Definindo valores de estado
 
-Temporary state offers `setValue()` and `setIn()` methods to set or change its value, which can be called in JavaScript queries.
+O estado temporário oferece métodos `setValue()` e `setIn()` para definir ou alterar seu valor, que podem ser chamados em consultas JavaScript.
 
-Use `setValue()` to change the value directly.
+Use `setValue()` para alterar o valor diretamente.
 
 ```javascript
 //state.setValue(value: any)
@@ -36,70 +35,70 @@ state.setValue(3);
 state.setValue(input1.value);
 ```
 
-When the initial value of a temporary state is an object, use `setIn()` to change the value in a specified path.
+Quando o valor inicial de um estado temporário é um objeto, use `setIn()` para alterar o valor em um caminho especificado.
 
 ```javascript
-// initial value of state2 as follows：
+// valor inicial de estado2 da seguinte forma:
 {
-    girl: {
-        name: "Lucy",
-        age: 18,
-        city: {
-            name: "New York"
+    garota: {
+        nome: "Lucia",
+        idade: 18,
+        cidade: {
+            nome: "Nova Iorque"
         }
      }
-     boy: {
-         name: "Bob",
-         age: 21,
-         city: {
-             name: "Los Angeles"
+     garoto: {
+         nome: "Bob",
+         idade: 21,
+         cidade: {
+             nome: "Los Angeles"
          }
      }
 }
-//To change the value in a specified path
-//state.setIn(path, any value)
-//path: an array of keys or indexes. Only the last item in the path will be changed.
-state2.setIn(['girl','city'],{name:'Seatle'})
-state2.setIn(['boy','age'],18)
+//Para alterar o valor em um caminho especificado
+//estado.setIn(caminho, qualquerValor)
+//caminho: uma matriz de chaves ou índices. Somente o último item do caminho será alterado.
+estado2.setIn(['garota','cidade'],{nome:'Seatle'})
+estado2.setIn(['garoto','idade'],18)
 
 
-// To set value array value, you can use
-// init value = ["hello", "world"]
-state2.setIn([1],"foo") // this will result to ["hello", "foo"]
+// Para definir o valor da matriz de valor, você pode usar
+// valor inicial = ["olá", "mundo"]
+estado2.setIn([1],"fulano") // isso resultará em ["olá", "fulano"]
 ```
 
-You can also call these two methods in [event handlers](../event-handlers.md). Select **Set temporary state** as the action and choose method on demand.
+Você também pode chamar esses dois métodos em [manipuladores de eventos](../event-handlers.md). Selecione **Definir estado temporário** como ação e escolha o método sob demanda.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/temporary-state/03.png" alt=""><figcaption></figcaption></figure>
 
-## Example: Increment counter
+## Exemplo: Incremento de um contador
 
-In this example, the counter tracks the number of button clicks. Every time the user clicks the button, the number in the text component increases by one.
+Neste exemplo, o contador rastreia o número de cliques no botão. Cada vez que o usuário clica no botão, o número no componente de texto aumenta em um.
 
 <figure><img src="../../.gitbook/assets/build-apps/write-javascript/temporary-state/04.png" alt=""><figcaption></figcaption></figure>
 
-Build an increment counter in following steps:
+Crie um contador de incremento nas seguintes etapas:
 
-1. Add a button component `button1` and a text component `text1`.
-2. Create a temporary state `state1`, set its initial value as `0`. Bind `{{state1.value}}` as the display text of `text1`.
+1. Adicione um componente de botão `botao1` e um componente de texto `texto1`.
+2. Crie um estado temporário `estado1`, defina seu valor inicial como `0`. Vincule `{{estado1.value}}` como o texto de exibição de `texto1`.
 
    <figure><img src="../../.gitbook/assets/build-apps/write-javascript/temporary-state/05.png" alt=""><figcaption></figcaption></figure>
 
-3. Add an event handler for `button1`. Select the action **Set temporary state** and the method **setValue**, and then set `{{state1.value+1}}` as the value.
+3. Adicione um manipulador de eventos para `botao1`. Selecione a ação **Definir estado temporário** e o método **setValue**, e então defina `{{estado1.value+1}}` como o valor.
 
    <figure><img src="../../.gitbook/assets/build-apps/write-javascript/temporary-state/06.png" alt=""><figcaption></figcaption></figure>
 
-4. Click the button, you can see the value of `text1` increases by one each time you click.
+4. Clique no botão, você pode ver que o valor de `texto1` aumenta em um cada vez que você clica.
 
    <figure><img src="../../.gitbook/assets/build-apps/write-javascript/temporary-state/07.png" alt=""><figcaption></figcaption></figure>
 
-You can also achieve the same result using JavaScript queries:
+Você também pode obter o mesmo resultado usando consultas JavaScript:
 
-1. Add a new query, select **Run JavaScript code**.
-2. Write JavaScript query with this code, and set it to be manually invoked:\
-   `state1.setValue(state1.value + 1)`
-3. Add an event handler of `button1` to run `query1`.
+1. Adicione uma nova consulta e selecione **Executar código JavaScript**.
+2. Escreva a consulta JavaScript com este código e configure-a para ser invocada manualmente:\
+   `estado1.setValue(estado1.value + 1)`
+3. Adicione um manipulador de eventos `botao1` para executar `consulta1`.
 
    <figure><img src="../../.gitbook/assets/build-apps/write-javascript/temporary-state/08.png" alt=""><figcaption></figcaption></figure>
 
-Now click the **Increment counter** button, you should see the same result as above.
+Agora clique no botão **Incrementar contador**, você deverá ver o mesmo resultado acima.

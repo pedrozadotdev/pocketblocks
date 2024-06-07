@@ -1,2 +1,1 @@
-# Write JavaScript
-
+# Escrevendo JavaScript
