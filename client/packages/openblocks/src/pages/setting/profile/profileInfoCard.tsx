@@ -36,23 +36,26 @@ export function ProfileInfoCard(props: ProfileModalCardProps) {
   const username = user.connections?.find(c => c.source === UserConnectionSource.email)?.rawUserInfo?.username as string | undefined
   return (
     <>
-      <HeadNameFiled /> 
-      <ProfileInfoItem
-        key="email"
-        titleLabel="Email:"
-        infoLabel={trans("profile.loginAfterBind", { name: trans("profile.email") })}
-        value={email}
-        actionButtonConfig={{
-          label: trans("profile.change"),
-          onClick: () => {
-            setModalContent(<EmailCard />);
-            setTitle(trans("profile.change") + " Email");
-            setShowBackLink(true);
-          },
-          hidden: !!provider || !allowUpdate.includes("email") || !smtp
-        }}
-      />
-      { !provider && (
+      <HeadNameFiled />
+      { type.includes("email") && (
+        <ProfileInfoItem
+          key="email"
+          titleLabel="Email:"
+          infoLabel={trans("profile.loginAfterBind", { name: trans("profile.email") })}
+          value={email}
+          actionButtonConfig={{
+            label: trans("profile.change"),
+            onClick: () => {
+              setModalContent(<EmailCard />);
+              setTitle(trans("profile.change") + " Email");
+              setShowBackLink(true);
+            },
+            hidden: !!provider || !allowUpdate.includes("email") || !smtp
+          }}
+        /> )
+      } 
+      
+      { !provider && type.includes("username") && (
         <>
           { mask && (
             <TacoInput

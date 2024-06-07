@@ -33,7 +33,7 @@ function createInputLabel({ label, type, mask }: any, cap = true): string {
   if(type.length > 1 && !mask) {
     return `${EMAIL}/${LABEL || USERNAME}`
   }
-  return LABEL || EMAIL
+  return LABEL || (type[0] === "email" ? EMAIL : USERNAME)
 }
 
 export default function FormLogin() {

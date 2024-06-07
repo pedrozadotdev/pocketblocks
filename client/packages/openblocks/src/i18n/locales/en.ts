@@ -1894,6 +1894,7 @@ export const en = {
     preview: "Preview",
     editError: "History preview mode, no operation is supported.",
     clone: "Clone",
+    pocketbasePanel: "Pocketbase Admin Panel",
   },
   userAuth: {
     registerByEmail: "Sign up",

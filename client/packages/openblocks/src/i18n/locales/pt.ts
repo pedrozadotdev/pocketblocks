@@ -1945,6 +1945,7 @@ export const pt = {
     editError:
       "Modo de visualização de histórico, nenhuma operação é suportada.",
     clone: "Clonar",
+    pocketbasePanel: "Painel Administrativo do Pocketbase",
   },
   userAuth: {
     registerByEmail: "Registre-se",

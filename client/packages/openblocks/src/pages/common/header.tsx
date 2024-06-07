@@ -466,7 +466,26 @@ export function AppHeader() {
       <LogoWithName branding={!user.orgDev} />
     </StyledLink>
   );
-  const headerEnd = <HeaderProfile user={user} />;
+  const headerEnd = (
+    <>
+      {user.orgDev && (
+        <div title={trans("header.pocketbasePanel")}>
+          <StyledLink
+            onClick={() => {
+              window.open("/_", "_blank");
+            }}
+          >
+            <img
+              src="/_/images/logo.svg"
+              alt="PocketBase Logo"
+              style={{ maxHeight: 24 }}
+            />
+          </StyledLink>
+        </div>
+      )}
+      <HeaderProfile user={user} />;
+    </>
+  );
   return (
     <LayoutHeader
       headerStart={headerStart}
