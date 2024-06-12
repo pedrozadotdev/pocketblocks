@@ -24,14 +24,14 @@
     "vite": "^4.5.3"
   },
   "dependencies": {
-    "@tanstack/query-core": "^4.35.0",
-    "@tanstack/query-persist-client-core": "^4.35.0",
-    "@tanstack/query-sync-storage-persister": "^4.35.0",
+    "@tanstack/query-core": "^5.44.0",
+    "@tanstack/query-persist-client-core": "^5.44.0",
+    "@tanstack/query-sync-storage-persister": "^5.44.0",
     "axios-mock-adapter": "^1.22.0",
     "i18next": "^23.5.1",
     "i18next-browser-languagedetector": "^7.1.0",
     "lz-string": "^1.5.0",
     "path-to-regexp": "^6.2.1",
-    "pocketbase": "^0.18.0"
+    "pocketbase": "^0.21.3"
   }
 }

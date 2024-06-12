@@ -6,13 +6,15 @@ Todo desenvolvedor aprende um dos princípios mais importantes da engenharia de 
 
 PocketBlocks fornece algumas bibliotecas JavaScript integradas para uso.
 
-| Biblioteca | Documentação                                                         | Versão                       |
-| ---------- | -------------------------------------------------------------------- | ---------------------------- |
-| lodash     | [https://lodash.com/docs/](https://lodash.com/docs/)                 | 4.17.21                      |
-| moment     | [https://momentjs.com/docs/](https://momentjs.com/docs/)             | 2.29.3                       |
-| uuid       | [https://github.com/uuidjs/uuid](https://github.com/uuidjs/uuid)     | 8.3.2（Suporta v1/v3/v4/v5） |
-| numbro     | [https://numbrojs.com/format.html](https://numbrojs.com/format.html) | 2.3.6                        |
-| papaparse  | [https://www.papaparse.com/docs](https://www.papaparse.com/docs)     | 5.3.2                        |
+| Biblioteca               | Documentação                                                                                                         | Versão                       |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| lodash                   | [https://lodash.com/docs/](https://lodash.com/docs/)                                                                 | 4.17.21                      |
+| moment                   | [https://momentjs.com/docs/](https://momentjs.com/docs/)                                                             | 2.29.3                       |
+| uuid                     | [https://github.com/uuidjs/uuid](https://github.com/uuidjs/uuid)                                                     | 8.3.2（Support v1/v3/v4/v5） |
+| numbro                   | [https://numbrojs.com/format.html](https://numbrojs.com/format.html)                                                 | 2.3.6                        |
+| papaparse(Papa)          | [https://www.papaparse.com/docs](https://www.papaparse.com/docs)                                                     | 5.3.2                        |
+| PocketBase SDK(pb)       | [https://pocketbase.io/docs/client-side-sdks](https://pocketbase.io/docs/client-side-sdks)                           | 0.21.3                       |
+| TanStack QueryClient(qc) | [https://tanstack.com/query/v5/docs/reference/QueryClient](https://tanstack.com/query/v5/docs/reference/QueryClient) | 5.44.0                       |
 
 ## Importando manualmente bibliotecas de terceiros
 

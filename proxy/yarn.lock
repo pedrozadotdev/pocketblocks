@@ -196,24 +196,25 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@tanstack/query-core@4.35.3", "@tanstack/query-core@^4.35.0":
-  version "4.35.3"
-  resolved "https://registry.npmjs.org/@tanstack/query-core/-/query-core-4.35.3.tgz"
-  integrity sha512-PS+WEjd9wzKTyNjjQymvcOe1yg8f3wYc6mD+vb6CKyZAKvu4sIJwryfqfBULITKCla7P9C4l5e9RXePHvZOZeQ==
+"@tanstack/query-core@5.44.0", "@tanstack/query-core@^5.44.0":
+  version "5.44.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.44.0.tgz#f7d5e04eaca0ed0c8ff52b36d0a6df142b3a78fb"
+  integrity sha512-Fa1J7iEEyJnjXG1N4+Fz4OXNH/INve3XSn0Htms3X4wgRsXHxMDwqBE2XtDCts7swkwSIs4izEtaFqWVFr/eLQ==
 
-"@tanstack/query-persist-client-core@4.35.3", "@tanstack/query-persist-client-core@^4.35.0":
-  version "4.35.3"
-  resolved "https://registry.npmjs.org/@tanstack/query-persist-client-core/-/query-persist-client-core-4.35.3.tgz"
-  integrity sha512-UlUMsvmy12qgPzphIq8iyFtwxuv/vaEyFQEFDVVCvyrqj2G020qMZiCA1vj3+gasmCXh59EraiC2eY4Iqo0/PA==
+"@tanstack/query-persist-client-core@5.44.0", "@tanstack/query-persist-client-core@^5.44.0":
+  version "5.44.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-persist-client-core/-/query-persist-client-core-5.44.0.tgz#c30770082e944c3fb7c0b2c146d2dba0f913d47c"
+  integrity sha512-S9JvOsIWC/lXKBHBw7pHHMHdKecFEmZs7Znik5+YtukasniF7glXdGGmvFcoqweeqneAVyPX0gtoMvf1Dz71dw==
   dependencies:
-    "@tanstack/query-core" "4.35.3"
+    "@tanstack/query-core" "5.44.0"
 
-"@tanstack/query-sync-storage-persister@^4.35.0":
-  version "4.35.3"
-  resolved "https://registry.npmjs.org/@tanstack/query-sync-storage-persister/-/query-sync-storage-persister-4.35.3.tgz"
-  integrity sha512-q9axt4iJkRnhR9R9qou+Q2+T2S21jwgf/7carYs9DQGLoE9r9YnwxgbmDE72yQd1glcsGF26UqqO6WO8ziNCrQ==
+"@tanstack/query-sync-storage-persister@^5.44.0":
+  version "5.44.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-sync-storage-persister/-/query-sync-storage-persister-5.44.0.tgz#3c65f9d05de26f8e3224bde635e1e41a9fc0485d"
+  integrity sha512-/ZamsjzP3UxH8sRTdhpNNoUPfo1ZjoJ2wrn3dDZGw95AMQprCXNhoT+nVSaqvo0pmvArY9M1N3QVXwx3ZLI2LQ==
   dependencies:
-    "@tanstack/query-persist-client-core" "4.35.3"
+    "@tanstack/query-core" "5.44.0"
+    "@tanstack/query-persist-client-core" "5.44.0"
 
 "@types/json-schema@^7.0.12":
   version "7.0.13"
@@ -1011,10 +1012,10 @@ picomatch@^2.3.1:
   resolved "https://registry.npmjs.org/picomatch/-/picomatch-2.3.1.tgz"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
-pocketbase@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.npmjs.org/pocketbase/-/pocketbase-0.18.0.tgz"
-  integrity sha512-09ri0Rnm4JjboU4OJeibd6pgvKi4DPg/r/Uu/QI3mKSZsrROoMT75zyiOldbBBMWZUDG1TRlv6BjQj30SFsrVw==
+pocketbase@^0.21.3:
+  version "0.21.3"
+  resolved "https://registry.yarnpkg.com/pocketbase/-/pocketbase-0.21.3.tgz#83e16bec07ba649649c313e85cc5786a84dc422e"
+  integrity sha512-bsQRZ1mj4dhPJ4P5iSrDqWQtBX2NtuBkf6IOZwTv27zZOw6zrISgo963i5JD/99qKKD5aMSMDPGk1BE9ZyI7Cg==
 
 postcss@^8.4.27:
   version "8.4.31"
