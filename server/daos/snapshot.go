@@ -1,7 +1,7 @@
 package daos
 
 import (
-	m "github.com/internoapp/pocketblocks/server/models"
+	m "github.com/pedrozadotdev/pocketblocks/server/models"
 	"github.com/pocketbase/dbx"
 )
 

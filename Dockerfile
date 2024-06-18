@@ -10,7 +10,7 @@ RUN apk add --no-cache \
     zip \
     zlib-dev
 
-RUN wget https://github.com/internoapp/pocketblocks/releases/download/${PBL_VERSION}/pocketblocks_$(echo "${PBL_VERSION}" | cut -c 2-)_linux_amd64.zip \
+RUN wget https://github.com/pedrozadotdev/pocketblocks/releases/download/${PBL_VERSION}/pocketblocks_$(echo "${PBL_VERSION}" | cut -c 2-)_linux_amd64.zip \
     && unzip pocketblocks_$(echo "${PBL_VERSION}" | cut -c 2-)_linux_amd64.zip
 
 FROM alpine:3

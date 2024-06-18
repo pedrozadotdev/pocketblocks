@@ -120,4 +120,4 @@ In **JavaScript** tab, you can add preloaded JavaScript code to define global me
 
 ## &#x20;Restrictions
 
-For security reasons, several global variables and functions of **window** are disabled in PocketBlocks. Please report to our [GitHub](https://github.com/internoapp/pocketblocks) if you encounter any issues.
+For security reasons, several global variables and functions of **window** are disabled in PocketBlocks. Please report to our [GitHub](https://github.com/pedrozadotdev/pocketblocks) if you encounter any issues.

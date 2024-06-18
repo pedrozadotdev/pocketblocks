@@ -4,19 +4,19 @@ In this article, you will be guided through hosting PocketBlocks on your own ser
 
 ### Manual
 
-- Download the binary of your OS and arch from [Release Page](https://github.com/internoapp/pocketblocks/releases);
+- Download the binary of your OS and arch from [Release Page](https://github.com/pedrozadotdev/pocketblocks/releases);
 - Run `./pocketblocks serve`;
 - Access [PocketBlocks App](http://localhost:8090) and create the first admin user.
 
 ### Docker
 
-- Get the [docker-compose.yml](https://raw.githubusercontent.com/internoapp/pocketblocks/main/docker-compose.yml) file;
+- Get the [docker-compose.yml](https://raw.githubusercontent.com/pedrozadotdev/pocketblocks/main/docker-compose.yml) file;
 - Run `docker compose up -d`;
 - Access [PocketBlocks App](http://localhost:8080) and create the first admin user.
 
 ### Fly.io
 
-- Get the [fly.toml](https://raw.githubusercontent.com/internoapp/pocketblocks/main/fly.toml) file;
+- Get the [fly.toml](https://raw.githubusercontent.com/pedrozadotdev/pocketblocks/main/fly.toml) file;
 - Edit the `app-name` field;
 - Run `flyctl launch`;
 - Run `flyctl vol create data`;

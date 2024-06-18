@@ -24,7 +24,7 @@ All Markdown syntax is valid in PocketBlocks.
 - **Lists**: Use hyphen (-), asterisk (∗), or plus sign (+) followed by a whitespace to create an unordered list, and use numbers followed by a period (.) to create an ordered list.
 - **Code**: Use backticks (\`) before and after code to denote `` `code` `` in plain text, and three backticks (\`\`\`) to present ` ```code block``` `.
 - **Horizontal rules**: Use at least three asterisks (∗∗∗), hyphens (---), or underscores (\_ \_ \_) at the beginning of a line to create a horizontal rule.
-- **Links**: Use square brackets (\[]) for the display text and parenthesis (()) for the link address. Note that no space should be inbetween. For example, `[PocketBlocks](https://github.com/internoapp/pocketblocks)`.
+- **Links**: Use square brackets (\[]) for the display text and parenthesis (()) for the link address. Note that no space should be inbetween. For example, `[PocketBlocks](https://github.com/pedrozadotdev/pocketblocks)`.
 - **Images**: Use an exclamation mark (!) to start an image shiinsertion, and then use square bracket (\[]) for the alternative text and parenthesis (()) for the link address or source path. The caption can follow the parentheses or start at a new line.
 - **Escaping characters**: Use backslash (\\) to display the special symbols that Markdown uses. For instance, to print ` `` ` in plain text, you should use `` \`\` `` in Markdown.&#x20;
 

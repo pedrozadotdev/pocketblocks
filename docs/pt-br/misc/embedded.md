@@ -1,6 +1,6 @@
 # Incorporando aplicativos em páginas HTML
 
-Também é possível incorporar aplicativos PocketBlocks em qualquer página HTML com scripts simples, usando o [SDK PocketBlocks](https://github.com/internoapp/pocketblocks/tree/main/client/packages/openblocks-sdk) através de **window.$pbl**. Isso permite que você incorpore aplicativos PocketBlocks mesmo sem conhecimento profundo de React ou Desenvolvimento Web.
+Também é possível incorporar aplicativos PocketBlocks em qualquer página HTML com scripts simples, usando o [SDK PocketBlocks](https://github.com/pedrozadotdev/pocketblocks/tree/main/client/packages/openblocks-sdk) através de **window.$pbl**. Isso permite que você incorpore aplicativos PocketBlocks mesmo sem conhecimento profundo de React ou Desenvolvimento Web.
 
 ## Como fazer
 

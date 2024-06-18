@@ -120,4 +120,4 @@ Na guia **JavaScript**, você pode adicionar código JavaScript pré-carregado p
 
 ## &#x20;Restrições
 
-Por motivos de segurança, diversas variáveis ​​globais e funções de **window** estão desabilitadas no PocketBlocks. Por favor, reporte ao nosso [GitHub](https://github.com/internoapp/pocketblocks) se você encontrar algum problema.
+Por motivos de segurança, diversas variáveis ​​globais e funções de **window** estão desabilitadas no PocketBlocks. Por favor, reporte ao nosso [GitHub](https://github.com/pedrozadotdev/pocketblocks) se você encontrar algum problema.

@@ -36,7 +36,7 @@ type HttpClient interface {
 //
 // NB! This plugin is considered experimental and its config options may change in the future.
 type Config struct {
-	// Owner specifies the account owner of the repository (default to "internoapp").
+	// Owner specifies the account owner of the repository (default to "pedrozadotdev").
 	Owner string
 
 	// Repo specifies the name of the repository (default to "pocketblocks").
@@ -71,7 +71,7 @@ func Register(app core.App, rootCmd *cobra.Command, config Config) error {
 	}
 
 	if p.config.Owner == "" {
-		p.config.Owner = "internoapp"
+		p.config.Owner = "pedrozadotdev"
 	}
 
 	if p.config.Repo == "" {

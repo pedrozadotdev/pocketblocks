@@ -1,4 +1,4 @@
-module github.com/internoapp/pocketblocks
+module github.com/pedrozadotdev/pocketblocks
 
 go 1.22.3
 

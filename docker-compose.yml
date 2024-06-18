@@ -2,7 +2,7 @@ version: "3"
 
 services:
   pocketblocks:
-    image: ghcr.io/internoapp/pocketblocks:latest
+    image: ghcr.io/pedrozadotdev/pocketblocks:latest
     restart: always
     ports:
       - 8080:8080

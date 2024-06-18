@@ -7,10 +7,10 @@ import (
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/gosimple/slug"
 	"github.com/guregu/null"
-	"github.com/internoapp/pocketblocks/server/daos"
-	"github.com/internoapp/pocketblocks/server/forms/validators"
-	"github.com/internoapp/pocketblocks/server/models"
-	"github.com/internoapp/pocketblocks/server/utils"
+	"github.com/pedrozadotdev/pocketblocks/server/daos"
+	"github.com/pedrozadotdev/pocketblocks/server/forms/validators"
+	"github.com/pedrozadotdev/pocketblocks/server/models"
+	"github.com/pedrozadotdev/pocketblocks/server/utils"
 	v "github.com/pocketbase/pocketbase/forms/validators"
 )
 

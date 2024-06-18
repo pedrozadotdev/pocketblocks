@@ -1608,7 +1608,7 @@ export const en = {
     phoneColumn: "Phone",
     subTitle: "Title",
     linkLabel: "Link",
-    linkUrl: "pocketblocks.interno.app",
+    linkUrl: "pocketblocks.pedroza.dev",
     progressLabel: "Progress",
     sliderLabel: "Slider",
     radioLabel: "Radio",
@@ -1952,7 +1952,7 @@ export const en = {
     jsLibraryInstallSuccess: "JavaScript library installed successfully",
     jsLibraryInstallFailed: "JavaScript library installation failed",
     jsLibraryInstallFailedCloud:
-      "Perhaps the library is not available in the sandbox, [Documentation](https://pocketblocks.interno.app/build-apps/write-javascript/use-third-party-libraries#manually-import-third-party-libraries)\n{message}",
+      "Perhaps the library is not available in the sandbox, [Documentation](https://pocketblocks.pedroza.dev/build-apps/write-javascript/use-third-party-libraries#manually-import-third-party-libraries)\n{message}",
     jsLibraryInstallFailedHost: "{message}",
     add: "Add New",
     jsHelpText: "Add a global method or variable to the current application.",
@@ -2104,7 +2104,7 @@ export const en = {
     showBorder: "Show border",
   },
   docUrls: {
-    docHome: "https://pocketblocks.interno.app/",
+    docHome: "https://pocketblocks.pedroza.dev/",
     components: "",
     module: "",
     optionList: "",
@@ -2113,12 +2113,12 @@ export const en = {
     aboutUs: "",
     changeLog: "",
     introVideo: "",
-    devNpmPlugin: "https://pocketblocks.interno.app/build-plugins/build-plugins",
+    devNpmPlugin: "https://pocketblocks.pedroza.dev/build-plugins/build-plugins",
     devNpmPluginText: "How to develop npm plugin",
     useHost: "",
     eventHandlerSlowdown:
-      "https://pocketblocks.interno.app/build-apps/event-handlers#debounce-and-throttle",
-    thirdLib: "https://pocketblocks.interno.app/build-apps/write-javascript/use-third-party-libraries",
+      "https://pocketblocks.pedroza.dev/build-apps/event-handlers#debounce-and-throttle",
+    thirdLib: "https://pocketblocks.pedroza.dev/build-apps/write-javascript/use-third-party-libraries",
     thirdLibUrlText: "Use third-party libraries",
   },
   datasourceTutorial: {
@@ -2132,8 +2132,8 @@ export const en = {
   },
   queryTutorial: {
     js: "",
-    transformer: "https://pocketblocks.interno.app/build-apps/write-javascript/transformers",
-    tempState: "https://pocketblocks.interno.app/build-apps/write-javascript/temporary-state",
+    transformer: "https://pocketblocks.pedroza.dev/build-apps/write-javascript/transformers",
+    tempState: "https://pocketblocks.pedroza.dev/build-apps/write-javascript/temporary-state",
   },
   customComponent: {
     entryUrl: "{host}/cc",
@@ -2142,7 +2142,7 @@ export const en = {
     cloneUrl: "/apps/template-import/",
   },
   openBlocksUrl: {
-    createIssue: "https://github.com/internoapp/pocketblocks/issues",
+    createIssue: "https://github.com/pedrozadotdev/pocketblocks/issues",
     discord: "",
   },
   componentDoc: {

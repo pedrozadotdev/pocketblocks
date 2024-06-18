@@ -12,7 +12,7 @@ builds:
     main: ./server/main.go
     binary: pocketblocks
     ldflags:
-      - -s -w -X github.com/internoapp/pocketblocks.Version={{ .Version }}
+      - -s -w -X github.com/pedrozadotdev/pocketblocks.Version={{ .Version }}
     env:
       - CGO_ENABLED=1
     goos:
@@ -24,7 +24,7 @@ builds:
     main: ./server/main.go
     binary: pocketblocks
     ldflags:
-      - -s -w -X github.com/internoapp/pocketblocks.Version={{ .Version }}
+      - -s -w -X github.com/pedrozadotdev/pocketblocks.Version={{ .Version }}
     env:
       - CGO_ENABLED=0
     goos:

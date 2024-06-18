@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #Build Image
-docker build -t ghcr.io/internoapp/pocketblocks:${PBL_VERSION} -t ghcr.io/internoapp/pocketblocks:latest --build-arg PBL_VERSION .
+docker build -t ghcr.io/pedrozadotdev/pocketblocks:${PBL_VERSION} -t ghcr.io/pedrozadotdev/pocketblocks:latest --build-arg PBL_VERSION .
 if [ $? -ne 0 ]
 then
   echo "Build Fail. Aborting!"
@@ -10,4 +10,4 @@ fi
 
 #Publish Image
 sh -c "docker login ghcr.io -u ${GH_USER} --password ${GH_TOKEN}"
-sh -c "docker push -a ghcr.io/internoapp/pocketblocks"
+sh -c "docker push -a ghcr.io/pedrozadotdev/pocketblocks"

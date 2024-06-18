@@ -6,9 +6,9 @@ import (
 	"slices"
 	"time"
 
-	"github.com/internoapp/pocketblocks/server/daos"
-	"github.com/internoapp/pocketblocks/server/ui"
-	"github.com/internoapp/pocketblocks/server/utils"
+	"github.com/pedrozadotdev/pocketblocks/server/daos"
+	"github.com/pedrozadotdev/pocketblocks/server/ui"
+	"github.com/pedrozadotdev/pocketblocks/server/utils"
 	"github.com/labstack/echo/v5"
 	"github.com/labstack/echo/v5/middleware"
 	"github.com/pocketbase/pocketbase"

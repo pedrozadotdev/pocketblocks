@@ -85,4 +85,4 @@ Apart from the built-in charts and graphs, you can also plot your data with [Apa
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/charts-and-graphs/07.png" alt=""><figcaption></figcaption></figure>
 
-If you need more configuration options for charts, create a issue on [Github](https://github.com/internoapp/pocketblocks/issues).
+If you need more configuration options for charts, create a issue on [Github](https://github.com/pedrozadotdev/pocketblocks/issues).

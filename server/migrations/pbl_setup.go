@@ -1,8 +1,8 @@
 package migrations
 
 import (
-	"github.com/internoapp/pocketblocks/server/daos"
-	"github.com/internoapp/pocketblocks/server/models"
+	"github.com/pedrozadotdev/pocketblocks/server/daos"
+	"github.com/pedrozadotdev/pocketblocks/server/models"
 	"github.com/pocketbase/dbx"
 	m "github.com/pocketbase/pocketbase/migrations"
 	pm "github.com/pocketbase/pocketbase/models"

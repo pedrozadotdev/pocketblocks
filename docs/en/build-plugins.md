@@ -96,4 +96,4 @@ https://www.npmjs.com/package/my-plugin
 
 ## Code demo
 
-For code demo, refer to PocketBlocks [Github](https://github.com/internoapp/pocketblocks/tree/main/client/packages/openblocks-plugin-demo).
+For code demo, refer to PocketBlocks [Github](https://github.com/pedrozadotdev/pocketblocks/tree/main/client/packages/openblocks-plugin-demo).

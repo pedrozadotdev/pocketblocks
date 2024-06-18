@@ -1,7 +1,7 @@
 app = "app-name"
 
 [build]
-  image = "ghcr.io/internoapp/pocketblocks:latest"
+  image = "ghcr.io/pedrozadotdev/pocketblocks:latest"
 
 [mounts]
   source = "data"

@@ -2,9 +2,9 @@ package forms
 
 import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
-	"github.com/internoapp/pocketblocks/server/daos"
-	"github.com/internoapp/pocketblocks/server/forms/validators"
-	"github.com/internoapp/pocketblocks/server/models"
+	"github.com/pedrozadotdev/pocketblocks/server/daos"
+	"github.com/pedrozadotdev/pocketblocks/server/forms/validators"
+	"github.com/pedrozadotdev/pocketblocks/server/models"
 )
 
 // SettingsUpsert is a [models.Settings] upsert (create/update) form.

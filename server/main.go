@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/internoapp/pocketblocks/server/core"
-	_ "github.com/internoapp/pocketblocks/server/migrations"
+	"github.com/pedrozadotdev/pocketblocks/server/core"
+	_ "github.com/pedrozadotdev/pocketblocks/server/migrations"
 	"github.com/pocketbase/pocketbase"
 )
 

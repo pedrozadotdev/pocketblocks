@@ -24,7 +24,7 @@ Toda a sintaxe Markdown é válida no PocketBlocks.
 - **Listas**: use hífen (-), asterisco (∗) ou sinal de mais (+) seguido de um espaço em branco para criar uma lista não ordenada e use números seguidos de um ponto final (.) para criar uma lista ordenada.
 - **Código**: Use crases (\`) antes e depois do código para denotar `` `code` `` em texto simples, e três crases (\`\`\`) para apresentar ` ```bloco de código` `` `.
 - **Réguas horizontais**: Use pelo menos três asteriscos (∗∗∗), hífens (---) ou sublinhados (\_ \_ \_) no início de uma linha para criar uma régua horizontal.
-- **Links**: Use colchetes (\[]) para o texto de exibição e parênteses (()) para o endereço do link. Observe que não deve haver espaço entre eles. Por exemplo, `[PocketBlocks](https://github.com/internoapp/pocketblocks)`.
+- **Links**: Use colchetes (\[]) para o texto de exibição e parênteses (()) para o endereço do link. Observe que não deve haver espaço entre eles. Por exemplo, `[PocketBlocks](https://github.com/pedrozadotdev/pocketblocks)`.
 - **Imagens**: Use um ponto de exclamação (!) para iniciar uma inserção de imagem e, em seguida, use colchetes (\[]) para o texto alternativo e parênteses (()) para o endereço do link ou caminho de origem. A legenda pode seguir os parênteses ou começar em uma nova linha.
 - **Caracteres de escape**: Use barra invertida (\\) para exibir os símbolos especiais que o Markdown usa. Por exemplo, para imprimir ` `` ` em texto simples, você deve usar `` \`\` `` em Markdown.&#x20;
 

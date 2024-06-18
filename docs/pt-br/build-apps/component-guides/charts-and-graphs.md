@@ -85,4 +85,4 @@ Além dos gráficos integrados, você também pode plotar seus dados com o [Apac
 
 <figure><img src="../../.gitbook/assets/build-apps/component-guides/charts-and-graphs/07.png" alt=""><figcaption></figcaption></figure>
 
-Se precisar de mais opções de configuração para gráficos, crie uma issue no [Github](https://github.com/internoapp/pocketblocks/issues).
+Se precisar de mais opções de configuração para gráficos, crie uma issue no [Github](https://github.com/pedrozadotdev/pocketblocks/issues).

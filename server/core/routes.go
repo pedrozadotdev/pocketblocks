@@ -1,8 +1,8 @@
 package core
 
 import (
-	"github.com/internoapp/pocketblocks/server/apis"
-	"github.com/internoapp/pocketblocks/server/daos"
+	"github.com/pedrozadotdev/pocketblocks/server/apis"
+	"github.com/pedrozadotdev/pocketblocks/server/daos"
 	"github.com/labstack/echo/v5"
 	"github.com/pocketbase/pocketbase"
 	a "github.com/pocketbase/pocketbase/apis"

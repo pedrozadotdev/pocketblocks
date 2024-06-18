@@ -1,6 +1,6 @@
 # Embedding Apps in HTML Pages
 
-It is also possible to embed PocketBlocks Apps on any HTML Page with simple Scripts, using the [PocketBlocks SDK](https://github.com/internoapp/pocketblocks/tree/main/client/packages/openblocks-sdk) through **window.$pbl**. This enables you to embed PocketBlocks Apps even without deep knowledge of React or Web Development.
+It is also possible to embed PocketBlocks Apps on any HTML Page with simple Scripts, using the [PocketBlocks SDK](https://github.com/pedrozadotdev/pocketblocks/tree/main/client/packages/openblocks-sdk) through **window.$pbl**. This enables you to embed PocketBlocks Apps even without deep knowledge of React or Web Development.
 
 ## How to
 
