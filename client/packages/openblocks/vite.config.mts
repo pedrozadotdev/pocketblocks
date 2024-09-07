@@ -40,7 +40,7 @@ export const viteConfig: UserConfig = {
   base,
   build: {
     manifest: true,
-    target: "es2015",
+    target: "es2020",
     cssTarget: "chrome63",
     outDir: "../../../proxy/public",
     emptyOutDir: false,
