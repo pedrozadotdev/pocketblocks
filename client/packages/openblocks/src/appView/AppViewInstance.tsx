@@ -76,7 +76,10 @@ export class AppViewInstance<I = any, O = any> {
 
     if (!appDsl) {
       if (!axiosIns && window.setupProxy) {
-        axiosIns = window.setupProxy(axiosIns, message);
+        axiosIns = window.setupProxy(
+          axios.create({ baseURL: baseUrl, withCredentials: true }),
+          message
+        );
       }
       const data: ApplicationResp = await axiosIns
         .get(`/api/v1/applications/${this.appId}/view`)
