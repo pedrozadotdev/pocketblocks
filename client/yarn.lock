@@ -15792,9 +15792,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.79.0":
-  version: 2.79.0
-  resolution: "rollup@npm:2.79.0"
+"rollup@npm:^3.29.5":
+  version: 3.29.5
+  resolution: "rollup@npm:3.29.5"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -15802,7 +15802,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 166f1ffea1898e157003920065b3a328e7012ea6808860ee8fe5d1ce94804fcce9985c95a3c0f7fe9c611aff0d09a70f073f1d6f715c8faba28e4e40f71ee3bb
+  checksum: 6f8304e58ac8170a715e61e46c4aa674b2ae2587ed2a712dab58f72e5e54803ae40b485fbe6b3e6a694f4c8f7a59ab936ccf9f6b686c7cfd1f1970fa9ecadf1a
   languageName: node
   linkType: hard
 
@@ -16747,7 +16747,7 @@ __metadata:
     prettier: ^2.7.0
     react-player: ^2.11.0
     rimraf: ^3.0.2
-    rollup: ^2.79.0
+    rollup: ^3.29.5
     shelljs: ^0.8.5
     svgo: ^3.0.0
     tui-image-editor: "https://registry.npmjs.org/fun-tui-image-editor/-/fun-tui-image-editor-3.15.88.tgz"
