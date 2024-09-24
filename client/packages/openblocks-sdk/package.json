@@ -36,7 +36,7 @@
     "@svgr/rollup": "^6.3.1",
     "@vitejs/plugin-react": "^2.2.0",
     "openblocks-dev-utils": "workspace:^",
-    "rollup": "^2",
+    "rollup": "^3",
     "rollup-plugin-cleaner": "^1.0.0",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-polyfill-node": "^0.10.2",
