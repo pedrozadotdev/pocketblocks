@@ -13172,7 +13172,7 @@ __metadata:
     react-json-view: "https://registry.npmjs.org/@microlink/react-json-view/-/react-json-view-1.23.0.tgz"
     rollup-plugin-external-globals: ^0.7.1
     typescript: ^4.8.4
-    vite: ^4.5.10
+    vite: ^4.5.13
     vite-plugin-css-injected-by-js: ^2.1.1
     vite-plugin-svgr: ^2.2.2
   peerDependencies:
@@ -13203,7 +13203,7 @@ __metadata:
     react: 17
     react-dom: 17
     typescript: 4.8.4
-    vite: ^4.5.10
+    vite: ^4.5.13
     vite-tsconfig-paths: ^3.6.0
   languageName: unknown
   linkType: soft
@@ -13282,7 +13282,7 @@ __metadata:
     react: 17
     react-dom: 17
     typescript: 4.8.4
-    vite: ^4.5.10
+    vite: ^4.5.13
   languageName: unknown
   linkType: soft
 
@@ -13305,7 +13305,7 @@ __metadata:
     rollup-plugin-terser: ^7.0.2
     rollup-plugin-typescript: ^1.0.1
     typescript: ^4.8.4
-    vite: ^4.5.10
+    vite: ^4.5.13
     vite-plugin-svgr: ^2.2.2
     vite-tsconfig-paths: ^3.6.0
   peerDependencies:
@@ -13422,7 +13422,7 @@ __metadata:
     ua-parser-js: ^1.0.33
     use-mask-input: ^3.3.6
     uuid: ^9.0.0
-    vite: ^4.5.10
+    vite: ^4.5.13
     vite-plugin-checker: ^0.5.1
     vite-plugin-html: ^3.2.0
     vite-plugin-svgr: ^2.2.2
@@ -17816,9 +17816,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^4.5.10":
-  version: 4.5.10
-  resolution: "vite@npm:4.5.10"
+"vite@npm:^4.5.13":
+  version: 4.5.13
+  resolution: "vite@npm:4.5.13"
   dependencies:
     esbuild: ^0.18.10
     fsevents: ~2.3.2
@@ -17852,7 +17852,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: f115c7b5f3fdd28aca2341798759ae561db0424d47569b9e61606dd7d4f184a6354ebe5bdcef45bd51eb754a155d7b90ae82963b479b88fe5f88e4c607dfad4c
+  checksum: 9ce4b5dd8767acc598a402565a21525a9d23d3dad48463bcc4aedf91b3c69ad907213113b356eb9663f7d71cd8950ecc5228ba0ac9974223eaccca2314368428
   languageName: node
   linkType: hard
 
