@@ -32,6 +32,6 @@
     "i18next-browser-languagedetector": "^7.1.0",
     "lz-string": "^1.5.0",
     "path-to-regexp": "^6.3.0",
-    "pocketbase": "^0.21.3"
+    "pocketbase": "^0.21.5"
   }
 }
