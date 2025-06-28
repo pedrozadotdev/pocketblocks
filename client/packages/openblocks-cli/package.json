@@ -34,7 +34,7 @@
     "react-dom": "^17",
     "react-json-view": "https://registry.npmjs.org/@microlink/react-json-view/-/react-json-view-1.23.0.tgz",
     "rollup-plugin-external-globals": "^0.7.1",
-    "vite": "^4.5.13",
+    "vite": "^4.5.14",
     "vite-plugin-css-injected-by-js": "^2.1.1",
     "vite-plugin-svgr": "^2.2.2"
   },
