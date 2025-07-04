@@ -38,6 +38,7 @@ import { CreateDropdown } from "./CreateDropdown";
 import { trans } from "../../i18n";
 import { isFetchingFolderElements } from "../../redux/selectors/folderSelector";
 import { checkIsMobile } from "util/commonUtils";
+import { useShowNotificationFromQuery } from "../../util/useShowNotificationFromQuery";
 
 const Wrapper = styled.div`
   display: flex;
@@ -264,6 +265,8 @@ export function HomeLayout(props: HomeLayoutProps) {
 
   const currentPath = useLocation().pathname;
 
+  useShowNotificationFromQuery();
+
   if (!user.currentOrgId) {
     return null;
   }
@@ -296,29 +299,29 @@ export function HomeLayout(props: HomeLayoutProps) {
     .map((e) =>
       e.folder
         ? {
-            key: e.folderId,
-            id: e.folderId,
-            name: e.name,
-            type: HomeResTypeEnum.Folder,
-            lastModifyTime: e.createAt,
-            isManageable: e.manageable,
-            isDeletable:
-              e.manageable &&
-              !e.subApplications?.length &&
-              !e.subFolders?.length,
-          }
+          key: e.folderId,
+          id: e.folderId,
+          name: e.name,
+          type: HomeResTypeEnum.Folder,
+          lastModifyTime: e.createAt,
+          isManageable: e.manageable,
+          isDeletable:
+            e.manageable &&
+            !e.subApplications?.length &&
+            !e.subFolders?.length,
+        }
         : {
-            key: e.applicationId,
-            id: e.applicationId,
-            name: e.name,
-            type: HomeResTypeEnum[
-              HomeResTypeEnum[e.applicationType] as HomeResKey
-            ],
-            lastModifyTime: e.lastModifyTime,
-            isEditable: canEditApp(user, e),
-            isManageable: canManageApp(user, e),
-            isDeletable: canEditApp(user, e),
-          }
+          key: e.applicationId,
+          id: e.applicationId,
+          name: e.name,
+          type: HomeResTypeEnum[
+            HomeResTypeEnum[e.applicationType] as HomeResKey
+          ],
+          lastModifyTime: e.lastModifyTime,
+          isEditable: canEditApp(user, e),
+          isManageable: canManageApp(user, e),
+          isDeletable: canEditApp(user, e),
+        }
     );
 
   const getFilterMenuItem = (type: HomeResTypeEnum) => {
@@ -441,8 +444,8 @@ export function HomeLayout(props: HomeLayoutProps) {
                   {mode === "trash"
                     ? trans("home.trashEmpty")
                     : user.orgDev
-                    ? trans("home.projectEmptyCanAdd")
-                    : trans("home.projectEmpty")}
+                      ? trans("home.projectEmptyCanAdd")
+                      : trans("home.projectEmpty")}
                 </div>
                 {mode !== "trash" && user.orgDev && (
                   <CreateDropdown mode={mode} />
