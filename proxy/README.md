@@ -17,4 +17,5 @@ Install and run a **manual version** of PocketBlocks as shown in [Installation](
 3. Run `yarn` to install dependencies.
 4. Run `yarn run client:prepare` to install client dependencies.
 5. Run `yarn run client:build` to build client code.
-6. Start dev server: `yarn run dev`.
+6. Run `yarn run build` once to build the proxy and client code and copy output to the server/ui directory.
+7. Start dev server: `yarn run dev`.
