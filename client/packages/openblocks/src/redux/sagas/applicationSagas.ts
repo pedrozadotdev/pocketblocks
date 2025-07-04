@@ -27,9 +27,9 @@ import {
   UpdateAppPermissionPayload,
 } from "redux/reduxActions/applicationActions";
 import { doValidResponse, validateResponse } from "api/apiUtils";
-import { APPLICATION_VIEW_URL, BASE_URL } from "constants/routesURL";
+import { ALL_APPLICATIONS_URL, APPLICATION_VIEW_URL } from "constants/routesURL";
 import { message } from "antd";
-import { SERVER_ERROR_CODES } from "constants/apiConstants";
+import { ERROR_CODES } from "constants/apiConstants";
 import history from "util/history";
 import { ApplicationMeta, AppTypeEnum } from "constants/applicationConstants";
 import { trans } from "i18n";
@@ -205,8 +205,7 @@ export function* fetchApplicationDetailSaga(action: ReduxAction<FetchAppInfoPayl
       ApplicationApi.getApplicationDetail,
       action.payload
     );
-    const isValidResponse: boolean = doValidResponse(response);
-    if (isValidResponse && action.payload) {
+    if (action.payload) {
       const {
         applicationDSL: dsl,
         applicationInfoView: info,
@@ -239,14 +238,16 @@ export function* fetchApplicationDetailSaga(action: ReduxAction<FetchAppInfoPayl
         payload: response.data.data,
       });
       return;
-    } else if (!isValidResponse) {
-      if (response.data.code === SERVER_ERROR_CODES.NO_PERMISSION_TO_REQUEST_APP) {
-        history.push(BASE_URL);
-      }
-      throw Error(response.data.message);
     }
   } catch (error: any) {
-    message.error(error.message);
+    if (error.code === ERROR_CODES.PAGE_NOT_FOUND && error.show) {
+      history.push(`${ALL_APPLICATIONS_URL}?notification=${error.message}`);
+      return;
+    }
+
+    if (error.show) {
+      message.error(error.message);
+    }
     yield put({
       type: ReduxActionErrorTypes.FETCH_APPLICATION_DETAIL_ERROR,
     });

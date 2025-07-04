@@ -39,3 +39,14 @@ export const hasQueryParam = (name: string) => {
   const searchParams = new URLSearchParams(window.location.search);
   return !!searchParams.get(name);
 };
+
+export const getQueryParam = (name: string): string | null => {
+  const searchParams = new URLSearchParams(window.location.search);
+  return searchParams.get(name);
+};
+
+export const removeQueryParam = (name: string) => {
+  const url = new URL(window.location.href);
+  url.searchParams.delete(name);
+  window.history.replaceState({}, document.title, url.pathname + url.search);
+};

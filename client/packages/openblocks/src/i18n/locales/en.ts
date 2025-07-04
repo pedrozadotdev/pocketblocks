@@ -1688,6 +1688,7 @@ export const en = {
     0: "Failed to connect to server, please check your network",
     401: "Authentication failed, please log on again",
     403: "No permission, please contact the administrator for authorization",
+    404: "Resource not found",
     timeout: "Request timeout",
   },
   share: {

@@ -12,4 +12,5 @@ export const ERROR_500 = () => trans("networkMessage.500");
 export const ERROR_0 = () => trans("networkMessage.0");
 export const ERROR_401 = () => trans("networkMessage.401");
 export const ERROR_403 = () => trans("networkMessage.403");
+export const ERROR_404 = () => trans("networkMessage.404");
 export const SERVER_API_TIMEOUT_ERROR = () => trans("networkMessage.timeout");

@@ -10,6 +10,7 @@ import (
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/tools/search"
+	pbModels "github.com/pocketbase/pocketbase/models"
 )
 
 func BindApplicationApi(dao *daos.Dao, g *echo.Group, logMiddleware echo.MiddlewareFunc) {
@@ -96,54 +97,91 @@ func (api *applicationApi) view(c echo.Context) error {
 	}
 
 	info := apis.RequestInfo(c)
-	var filterExpr dbx.Expression = dbx.HashExp{"public": true}
 
-	if info.Admin == nil {
-		if info.AuthRecord != nil {
-			groups, err := api.dao.FindRecordsByFilter(
-				"groups",
-				"users.id ?= \""+info.AuthRecord.Id+"\"",
-				"-created",
-				500,
-				0,
-			)
-			if err != nil {
-				return apis.NewApiError(500, "Something went wrong", err)
-			}
-
-			groupIds := []string{}
-
-			for _, g := range groups {
-				groupIds = append(groupIds, g.Id)
-			}
-			if len(groupIds) > 0 {
-				filterExpr = dbx.Or(
-					filterExpr,
-					dbx.HashExp{"allUsers": 1},
-					dbx.Like("users", info.AuthRecord.Id),
-					dbx.OrLike("groups", groupIds...),
-				)
-			} else {
-				filterExpr = dbx.Or(
-					filterExpr,
-					dbx.HashExp{"allUsers": 1},
-					dbx.Like("users", info.AuthRecord.Id),
-				)
-			}
+	// For admins, proceed directly to app lookup
+	if info.Admin != nil {
+		app, err := api.dao.FindPblAppBySlug(slug, nil)
+		if err != nil || app == nil {
+			return apis.NewNotFoundError("", nil)
 		}
-
-	} else {
-		filterExpr = nil
+		return c.JSON(http.StatusOK, app)
 	}
 
-	app, err := api.dao.FindPblAppBySlug(slug, filterExpr)
+	// For anonymous users, check if app exists and is public
+	if info.AuthRecord == nil {
+		app, err := api.dao.FindPblAppBySlug(slug, nil)
+		if err != nil || app == nil {
+			// Return unauthorized first if not logged in
+			return apis.NewUnauthorizedError("You must be signed in to access this app.", nil)
+		}
+		if app.Public {
+			return c.JSON(http.StatusOK, app)
+		}
+		return apis.NewUnauthorizedError("You must be signed in to access this app.", nil)
+	}
+
+	// For logged-in users, check if app exists and user has access
+	app, err := api.dao.FindPblAppBySlug(slug, nil)
 	if err != nil || app == nil {
 		return apis.NewNotFoundError("", nil)
 	}
 
-	return c.JSON(http.StatusOK, app)
+	// Check if user is authorized using the helper
+	if !api.userIsAuthorized(app, info) {
+		return apis.NewNotFoundError("", nil) //hide the fact that the apps exist
+	}
 
+	return c.JSON(http.StatusOK, app)
 }
+
+// userIsAuthorized checks if the user is in the app's Users, Groups, if AllUsers is true, or if app is Public
+func (api *applicationApi) userIsAuthorized(app *models.Application, info *pbModels.RequestInfo) bool {
+	if info.AuthRecord == nil {
+		return false
+	}
+
+	// Check if app is public
+	if app.Public {
+		return true
+	}
+
+	userId := info.AuthRecord.Id
+
+	// Check if user is in app.Users
+	for _, u := range app.Users {
+		if u == userId {
+			return true
+		}
+	}
+
+	// Check if app is for all users
+	if app.AllUsers {
+		return true
+	}
+
+	// Check if user is in any allowed group
+	if len(app.Groups) > 0 {
+		groups, err := api.dao.FindRecordsByFilter(
+			"groups",
+			"users.id ?= \""+userId+"\"",
+			"-created",
+			500,
+			0,
+		)
+		if err == nil {
+			for _, g := range groups {
+				for _, allowedGroup := range app.Groups {
+					if g.Id == allowedGroup {
+						return true
+					}
+				}
+			}
+		}
+	}
+
+	return false
+}
+
 func (api *applicationApi) create(c echo.Context) error {
 	form := forms.NewApplicationUpsert(api.dao, &models.Application{})
 
