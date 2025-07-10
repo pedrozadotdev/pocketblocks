@@ -38,6 +38,7 @@ import { CreateDropdown } from "./CreateDropdown";
 import { trans } from "../../i18n";
 import { isFetchingFolderElements } from "../../redux/selectors/folderSelector";
 import { checkIsMobile } from "util/commonUtils";
+import { useShowNotificationFromQuery } from "../../util/useShowNotificationFromQuery";
 
 const Wrapper = styled.div`
   display: flex;
@@ -264,6 +265,8 @@ export function HomeLayout(props: HomeLayoutProps) {
   useEffect(() => saveHomeLayout(layout), [layout]);
 
   const currentPath = useLocation().pathname;
+
+  useShowNotificationFromQuery();
 
   if (!user.currentOrgId) {
     return null;

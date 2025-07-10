@@ -491,7 +491,7 @@ export function AppHeader() {
           </StyledLink>
         </div>
       )}
-      <HeaderProfile user={user} />;
+      <HeaderProfile user={user} />
     </>
   );
   return (

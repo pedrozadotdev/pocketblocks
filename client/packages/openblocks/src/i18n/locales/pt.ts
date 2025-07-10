@@ -1742,6 +1742,7 @@ export const pt = {
     "401": "Falha na Autenticação, por favor, faça login novamente",
     "403":
       "Sem permissão, entre em contato com o administrador para autorização",
+    "404": "Recurso não encontrado",
     "500": "Serviço indisponível, tente novamente mais tarde",
     timeout: "Tempo limite de requisição atingido",
   },
