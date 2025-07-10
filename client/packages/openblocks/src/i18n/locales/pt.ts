@@ -1720,6 +1720,9 @@ export const pt = {
     logoTitle: "Logo",
     logoPlaceholder: "Entre com a URL da logo",
     logoHelp: "Somente .JPG, .SVG ou .PNG",
+    appIconTitle: "Ícone do App",
+    appIconPlaceholder: "Entre com a URL do ícone do app",
+    appIconHelp: "Somente .JPG, .SVG ou .PNG",
     faviconTitle: "Ícone da Página",
     faviconPlaceholder: "Entre com a URL do ícone",
     faviconHelp: "Somente .JPG, .SVG ou .PNG",
@@ -1829,6 +1832,8 @@ export const pt = {
     themeSetting: "Configuração do tema",
     themeSettingDefault: "Padrão",
     themeCreate: "Criar tema",
+    appIconUrlLabel: "URL do Ícone do App",
+    appIconUrlPlaceholder: "https://example.com/appicon.png",
   },
   customShortcut: {
     title: "Atalhos personalizados",

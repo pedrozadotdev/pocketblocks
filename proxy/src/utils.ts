@@ -12,20 +12,30 @@ import {
 
 export async function createAppList(apps: Application[]) {
   const admin = await auth.isAdmin();
-  return apps.map((a) => ({
-    orgId: "ORG_ID",
-    applicationId: a.slug,
-    name: a.name,
-    createAt: new Date(a.created).getTime(),
-    role: admin ? "owner" : "viewer",
-    applicationType: a.type,
-    applicationStatus: a.status,
-    folderId: a.folder,
-    lastViewTime: new Date(a.updated).getTime(),
-    lastModifyTime: new Date(a.updated).getTime(),
-    publicToAll: a.public,
-    folder: false,
-  }));
+  return apps.map((a) => {
+    let appIconUrl: string | undefined = undefined;
+    try {
+      const dsl = JSON.parse(a.appDSL || '{}');
+      appIconUrl = dsl?.settings?.appIconUrl || undefined;
+    } catch (e) {
+      // ignore parse errors
+    }
+    return {
+      orgId: "ORG_ID",
+      applicationId: a.slug,
+      name: a.name,
+      createAt: new Date(a.created).getTime(),
+      role: admin ? "owner" : "viewer",
+      applicationType: a.type,
+      applicationStatus: a.status,
+      folderId: a.folder,
+      lastViewTime: new Date(a.updated).getTime(),
+      lastModifyTime: new Date(a.updated).getTime(),
+      publicToAll: a.public,
+      folder: false,
+      extra: { appIconUrl },
+    };
+  });
 }
 
 function getCorrectDSL(app: Application) {

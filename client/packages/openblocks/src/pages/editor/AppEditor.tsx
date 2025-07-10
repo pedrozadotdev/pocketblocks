@@ -27,6 +27,8 @@ import { clearGlobalSettings, setGlobalSettings } from "comps/utils/globalSettin
 import { fetchFolderElements } from "redux/reduxActions/folderActions";
 import { registryDataSourcePlugin } from "constants/queryConstants";
 import { DatasourceApi } from "api/datasourceApi";
+import { Helmet } from "react-helmet";
+import AppMetaHelmet from "../../appView/AppMetaHelmet";
 
 export default function AppEditor() {
   const showAppSnapshot = useSelector(showAppSnapshotSelector);
@@ -66,6 +68,7 @@ export default function AppEditor() {
 
   const readOnly = isUserViewMode;
   const compInstance = useRootCompInstance(appInfo, readOnly, isDataSourcePluginRegistered);
+  const dsl: any = compInstance.comp?.toJsonValue() || {};
 
   // fetch dataSource and plugin
   useEffect(() => {
@@ -126,18 +129,21 @@ export default function AppEditor() {
         <AppSnapshot
           currentAppInfo={{
             ...appInfo,
-            dsl: compInstance.comp?.toJsonValue() || {},
+            dsl,
           }}
         />
       ) : (
-        <AppEditorInternalView
-          appInfo={appInfo}
-          readOnly={readOnly}
-          loading={
-            !fetchOrgGroupsFinished || !isDataSourcePluginRegistered || isCommonSettingsFetching
-          }
-          compInstance={compInstance}
-        />
+        <>
+          <AppMetaHelmet appIconUrl={dsl?.settings?.appIconUrl} appId={applicationId} />
+          <AppEditorInternalView
+            appInfo={appInfo}
+            readOnly={readOnly}
+            loading={
+              !fetchOrgGroupsFinished || !isDataSourcePluginRegistered || isCommonSettingsFetching
+            }
+            compInstance={compInstance}
+          />
+        </>
       )}
     </>
   );

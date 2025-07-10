@@ -2,7 +2,8 @@ import { ThemeDetail, ThemeType } from "api/commonSettingApi";
 import { RecordConstructorToComp } from "openblocks-core";
 import { dropdownInputSimpleControl } from "comps/controls/dropdownInputSimpleControl";
 import { MultiCompBuilder, valueComp } from "comps/generators";
-import { AddIcon, Dropdown } from "openblocks-design";
+import { AddIcon, Dropdown, Input } from "openblocks-design";
+import { CodeTextControl } from "comps/controls/codeTextControl";
 import { EllipsisSpan } from "pages/setting/theme/styledComponents";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -140,6 +141,7 @@ const DividerStyled = styled(Divider)`
 const childrenMap = {
   maxWidth: dropdownInputSimpleControl(OPTIONS, USER_DEFINE, "1920"),
   themeId: valueComp<string>(DEFAULT_THEMEID),
+  appIconUrl: CodeTextControl,
   customShortcuts: CustomShortcutsComp,
 };
 type ChildrenInstance = RecordConstructorToComp<typeof childrenMap> & {
@@ -148,15 +150,15 @@ type ChildrenInstance = RecordConstructorToComp<typeof childrenMap> & {
 };
 
 function AppSettingsModal(props: ChildrenInstance) {
-  const { themeList, defaultTheme, themeId, maxWidth } = props;
+  const { themeList, defaultTheme, themeId, maxWidth, appIconUrl } = props;
   const THEME_OPTIONS = themeList?.map((theme) => ({
     label: theme.name,
     value: theme.id + "",
   }));
   const themeWithDefault = (
     themeId.getView() === DEFAULT_THEMEID ||
-    (!!themeId.getView() &&
-      THEME_OPTIONS.findIndex((item) => item.value === themeId.getView()) ===
+      (!!themeId.getView() &&
+        THEME_OPTIONS.findIndex((item) => item.value === themeId.getView()) ===
         -1)
       ? DEFAULT_THEMEID
       : themeId.getView()
@@ -205,8 +207,8 @@ function AppSettingsModal(props: ChildrenInstance) {
             themeWithDefault === ""
               ? undefined
               : themeWithDefault === DEFAULT_THEMEID
-              ? defaultTheme || undefined
-              : themeWithDefault
+                ? defaultTheme || undefined
+                : themeWithDefault
           }
           placeholder={trans("appSetting.themeSettingDefault")}
           options={THEME_OPTIONS}
@@ -231,7 +233,18 @@ function AppSettingsModal(props: ChildrenInstance) {
             );
           }}
         />
+
       </DivStyled>
+      <AppIconUrlSettingStyled>
+        <div className="app-icon-url-setting" style={{ marginBottom: "20px" }}>
+          <SettingLabel>{trans("appSetting.appIconUrlLabel")}</SettingLabel>
+          {appIconUrl.propertyView({
+            // label: trans("appSetting.appIconUrlLabel"), // label removed
+            placeholder: trans("appSetting.appIconUrlPlaceholder"),
+            expandable: true,
+          })}
+        </div>
+      </AppIconUrlSettingStyled>
       {props.customShortcuts.getPropertyView()}
     </SettingsStyled>
   );
@@ -255,3 +268,17 @@ export const AppSettingsComp = new MultiCompBuilder(childrenMap, (props) => {
     );
   })
   .build();
+
+const AppIconUrlSettingStyled = styled.div`
+  .CodeEditor__wrapper {
+    margin-top: 8px;
+  }
+`;
+
+const SettingLabel = styled.div`
+  color: #222222;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  line-height: 13px;
+`;

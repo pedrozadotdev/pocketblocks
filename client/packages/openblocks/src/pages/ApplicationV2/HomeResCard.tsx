@@ -21,6 +21,8 @@ import history from "util/history";
 import { APPLICATION_VIEW_URL } from "constants/routesURL";
 import { TypographyText } from "../../components/TypographyText";
 import { useParams } from "react-router-dom";
+import { ApplicationDocIcon } from "openblocks-design";
+import { AppIcon } from "../../components/AppIcon";
 
 const EditButton = styled(TacoButton)`
   width: 52px;
@@ -172,7 +174,12 @@ export function HomeResCard(props: {
   return (
     <Wrapper>
       <Card>
-        {Icon && (
+        {res.type === HomeResTypeEnum.Application && (
+          <AppIcon appIconUrl={res.appIconUrl} size={24}>
+            <ApplicationDocIcon />
+          </AppIcon>
+        )}
+        {Icon && res.type !== HomeResTypeEnum.Application && (
           <Icon
             width={"24px"}
             height={"24px"}

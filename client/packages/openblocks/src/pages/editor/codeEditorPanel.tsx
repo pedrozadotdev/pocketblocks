@@ -52,7 +52,7 @@ const BodyWrapper = styled.div`
 const OpenButton = styled.div`
   position: absolute;
   height: 16px;
-  width: 16px;
+  width: 16px !important;
   border: 1px solid #d7d9e0;
   border-radius: 4px;
   z-index: 1;

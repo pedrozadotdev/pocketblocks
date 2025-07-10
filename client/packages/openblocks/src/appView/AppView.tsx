@@ -3,10 +3,12 @@ import { GetContainerParams, useCompInstance } from "comps/utils/useCompInstance
 import { createBrowserHistory } from "history";
 import { CompActionTypes, deferAction } from "openblocks-core";
 import { HTMLAttributes, useEffect, useMemo, useRef } from "react";
+import { Helmet } from "react-helmet";
 import { Provider } from "react-redux";
 import { Route, Router } from "react-router";
 import { reduxStore } from "redux/store/store";
 import { ExternalEditorContext } from "util/context/ExternalEditorContext";
+import AppMetaHelmet from "./AppMetaHelmet";
 
 const browserHistory = createBrowserHistory();
 
@@ -19,7 +21,7 @@ export interface OpenblocksAppBootStrapOptions {
 
 export interface OpenblocksAppViewProps
   extends HTMLAttributes<HTMLDivElement>,
-    OpenblocksAppBootStrapOptions {
+  OpenblocksAppBootStrapOptions {
   appId: string;
 }
 
@@ -89,6 +91,7 @@ export function AppView(props: AppViewProps) {
 
   return (
     <Provider store={reduxStore}>
+      <AppMetaHelmet appIconUrl={dsl?.settings?.appIconUrl} appId={appId} />
       <ExternalEditorContext.Provider
         value={{
           applicationId: appId,
