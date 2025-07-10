@@ -446,6 +446,9 @@ const Container = styled.div<{
       display: block;
     }
   }
+  .code-editor-panel-open-button {
+    display: none;
+  } 
 
   .cm-editor:hover {
     border: 1px solid ${(props) => (props.error ? "#f73131" : "#8B8FA3")};

@@ -1669,6 +1669,9 @@ export const en = {
     logoTitle: "Logo",
     logoPlaceholder: "Enter with the logo URL",
     logoHelp: ".JPG, .SVG or .PNG only",
+    appIconTitle: "App Icon",
+    appIconPlaceholder: "Enter with the app icon URL",
+    appIconHelp: ".JPG, .SVG or .PNG only",
     faviconTitle: "Favicon",
     faviconPlaceholder: "Enter with the favicon URL",
     faviconHelp: ".JPG, .SVG or .PNG only",
@@ -1779,6 +1782,8 @@ export const en = {
     themeSetting: "Theme setting",
     themeSettingDefault: "Default",
     themeCreate: "Create theme",
+    appIconUrlLabel: "App Icon URL",
+    appIconUrlPlaceholder: "https://example.com/appicon.png",
   },
   customShortcut: {
     title: "Custom shortcuts",

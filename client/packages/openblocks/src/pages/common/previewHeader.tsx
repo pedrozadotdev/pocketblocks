@@ -1,3 +1,4 @@
+import React from "react";
 import { Skeleton } from "antd";
 import Header from "components/layout/Header";
 import { SHARE_TITLE } from "constants/apiConstants";
@@ -17,6 +18,7 @@ import { Logo } from "@openblocks-ee/assets/images";
 import { AppPermissionDialog } from "../../components/PermissionDialog/AppPermissionDialog";
 import { useState } from "react";
 import { getBrandingConfig } from "../../redux/selectors/configSelectors";
+import AppIcon from "components/AppIcon";
 
 const HeaderFont = styled.div<{ bgColor: string }>`
   font-weight: 500;
@@ -116,7 +118,7 @@ export function HeaderProfile(props: { user: User }) {
   );
 }
 
-export const PreviewHeader = () => {
+const PreviewHeaderComponent = () => {
   const user = useSelector(getUser);
   const application = useSelector(currentApplication);
   const applicationId = useApplicationId();
@@ -124,10 +126,14 @@ export const PreviewHeader = () => {
   const brandingConfig = useSelector(getBrandingConfig);
   const [permissionDialogVisible, setPermissionDialogVisible] = useState(false);
 
+  const appIconUrl = application?.extra?.appIconUrl;
+
   const headerStart = (
     <>
       <StyledLink onClick={() => history.push(ALL_APPLICATIONS_URL)}>
-        <LogoIcon branding={true} />
+        <AppIcon appIconUrl={appIconUrl} size={28}>
+          <LogoIcon />
+        </AppIcon>
       </StyledLink>
       <HeaderFont bgColor={brandingConfig?.headerColor ?? "#2c2c2c"}>
         {application && application.name}
@@ -182,3 +188,6 @@ export const PreviewHeader = () => {
     />
   );
 };
+
+export const PreviewHeader = React.memo(PreviewHeaderComponent);
+
