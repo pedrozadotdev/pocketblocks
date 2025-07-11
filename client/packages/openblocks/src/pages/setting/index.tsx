@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { getUser } from "redux/selectors/usersSelectors";
 import { currentOrgAdminOrDev } from "util/permissionUtils";
 import history from "util/history";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import SettingHome from "./settingHome";
 
 export function Setting() {
@@ -14,7 +14,10 @@ export function Setting() {
 
   return (
     <Switch>
-      <Route path={[`${SETTING}/:setting`, SETTING]} component={SettingHome} />
+      <Route path={`${SETTING}/:setting`} component={SettingHome} />
+      <Route exact path={SETTING}>
+        <Redirect to={`${SETTING}/theme`} />
+      </Route>
     </Switch>
   );
 }
