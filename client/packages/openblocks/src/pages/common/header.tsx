@@ -48,6 +48,7 @@ import { Logo, LogoWithName } from "@openblocks-ee/assets/images";
 import { HeaderStartDropdown } from "./headerStartDropdown";
 import { AppPermissionDialog } from "../../components/PermissionDialog/AppPermissionDialog";
 import { getBrandingConfig } from "../../redux/selectors/configSelectors";
+import AppIcon from "@openblocks-ee/components/AppIcon";
 
 const StyledLink = styled.a`
   display: flex;
@@ -78,7 +79,7 @@ const IconCss = css<{ $show: boolean }>`
 const LeftIcon = styled(Left)`
   ${IconCss}
 `;
-const MiddleIcon = styled(Middle)<{ $show: boolean }>`
+const MiddleIcon = styled(Middle) <{ $show: boolean }>`
   ${IconCss}
   & g line {
     stroke: ${(props) => (props.$show ? "#dddddd" : "#dddddd65")};
@@ -278,11 +279,12 @@ export type TogglePanel = (panel?: keyof PanelStatus) => void;
 type HeaderProps = {
   togglePanel: TogglePanel;
   panelStatus: PanelStatus;
+  headerStart?: React.ReactNode;
 };
 
 // header in editor page
 export default function Header(props: HeaderProps) {
-  const { togglePanel } = props;
+  const { togglePanel, headerStart: headerStartProp } = props;
   const { left, bottom, right } = props.panelStatus;
   const user = useSelector(getUser);
   const application = useSelector(currentApplication);
@@ -297,47 +299,53 @@ export default function Header(props: HeaderProps) {
 
   const isModule = appType === AppTypeEnum.Module;
 
-  const headerStart = (
-    <>
-      <StyledLink onClick={() => history.push(ALL_APPLICATIONS_URL)}>
-        <LogoIcon />
-      </StyledLink>
-      {editName ? (
-        <Wrapper>
-          <EditText
-            prefixIcon={isModule && <ModuleIcon />}
-            disabled={showAppSnapshot}
-            style={showAppSnapshot ? { maxWidth: "fit-content" } : {}}
-            text={application?.name ?? ""}
-            editing={editing}
-            onFinish={(value) => {
-              if (!value.trim()) {
-                message.warn(trans("header.nameCheckMessage"));
-                return;
-              }
-              dispatch(
-                updateAppMetaAction({
-                  applicationId: applicationId,
-                  name: value,
-                })
-              );
-              setEditName(false);
+  function getDefaultHeaderStart() {
+    return (
+      <>
+        <StyledLink onClick={() => history.push(ALL_APPLICATIONS_URL)}>
+          <AppIcon appIconUrl={application?.extra?.appIconUrl} size={24}>
+            <LogoIcon />
+          </AppIcon>
+        </StyledLink>
+        {editName ? (
+          <Wrapper>
+            <EditText
+              prefixIcon={isModule && <ModuleIcon />}
+              disabled={showAppSnapshot}
+              style={showAppSnapshot ? { maxWidth: "fit-content" } : {}}
+              text={application?.name ?? ""}
+              editing={editing}
+              onFinish={(value) => {
+                if (!value.trim()) {
+                  message.warn(trans("header.nameCheckMessage"));
+                  return;
+                }
+                dispatch(
+                  updateAppMetaAction({
+                    applicationId: applicationId,
+                    name: value,
+                  })
+                );
+                setEditName(false);
+              }}
+            />
+          </Wrapper>
+        ) : (
+          <HeaderStartDropdown
+            setEdit={() => {
+              setEditName(true);
+              setEditing(true);
             }}
           />
-        </Wrapper>
-      ) : (
-        <HeaderStartDropdown
-          setEdit={() => {
-            setEditName(true);
-            setEditing(true);
-          }}
-        />
-      )}
-      {showAppSnapshot && (
-        <ViewOnlyLabel>{trans("header.viewOnly")}</ViewOnlyLabel>
-      )}
-    </>
-  );
+        )}
+        {showAppSnapshot && (
+          <ViewOnlyLabel>{trans("header.viewOnly")}</ViewOnlyLabel>
+        )}
+      </>
+    );
+  }
+
+  const headerStart = headerStartProp ?? getDefaultHeaderStart();
 
   const headerMiddle = (
     <>

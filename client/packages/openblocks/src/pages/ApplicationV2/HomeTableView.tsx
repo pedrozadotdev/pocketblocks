@@ -19,6 +19,7 @@ import { HomeResOptions } from "./HomeResOptions";
 import { MoveToFolderModal } from "./MoveToFolderModal";
 import { trans } from "../../i18n";
 import { useParams } from "react-router-dom";
+import { AppIcon } from "../../components/AppIcon";
 
 const OperationWrapper = styled.div`
   display: flex;
@@ -95,12 +96,18 @@ export const HomeTableView = (props: { resources: HomeRes[] }) => {
               const Icon = HomeResInfo[item.type].icon;
               return (
                 <NameWrapper>
-                  {Icon && (
-                    <Icon
-                      width={"24px"}
-                      height={"24px"}
-                      style={{ marginRight: "10px", flexShrink: 0 }}
-                    />
+                  {item.type === HomeResTypeEnum.Application ? (
+                    <AppIcon appIconUrl={item.appIconUrl} size={24}>
+                      <Icon width={24} height={24} style={{ marginRight: 10, flexShrink: 0 }} />
+                    </AppIcon>
+                  ) : (
+                    Icon && (
+                      <Icon
+                        width={"24px"}
+                        height={"24px"}
+                        style={{ marginRight: "10px", flexShrink: 0 }}
+                      />
+                    )
                   )}
                   <TypographyText
                     ellipsis={true}

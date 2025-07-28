@@ -238,6 +238,7 @@ export interface HomeRes {
   isEditable?: boolean;
   isManageable: boolean;
   isDeletable: boolean;
+  appIconUrl?: string;
 }
 
 export type HomeBreadcrumbType = { text: string; path: string };
@@ -321,6 +322,7 @@ export function HomeLayout(props: HomeLayoutProps) {
           isEditable: canEditApp(user, e),
           isManageable: canManageApp(user, e),
           isDeletable: canEditApp(user, e),
+          appIconUrl: e.extra?.appIconUrl,
         }
     );
 

@@ -27,6 +27,7 @@ export type ApplicationPermissionType = "USER" | "GROUP" | "ORG_ADMIN";
 export interface ApplicationExtra {
   moduleHeight?: number;
   moduleWidth?: number;
+  appIconUrl?: string;
 }
 
 export interface ApplicationMeta {

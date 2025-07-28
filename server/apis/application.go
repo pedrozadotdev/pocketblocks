@@ -1,6 +1,7 @@
 package apis
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/pedrozadotdev/pocketblocks/server/daos"
@@ -22,7 +23,8 @@ func BindApplicationApi(dao *daos.Dao, g *echo.Group, logMiddleware echo.Middlew
 	subGroup.GET("/:slug", api.view)
 	subGroup.PATCH("/:slug", api.update, apis.RequireAdminAuth(), logMiddleware)
 	subGroup.DELETE("/:slug", api.delete, apis.RequireAdminAuth(), logMiddleware)
-
+	// Change manifest route to use query parameter
+	subGroup.GET("/manifest", api.manifest)
 }
 
 type applicationApi struct {
@@ -251,4 +253,59 @@ func (api *applicationApi) delete(c echo.Context) error {
 	}
 
 	return c.NoContent(http.StatusNoContent)
+}
+
+// Handler to serve dynamic manifest.json for each app
+func (api *applicationApi) manifest(c echo.Context) error {
+	slug := c.QueryParam("slug")
+	if slug == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Missing slug"})
+	}
+
+	// Fetch the app (allow all, not just public)
+	app, err := api.dao.FindPblAppBySlug(slug, nil)
+	if err != nil || app == nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"error": "App not found"})
+	}
+
+	// Parse the DSL for icon and name
+	var dsl struct {
+		Settings struct {
+			AppIconUrl string `json:"appIconUrl"`
+			Name       string `json:"name"`
+		} `json:"settings"`
+	}
+	if err := json.Unmarshal([]byte(app.AppDsl), &dsl); err != nil {
+		// fallback to app.Name and no icon
+		dsl.Settings.Name = app.Name
+	}
+
+	iconUrl := dsl.Settings.AppIconUrl
+	if iconUrl == "" {
+		// fallback to a default icon (ensure this exists in your assets)
+		iconUrl = "/assets/favicon-752ca6ec.ico"
+	}
+
+	manifest := map[string]interface{}{
+		"name":        dsl.Settings.Name,
+		"short_name":  dsl.Settings.Name,
+		"start_url":   "/apps/" + slug,
+		"display":     "standalone",
+		"background_color": "#ffffff",
+		"theme_color":      "#ffffff",
+		"icons": []map[string]string{
+			{
+				"src":   iconUrl,
+				"sizes": "192x192",
+				"type":  "image/png",
+			},
+			{
+				"src":   iconUrl,
+				"sizes": "512x512",
+				"type":  "image/png",
+			},
+		},
+	}
+
+	return c.JSON(http.StatusOK, manifest)
 }

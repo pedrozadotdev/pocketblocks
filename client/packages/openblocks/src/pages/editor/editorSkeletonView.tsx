@@ -57,7 +57,7 @@ export default function EditorSkeletonView() {
   return (
     <>
       <Height100Div>
-        <Header panelStatus={panelStatus} togglePanel={_.noop} />
+        <Header panelStatus={panelStatus} togglePanel={_.noop} headerStart={<></>} />
         <Body>
           <SiderStyled />
           {panelStatus.left && (

@@ -77,9 +77,7 @@ export default function PageSkeleton(props: IProps) {
     <Layout>
       {!hideHeader && isHeaderReady && (
         <Header
-          headerStart={
-            logoWithName ? <StyledLogoWithName branding={true} /> : <StyledLogo branding={true} />
-          }
+          headerStart={null} // removed logo to avoid a flicker when loading the app icon
           style={{ backgroundColor: brandingConfig?.headerColor, ...props.headStyle }}
         />
       )}
