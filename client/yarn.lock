@@ -12258,9 +12258,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mermaid@npm:^10.9.3":
-  version: 10.9.3
-  resolution: "mermaid@npm:10.9.3"
+"mermaid@npm:^10.9.4":
+  version: 10.9.4
+  resolution: "mermaid@npm:10.9.4"
   dependencies:
     "@braintree/sanitize-url": ^6.0.1
     "@types/d3-scale": ^4.0.3
@@ -12282,7 +12282,7 @@ __metadata:
     ts-dedent: ^2.2.0
     uuid: ^9.0.0
     web-worker: ^1.2.0
-  checksum: 65468f6c7628d8c5ad640b3657e70d3408464d4b49e83c159ddc478ae733cb8f4ca545e16939cc8604e5f8902fb1d8bc1be0e00fa98a8bdf221d222e58d3342a
+  checksum: 641890c3ea14ea8a9dbf338c4595f791bcdb95941d6381ce97849bce8a9354fe014c8c350caab9c85b503f41d3a137e827e7dff69aeee57ae50c9e1c954cff0e
   languageName: node
   linkType: hard
 
@@ -13329,7 +13329,7 @@ __metadata:
     "@types/react-dom": 17
     big.js: ^6.2.1
     jest: 29.3.0
-    mermaid: ^10.9.3
+    mermaid: ^10.9.4
     openblocks-cli: "workspace:^"
     openblocks-sdk: "workspace:^"
     react: 17
